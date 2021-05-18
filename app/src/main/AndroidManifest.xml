@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoplex">
-        <activity android:name=".view.activities.HomeActivity">
+        <activity android:name=".view.activities.HomeActivity" android:windowSoftInputMode="adjustNothing">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,8 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activities.ProductDetails">
-
         </activity>
     </application>
-
 </manifest>

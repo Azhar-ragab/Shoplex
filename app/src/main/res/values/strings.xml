@@ -28,4 +28,17 @@
     <string name="all_review">All Review</string>
     <string name="Add">Add To Cart</string>
     <string name="buy">Buy Now</string>
+    <string name="fashion">Fashion</string>
+    <string name="HealthCare">Health Care</string>
+    <string name="Phones">Phones</string>
+    <string name="Electronics">Electronics</string>
+    <string name="Accessories">Accessories</string>
+    <string name="TV">TV</string>
+    <string name="old_price">old_price</string>
+    <string name="new_price">new_price</string>
+    <string name="rating_value">rating_value</string>
+    <string name="sold">sold</string>
+    <string name="name">name</string>
+    <string name="storeName">storeName</string>
+    <string name="space">space</string>
 </resources>
