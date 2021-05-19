@@ -17,7 +17,7 @@ import kotlin.collections.ArrayList
 class ProductFragment : Fragment() {
     // TODO: Rename and change types of parameters
 
-    private lateinit var binding : FragmentProductBinding
+    private lateinit var binding: FragmentProductBinding
     private lateinit var propertyAdapter: PropertyAdapter
 
     val imageList = ArrayList<SlideModel>() // Create image list
@@ -38,7 +38,7 @@ class ProductFragment : Fragment() {
 
         //property recycler
         val property = ArrayList<Property>()
-        property.add(Property("select Size", arrayListOf("37","38","39","40","41")))
+        property.add(Property("select Size", arrayListOf("37", "38", "39", "40", "41")))
         propertyAdapter = context?.let { PropertyAdapter(property, it) }!!
         binding.rvProperty.adapter = propertyAdapter
         return binding.root

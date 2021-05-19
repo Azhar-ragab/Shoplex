@@ -1,0 +1,35 @@
+package com.shoplex.shoplex.view.activities
+
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
+import com.shoplex.shoplex.R
+import com.shoplex.shoplex.databinding.ActivityHomeBinding
+
+import eg.gov.iti.shoplex.fragments.*
+
+class HomeActivity : AppCompatActivity() {
+    lateinit var binding: ActivityHomeBinding
+    lateinit var bottomNavigationView: BottomNavigationView
+    lateinit var navController: NavController
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    bottomNavigationView = binding.bottomNavigation
+    navController = findNavController(R.id.nav_host_fragment)
+        bottomNavigationView.setupWithNavController(navController)
+    }
+}
