@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_8">
+
+    <TextView
+        android:id="@+id/tvReplyMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8"
+        android:background="@drawable/replay_bg"
+        android:padding="@dimen/margin_8"
+        android:text="@string/Hello"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLeftDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/drawable_padding"
+        android:text="@string/monday_12_00"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvReplyMessage"
+        app:layout_constraintTop_toBottomOf="@+id/tvReplyMessage" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
