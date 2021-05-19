@@ -23,6 +23,13 @@ import com.shoplex.shoplex.model.enumurations.OrderStatus
 //    }
 //
 //}
+
+
+data class Orders(var orderID :String=""){
+
+}
+
+/*
 data class Orders(var orderID :String="", var orderStatus : OrderStatus = OrderStatus.CURRENT,override var name: String="",
                  override var price: Float = 0.0F, override var category: String="", override  var productImageUrl: String="") : Product() {
 
@@ -34,6 +41,9 @@ data class Orders(var orderID :String="", var orderStatus : OrderStatus = OrderS
     }
 
 }
+*/
+
+
 //class Orders(
 //    override var name: String,
 //    override var price: Float,

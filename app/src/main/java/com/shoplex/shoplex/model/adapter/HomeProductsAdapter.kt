@@ -7,10 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.model.pojo.Products_Home
 
-class HomeProductsAdapter(val productsHome: ArrayList<Products_Home>) :
+class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
     RecyclerView.Adapter<HomeProductsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
@@ -24,14 +25,14 @@ class HomeProductsAdapter(val productsHome: ArrayList<Products_Home>) :
         val item = productsHome[position]
         holder.storeName.text = item.storeName
         holder.newPrice.text = item.newPrice.toString()
-        holder.oldPrice.text = item.oldPrice.toString()
-        holder.productName.text = item.productName
+        holder.oldPrice.text = item.price.toString()
+        holder.productName.text = item.name
         holder.rating.text = item.rate.toString()
-        holder.sold.text = item.soldItem
-        holder.space.text = item.space
+        holder.sold.text = "12"
+        holder.space.text = "Space"
         holder.storeName.text = item.storeName
-        Glide.with(holder.itemView.context).load(item.productImageURL).into(holder.img)
-
+        if(item.images.count() > 0)
+        Glide.with(holder.itemView.context).load(item.images[0]).into(holder.img)
     }
 
     override fun getItemCount() = productsHome.size
