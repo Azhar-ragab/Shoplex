@@ -7,13 +7,15 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.tabs.TabLayout
 import com.shoplex.shoplex.PagerAdapter
 import com.shoplex.shoplex.R
+import com.shoplex.shoplex.databinding.ActivityHomeBinding
 import com.shoplex.shoplex.databinding.ActivityProductDetailsBinding
 
 class ProductDetails : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_product_details)
+        binding = ActivityProductDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         var pagerAdapter: PagerAdapter = PagerAdapter(supportFragmentManager)

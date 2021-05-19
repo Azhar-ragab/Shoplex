@@ -28,4 +28,25 @@
     <string name="all_review">All Review</string>
     <string name="Add">Add To Cart</string>
     <string name="buy">Buy Now</string>
+    <string name="user_name">User Name</string>
+    <string name="type_a_message">Type a Message</string>
+    <string name="Hello">Hello</string>
+    <string name="monday_12_00">Monday 12:00</string>
+    <string name="chatdiscount">You Can Agree With Seller About Any Discount</string>
+    <string name="cancel">Cancel</string>
+    <string name="orders">Orders</string>
+    <string name="currentOrder">Current Order</string>
+    <string name="reOrder">Re Order</string>
+    <string name="logOut">Logout</string>
+    <string name="profile">Profile</string>
+    <string name="share">Share</string>
+    <string name="setting">Settings</string>
+    <string name="rateUs">Rate Us</string>
+    <string name="removeAccount">Remove Account</string>
+    <string name="themes">Theme</string>
+    <string name="language">Language</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="franko">Franko</string>
+    <string name="name">name</string>
 </resources>

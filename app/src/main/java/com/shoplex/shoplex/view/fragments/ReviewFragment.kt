@@ -1,6 +1,5 @@
 package com.shoplex.shoplex
 
-import ReviewAdapter
 import android.os.Bundle
 import android.util.AttributeSet
 import androidx.fragment.app.Fragment
