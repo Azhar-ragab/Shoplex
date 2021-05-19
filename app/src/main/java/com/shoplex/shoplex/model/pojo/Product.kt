@@ -9,37 +9,35 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.model.enumurations.Premium
 import com.shoplex.shoplex.model.pojo.Properties
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-
-open class Product: Parcelable {
-    var productID : Int? = null
-    var storeID : Int = 0
+open class Product : Parcelable{
+    var productID : String = UUID.randomUUID().toString()
+    var storeID : String = ""
     var storeName : String = ""
-    open var name : String = ""
+    var deliveryLoc: LatLng? = null
+    var name : String = ""
     var description: String = ""
-    open var price : Float = 0.0F
-    var newPrice : Float = 0.0F
-    var oldPrice : Float = 0.0F
-    var sold:String=""
+    var price : Float = 10F
+    var newPrice : Float = 10F
     var discount : Int = 0
+    var category : String = ""
+    var subCategory : String = ""
+    var rate : Float? = null
     var premium : Premium? = null
     var premiumDays: Int = 0
-    var properties: ArrayList<Properties> = arrayListOf()
+    var properties: ArrayList<Property> = arrayListOf()
+    var date: Date? = null
 
+    var images : ArrayList<String?> = arrayListOf()
 
     @Exclude @set:Exclude @get:Exclude
     var imagesListURI : ArrayList<Uri> = arrayListOf()
 
     @Exclude @set:Exclude @get:Exclude
     var imageSlideList : ArrayList<SlideModel> = arrayListOf()
-    open var category : String = ""
-    var images : ArrayList<Uri> = ArrayList()
-    var subCategory : String =""
-    var rate : Double = 0.0
-    var permium : Premium = Premium.BASIC
-    var deliveryLoc: LatLng = LatLng(0.0, 0.0)
-    open var productImageUrl : String = ""
 
  constructor()
 
@@ -54,7 +52,7 @@ open class Product: Parcelable {
         this.price = price
         this.category = category
         this.deliveryLoc = deliveryLoc
-        this.productImageUrl = productImageUrl
+        this.images[0] = productImageUrl
     }
 
     constructor(
@@ -62,15 +60,15 @@ open class Product: Parcelable {
         newPrice: Float,
         oldPrice: Float,
         sold: String,
-        rate: Double,
+        rate: Float,
         productImageUrl: String
     ) {
         this.name = name
         this.newPrice = newPrice
-        this.oldPrice = oldPrice
-        this.sold = sold
+        this.price = oldPrice
+        //this.sold = sold
         this.rate = rate
-        this.productImageUrl = productImageUrl
+        this.images[0] = productImageUrl
     }
 
     constructor(parcel: Parcel) : this() {

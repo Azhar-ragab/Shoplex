@@ -1,10 +1,10 @@
 package com.shoplex.shoplex.model.enumurations
 
 enum class Category {
-    FASHION,
-    HEALTH_CARE,
-    PHONE_AND_TABLETS,
-    ELECTRONICS,
-    ACCESSORIES,
-    BOOKS
+    Fashion,
+    Health_Care,
+    Phone_and_Tablets,
+    Electronics,
+    Accessories,
+    Books
 }

@@ -18,18 +18,18 @@ import com.shoplex.shoplex.databinding.ActivityHomeBinding
 import eg.gov.iti.shoplex.fragments.*
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var binding: ActivityHomeBinding
-    lateinit var bottomNavigationView: BottomNavigationView
-    lateinit var navController: NavController
-
+    private lateinit var binding: ActivityHomeBinding
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var navController: NavController
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    bottomNavigationView = binding.bottomNavigation
-    navController = findNavController(R.id.nav_host_fragment)
+
+        bottomNavigationView = binding.bottomNavigation
+        navController = findNavController(R.id.nav_host_fragment)
         bottomNavigationView.setupWithNavController(navController)
     }
 }

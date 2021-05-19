@@ -1,50 +1,45 @@
 package com.shoplex.shoplex.model.enumurations
 
-interface SubCategory{
-
+enum class SubFashion{
+    Men,
+    Women,
+    Kids
 }
 
-enum class SubFashion: SubCategory{
-    MEN,
-    WOMEN,
-    KIDS
+enum class SubHealth {
+    Haircare,
+    Perfume,
+    Makeup
 }
 
-enum class SubHealth: SubCategory{
-    HAIRCARE,
-    PERFUME,
-    MAKE_UP
+enum class SubPhone {
+    Phones,
+    Tablets,
+    I_Pad
 }
 
-enum class SubPhone: SubCategory{
-    PHONES,
-    TABLETS,
-    I_PAD
-}
-
-enum class SubElectronic: SubCategory{
+enum class SubElectronic{
     TVS,
-    AUDIO,
-    SMART_WATCHES,
-    CAMERAS,
-    OTHERS
+    Audio,
+    Smart_Watches,
+    Cameras,
+    Others
 }
 
-enum class SubAccessors: SubCategory{
-    JEWELLERY,
-    WATCHES,
-    BELTS,
-    PHONE_CASES,
-    CABLES,
-    CHARGES,
-    SELFIE_STICK
+enum class SubAccessors{
+    Jewellery,
+    Watches,
+    Belts,
+    Phone_Cases,
+    Cables,
+    Charges,
+    Selfie_Stick
 }
 
-enum class SubBook: SubCategory{
-    ART_AND_HUMANITIES,
-    FICTION,
-    ENTERTAINMENT,
-    SCIENCE_AND_TECHNOLOGY,
-    EDUCATION
+enum class SubBook{
+    Art_and_Humanities,
+    Fiction,
+    Entertainment,
+    Science_and_Technology,
+    Education
 }
-

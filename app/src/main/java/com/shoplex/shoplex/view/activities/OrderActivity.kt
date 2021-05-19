@@ -28,6 +28,7 @@ class OrderActivity : AppCompatActivity() {
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
             getSupportActionBar()?.setDisplayShowHomeEnabled(true);
         }
+        /*
         val currorder = ArrayList<Orders>()
         currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
         currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
@@ -47,6 +48,8 @@ class OrderActivity : AppCompatActivity() {
         binding.rvCurrentOrders.adapter = orderAdapter
         lastOrderAdapter = OrderAdapter(lastorder)
         binding.rvLastOrders.adapter = lastOrderAdapter
+
+         */
 
 
     }

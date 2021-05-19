@@ -29,6 +29,7 @@ class OrderAdapter (var ordersInfo: ArrayList<Orders>) : RecyclerView.Adapter<Or
     inner class OrderViewHolder(val binding: OrderItemRowBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(order: Orders) {
 
+            /*
             Glide.with(itemView.context).load(order.productImageUrl).into(binding.imgProduct)
             binding.tvProductName.text = order.name
             binding.tvCategory.text = order.category.toString()
@@ -43,6 +44,7 @@ class OrderAdapter (var ordersInfo: ArrayList<Orders>) : RecyclerView.Adapter<Or
                 binding.tvbutton.text=itemView.getContext().getResources().getString(R.string.reOrder)
 
             }
+            */
             itemView.setOnClickListener {
                 Toast.makeText(itemView.context, "Hello", Toast.LENGTH_SHORT).show()
             }
