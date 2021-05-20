@@ -38,6 +38,8 @@ class ChatHeadAdapter (private val chatHead: ArrayList<ChatHead>) :
         viewHolder.itemView.setOnClickListener {
             val intent = Intent(viewHolder.itemView.context, MessageActivity::class.java)
             intent.putExtra(CHAT_TITLE_KEY,item.userName)
+            intent.putExtra("chatID","azhar")
+            intent.putExtra("phoneNumber","01016512198")
             viewHolder.itemView.context.startActivity(intent)
         }
 

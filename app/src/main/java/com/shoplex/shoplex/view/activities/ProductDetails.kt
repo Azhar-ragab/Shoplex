@@ -2,6 +2,7 @@ package com.shoplex.shoplex.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 
 import com.google.android.material.tabs.TabLayout
@@ -12,13 +13,14 @@ import com.shoplex.shoplex.databinding.ActivityProductDetailsBinding
 
 class ProductDetails : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-        var pagerAdapter: PagerAdapter = PagerAdapter(supportFragmentManager)
+        val productId = intent.getStringExtra("productId")
+//        Toast.makeText(this,productId,Toast.LENGTH_SHORT).show()
+        var pagerAdapter: PagerAdapter = PagerAdapter(supportFragmentManager,productId!!)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.viewPager.adapter = pagerAdapter
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

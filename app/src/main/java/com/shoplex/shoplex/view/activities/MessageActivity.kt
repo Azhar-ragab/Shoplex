@@ -1,5 +1,7 @@
 package com.shoplex.shoplex.view.activities
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -18,7 +20,7 @@ import com.xwray.groupie.GroupieViewHolder
 
 class MessageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMessageBinding
-
+    private lateinit var phoneNumber:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,8 @@ class MessageActivity : AppCompatActivity() {
         supportActionBar?.setTitle("")
 
         val userName = intent.getStringExtra(ChatHeadAdapter.CHAT_TITLE_KEY)
-
+        val chatId =intent.getStringExtra("chatID")
+        phoneNumber= intent.getStringExtra("phoneNumber").toString()
         binding.imgToolbarChat.setImageResource(R.drawable.placeholder)
         binding.tvToolbarUserChat.text = userName
         binding.imgToolbarback.setOnClickListener(object : View.OnClickListener {
@@ -64,7 +67,9 @@ class MessageActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.call -> Toast.makeText(this, "call", Toast.LENGTH_SHORT).show()
+            R.id.call ->{val intent = Intent(Intent.ACTION_DIAL);
+            intent.data = Uri.parse("tel:${phoneNumber}")
+                    startActivity(intent)}
 
         }
 

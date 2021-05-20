@@ -1,12 +1,15 @@
 package eg.gov.iti.shoplex.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.generateViewId
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat.generateViewId
 import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.firebase.installations.Utils
+import com.google.type.LatLng
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementAdapter
@@ -22,6 +26,7 @@ import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.pojo.Ads_Home
 import com.shoplex.shoplex.model.pojo.Products_Home
+import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
 
@@ -30,6 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var advertisementAdapter: AdvertisementAdapter
     private lateinit var homeProductAdapter: HomeProductsAdapter
     private lateinit var productsVM: ProductsVM
+    private val FILTER_CODE = 202
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,8 +43,12 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        this.productsVM = ProductsVM()
+        binding.btnFilter.setOnClickListener {
 
+            startActivityForResult(Intent(context, FilterActivity::class.java), FILTER_CODE)
+
+        }
+        this.productsVM = ProductsVM()
         for ((index, cat) in productsVM.getCategories().withIndex()){
             val chip = inflater.inflate(R.layout.chip_choice_item, null, false) as Chip
             chip.text = cat
@@ -115,5 +125,13 @@ class HomeFragment : Fragment() {
         val scalingFactor = 200 // You can vary the value held by the scalingFactor
         val columnCount = (dpWidth / scalingFactor).toInt()
         return if (columnCount >= 2) columnCount else 2 // if column no. is less than 2, we still display 2 columns
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == FILTER_CODE){
+            if(resultCode == AppCompatActivity.RESULT_OK){
+
+            }
+        }
     }
 }

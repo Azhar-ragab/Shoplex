@@ -23,9 +23,14 @@ class ProductsVM: ViewModel, INotifyMVP {
         this.products.value = products
     }
 
+    fun getProductById(productId: String){
+        productsDBModel.getProductById(productId)
+    }
+
     fun getCategories(): Array<String>{
         return Category.values().map {
             it.toString().split("_").joinToString(" ")
         }.toTypedArray()
     }
+
 }

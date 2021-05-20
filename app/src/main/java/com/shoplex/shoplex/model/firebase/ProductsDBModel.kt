@@ -27,4 +27,19 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
             }
     }
 
+    fun getProductById(productId: String) {
+
+        FirebaseReferences.productsRef.whereEqualTo("productID", productId)
+            .addSnapshotListener { values, _ ->
+                var products = arrayListOf<Product>()
+                for (document: DocumentSnapshot in values?.documents!!) {
+                    var product: Product? = document.toObject<Product>()
+                    if (product != null) {
+                        products.add(product)
+                    }
+                }
+                this.notifier?.onAllProductsReady(products)
+            }
+    }
+
 }
