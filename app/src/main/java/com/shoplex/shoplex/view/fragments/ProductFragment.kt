@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.google.android.gms.maps.model.LatLng
 import com.shoplex.shoplex.databinding.FragmentProductBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
+import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.Store
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.view.activities.MessageActivity
@@ -73,6 +76,10 @@ class ProductFragment(val productId: String) : Fragment() {
             binding.root.context.startActivity(intent)
 
 
+        }
+        binding.imgLocation.setOnClickListener {
+//            val location:Location=storeInfo.locations[0]
+//            Toast.makeText(context,location.latitude.toString(),Toast.LENGTH_SHORT).show()
         }
 
 
