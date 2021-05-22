@@ -1,7 +1,7 @@
 <resources>
+    <string name="maps_key">AIzaSyAyj2_BzoXGMR432LsT4dpv6TV6SdNbtDg</string>
     <string name="app_name">Shoplex</string>
     <string name="chat">Chat</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Home fragment</string>
     <string name="LastOrder">Last Order</string>
     <string name="productName">Product Name</string>
