@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
             val category = Category.valueOf(group.findViewById<Chip>(checkedId).text.toString().replace(" ", "_"))
             productsVM.getAllProducts(category)
         }
-
+/*
         val advertisement = ArrayList<Ads_Home>()
 
         advertisement.add(
@@ -84,8 +84,11 @@ class HomeFragment : Fragment() {
                 "Offer 25%"
             )
         )
-        advertisementAdapter = AdvertisementAdapter(advertisement)
-        binding.rvAdvertisement.adapter = advertisementAdapter
+        */
+//        productsVM.products.observe(viewLifecycleOwner, Observer{ advertisements ->
+//            advertisementAdapter = AdvertisementAdapter(advertisements)
+//            binding.rvAdvertisement.adapter = advertisementAdapter
+//        })
 
         // Products
 

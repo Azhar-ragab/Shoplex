@@ -32,5 +32,8 @@ class ProductsVM: ViewModel, INotifyMVP {
             it.toString().split("_").joinToString(" ")
         }.toTypedArray()
     }
+    fun getAllPremiums(){
+        productsDBModel.getAllPremiums()
+    }
 
 }
