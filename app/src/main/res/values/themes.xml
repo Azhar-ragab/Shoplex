@@ -15,7 +15,7 @@
         <item name="titleTextColor">@color/darkblue</item>
 
     </style>
-    <style name="AppTheme.Home" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Home" parent="Theme.MaterialComponents.Light.NoActionBar">
 
 
         <item name="colorPrimary">@color/purple_500</item>

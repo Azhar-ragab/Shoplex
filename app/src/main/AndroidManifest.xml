@@ -20,8 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoplex">
         <activity android:name=".view.activities.FilterActivity"
-            android:theme="@style/AppTheme.Home"
-            >
+            android:theme="@style/AppTheme.Home">
 
         </activity>
         <!--
@@ -51,7 +50,8 @@
         </activity>
         <activity
             android:name=".view.activities.HomeActivity"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustNothing"
+            android:theme="@style/AppTheme.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
