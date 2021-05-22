@@ -82,4 +82,15 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="shoplex">ShopLex</string>
+    <string name="signup">Signup</string>
+    <string name="Name">Name</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone</string>
+    <string name="choose_location">Choose Your Location</string>
+    <string name="Required">Required</string>
+    <string name="require_email">Required E-mail</string>
+    <string name="min_password_err">"Week Password "</string>
+    <string name="not_match">Invalid Password</string>
+    <string name="min_client_name_err">Invalid Name</string>
 </resources>

@@ -31,4 +31,8 @@
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="margin_28">28dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="height_120">120dp</dimen>
+    <dimen name="width_320">320dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_bottom_32">32dp</dimen>
 </resources>
