@@ -20,7 +20,7 @@ class ProductDetails : AppCompatActivity() {
         setContentView(binding.root)
         val productId = intent.getStringExtra("productId")
 //        Toast.makeText(this,productId,Toast.LENGTH_SHORT).show()
-        var pagerAdapter: PagerAdapter = PagerAdapter(supportFragmentManager,productId!!)
+        var pagerAdapter: PagerAdapter = PagerAdapter(supportFragmentManager, productId!!)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.viewPager.adapter = pagerAdapter
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
