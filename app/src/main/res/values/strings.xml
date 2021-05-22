@@ -69,4 +69,9 @@
     <string name="change_location">Change Your Location</string>
     <string name="title_activity_maps">Map</string>
     <string name="filter">Filter</string>
+    <string name="login">Login</string>
+    <string name="forgotPassword">Forget Password?</string>
+    <string name="or">OR</string>
+    <string name="new_user">New User?</string>
+    <string name="create_an_account">Create An Account</string>
 </resources>

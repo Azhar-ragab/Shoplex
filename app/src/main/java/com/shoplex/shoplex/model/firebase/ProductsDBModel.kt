@@ -53,7 +53,7 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
                         products.add(product)
                     }
                 }
-                this.notifier?.onAllProductsReady(products)
+                this.notifier?.onAllAdvertismentsReady(products)
             }
     }
 

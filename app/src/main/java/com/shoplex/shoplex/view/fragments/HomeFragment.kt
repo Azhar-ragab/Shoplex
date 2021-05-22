@@ -1,38 +1,27 @@
 package eg.gov.iti.shoplex.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.generateViewId
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat.generateViewId
-import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
-import com.google.firebase.installations.Utils
-import com.google.type.LatLng
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentHomeBinding
-import com.shoplex.shoplex.model.adapter.AdvertisementAdapter
+import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
 import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.enumurations.Category
-import com.shoplex.shoplex.model.pojo.Ads_Home
-import com.shoplex.shoplex.model.pojo.Products_Home
 import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var advertisementAdapter: AdvertisementAdapter
+    private lateinit var advertisementsAdapter: AdvertisementsAdapter
     private lateinit var homeProductAdapter: HomeProductsAdapter
     private lateinit var productsVM: ProductsVM
     private val FILTER_CODE = 202
@@ -85,10 +74,12 @@ class HomeFragment : Fragment() {
             )
         )
         */
-//        productsVM.products.observe(viewLifecycleOwner, Observer{ advertisements ->
-//            advertisementAdapter = AdvertisementAdapter(advertisements)
-//            binding.rvAdvertisement.adapter = advertisementAdapter
-//        })
+
+        productsVM.getAllPremiums()
+        productsVM.advertisments.observe(viewLifecycleOwner, Observer{ advertisements ->
+            advertisementsAdapter = AdvertisementsAdapter(advertisements)
+            binding.rvAdvertisement.adapter = advertisementsAdapter
+       })
 
         // Products
 
