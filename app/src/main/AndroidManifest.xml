@@ -45,12 +45,25 @@
             android:theme="@style/AppTheme.Home" />
         <activity android:name=".view.activities.MessageActivity" />
         <activity android:name=".view.activities.HomeActivity">
+        <activity android:name=".view.activities.CheckOutActivity"
+            android:theme="@style/AppTheme.Home"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.activities.HomeActivity"
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".view.activities.ProductDetails"></activity>
         <activity android:name=".view.activities.ProductDetails" />
     </application>
 

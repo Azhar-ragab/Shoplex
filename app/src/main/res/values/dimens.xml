@@ -44,5 +44,9 @@
     <dimen name="padding_60">60dp</dimen>
     <dimen name="padding_40">40dp</dimen>
     <dimen name="margin_58">58dp</dimen>
+    <dimen name="margin_56">56dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="margin_28">28dp</dimen>
     <dimen name="margin_64">64dp</dimen>
 </resources>

@@ -17,6 +17,9 @@
     </style>
     <style name="AppTheme.Home" parent="Theme.AppCompat.Light.NoActionBar">
 
+
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="titleTextColor">@color/darkblue</item>
         <item name="colorPrimary">@color/darkblue</item>
         <item name="titleTextColor">@color/darkblue</item>
 
