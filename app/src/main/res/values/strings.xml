@@ -100,4 +100,14 @@
     <string name="Quantity">Quantity</string>
     <string name="Price">Price</string>
     <string name="confirmorder">Confirm Order</string>
+    <string name="shopes">Shopes</string>
+    <string name="rate">Rating</string>
+    <string name="discountFilter">Discount</string>
+    <string name="sort">Sorting</string>
+    <string name="nearest_shop">Nearest Shop</string>
+
+    <string-array name="initial_slider_values">
+        <item>20</item>
+        <item>70</item>
+    </string-array>
 </resources>
