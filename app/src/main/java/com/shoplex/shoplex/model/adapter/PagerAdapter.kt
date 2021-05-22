@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 
 
-class PagerAdapter(fm:FragmentManager) : FragmentPagerAdapter(fm) {
+class PagerAdapter(fm:FragmentManager,val productId:String) : FragmentPagerAdapter(fm) {
 
     override fun getCount(): Int {
         return 2
@@ -16,7 +16,7 @@ class PagerAdapter(fm:FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         when(position) {
             0 -> {
-                return ProductFragment()
+                return ProductFragment(productId)
             }
             else -> {
                 return ReviewFragment()
