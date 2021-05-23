@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shoplex.shoplex">
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the "MyLocation" functionality.
-    -->
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -24,20 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoplex">
         <activity android:name=".view.activities.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".view.activities.FilterActivity"
             android:theme="@style/AppTheme.Home">
 
         </activity>
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
 
         <activity android:name=".view.activities.SignupActivity">
 
@@ -51,8 +35,15 @@
             android:name=".view.activities.OrderActivity"
             android:theme="@style/AppTheme.Home" />
         <activity android:name=".view.activities.MessageActivity" />
-        <activity android:name=".view.activities.HomeActivity">
+        <activity
+            android:name=".view.activities.HomeActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:theme="@style/AppTheme.Home">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.activities.SplashActivity"
@@ -68,6 +59,10 @@
         </activity>
         <activity android:name=".view.activities.ProductDetails" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/maps_key" />
 
     </application>
+
 </manifest>

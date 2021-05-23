@@ -5,10 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.Product
@@ -32,14 +29,14 @@ class FavoritesFragment : Fragment() {
 
         var favouriteList = ArrayList<String>()
         var favouriteProducts =ArrayList<Product>()
-        FirebaseReferences.userRef.whereEqualTo(
+        FirebaseReferences.usersRef.whereEqualTo(
             "email",
             Firebase.auth.currentUser.email
         ).get().addOnSuccessListener { result ->
             for (document in result) {
                 if (document.exists()) {
                     val u = document.toObject<User>()
-                    FirebaseReferences.userRef.document(u.userID).get()
+                    FirebaseReferences.usersRef.document(u.userID).get()
                         .addOnSuccessListener { favourite ->
                             if (favourite != null) {
                                 val user = favourite.toObject<User>()

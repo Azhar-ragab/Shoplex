@@ -1,7 +1,7 @@
 <resources>
+    <string name="maps_key">AIzaSyAyj2_BzoXGMR432LsT4dpv6TV6SdNbtDg</string>
     <string name="app_name">Shoplex</string>
     <string name="chat">Chat</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Home fragment</string>
     <string name="LastOrder">Last Order</string>
     <string name="productName">Product Name</string>
@@ -123,6 +123,16 @@
     <string name="min_password_err">"Week Password "</string>
     <string name="not_match">Invalid Password</string>
     <string name="min_client_name_err">Invalid Name</string>
+    <string name="shopes">Shopes</string>
+    <string name="rate">Rating</string>
+    <string name="discountFilter">Discount</string>
+    <string name="sort">Sorting</string>
+    <string name="nearest_shop">Nearest Shop</string>
+
+    <string-array name="initial_slider_values">
+        <item>2000</item>
+        <item>6000</item>
+    </string-array>
     <string name="login_success">Login Success</string>
     <string name="login_fail">Login Failed</string>
     <string name="logoutMessage">Are You Sure You Want To Lpgout?</string>

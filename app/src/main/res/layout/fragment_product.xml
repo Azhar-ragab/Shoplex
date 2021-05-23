@@ -232,7 +232,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btnAddProduct"
+                    android:id="@+id/btnBuyProduct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"

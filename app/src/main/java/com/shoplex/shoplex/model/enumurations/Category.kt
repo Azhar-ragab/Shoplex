@@ -8,3 +8,4 @@ enum class Category {
     Accessories,
     Books
 }
+

@@ -10,18 +10,18 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityLoginBinding
+import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.firebase.UserDBModel
+import com.shoplex.shoplex.model.interfaces.INotifyMVP
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), INotifyMVP {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //firebase Auth
-        auth = Firebase.auth
 
         //Forget Password
         binding.tvForgetPass.setOnClickListener {
@@ -39,31 +39,15 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-
-        if (currentUser != null) {
-            currentUser.reload()
-            reload();
-        }
-    }
-
     //login
     private fun login(email: String, password: String) {
-
-        auth.signInWithEmailAndPassword(email, password)
+        Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Toast.makeText(
-                        baseContext,
-                        getString(R.string.login_success),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    val user = auth.currentUser
-                    startActivity(Intent(this, HomeActivity::class.java))
+                    UserDBModel(this).getUserByMail(email)
+
+                    //val user = auth.currentUser
+                    //startActivity(Intent(this, HomeActivity::class.java))
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
@@ -74,10 +58,13 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    override fun onUserInfoReady() {
+        Toast.makeText(applicationContext, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
+        UserInfo.updateTokenID()
+        finish()
+    }
 
-
-
-    private fun reload() {
-        startActivity(Intent(this, HomeActivity::class.java))
+    override fun onUserInfoFailed() {
+        Toast.makeText(applicationContext, "Login Failed", Toast.LENGTH_SHORT).show()
     }
 }
