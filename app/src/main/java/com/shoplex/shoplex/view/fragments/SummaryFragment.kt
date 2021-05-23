@@ -10,7 +10,7 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentProductBinding
 import com.shoplex.shoplex.databinding.FragmentReviewBinding
 import com.shoplex.shoplex.databinding.FragmentSummaryBinding
-import com.shoplex.shoplex.model.adapter.AdvertisementAdapter
+
 import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.adapter.SummaryAdapter
 import com.shoplex.shoplex.model.pojo.Summary_Checkout

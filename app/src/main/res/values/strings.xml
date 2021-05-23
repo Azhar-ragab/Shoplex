@@ -69,6 +69,11 @@
     <string name="change_location">Change Your Location</string>
     <string name="title_activity_maps">Map</string>
     <string name="filter">Filter</string>
+    <string name="login">Login</string>
+    <string name="forgotPassword">Forget Password?</string>
+    <string name="or">OR</string>
+    <string name="new_user">New User?</string>
+    <string name="create_an_account">Create An Account</string>
     <string name="Checkout">Checkout</string>
     <string name="Delivery">Delivery</string>
     <string name="Payment">Payment</string>
@@ -100,6 +105,24 @@
     <string name="Quantity">Quantity</string>
     <string name="Price">Price</string>
     <string name="confirmorder">Confirm Order</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="shoplex">ShopLex</string>
+    <string name="signup">Signup</string>
+    <string name="Name">Name</string>
+    <string name="choose_location">Choose Your Location</string>
+    <string name="Required">Required</string>
+    <string name="require_email">Required E-mail</string>
+    <string name="min_password_err">"Week Password "</string>
+    <string name="not_match">Invalid Password</string>
+    <string name="min_client_name_err">Invalid Name</string>
     <string name="shopes">Shopes</string>
     <string name="rate">Rating</string>
     <string name="discountFilter">Discount</string>
@@ -110,4 +133,9 @@
         <item>2000</item>
         <item>6000</item>
     </string-array>
+    <string name="login_success">Login Success</string>
+    <string name="login_fail">Login Failed</string>
+    <string name="logoutMessage">Are You Sure You Want To Lpgout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

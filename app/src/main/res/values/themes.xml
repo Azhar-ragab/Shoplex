@@ -15,12 +15,20 @@
         <item name="titleTextColor">@color/darkblue</item>
 
     </style>
+
     <style name="AppTheme.Home" parent="Theme.MaterialComponents.Light.NoActionBar">
-
-
         <item name="colorPrimary">@color/purple_500</item>
         <item name="titleTextColor">@color/darkblue</item>
 
 
     </style>
+
+    <style name="Theme.Shoplex.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Shoplex.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Shoplex.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

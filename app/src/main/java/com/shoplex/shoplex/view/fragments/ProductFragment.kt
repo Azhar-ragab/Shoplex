@@ -3,10 +3,12 @@ package com.shoplex.shoplex
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.denzcoskun.imageslider.constants.ScaleTypes
@@ -41,6 +43,8 @@ class ProductFragment(val productId: String) : Fragment() {
     private lateinit var storeInfo: Store
     private val imageList = ArrayList<SlideModel>() // Create image list
     private val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
+    private val MAPS_CODE = 202
+
 
 
     private val ordersNM = OrdersVM()
@@ -88,8 +92,14 @@ class ProductFragment(val productId: String) : Fragment() {
 
         }
         binding.imgLocation.setOnClickListener {
-//            val location:Location=storeInfo.locations[0]
-//            Toast.makeText(context,location.latitude.toString(),Toast.LENGTH_SHORT).show()
+            val location:Location= storeInfo.locations!![0]
+            var intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
+            intent.putExtra("locationLat", location.latitude)
+            intent.putExtra("locationLang",location.longitude)
+            intent.putExtra("storeName",product.storeName)
+            startActivityForResult(intent,MAPS_CODE)
+
+
         }
 
         binding.btnBuyProduct.setOnClickListener {
@@ -124,6 +134,18 @@ class ProductFragment(val productId: String) : Fragment() {
 
         return binding.root
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == MAPS_CODE){
+            if(resultCode == AppCompatActivity.RESULT_OK){
+                val location: Parcelable? = data?.getParcelableExtra("Loc")
+                if(location != null) {
+
+                }
+            }
+        }
+    }
+
 
 
 }
