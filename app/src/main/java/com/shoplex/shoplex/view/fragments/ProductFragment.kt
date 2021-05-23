@@ -92,7 +92,7 @@ class ProductFragment(val productId: String) : Fragment() {
 
         }
         binding.imgLocation.setOnClickListener {
-            val location:Location=storeInfo.locations[0]
+            val location:Location= storeInfo.locations!![0]
             var intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
             intent.putExtra("locationLat", location.latitude)
             intent.putExtra("locationLang",location.longitude)

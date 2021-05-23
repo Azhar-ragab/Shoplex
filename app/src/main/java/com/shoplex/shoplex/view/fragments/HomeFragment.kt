@@ -15,14 +15,6 @@ import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
 import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.enumurations.Category
-import com.shoplex.shoplex.model.enumurations.DeliveryMethod
-import com.shoplex.shoplex.model.enumurations.PaymentMethod
-import com.shoplex.shoplex.model.extra.User
-import com.shoplex.shoplex.model.firebase.OrdersDBModel
-import com.shoplex.shoplex.model.pojo.Ads_Home
-import com.shoplex.shoplex.model.pojo.Checkout
-import com.shoplex.shoplex.model.pojo.Order
-import com.shoplex.shoplex.model.pojo.Products_Home
 import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
