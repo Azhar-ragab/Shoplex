@@ -17,6 +17,7 @@ import com.shoplex.shoplex.model.adapter.CartAdapter
 import com.shoplex.shoplex.model.adapter.FavouriteAdapter
 import com.shoplex.shoplex.model.adapter.SummaryAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
+import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.Summary_Checkout
 import com.shoplex.shoplex.model.pojo.User
 import java.util.ArrayList
@@ -35,15 +36,15 @@ class CartFragment : Fragment() {
 
 
         var cartList = ArrayList<String>()
-        var cartProducts = ArrayList<Product>()
-        FirebaseReferences.userRef.whereEqualTo(
+        var cartProducts = ArrayList<ProductCart>()
+        FirebaseReferences.usersRef.whereEqualTo(
             "email",
             Firebase.auth.currentUser.email
         ).get().addOnSuccessListener { result ->
             for (document in result) {
                 if (document.exists()) {
                     val u = document.toObject<User>()
-                    FirebaseReferences.userRef.document(u.userID).get()
+                    FirebaseReferences.usersRef.document(u.userID).get()
                         .addOnSuccessListener { cart ->
                             if (cart != null) {
                                 val user = cart.toObject<User>()
@@ -52,7 +53,7 @@ class CartFragment : Fragment() {
                                     FirebaseReferences.productsRef.document(product).get()
                                         .addOnSuccessListener { productResult ->
                                             if (productResult != null) {
-                                                val prod = productResult.toObject<Product>()
+                                                val prod = productResult.toObject<ProductCart>()
                                                 cartProducts.add(prod!!)
                                                 if (document.equals(result.last())) {
                                                     cartAdapter = CartAdapter(cartProducts)

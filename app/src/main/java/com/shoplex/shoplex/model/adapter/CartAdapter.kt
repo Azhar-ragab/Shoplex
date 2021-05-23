@@ -10,8 +10,9 @@ import com.bumptech.glide.Glide
 import com.shoplex.shoplex.Product
 
 import com.shoplex.shoplex.databinding.RvCartHomeBinding
+import com.shoplex.shoplex.model.pojo.ProductCart
 
-class CartAdapter(val carts: ArrayList<Product>) :
+class CartAdapter(val carts: ArrayList<ProductCart>) :
     RecyclerView.Adapter<CartAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -27,7 +28,7 @@ class CartAdapter(val carts: ArrayList<Product>) :
 
     inner class ProductViewHolder(val binding: RvCartHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(product: Product) {
+        fun bind(product : ProductCart) {
             Glide.with(binding.root.context).load(product.images[0]).into(binding.imgCart)
             binding.tvCart.text=product.name
             binding.tvPrice.text=product.price.toString()

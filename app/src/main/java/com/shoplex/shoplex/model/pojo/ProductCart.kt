@@ -30,4 +30,6 @@ class ProductCart: Product {
         this.date = product.date
         this.images = product.images
     }
+
+    constructor() : super()
 }
