@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
         advertisement.add(
             Ads_Home(
                 "T-Shirt",
-                "https://www.5wpr.com/new/wp-content/uploads/2016/04/fashion-public-relations.jpg",
+                "http://cdn.shopify.com/s/files/1/0002/2573/8783/products/Tees_Fashion_Blue_90f965c8-8edc-4ef8-99dd-1dcb6977ce13_1078x.png?v=1536327040",
                 "Offer 25%"
             )
         )
