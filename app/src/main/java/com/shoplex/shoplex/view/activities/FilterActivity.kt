@@ -3,10 +3,13 @@ package com.shoplex.shoplex.view.activities
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityFilterBinding
+import java.text.NumberFormat
+import java.util.*
 
 
 class FilterActivity : AppCompatActivity() {
@@ -26,6 +29,24 @@ class FilterActivity : AppCompatActivity() {
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
             getSupportActionBar()?.setDisplayShowHomeEnabled(true);
         }
+
+        //format range slider Label
+        binding.rsPrice.setLabelFormatter { value: Float ->
+            val format = NumberFormat.getCurrencyInstance()
+            format.maximumFractionDigits = 0
+            format.currency = Currency.getInstance("EGP")
+            format.format(value.toDouble())
+        }
+
+        binding.toggleBtnPrice.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+            if(isChecked){
+                when(checkedId){
+                    R.id.btnLowPrice -> Toast.makeText(this,"Low Price Selected",Toast.LENGTH_SHORT).show()
+                    R.id.btnHighPrice -> Toast.makeText(this,"High Price Selected",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         binding.btnFilter.setOnClickListener {
             showBottomSheetDialog()
         }

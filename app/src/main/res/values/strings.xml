@@ -105,6 +105,16 @@
     <string name="Quantity">Quantity</string>
     <string name="Price">Price</string>
     <string name="confirmorder">Confirm Order</string>
+    <string name="shopes">Shopes</string>
+    <string name="rate">Rating</string>
+    <string name="discountFilter">Discount</string>
+    <string name="sort">Sorting</string>
+    <string name="nearest_shop">Nearest Shop</string>
+
+    <string-array name="initial_slider_values">
+        <item>2000</item>
+        <item>6000</item>
+    </string-array>
     <string name="title_activity_splash">SplashActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -28,6 +28,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        <activity android:name=".view.activities.FilterActivity"
+            android:theme="@style/AppTheme.Home">
+
         </activity>
         <activity
             android:name=".view.activities.FilterActivity"
@@ -47,11 +50,15 @@
             android:name=".view.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".view.activities.ProfileActivity" />
+
+        <activity android:name=".view.activities.ProfileActivity"></activity>
         <activity
             android:name=".view.activities.OrderActivity"
             android:theme="@style/AppTheme.Home" />
         <activity android:name=".view.activities.MessageActivity" />
         <activity android:name=".view.activities.HomeActivity">
+        <activity android:name=".view.activities.CheckOutActivity"
+            android:theme="@style/AppTheme.Home">
 
         </activity>
         <activity
@@ -59,6 +66,11 @@
 
             android:label="@string/title_activity_splash"
             android:theme="@style/Theme.Shoplex.NoActionBar">
+            android:name=".view.activities.HomeActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:theme="@style/AppTheme.Home">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
         </activity>
         <activity
@@ -69,5 +81,6 @@
         <activity android:name=".view.activities.ProductDetails" />
 
 
+        <activity android:name=".view.activities.ProductDetails"></activity>
     </application>
 </manifest>
