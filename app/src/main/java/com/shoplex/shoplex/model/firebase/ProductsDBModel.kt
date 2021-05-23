@@ -42,4 +42,19 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
             }
     }
 
+    fun getAllPremiums() {
+
+        FirebaseReferences.productsRef.whereGreaterThan("premiumDays", 0)
+            .addSnapshotListener { values, _ ->
+                var products = arrayListOf<Product>()
+                for (document: DocumentSnapshot in values?.documents!!) {
+                    var product: Product? = document.toObject<Product>()
+                    if (product != null) {
+                        products.add(product)
+                    }
+                }
+                this.notifier?.onAllAdvertismentsReady(products)
+            }
+    }
+
 }

@@ -8,4 +8,5 @@ interface INotifyMVP {
     fun onStoreInfoReady(stores: ArrayList<Store>){}
     fun onOrderSuccess(){}
     fun onOrderFailed(){}
+    fun onAllAdvertismentsReady(products: ArrayList<Product>){}
 }

@@ -9,6 +9,7 @@ import com.shoplex.shoplex.model.interfaces.INotifyMVP
 
 class ProductsVM: ViewModel, INotifyMVP {
     var products: MutableLiveData<ArrayList<Product>> = MutableLiveData()
+    var advertisments:MutableLiveData<ArrayList<Product>> = MutableLiveData()
     private var productsDBModel = ProductsDBModel(this)
 
     constructor(){
@@ -23,6 +24,9 @@ class ProductsVM: ViewModel, INotifyMVP {
         this.products.value = products
     }
 
+    override fun onAllAdvertismentsReady(products: ArrayList<Product>) {
+        this.advertisments.value = products
+    }
     fun getProductById(productId: String){
         productsDBModel.getProductById(productId)
     }
@@ -31,6 +35,9 @@ class ProductsVM: ViewModel, INotifyMVP {
         return Category.values().map {
             it.toString().split("_").joinToString(" ")
         }.toTypedArray()
+    }
+    fun getAllPremiums(){
+        productsDBModel.getAllPremiums()
     }
 
 }

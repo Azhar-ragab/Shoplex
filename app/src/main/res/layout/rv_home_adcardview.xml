@@ -51,13 +51,13 @@
 
         <TextView
             android:id="@+id/tv_offer"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="2dp"
+            android:padding="3dp"
             android:text="TextView"
             android:textColor="@color/white"
-            android:textSize="8sp"
+            android:textSize="@dimen/text_size_16"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="@id/view"
             app:layout_constraintStart_toStartOf="@+id/view"
