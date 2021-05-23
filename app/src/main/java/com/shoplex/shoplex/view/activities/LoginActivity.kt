@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -29,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
 
         //Not Have Account
         binding.tvCreateAccount.setOnClickListener {
-           // startActivity(Intent(this, SignupActivity::class.java))
+            startActivity(Intent(this, SignupActivity::class.java))
         }
 
         //Login button

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.shoplex.shoplex.R
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.databinding.FavouriteItemRowBinding
 
@@ -25,8 +26,11 @@ class FavouriteAdapter(val favourites: ArrayList<Product>) :
 
     inner class ProductViewHolder(val binding: FavouriteItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Product) {
-            // Your custom view code here
+        fun bind(product: Product) {
+            Glide.with(binding.root.context).load(product.images[0]).into(binding.imgProduct)
+            binding.tvProductName.text=product.name
+            binding.tvPrice.text=product.newPrice.toString()
+            binding.tvReview.text=product.rate.toString()
         }
     }
 }

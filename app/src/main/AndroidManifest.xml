@@ -24,7 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoplex">
         <activity android:name=".view.activities.LoginActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.activities.FilterActivity"
@@ -37,10 +40,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".view.activities.SignupActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <activity
