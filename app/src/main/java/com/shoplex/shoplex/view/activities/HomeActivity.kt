@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -32,4 +33,14 @@ class HomeActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment)
         bottomNavigationView.setupWithNavController(navController)
     }
-}
+    override fun onBackPressed() {
+        val seletedItemId = bottomNavigationView.selectedItemId
+
+            if (seletedItemId==R.id.homeFragment2) {
+                finishAffinity()
+            } else {
+                findNavController(R.id.nav_host_fragment).popBackStack()
+            }
+
+        }
+    }

@@ -18,7 +18,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/pink" />
+            app:srcCompat="@color/white" />
 
 
         <TextView
@@ -106,7 +106,7 @@
             android:text="@string/login"
             android:textAlignment="center"
             android:textAllCaps="false"
-            android:textSize="30sp"
+            android:textSize="@dimen/text_size_24"
             android:layout_margin="@dimen/margin_32"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
