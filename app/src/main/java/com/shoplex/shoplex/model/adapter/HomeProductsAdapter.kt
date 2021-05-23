@@ -3,7 +3,6 @@ package com.shoplex.shoplex.model.adapter
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,7 +11,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.Product
-import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvHomeProductCardviewBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.User
@@ -41,11 +39,11 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
                 binding.btnFavorite.isClickable = false
                 notifyDataSetChanged()
                 user.favouriteList.add(product.productID)
-                FirebaseReferences.userRef.whereEqualTo("email",Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
+                FirebaseReferences.usersRef.whereEqualTo("email",Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
                         if (document.exists()) {
                             val u = document.toObject<User>()
-                            FirebaseReferences.userRef.document(u.userID).update(
+                            FirebaseReferences.usersRef.document(u.userID).update(
                                 "favouriteList",
                                 FieldValue.arrayUnion(user.favouriteList[0])
                             )

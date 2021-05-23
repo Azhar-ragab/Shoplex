@@ -16,12 +16,18 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.google.android.gms.maps.model.LatLng
 import com.shoplex.shoplex.databinding.FragmentProductBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
-import com.shoplex.shoplex.model.pojo.Location
-import com.shoplex.shoplex.model.pojo.Store
+import com.shoplex.shoplex.model.enumurations.DeliveryMethod
+import com.shoplex.shoplex.model.enumurations.DiscountType
+import com.shoplex.shoplex.model.enumurations.OrderStatus
+import com.shoplex.shoplex.model.enumurations.PaymentMethod
+import com.shoplex.shoplex.model.extra.User
+import com.shoplex.shoplex.model.firebase.OrdersDBModel
+import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.view.activities.MessageActivity
 import com.shoplex.shoplex.view.activities.ProductDetails
 import com.shoplex.shoplex.viewmodel.DetailsVM
+import com.shoplex.shoplex.viewmodel.OrdersVM
 import com.shoplex.shoplex.viewmodel.ProductsVM
 import eg.gov.iti.shoplex.fragments.ChatFragment
 
@@ -38,6 +44,10 @@ class ProductFragment(val productId: String) : Fragment() {
     private val imageList = ArrayList<SlideModel>() // Create image list
     private val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
     private val MAPS_CODE = 202
+
+
+
+    private val ordersNM = OrdersVM()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,7 +92,7 @@ class ProductFragment(val productId: String) : Fragment() {
 
         }
         binding.imgLocation.setOnClickListener {
-            val location:Location=storeInfo.locations[0]
+            val location:Location= storeInfo.locations!![0]
             var intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
             intent.putExtra("locationLat", location.latitude)
             intent.putExtra("locationLang",location.longitude)
@@ -90,6 +100,23 @@ class ProductFragment(val productId: String) : Fragment() {
             startActivityForResult(intent,MAPS_CODE)
 
 
+        }
+
+        binding.btnBuyProduct.setOnClickListener {
+            // Add Order
+            var specialDiscount: SpecialDiscount = SpecialDiscount(10F, DiscountType.Fixed)
+
+            var productCart: ProductCart = ProductCart(product)
+            productCart.quantity = 3
+            productCart.specialDiscount = specialDiscount
+
+            var checkout: Checkout = Checkout(DeliveryMethod.Door, PaymentMethod.Fawry, User.userLocation, product.price, 12F)
+            checkout.addProduct(productCart)
+
+            for (product in checkout.getAllProducts()){
+                var order: Order = Order(product, checkout, OrderStatus.Current)
+                ordersNM.addOrder(order)
+            }
         }
 
 

@@ -49,6 +49,8 @@ class HomeFragment : Fragment() {
             val category = Category.valueOf(group.findViewById<Chip>(checkedId).text.toString().replace(" ", "_"))
             productsVM.getAllProducts(category)
         }
+
+
 /*
         val advertisement = ArrayList<Ads_Home>()
 
