@@ -52,6 +52,20 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
                 }
 
             }
+            binding.fabAddProduct.setOnClickListener{
+                user.cartList.add(product.productID)
+                FirebaseReferences.userRef.whereEqualTo("email",Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
+                    for (document in result){
+                        if (document.exists()) {
+                            val u = document.toObject<User>()
+                            FirebaseReferences.userRef.document(u.userID).update(
+                                "cartList",
+                                FieldValue.arrayUnion(user.cartList[0])
+                            )
+                        }
+                    }
+                }
+            }
             binding.tvStorename.text = product.storeName
             binding.tvNewPrice.text = product.newPrice.toString()
             binding.tvOldPrice.text = product.price.toString()
