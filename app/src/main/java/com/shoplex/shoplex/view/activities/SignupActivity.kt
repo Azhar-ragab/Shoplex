@@ -11,6 +11,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.R
@@ -23,28 +24,29 @@ import java.util.regex.Pattern
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
     private lateinit var auth: FirebaseAuth
-
+    lateinit var ref:DocumentReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
         auth = Firebase.auth
+         ref=FirebaseReferences.userRef.document()
+
         binding.btnSignup.setOnClickListener {
             val name = binding.edName.text.toString()
             val email = binding.edEmail.text.toString()
             val phone = binding.edPassword.text.toString()
-            val img =
-                "https://img.etimg.com/thumb/width-1200,height-900,imgsize-122620,resizemode-1,msid-75214721/industry/services/retail/future-group-negotiates-rents-for-its-1700-stores.jpg"
-            val user =
-                User("", name, email, arrayListOf(), phone, img, null, arrayListOf(), arrayListOf())
-            addUser(user)
+            val img = "https://img.etimg.com/thumb/width-1200,height-900,imgsize-122620,resizemode-1,msid-75214721/industry/services/retail/future-group-negotiates-rents-for-its-1700-stores.jpg"
+
             if (checkEditText() == true) {
+                createAccount(email,binding.edPassword.text.toString())
+                val user =
+                    User(ref.id, name, email, arrayListOf(), phone, img, null, arrayListOf(), arrayListOf())
                 addUser(user)
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             }
-        createAccount(email,binding.edPassword.text.toString())
         }
         binding.btnLocation.setOnClickListener {
         }
@@ -52,7 +54,7 @@ class SignupActivity : AppCompatActivity() {
     }
 
     fun addUser(user: User) {
-        FirebaseReferences.userRef.add(user).addOnSuccessListener {
+       ref.set(user).addOnSuccessListener {
             Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         }
 
@@ -64,7 +66,8 @@ class SignupActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("TAG", "createUserWithEmail:success")
-                    val user = auth.currentUser
+                    val user = auth.uid
+//                    FirebaseReferences.userRef.
 
                 } else {
                     // If sign in fails, display a message to the user.
