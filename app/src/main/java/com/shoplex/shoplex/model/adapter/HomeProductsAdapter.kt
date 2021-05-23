@@ -3,6 +3,7 @@ package com.shoplex.shoplex.model.adapter
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -52,6 +53,21 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
                     }
                 }
 
+            }
+            binding.fabAddProduct.setOnClickListener{
+                user.cartList.add(product.productID)
+                Toast.makeText(binding.root.context,product.productID.toString(),Toast.LENGTH_SHORT).show()
+                FirebaseReferences.usersRef.whereEqualTo("email",Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
+                    for (document in result){
+                        if (document.exists()) {
+                            val u = document.toObject<User>()
+                            FirebaseReferences.usersRef.document(u.userID).update(
+                                "cartList",
+                                FieldValue.arrayUnion(user.cartList[0])
+                            )
+                        }
+                    }
+                }
             }
 
             binding.tvStorename.text = product.storeName
