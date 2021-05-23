@@ -74,4 +74,6 @@
     <string name="or">OR</string>
     <string name="new_user">New User?</string>
     <string name="create_an_account">Create An Account</string>
+    <string name="login_success">Login Success</string>
+    <string name="login_fail">Login Failed</string>
 </resources>
