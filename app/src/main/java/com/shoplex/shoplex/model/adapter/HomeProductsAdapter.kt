@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvHomeProductCardviewBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.User
