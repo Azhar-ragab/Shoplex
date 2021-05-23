@@ -117,9 +117,6 @@
     <string name="shoplex">ShopLex</string>
     <string name="signup">Signup</string>
     <string name="Name">Name</string>
-    <string name="email">E-mail</string>
-    <string name="password">Password</string>
-    <string name="phone">Phone</string>
     <string name="choose_location">Choose Your Location</string>
     <string name="Required">Required</string>
     <string name="require_email">Required E-mail</string>
