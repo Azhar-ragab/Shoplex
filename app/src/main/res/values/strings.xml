@@ -123,4 +123,7 @@
     <string name="min_password_err">"Week Password "</string>
     <string name="not_match">Invalid Password</string>
     <string name="min_client_name_err">Invalid Name</string>
+    <string name="Category">Category</string>
+    <string name="num">Number</string>
+    <string name="totalAmount">Total Amount</string>
 </resources>
