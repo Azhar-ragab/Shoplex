@@ -123,4 +123,14 @@
     <string name="min_password_err">"Week Password "</string>
     <string name="not_match">Invalid Password</string>
     <string name="min_client_name_err">Invalid Name</string>
+    <string name="shopes">Shopes</string>
+    <string name="rate">Rating</string>
+    <string name="discountFilter">Discount</string>
+    <string name="sort">Sorting</string>
+    <string name="nearest_shop">Nearest Shop</string>
+
+    <string-array name="initial_slider_values">
+        <item>2000</item>
+        <item>6000</item>
+    </string-array>
 </resources>
