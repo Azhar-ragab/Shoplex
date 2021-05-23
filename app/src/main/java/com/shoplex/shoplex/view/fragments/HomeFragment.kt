@@ -67,6 +67,7 @@ class HomeFragment : Fragment() {
             productsVM.getAllProducts(category)
         }
 
+
         val advertisement = ArrayList<Ads_Home>()
 
         advertisement.add(
