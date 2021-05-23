@@ -7,264 +7,254 @@
     android:layout_height="match_parent"
     tools:context=".view.fragments.DeliveryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/tv_deliverymethod"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_12"
-        android:padding="@dimen/padding_8"
-        android:text="@string/DeliveryMethod"
-        android:textColor="@color/darkBlue"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="12dp" />
-
-    <RadioButton
-        android:id="@+id/radio_postStation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:onClick="onRadioButtonClicked"
-        android:text="@string/NearestPostStation"
-        app:layout_constraintBottom_toBottomOf="@+id/radio_doorDelivery"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="OnClick" />
-
-    <RadioButton
-        android:id="@+id/radio_doorDelivery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:onClick="onRadioButtonClicked"
-        android:text="@string/DoorDelivery"
-        app:layout_constraintEnd_toStartOf="@+id/radio_postStation"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toStartOf="@id/tv_deliverymethod"
-        app:layout_constraintTop_toTopOf="@+id/tv_deliverymethod"
-        tools:ignore="OnClick" />
-    <LinearLayout
-        android:id="@+id/linear_layout_delivery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_8"
-        app:layout_constraintTop_toBottomOf="@id/radio_postStation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:baselineAligned="false">
-    <LinearLayout
-        android:id="@+id/layout1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:layout_margin="@dimen/margin_12"
-        android:padding="@dimen/padding_8"
-        android:orientation="vertical"
-        >
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_subtotal"
-            android:layout_width="wrap_content"
-         android:layout_marginBottom="@dimen/margin_16"
+            android:id="@+id/tv_deliverymethod"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_12"
+            android:padding="@dimen/padding_8"
+            android:text="@string/DeliveryMethod"
+            android:textColor="@color/darkBlue"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="12dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/SubTotal"
-            android:textSize="14sp"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_deliverymethod">
 
-/>
+            <RadioButton
+                android:id="@+id/radioDoorDelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_8"
+                android:text="@string/DoorDelivery" />
 
-        <TextView
-            android:id="@+id/tv_discount"
-            android:layout_width="wrap_content"
+            <RadioButton
+                android:id="@+id/radioPostStation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_32"
+                android:text="@string/NearestPostStation" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_delivery"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:text="@string/Discount" />
+            android:layout_marginTop="16dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup">
 
-        <TextView
-            android:id="@+id/tv_shipping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:text="@string/Shipping" />
+            <LinearLayout
+                android:id="@+id/layout1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_12"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_8">
 
+                <TextView
+                    android:id="@+id/tv_subtotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:text="@string/SubTotal"
+                    android:textSize="14sp" />
 
+                <TextView
+                    android:id="@+id/tv_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:text="@string/Discount" />
 
+                <TextView
+                    android:id="@+id/tv_shipping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:text="@string/Shipping" />
 
+            </LinearLayout>
 
-</LinearLayout>
- <LinearLayout
+            <LinearLayout
                 android:id="@+id/lay2"
                 android:layout_width="@dimen/width_120"
                 android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_12"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_8">
 
-     android:layout_margin="@dimen/margin_12"
-     android:padding="@dimen/padding_8"
+                <TextView
+                    android:id="@+id/tv_SubtotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_56"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:text="@string/subTotalPrice" />
 
+                <TextView
+                    android:id="@+id/tv_DiscountPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_56"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:text="@string/discountPrice" />
 
-                android:orientation="vertical">
-
-     <TextView
-         android:id="@+id/tv_SubtotalPrice"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginLeft="@dimen/margin_56"
-         android:layout_marginBottom="@dimen/margin_16"
-         android:text="@string/subTotalPrice" />
-
-     <TextView
-         android:id="@+id/tv_DiscountPrice"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginLeft="@dimen/margin_56"
-         android:layout_marginBottom="@dimen/margin_16"
-         android:text="@string/discountPrice" />
-
-     <TextView
-         android:id="@+id/tv_ShippingPrice"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginLeft="@dimen/margin_56"
-         android:layout_marginBottom="@dimen/margin_16"
-         android:text="@string/shippingPrice" />
-
-
- </LinearLayout>
-    </LinearLayout>
-            <View
-                android:id="@+id/price_view"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/tv_deliverymethod"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/tv_deliverymethod"
-                app:layout_constraintTop_toBottomOf="@+id/linear_layout_delivery"
-                app:layout_constraintVertical_bias="0.015" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_12"
-        android:layout_marginTop="16dp"
-
-        android:padding="@dimen/padding_8"
-        app:layout_constraintEnd_toEndOf="@+id/linear_layout_delivery"
-        app:layout_constraintStart_toStartOf="@+id/linear_layout_delivery"
-        app:layout_constraintTop_toBottomOf="@+id/linear_layout_delivery">
-
-
-
-
-        <TextView
-            android:id="@+id/tv_Total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-
-            android:paddingRight="230dp"
-            android:text="@string/Total"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_TotalPrice"
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-
-            android:layout_marginEnd="16dp"
-            android:text="@string/totalPrice"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_Total" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tv_ShippingAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_12"
-        android:padding="@dimen/padding_8"
-        android:text="@string/ShippingAddress"
-        android:textColor="@color/darkBlue"
-        android:textSize="18sp"
-        android:textStyle="bold"
-
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout3" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="346dp"
-
-        android:layout_height="91dp"
-        android:layout_marginBottom="280dp"
-        android:background="@drawable/shippingcard"
-        app:cardCornerRadius="5dp"
-
-        app:cardElevation="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_deliverymethod"
-        app:layout_constraintEnd_toEndOf="@+id/layout3"
-        app:layout_constraintStart_toStartOf="@+id/tv_deliverymethod"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ShippingAddress"
-        app:layout_constraintVertical_bias="0.0">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_address"
-                android:layout_width="230dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8"
-                android:padding="@dimen/padding_6"
-                android:text="@string/address"
-                android:textColor="@color/black" />
-
-            <Button
-                android:id="@+id/btn_changeAddress"
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_8"
-              android:background="@drawable/shippingcard"
-                android:padding="@dimen/padding_6"
-                android:text="@string/change"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_ShippingPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_56"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:text="@string/shippingPrice" />
+            </LinearLayout>
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+        <View
+            android:id="@+id/price_view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_deliverymethod"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_deliverymethod"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_delivery"
+            app:layout_constraintVertical_bias="0.015" />
 
-    <Button
-        android:id="@+id/btn_delivery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_12"
+            android:layout_marginTop="16dp"
+            android:padding="@dimen/padding_8"
+            app:layout_constraintEnd_toEndOf="@+id/linear_layout_delivery"
+            app:layout_constraintStart_toStartOf="@+id/linear_layout_delivery"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_delivery">
 
-        android:layout_marginBottom="124dp"
+            <TextView
+                android:id="@+id/tv_Total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:paddingRight="230dp"
+                android:text="@string/Total"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        android:backgroundTint="@color/darkBlue"
-        android:clickable="true"
-        android:text="@string/process"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/cardView"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.925" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_TotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/totalPrice"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_Total" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_ShippingAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_12"
+            android:padding="@dimen/padding_8"
+            android:text="@string/ShippingAddress"
+            android:textColor="@color/darkBlue"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout3" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_32"
+            android:background="@drawable/shippingcard"
+            android:padding="@dimen/padding_16"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_delivery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_ShippingAddress">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:layout_marginLeft="@dimen/margin_8"
+                    android:layout_marginBottom="@dimen/margin_32"
+                    android:padding="@dimen/padding_6"
+                    android:text="@string/address"
+                    android:textColor="@color/black"/>
+
+                <Button
+                    android:id="@+id/btn_changeAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:layout_marginRight="@dimen/margin_8"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:background="@drawable/shippingcard"
+                    android:padding="@dimen/padding_6"
+                    android:text="@string/change"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btn_delivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_32"
+            android:backgroundTint="@color/darkBlue"
+            android:clickable="true"
+            android:text="@string/process"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintHorizontal_bias="0.50"
+            app:layout_constraintStart_toStartOf="@+id/cardView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
