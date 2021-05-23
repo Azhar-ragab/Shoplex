@@ -37,7 +37,9 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
         fun bind(product: Product) {
             val user:User= User()
             binding.btnFavorite.setOnClickListener {
-
+                binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill)
+                binding.btnFavorite.isClickable = false
+                notifyDataSetChanged()
                 user.favouriteList.add(product.productID)
                 FirebaseReferences.userRef.whereEqualTo("email",Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
@@ -52,6 +54,7 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
                 }
 
             }
+
             binding.tvStorename.text = product.storeName
             binding.tvNewPrice.text = product.newPrice.toString()
             binding.tvOldPrice.text = product.price.toString()
