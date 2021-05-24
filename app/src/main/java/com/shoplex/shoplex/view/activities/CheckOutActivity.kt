@@ -8,19 +8,24 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.tabs.TabLayout
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityCheckOutBinding
 import com.shoplex.shoplex.model.adapter.CheckoutAdapter
-import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.pojo.Checkout
+import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.SpecialDiscount
 
 
 class CheckOutActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityCheckOutBinding
+
+    var checkout: Checkout = Checkout()
+
    private lateinit var binding: ActivityCheckOutBinding
     var productCart : ArrayList<ProductCart> = arrayListOf()
     var checkout: Checkout = Checkout()
@@ -30,9 +35,6 @@ class CheckOutActivity : AppCompatActivity() {
         binding = ActivityCheckOutBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarcheckout)
-
-       //val cartProducts = intent.getParcelableArrayListExtra<ProductCart>("checkout")
-        //Toast.makeText(this,cartProducts.toString(),Toast.LENGTH_SHORT).show()
 
         supportActionBar?.apply {
             title = getString(R.string.Checkout)
@@ -91,6 +93,7 @@ class CheckOutActivity : AppCompatActivity() {
         }
 
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
         if (item.itemId == android.R.id.home) {

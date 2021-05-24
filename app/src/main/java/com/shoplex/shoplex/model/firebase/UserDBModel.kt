@@ -14,6 +14,7 @@ class UserDBModel(val notifier: INotifyMVP?) {
                 UserInfo.userID = user.userID
                 UserInfo.image = user.image
                 UserInfo.name = user.name
+                UserInfo.image = user.image
                 UserInfo.email = user.email
                 UserInfo.location = user.location
                 UserInfo.address = user.address
