@@ -44,7 +44,6 @@
         </activity>
         <activity
             android:name=".view.activities.SplashActivity"
-            android:label="@string/title_activity_splash"
             android:theme="@style/Theme.Shoplex.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

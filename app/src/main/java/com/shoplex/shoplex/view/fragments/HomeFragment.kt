@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -50,6 +51,7 @@ class HomeFragment : Fragment() {
             productsVM.getAllProducts(category)
         }
 
+        binding.chipGroup.findViewById<Chip>(binding.chipGroup.children.first().id).isChecked = true
 
 /*
         val advertisement = ArrayList<Ads_Home>()

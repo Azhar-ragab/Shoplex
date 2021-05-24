@@ -50,7 +50,7 @@ class FilterActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnFilter.setOnClickListener {
+        binding.cardShopesFilter.setOnClickListener {
             showBottomSheetDialog()
         }
     }

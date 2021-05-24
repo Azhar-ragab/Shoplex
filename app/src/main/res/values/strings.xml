@@ -1,6 +1,6 @@
 <resources>
     <string name="maps_key">AIzaSyAyj2_BzoXGMR432LsT4dpv6TV6SdNbtDg</string>
-    <string name="app_name">Shoplex</string>
+    <string name="app_name">ShopLex</string>
     <string name="chat">Chat</string>
     <string name="hello_blank_fragment">Home fragment</string>
     <string name="LastOrder">Last Order</string>
