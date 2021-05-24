@@ -138,4 +138,7 @@
     <string name="logoutMessage">Are You Sure You Want To Lpgout?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="Category">Category</string>
+    <string name="num">Number</string>
+    <string name="totalAmount">Total Amount</string>
 </resources>

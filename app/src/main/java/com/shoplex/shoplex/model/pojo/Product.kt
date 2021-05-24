@@ -24,6 +24,7 @@ open class Product : Parcelable{
     var newPrice : Float = 10F
     var discount : Int = 0
     var category : String = ""
+    var productNumber : Int = 0
     var subCategory : String = ""
     var rate : Float? = null
     var premium : Premium? = null
@@ -80,6 +81,20 @@ open class Product : Parcelable{
         category = parcel.readString().toString()
         subCategory = parcel.readString().toString()
         imagesListURI = parcel.readArrayList(Uri::class.java.classLoader) as ArrayList<Uri>
+    }
+
+    constructor(
+        name: String,
+        price: Float,
+        category: String,
+        productNumber: Int,
+        images:String
+    ) {
+        this.name = name
+        this.price = price
+        this.category = category
+        this.productNumber = productNumber
+        this.images[0] = images
     }
 
     @Exclude
