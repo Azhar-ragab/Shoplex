@@ -18,7 +18,6 @@ open class Product : Parcelable{
     var productID : String = UUID.randomUUID().toString()
     var storeID : String = ""
     var storeName : String = ""
-    var deliveryLoc: LatLng? = null
     var name : String = ""
     var description: String = ""
     var price : Float = 10F
@@ -47,17 +46,18 @@ open class Product : Parcelable{
         name: String,
         price: Float,
         category: String,
-        deliveryLoc: LatLng,
         productImageUrl: String
     ) {
         this.name = name
         this.price = price
+        this.newPrice = price
         this.category = category
-        this.deliveryLoc = deliveryLoc
+        this.images.add(productImageUrl)
+        /*
         if (images.size > 0){
             this.images[0] = productImageUrl
         }
-
+        */
     }
 
     constructor(

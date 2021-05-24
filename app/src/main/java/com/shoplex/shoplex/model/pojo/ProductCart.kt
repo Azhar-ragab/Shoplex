@@ -13,12 +13,14 @@ import kotlin.collections.ArrayList
 class ProductCart: Product {
     var quantity: Int = 1
     var specialDiscount: SpecialDiscount? = null
+    var shipping: Int = 0
 
-    constructor(product: Product, quantity : Int,specialDiscount: SpecialDiscount) {
+    constructor()
+
+    constructor(product: Product, quantity : Int,specialDiscount: SpecialDiscount, shipping: Int) {
         this.productID = product.productID
         this.storeID = product.storeID
         this.storeName = product.storeName
-        this.deliveryLoc = product.deliveryLoc
         this.name = product.name
         this.description = product.description
         this.price = product.price
@@ -34,6 +36,7 @@ class ProductCart: Product {
         this.images = product.images
         this.quantity = quantity
         this.specialDiscount = specialDiscount
+        this.shipping = shipping
     }
 
     constructor(parcel: Parcel) : super() {

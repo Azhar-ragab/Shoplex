@@ -1,18 +1,11 @@
 package com.shoplex.shoplex.model.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.shoplex.shoplex.R
-import com.shoplex.shoplex.databinding.OrderItemRowBinding
 import com.shoplex.shoplex.databinding.RvSummaryCardviewBinding
 import com.shoplex.shoplex.model.pojo.ProductCart
-import com.shoplex.shoplex.model.pojo.Products_Home
-import com.shoplex.shoplex.model.pojo.Summary_Checkout
 
 class SummaryAdapter(private val summaryCheck: ArrayList<ProductCart>) :
     RecyclerView.Adapter<SummaryAdapter.ViewHolder>() {  // Create a new view, which defines the UI of the list item
@@ -29,7 +22,8 @@ class SummaryAdapter(private val summaryCheck: ArrayList<ProductCart>) :
 
     class ViewHolder(val binding: RvSummaryCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(productCart: ProductCart){
-           // Glide.with(itemView.context).load(productCart.images[0].toString()).into(binding.imgProductSummary)
+            if(productCart.images.count() > 0)
+            Glide.with(itemView.context).load(productCart.images[0].toString()).into(binding.imgProductSummary)
             binding.tvProductName.text = productCart.name
             binding.tvPriceSimmary.text = productCart.newPrice.toString()
             binding.tvQuantity.text = productCart.quantity.toString()

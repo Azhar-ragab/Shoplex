@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -12,6 +13,7 @@ import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.databinding.FragmentFavoritesBinding
 import com.shoplex.shoplex.model.adapter.FavouriteAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.User
 import kotlin.collections.ArrayList
 
@@ -26,9 +28,18 @@ class FavoritesFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
+        if(UserInfo.userID != null){
+            getAllFavoriteProducts()
+        }else{
+            Toast.makeText(context, "Please Login to get all favorite products", Toast.LENGTH_SHORT).show()
+        }
 
+        return binding.root
+    }
+
+    fun getAllFavoriteProducts() {
         var favouriteList = ArrayList<String>()
-        var favouriteProducts =ArrayList<Product>()
+        var favouriteProducts = ArrayList<Product>()
         FirebaseReferences.usersRef.whereEqualTo(
             "email",
             Firebase.auth.currentUser.email
@@ -45,11 +56,12 @@ class FavoritesFragment : Fragment() {
                                     FirebaseReferences.productsRef.document(product).get()
                                         .addOnSuccessListener { productResult ->
                                             if (productResult != null) {
-                                                 val prod = productResult.toObject<Product>()
+                                                val prod = productResult.toObject<Product>()
                                                 favouriteProducts.add(prod!!)
                                                 if (document.equals(result.last())) {
-                                                    favouriteAdapter = FavouriteAdapter(favouriteProducts)
-                                                     binding.rvFavourite.adapter = favouriteAdapter
+                                                    favouriteAdapter =
+                                                        FavouriteAdapter(favouriteProducts)
+                                                    binding.rvFavourite.adapter = favouriteAdapter
                                                 }
                                             }
                                         }
@@ -60,9 +72,5 @@ class FavoritesFragment : Fragment() {
                 }
             }
         }
-
-        return binding.root
     }
-
-
 }
