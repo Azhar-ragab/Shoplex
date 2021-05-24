@@ -45,8 +45,6 @@ class ProductFragment(val productId: String) : Fragment() {
     private val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
     private val MAPS_CODE = 202
 
-
-
     private val ordersNM = OrdersVM()
 
     override fun onCreateView(

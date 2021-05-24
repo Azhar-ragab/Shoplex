@@ -7,14 +7,20 @@ import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.google.android.material.tabs.TabLayout
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityCheckOutBinding
 import com.shoplex.shoplex.model.adapter.CheckoutAdapter
+import com.shoplex.shoplex.model.pojo.Checkout
+import com.shoplex.shoplex.viewmodel.CheckoutVM
 
 
 class CheckOutActivity : AppCompatActivity() {
-   private lateinit var binding: ActivityCheckOutBinding
+    private lateinit var binding: ActivityCheckOutBinding
+
+    var checkout: Checkout = Checkout()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,6 +55,7 @@ class CheckOutActivity : AppCompatActivity() {
         })
 
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
         if (item.itemId == android.R.id.home) {

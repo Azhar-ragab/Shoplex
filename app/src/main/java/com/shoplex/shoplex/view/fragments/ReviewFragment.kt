@@ -13,7 +13,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ReviewFragment : Fragment() {
+class ReviewFragment(val productId: String) : Fragment() {
 
 
     lateinit var binding : FragmentReviewBinding

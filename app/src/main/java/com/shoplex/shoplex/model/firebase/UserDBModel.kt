@@ -13,6 +13,7 @@ class UserDBModel(val notifier: INotifyMVP?) {
                 val user: User = it.documents[0].toObject()!!
                 UserInfo.userID = user.userID
                 UserInfo.name = user.name
+                UserInfo.image = user.image
                 UserInfo.email = user.email
                 UserInfo.location = user.location
                 UserInfo.address = user.address
