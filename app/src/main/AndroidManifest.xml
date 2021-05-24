@@ -39,7 +39,11 @@
             android:name=".view.activities.HomeActivity"
             android:windowSoftInputMode="adjustNothing"
             android:theme="@style/AppTheme.Home">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.activities.SplashActivity"
@@ -51,11 +55,6 @@
         <activity
             android:name=".view.activities.CheckOutActivity"
             android:theme="@style/AppTheme.Home">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".view.activities.ProductDetails" />
 
