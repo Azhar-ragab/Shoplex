@@ -1,55 +1,62 @@
 package com.shoplex.shoplex.view.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.shoplex.shoplex.R
+import com.shoplex.shoplex.databinding.FragmentPaymentBinding
 import com.shoplex.shoplex.databinding.FragmentProductBinding
 import com.shoplex.shoplex.databinding.FragmentReviewBinding
 import com.shoplex.shoplex.databinding.FragmentSummaryBinding
 
 import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.adapter.SummaryAdapter
+import com.shoplex.shoplex.model.enumurations.OrderStatus
+import com.shoplex.shoplex.model.extra.FirebaseReferences
+import com.shoplex.shoplex.model.pojo.Checkout
+import com.shoplex.shoplex.model.pojo.Order
 import com.shoplex.shoplex.model.pojo.Summary_Checkout
+import com.shoplex.shoplex.view.activities.CheckOutActivity
+import com.shoplex.shoplex.view.activities.HomeActivity
 import java.util.ArrayList
 
 
 class SummaryFragment : Fragment() {
     private lateinit var binding: FragmentSummaryBinding
     private lateinit var summaryAdapter: SummaryAdapter
+    lateinit var checkout: Checkout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val summary = ArrayList<Summary_Checkout>()
         // Inflate the layout for this fragment
-        binding= FragmentSummaryBinding.inflate(inflater,container,false)
-        summary.add(
-            Summary_Checkout(
-                "T-Shirt",
-                "Quantity : 2",
-                43.5F,
-                "https://www.5wpr.com/new/wp-content/uploads/2016/04/fashion-public-relations.jpg"
-            )
-        )
-        summary.add(
-            Summary_Checkout(
-"Pants",
-                "Quantity : 4",
-                120F,
-                "https://images.unsplash.com/photo-1483985988355-763728e1935b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFzaGlvbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80"
-            )
-        )
-        summaryAdapter = SummaryAdapter(summary)
-
-
+        binding = FragmentSummaryBinding.inflate(inflater, container, false)
+        checkout = (activity as CheckOutActivity).checkout
+        summaryAdapter = SummaryAdapter(checkout.getAllProducts())
         binding.rvSummary.adapter = summaryAdapter
 
+        binding.tvDeliveryStatue.text = checkout.deliveryMethod.toString()
+        binding.tvPaymentStatue.text = checkout.paymentMethod.toString()
+        binding.tvItemNum.text = "${checkout.getAllProducts().size} Items"
+        binding.tvSubtotalPrice.text = "${checkout.subTotalPrice} EGP"
+        binding.tvDiscountPrice.text = "${checkout.totalDiscount} EGP"
+        binding.tvShippingPrice.text = "${checkout.shipping} EGP"
+        binding.tvTotalPrice.text = "${checkout.totalPrice} EGP"
 
+        binding.btnSummary.setOnClickListener {
+
+            for (product in checkout.getAllProducts()){
+                val order = Order(product,checkout,OrderStatus.Current)
+                FirebaseReferences.ordersRef.document(order.orderID).set(order)
+            }
+            startActivity(Intent(context,HomeActivity::class.java))
+        }
         return binding.root
     }
 

@@ -8,12 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityFilterBinding
-import com.shoplex.shoplex.databinding.BottomSheetShopsBinding
-import com.shoplex.shoplex.databinding.ShopItemBinding
-import com.shoplex.shoplex.model.adapter.StoresLocationsAdapter
-import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 import java.text.NumberFormat
 import java.util.*
+import com.shoplex.shoplex.databinding.BottomSheetShopsBinding
+import com.shoplex.shoplex.model.adapter.StoresLocationsAdapter
+import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 
 
 class FilterActivity : AppCompatActivity() {

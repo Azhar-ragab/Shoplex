@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
+
 class PagerAdapter(fm:FragmentManager,val productId:String) : FragmentPagerAdapter(fm) {
 
     override fun getCount(): Int {

@@ -8,38 +8,33 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shoplex.shoplex.R
+import com.shoplex.shoplex.databinding.OrderItemRowBinding
+import com.shoplex.shoplex.databinding.RvSummaryCardviewBinding
+import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.Products_Home
 import com.shoplex.shoplex.model.pojo.Summary_Checkout
 
-class SummaryAdapter(private val summarycheck: ArrayList<Summary_Checkout>) :
+class SummaryAdapter(private val summaryCheck: ArrayList<ProductCart>) :
     RecyclerView.Adapter<SummaryAdapter.ViewHolder>() {  // Create a new view, which defines the UI of the list item
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.rv_summary_cardview, viewGroup, false)
-
-        return ViewHolder(view)
+        return ViewHolder(
+            RvSummaryCardviewBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        )
     }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val img: ImageView = view.findViewById(R.id.img_product_summary)
-        val quantity: TextView = view.findViewById(R.id.tv_Quantity)
-        val productName: TextView = view.findViewById(R.id.tv_product_name)
-        val price: TextView = view.findViewById(R.id.tv_price_simmary)
-
-
-    }
-
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = summarycheck[position]
-        holder.productName.text = item.productName
-        holder.quantity.text = item.Quantity
-        holder.price.text = item.Price.toString()
-        Glide.with(holder.itemView.context).load(item.productImageURL).into(holder.img)
+      holder.bind(summaryCheck[position])
     }
 
-    override fun getItemCount() = summarycheck.size
-
+    class ViewHolder(val binding: RvSummaryCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(productCart: ProductCart){
+           // Glide.with(itemView.context).load(productCart.images[0].toString()).into(binding.imgProductSummary)
+            binding.tvProductName.text = productCart.name
+            binding.tvPriceSimmary.text = productCart.newPrice.toString()
+            binding.tvQuantity.text = productCart.quantity.toString()
+        }
+    }
+    override fun getItemCount() = summaryCheck.size
 
 }

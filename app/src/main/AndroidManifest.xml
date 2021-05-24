@@ -15,18 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoplex">
-        <activity android:name=".view.activities.LoginActivity">
-        </activity>
+        <activity android:name=".view.activities.LoginActivity"/>
         <activity
             android:name=".view.activities.FilterActivity"
-            android:theme="@style/AppTheme.Home">
+            android:theme="@style/AppTheme.Home"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/maps_key" />
 
-        </activity>
-
-        <activity android:name=".view.activities.SignupActivity">
-
-        </activity>
-
+        <activity android:name=".view.activities.SignupActivity"/>
         <activity
             android:name=".view.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -35,9 +32,8 @@
             android:name=".view.activities.OrderActivity"
             android:theme="@style/AppTheme.Home" />
         <activity android:name=".view.activities.MessageActivity" />
-        <activity
-            android:name=".view.activities.HomeActivity"
-            android:windowSoftInputMode="adjustNothing"
+
+        <activity android:name=".view.activities.CheckOutActivity"
             android:theme="@style/AppTheme.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,21 +42,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activities.SplashActivity"
-
-            android:label="@string/title_activity_splash"
-            android:theme="@style/Theme.Shoplex.NoActionBar">
+            android:name=".view.activities.HomeActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:theme="@style/AppTheme.Home">
 
         </activity>
         <activity
-            android:name=".view.activities.CheckOutActivity"
-            android:theme="@style/AppTheme.Home">
-        </activity>
+            android:name=".view.activities.SplashActivity"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/Theme.Shoplex.NoActionBar"/>
+
+
         <activity android:name=".view.activities.ProductDetails" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/maps_key" />
 
     </application>
 

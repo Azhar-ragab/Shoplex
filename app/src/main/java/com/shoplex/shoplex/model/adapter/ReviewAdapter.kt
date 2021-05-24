@@ -29,9 +29,9 @@ class ReviewAdapter(private val review: ArrayList<Review>) :
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val item = review[position]
-        Glide.with(viewHolder.itemView.context).load(item.customerImageUrl).into(viewHolder.image)
+        Glide.with(viewHolder.itemView.context).load(item.image).into(viewHolder.image)
         viewHolder.customerName.text = item.customerName
-        viewHolder.rating = item.rate
+        viewHolder.rating.rating = item.rate
         viewHolder.date.text = item.date.toString()
         viewHolder.comment.text = item.comment.toString()
 
