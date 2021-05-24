@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvHomeProductCardviewBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.User
@@ -36,7 +37,9 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
         fun bind(product: Product) {
             val user:User= User()
             binding.btnFavorite.setOnClickListener {
-
+                binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill)
+                binding.btnFavorite.isClickable = false
+                notifyDataSetChanged()
                 user.favouriteList.add(product.productID)
                 FirebaseReferences.usersRef.whereEqualTo("email",Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
@@ -66,6 +69,7 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
                     }
                 }
             }
+
             binding.tvStorename.text = product.storeName
             binding.tvNewPrice.text = product.newPrice.toString()
             binding.tvOldPrice.text = product.price.toString()

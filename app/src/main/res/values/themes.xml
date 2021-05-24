@@ -20,7 +20,6 @@
         <item name="colorPrimary">@color/purple_500</item>
         <item name="titleTextColor">@color/darkblue</item>
 
-
     </style>
 
     <style name="Theme.Shoplex.NoActionBar">
