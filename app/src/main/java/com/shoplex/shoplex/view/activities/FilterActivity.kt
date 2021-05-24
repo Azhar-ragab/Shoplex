@@ -11,11 +11,8 @@ import com.shoplex.shoplex.databinding.ActivityFilterBinding
 import java.text.NumberFormat
 import java.util.*
 import com.shoplex.shoplex.databinding.BottomSheetShopsBinding
-import com.shoplex.shoplex.databinding.ShopItemBinding
 import com.shoplex.shoplex.model.adapter.StoresLocationsAdapter
 import com.shoplex.shoplex.model.pojo.StoreLocationInfo
-import java.text.NumberFormat
-import java.util.*
 
 
 class FilterActivity : AppCompatActivity() {

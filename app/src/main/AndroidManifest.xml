@@ -39,6 +39,10 @@
             android:theme="@style/AppTheme.Home" />
         <activity android:name=".view.activities.MessageActivity" />
         <activity android:name=".view.activities.CheckOutActivity"
+            android:theme="@style/AppTheme.Home"></activity>
+        <activity
+            android:name=".view.activities.HomeActivity"
+            android:windowSoftInputMode="adjustNothing"
             android:theme="@style/AppTheme.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,28 +51,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activities.HomeActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:theme="@style/AppTheme.Home">
-
-        </activity>
-        <activity
             android:name=".view.activities.SplashActivity"
-
             android:label="@string/title_activity_splash"
-            android:theme="@style/Theme.Shoplex.NoActionBar">
+            android:theme="@style/Theme.Shoplex.NoActionBar"></activity>
 
-        </activity>
-        <activity
-            android:name=".view.activities.CheckOutActivity"
-            android:theme="@style/AppTheme.Home">
-
-        </activity>
         <activity android:name=".view.activities.ProductDetails" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/maps_key" />
 
     </application>
 
