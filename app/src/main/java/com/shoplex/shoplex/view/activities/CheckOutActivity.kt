@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.tabs.TabLayout
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityCheckOutBinding
 import com.shoplex.shoplex.model.adapter.CheckoutAdapter
 import com.shoplex.shoplex.model.enumurations.DiscountType
-import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Checkout
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.SpecialDiscount
@@ -42,7 +40,6 @@ class CheckOutActivity : AppCompatActivity() {
 
         var checkoutAdapter: CheckoutAdapter = CheckoutAdapter(supportFragmentManager)
         binding.tabLayoutCheckout.setupWithViewPager(binding.viewPagerCheckout)
-
 
         binding.viewPagerCheckout.adapter = checkoutAdapter
         binding.tabLayoutCheckout.addOnTabSelectedListener(object :
