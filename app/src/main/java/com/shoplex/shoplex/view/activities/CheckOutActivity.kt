@@ -22,7 +22,7 @@ import com.shoplex.shoplex.model.pojo.SpecialDiscount
 
 
 class CheckOutActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCheckOutBinding
+    lateinit var binding: ActivityCheckOutBinding
     var productCart : ArrayList<ProductCart> = arrayListOf()
     var checkout: Checkout = Checkout()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,15 +50,15 @@ class CheckOutActivity : AppCompatActivity() {
         binding.tabLayoutCheckout.addOnTabSelectedListener(object :
             TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.viewPagerCheckout.currentItem = tab.position
-                title = tab.text
+               // binding.viewPagerCheckout.currentItem = tab.position
+                //title = tab.text
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-     /*   val product1 = Product(
+        val product1 = Product(
             "T-Shirt",
             30F,
             "Fashion",
@@ -86,7 +86,7 @@ class CheckOutActivity : AppCompatActivity() {
 
         for (item in productCart){
             checkout.addProduct(item)
-        }*/
+        }
 
     }
 
