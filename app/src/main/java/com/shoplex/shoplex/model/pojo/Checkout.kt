@@ -16,7 +16,7 @@ open class Checkout {
     var totalPrice: Float = 0F
     var itemNum: Int = 1
 
-    private constructor(){}
+     constructor(){}
 
     constructor(deliveryMethod: DeliveryMethod, paymentMethod: PaymentMethod, deliveryLoc: LatLng?, subTotalPrice: Float, shipping: Float, itemNum: Int = 1){
         this.deliveryMethod = deliveryMethod

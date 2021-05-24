@@ -12,7 +12,7 @@
     <string name="old_price_strike"><strike>Old Price</strike></string>
     <string name="currentProduct">Current Product</string>
     <string name="product">Products</string>
-    <string name="reviews">Reviews</string>
+    <string name="reviews">Review</string>
     <string name="product_name">Name</string>
     <string name="_4_5_5">4.5/5</string>
     <string name="longtext">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,as opposed to using Content here, content here, making it look like readable English.</string>
@@ -133,7 +133,8 @@
     <string name="min_password_err">"Week Password "</string>
     <string name="not_match">Invalid Password</string>
     <string name="min_client_name_err">Invalid Name</string>
-
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
     <string name="login_success">Login Success</string>
     <string name="login_fail">Login Failed</string>
     <string name="logoutMessage">Are You Sure You Want To Logout?</string>
