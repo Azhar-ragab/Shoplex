@@ -1,5 +1,6 @@
 package com.shoplex.shoplex.view.activities
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,7 +19,16 @@ class DescriptionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        binding.btnEnglish?.setOnClickListener(){
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        binding.btnArabic?.setOnClickListener(){
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         if (mediaControls == null){
             mediaControls = MediaController(this@DescriptionActivity)
         }
@@ -37,6 +47,7 @@ class DescriptionActivity : AppCompatActivity() {
                 binding.vvVideoView.pause()
             }
         }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -52,6 +63,8 @@ class DescriptionActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             position = savedInstanceState.getInt("Position")
         }
+
         binding.vvVideoView.seekTo(position)
     }
+
 }

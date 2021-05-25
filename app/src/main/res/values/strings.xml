@@ -146,4 +146,6 @@
     <string name="your_review">Your Review</string>
     <string name="send_review">Send Review</string>
     <string name="welcome">Welcome to ShopLex</string>
+    <string name="English">English</string>
+    <string name="العربية">العربية</string>
 </resources>
