@@ -114,9 +114,10 @@ class MessageActivity : AppCompatActivity() {
                             )
                         )
                     }
+                    binding.rvMessage.scrollToPosition(result.size() -1);
 
                 }
-                binding.rvMessage.scrollToPosition(result.size() -1);
+                binding.rvMessage.adapter=messageAdapter
 
 
             }
