@@ -1,5 +1,6 @@
 package com.shoplex.shoplex.model.extra
 
+import android.content.Context
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.shoplex.shoplex.model.pojo.Location

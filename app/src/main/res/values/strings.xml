@@ -147,4 +147,5 @@
     <string name="please_share_your_oponion_about_the_product">Please Share Your Oponion About The Product</string>
     <string name="your_review">Your Review</string>
     <string name="send_review">Send Review</string>
+    <string name="title_activity_location">Map</string>
 </resources>
