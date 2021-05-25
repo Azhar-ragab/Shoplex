@@ -176,6 +176,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setSmallIcon(R.drawable.buynow)
                 .setContentText(message)
                 .setAutoCancel(true)
+                .setContentIntent(pi)
                 .addAction(R.drawable.star_24,"Cancel",cancelP)
                 .addAction(R.drawable.ic_star,"Review",pi)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

@@ -19,7 +19,6 @@ class OrdersDBModel(val notifier: INotifyMVP) {
     }
 
     fun getCurrentOrders() {
-
         FirebaseReferences.ordersRef.whereEqualTo("userID", UserInfo.userID).whereEqualTo("orderStatus","Current")
             .addSnapshotListener { values, _ ->
                 var orders = arrayListOf<Order>()
@@ -35,7 +34,26 @@ class OrdersDBModel(val notifier: INotifyMVP) {
                         }
                     }
                 }
+            }
+    }
 
+    fun getLastOrders() {
+        FirebaseReferences.ordersRef.whereEqualTo("userID", UserInfo.userID).whereIn("orderStatus",
+            listOf("Delivered","Canceled"))
+            .addSnapshotListener { values, _ ->
+                var orders = arrayListOf<Order>()
+                for (document: DocumentSnapshot in values?.documents!!) {
+                    var order: Order? = document.toObject<Order>()
+                    if (order != null) {
+                        orders.add(order)
+                        FirebaseReferences.productsRef.document(order.productID).get().addOnSuccessListener {
+                            order.product=it.toObject<Product>()
+                            if (document==values.last()){
+                                this.notifier?.onLastOrdersReady(orders)
+                            }
+                        }
+                    }
+                }
             }
     }
 }

@@ -1,38 +1,63 @@
 package com.shoplex.shoplex.model.pojo
 
-class ChatHead {
+import com.google.firebase.Timestamp
+import java.util.*
+import kotlin.collections.ArrayList
 
-    var productID : Int = 0
-    var storeID : Int = 0
-    var chatID : Int = 0
-    var productName : String  = ""
-    var discountInfo : String = ""
-    var price : Double  = 0.0
-    var productImageUrl : String = ""
-    var userName : String = ""
-    var numOfMessage : Int = 0
-    var storeImage: String =""
-    constructor(
-        productName: String,
-        price: Double,
-        productImageUrl: String,
-        userName: String,
-        numOfMessage: Int
-    ) {
-        this.productName = productName
-        this.price = price
-        this.productImageUrl = productImageUrl
-        this.userName = userName
-        this.numOfMessage = numOfMessage
-    }
+//class ChatHead {
+//
+//    var productID : Int = 0
+//    var storeID : Int = 0
+//    var chatID : Int = 0
+//    var productName : String  = ""
+//    var discountInfo : String = ""
+//    var price : Double  = 0.0
+//    var productImageUrl : String = ""
+//    var userName : String = ""
+//    var numOfMessage : Int = 0
+//    var storeImage: String =""
+//    constructor(
+//        productName: String,
+//        price: Double,
+//        productImageUrl: String,
+//        userName: String,
+//        numOfMessage: Int
+//    ) {
+//        this.productName = productName
+//        this.price = price
+//        this.productImageUrl = productImageUrl
+//        this.userName = userName
+//        this.numOfMessage = numOfMessage
+//    }
+//
+//    constructor()
+//    constructor(storeImage: String) {
+//        this.storeImage = storeImage
+//    }
+//
+//    fun getChatHeadsInfo() : ArrayList<ChatHead>{
+//        return arrayListOf(ChatHead())
+//    }
+//
+//}
+data class ChatHead(
+    val productId: String =" ",
+    val storeId: String =" ",
+    val chatId: String="",
+    val productName:String="",
+    val discountInfo: String="",
+    val price: Float=0.0F,
+    val productImageURL: String? ="",
+    val userID : String = " ",
+    val userName: String="",
+    val numOfMessage: Int=0,
+    val date : Date = Timestamp.now().toDate()) {
 
-    constructor()
-    constructor(storeImage: String) {
-        this.storeImage = storeImage
-    }
+
+
 
     fun getChatHeadsInfo() : ArrayList<ChatHead>{
-        return arrayListOf(ChatHead())
+        return arrayListOf()
     }
 
 }
