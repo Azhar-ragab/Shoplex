@@ -48,7 +48,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation("androidx.cardview:cardview:1.0.0")
 
-
     // ViewModel & LiveData
     def lifecycle_version = "2.3.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -84,4 +83,8 @@ dependencies {
     implementation "com.github.lisawray.groupie:groupie-viewbinding:2.9.0"
     //bottomSheet
     implementation 'com.google.android.material:material:1.2.1'
+
+    //viewpager
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
 }

@@ -45,8 +45,6 @@ class ProductFragment(val productId: String) : Fragment() {
     private val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
     private val MAPS_CODE = 202
 
-
-
     private val ordersNM = OrdersVM()
 
     override fun onCreateView(
@@ -106,11 +104,11 @@ class ProductFragment(val productId: String) : Fragment() {
             // Add Order
             var specialDiscount: SpecialDiscount = SpecialDiscount(10F, DiscountType.Fixed)
 
-            var productCart: ProductCart = ProductCart(product)
-            productCart.quantity = 3
-            productCart.specialDiscount = specialDiscount
+            var productCart: ProductCart = ProductCart(product,3,specialDiscount, 20)
+            //productCart.quantity = 3
+            //productCart.specialDiscount = specialDiscount
 
-            var checkout: Checkout = Checkout(DeliveryMethod.Door, PaymentMethod.Fawry, User.userLocation, product.price, 12F)
+            var checkout: Checkout = Checkout(DeliveryMethod.Door, PaymentMethod.Fawry, User.userLocation, product.price, 12)
             checkout.addProduct(productCart)
 
             for (product in checkout.getAllProducts()){

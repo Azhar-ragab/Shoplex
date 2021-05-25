@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.type.LatLng
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityProfileBinding
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.User
 import java.io.IOException
 
@@ -29,7 +30,8 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar?.apply {
             title = getString(R.string.profile)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-
+            binding.tvLocation.text = UserInfo.address
+            binding.edName.setText(UserInfo.name)
         }
         if (getSupportActionBar() != null){
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);

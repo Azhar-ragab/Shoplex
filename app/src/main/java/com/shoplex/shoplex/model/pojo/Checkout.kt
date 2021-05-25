@@ -4,7 +4,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
+import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
+import com.shoplex.shoplex.model.extra.UserInfo
 
 open class Checkout {
     var deliveryMethod: DeliveryMethod = DeliveryMethod.Door
@@ -12,13 +14,14 @@ open class Checkout {
     var deliveryLoc: LatLng? = null
     var subTotalPrice: Float = 0F
     var totalDiscount: Float = 0F
-    var shipping: Float = 0F
+    var shipping: Int = 0
     var totalPrice: Float = 0F
+    @Exclude @set:Exclude @get:Exclude
     var itemNum: Int = 1
 
-    private constructor(){}
+    constructor(){}
 
-    constructor(deliveryMethod: DeliveryMethod, paymentMethod: PaymentMethod, deliveryLoc: LatLng?, subTotalPrice: Float, shipping: Float, itemNum: Int = 1){
+    constructor(deliveryMethod: DeliveryMethod, paymentMethod: PaymentMethod, deliveryLoc: LatLng?, subTotalPrice: Float, shipping: Int, itemNum: Int = 1){
         this.deliveryMethod = deliveryMethod
         this.paymentMethod = paymentMethod
         this.deliveryLoc = deliveryLoc
@@ -26,6 +29,7 @@ open class Checkout {
         this.shipping = shipping
         this.totalPrice = subTotalPrice + shipping
         this.itemNum = itemNum
+        this.deliveryLoc = LatLng(UserInfo.location.latitude, UserInfo.location.longitude)
     }
 
     @Exclude @set:Exclude @get:Exclude
@@ -37,13 +41,18 @@ open class Checkout {
         //this.totalPrice = this.subTotalPrice
         var discount: Float = 0F
         if(productCart.specialDiscount != null){
-            discount = productCart.specialDiscount!!.discount
+            discount = if(productCart.specialDiscount!!.discountType == DiscountType.Fixed) {
+                productCart.specialDiscount!!.discount
+            }else{
+                productCart.price * (productCart.specialDiscount!!.discount / 100)
+            }
         }else if(productCart.price != productCart.newPrice){
             discount = (productCart.price - productCart.newPrice)
         }
 
-        this.totalDiscount += discount
-        this.totalPrice -= discount
+        this.shipping += productCart.shipping
+        this.totalDiscount += (productCart.quantity * discount)
+        this.totalPrice = subTotalPrice - totalDiscount + shipping
     }
 
     @Exclude

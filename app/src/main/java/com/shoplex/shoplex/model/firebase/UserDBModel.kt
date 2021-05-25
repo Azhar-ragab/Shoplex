@@ -12,7 +12,9 @@ class UserDBModel(val notifier: INotifyMVP?) {
             if (it.count() > 0) {
                 val user: User = it.documents[0].toObject()!!
                 UserInfo.userID = user.userID
+                UserInfo.image = user.image
                 UserInfo.name = user.name
+                UserInfo.image = user.image
                 UserInfo.email = user.email
                 UserInfo.location = user.location
                 UserInfo.address = user.address

@@ -1,6 +1,6 @@
 <resources>
     <string name="maps_key">AIzaSyAyj2_BzoXGMR432LsT4dpv6TV6SdNbtDg</string>
-    <string name="app_name">Shoplex</string>
+    <string name="app_name">ShopLex</string>
     <string name="chat">Chat</string>
     <string name="hello_blank_fragment">Home fragment</string>
     <string name="LastOrder">Last Order</string>
@@ -141,5 +141,9 @@
     <string name="Category">Category</string>
     <string name="num">Number</string>
     <string name="totalAmount">Total Amount</string>
+    <string name="what_is_your_rate">What is your Rate?</string>
+    <string name="please_share_your_oponion_about_the_product">Please Share Your Oponion About The Product</string>
+    <string name="your_review">Your Review</string>
+    <string name="send_review">Send Review</string>
     <string name="welcome">Welcome to ShopLex</string>
 </resources>
