@@ -154,10 +154,4 @@ class ChatFragment : Fragment() {
     }
 
 
-
-
-
-
-
-
 }
