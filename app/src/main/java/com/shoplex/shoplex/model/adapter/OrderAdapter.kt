@@ -42,9 +42,9 @@ class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<Ord
                     binding.tvbutton.text =
                         itemView.getContext().getResources().getString(R.string.cancel)
                     binding.tvbutton.setOnClickListener {
-                       /* FirebaseReferences.ordersRef.document(order.orderID).update("orderStatus",OrderStatus.Canceled).addOnSuccessListener {
+                        FirebaseReferences.ordersRef.document(order.orderID).update("orderStatus",OrderStatus.Canceled).addOnSuccessListener {
                               Toast.makeText(binding.root.context,"success",Toast.LENGTH_SHORT).show()
-                        }*/
+                        }
 
                     }
 
