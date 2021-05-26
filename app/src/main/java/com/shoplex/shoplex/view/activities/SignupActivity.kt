@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.ktx.Firebase
@@ -30,7 +29,7 @@ class SignupActivity : AppCompatActivity() {
         binding.btnSignup.setOnClickListener {
             val name = binding.edName.text.toString()
             val email = binding.edEmail.text.toString()
-            val phone = binding.edPassword.text.toString()
+            val phone = binding.edPhone.text.toString()
             val img =
                 "https://img.etimg.com/thumb/width-1200,height-900,imgsize-122620,resizemode-1,msid-75214721/industry/services/retail/future-group-negotiates-rents-for-its-1700-stores.jpg"
 
