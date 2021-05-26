@@ -42,4 +42,6 @@ object UserInfo {
         this.favouriteList = arrayListOf()
         this.cartList = arrayListOf()
     }
+
+
 }
