@@ -1,11 +1,12 @@
 package com.shoplex.shoplex.model.pojo
 
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.firestore.Exclude
+import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
-import com.shoplex.shoplex.model.extra.User
 import com.shoplex.shoplex.model.extra.UserInfo
 import java.util.*
 
@@ -17,7 +18,8 @@ class Order: Checkout {
     var orderStatus: OrderStatus = OrderStatus.Current
     var quantity: Int = 1
     var specialDiscount: SpecialDiscount? = null
-
+    @Exclude @set:Exclude @get:Exclude
+    var product:Product? = null
     private constructor(
         deliveryMethod: DeliveryMethod,
         paymentMethod: PaymentMethod,
@@ -70,4 +72,6 @@ class Order: Checkout {
 
         this.totalPrice = this.subTotalPrice + this.shipping - this.totalDiscount
     }
+    constructor() : super()
+
 }
