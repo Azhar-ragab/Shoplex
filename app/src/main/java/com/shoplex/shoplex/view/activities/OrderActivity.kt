@@ -3,20 +3,23 @@ package com.shoplex.shoplex.view.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.shoplex.shoplex.Orders
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityOrderBinding
 import com.shoplex.shoplex.model.adapter.OrderAdapter
-import com.shoplex.shoplex.model.enumurations.OrderStatus
+import com.shoplex.shoplex.viewmodel.OrdersVM
+import androidx.lifecycle.Observer
+
 
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
     private lateinit  var orderAdapter:OrderAdapter
     private lateinit  var lastOrderAdapter:OrderAdapter
+    private lateinit var ordersVM: OrdersVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderBinding.inflate(layoutInflater)
+        this.ordersVM= OrdersVM()
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarorder)
         supportActionBar?.apply {
@@ -28,6 +31,16 @@ class OrderActivity : AppCompatActivity() {
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
             getSupportActionBar()?.setDisplayShowHomeEnabled(true);
         }
+        ordersVM.getCurrentOrders()
+        ordersVM.orders.observe(this, Observer{ orders ->
+            orderAdapter = OrderAdapter(orders)
+            binding.rvCurrentOrders.adapter = orderAdapter
+        })
+        ordersVM.getLastOrders()
+        ordersVM.lastOrders.observe(this, Observer{ lastOrders ->
+            lastOrderAdapter = OrderAdapter(lastOrders)
+            binding.rvLastOrders.adapter = lastOrderAdapter
+        })
         /*
         val currorder = ArrayList<Orders>()
         currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))

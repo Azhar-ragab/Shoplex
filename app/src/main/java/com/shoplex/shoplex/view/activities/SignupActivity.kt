@@ -19,7 +19,7 @@ import java.util.regex.Pattern
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
-    lateinit var ref: DocumentReference
+    private lateinit var ref: DocumentReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

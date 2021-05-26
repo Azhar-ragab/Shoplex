@@ -1,10 +1,10 @@
 package com.shoplex.shoplex
 
 import android.os.Bundle
-import android.util.AttributeSet
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import androidx.lifecycle.Observer
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.Timestamp
@@ -12,14 +12,15 @@ import com.shoplex.shoplex.databinding.DialogAddReviewBinding
 import com.shoplex.shoplex.databinding.FragmentReviewBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.viewmodel.ProductsVM
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ReviewFragment(val productId: String) : Fragment() {
 
     lateinit var binding: FragmentReviewBinding
     private lateinit var reviewAdapter: ReviewAdapter
+    private lateinit var productsVM: ProductsVM
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,48 +28,54 @@ class ReviewFragment(val productId: String) : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentReviewBinding.inflate(inflater, container, false)
-        val review = ArrayList<Review>()
-        val attrs: AttributeSet? = null
+        this.productsVM = ProductsVM()
 
-        review.add(
-            Review(
-                "azhar",
-                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-
-                Date(15), 5F
-            )
-        )
-        review.add(
-            Review(
-                "azhar",
-                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-
-                Date(15), 5F
-            )
-        )
-        review.add(
-            Review(
-                "azhar",
-                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-
-                Date(15), 5F
-            )
-        )
-        review.add(
-            Review(
-                "azhar",
-                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-
-                Date(15), 5F
-            )
-        )
-
-        reviewAdapter = ReviewAdapter(review)
-        binding.rvReview.adapter = reviewAdapter
+//        val review = ArrayList<Review>()
+//
+//        review.add(
+//            Review(
+//                "azhar",
+//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
+//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
+//
+//                Date(15), 5F
+//            )
+//        )
+//        review.add(
+//            Review(
+//                "azhar",
+//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
+//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
+//
+//                Date(15), 5F
+//            )
+//        )
+//        review.add(
+//            Review(
+//                "azhar",
+//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
+//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
+//
+//                Date(15), 5F
+//            )
+//        )
+//        review.add(
+//            Review(
+//                "azhar",
+//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
+//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
+//
+//                Date(15), 5F
+//            )
+//        )
+//
+//        reviewAdapter = ReviewAdapter(review)
+//        binding.rvReview.adapter = reviewAdapter
+        productsVM.getReviewByProductId(productId)
+        productsVM.reviews.observe(viewLifecycleOwner, Observer{ reviews ->
+            reviewAdapter = ReviewAdapter(reviews)
+            binding.rvReview.adapter = reviewAdapter
+        })
 
         binding.btnSheetAddReview.setOnClickListener {
             showAddReviewRialog()

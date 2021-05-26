@@ -13,10 +13,10 @@ class CheckoutViewPager(context: Context, attrs: AttributeSet) : ViewPager(conte
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return isPagingEnabled
+        return isPagingEnabled && super.onTouchEvent(event)
     }
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
-        return isPagingEnabled
+        return isPagingEnabled && super.onInterceptTouchEvent(event)
     }
 }

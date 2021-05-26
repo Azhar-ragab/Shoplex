@@ -80,7 +80,8 @@ dependencies {
 
     //Groupi
     implementation "com.github.lisawray.groupie:groupie:2.9.0"
-    implementation "com.github.lisawray.groupie:groupie-viewbinding:2.9.0"
+    implementation "com.github.lisawray.groupie:groupie-databinding:2.9.0"
+
     //bottomSheet
     implementation 'com.google.android.material:material:1.2.1'
 

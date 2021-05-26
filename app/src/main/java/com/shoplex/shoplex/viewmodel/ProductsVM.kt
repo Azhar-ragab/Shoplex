@@ -3,6 +3,7 @@ package com.shoplex.shoplex.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.Review
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.firebase.ProductsDBModel
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
@@ -11,6 +12,7 @@ class ProductsVM: ViewModel, INotifyMVP {
     var products: MutableLiveData<ArrayList<Product>> = MutableLiveData()
     var advertisments:MutableLiveData<ArrayList<Product>> = MutableLiveData()
     private var productsDBModel = ProductsDBModel(this)
+    var reviews:MutableLiveData<ArrayList<Review>> = MutableLiveData()
 
     constructor(){
         products.value = arrayListOf()
@@ -27,6 +29,10 @@ class ProductsVM: ViewModel, INotifyMVP {
     override fun onAllAdvertismentsReady(products: ArrayList<Product>) {
         this.advertisments.value = products
     }
+
+    override fun onAllReviwsReady(reviews: ArrayList<Review>) {
+       this.reviews.value=reviews
+    }
     fun getProductById(productId: String){
         productsDBModel.getProductById(productId)
     }
@@ -39,5 +45,7 @@ class ProductsVM: ViewModel, INotifyMVP {
     fun getAllPremiums(){
         productsDBModel.getAllPremiums()
     }
-
+    fun getReviewByProductId(productId: String){
+        productsDBModel.getReviewByProductId(productId)
+    }
 }
