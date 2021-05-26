@@ -25,7 +25,7 @@ class Order: Checkout {
         paymentMethod: PaymentMethod,
         deliveryLoc: LatLng?,
         subTotalPrice: Float,
-        shipping: Float,
+        shipping: Int,
         itemNum: Int = 1
     ) :
             super(deliveryMethod, paymentMethod, deliveryLoc, subTotalPrice, shipping, itemNum) {

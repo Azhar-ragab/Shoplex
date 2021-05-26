@@ -8,7 +8,6 @@
     tools:context=".view.activities.OrderActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarorder"
-        app:titleTextColor="@color/darkBlue"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
