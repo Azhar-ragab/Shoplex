@@ -1,13 +1,10 @@
 package com.shoplex.shoplex.model.adapter
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firestore.v1.StructuredQuery
-import com.shoplex.shoplex.Orders
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.OrderItemRowBinding
 import com.shoplex.shoplex.model.enumurations.OrderStatus

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -19,6 +20,9 @@
         <activity android:name=".view.activities.DescriptionActivity"
             android:configChanges="orientation">
 
+
+        <activity android:name=".view.activities.LoginActivity">
+
         </activity>
         <activity android:name=".view.activities.LoginActivity"></activity>
         <activity
@@ -26,6 +30,14 @@
             android:theme="@style/AppTheme.Home"/>
 
         <activity android:name=".view.activities.SignupActivity"/>
+        <activity
+            android:name=".view.activities.FilterActivity"
+            android:theme="@style/AppTheme.Home">
+
+        </activity>
+        <activity android:name=".view.activities.SignupActivity">
+
+        </activity>
         <activity
             android:name=".view.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -41,10 +53,16 @@
             android:name=".view.activities.HomeActivity"
             android:windowSoftInputMode="adjustNothing"
             android:theme="@style/AppTheme.Home">
+            android:theme="@style/AppTheme.Home"
+            android:windowSoftInputMode="adjustNothing">
+
         </activity>
         <activity
             android:name=".view.activities.SplashActivity"
             android:theme="@style/Theme.Shoplex.NoActionBar">
+            android:label="@string/title_activity_splash"
+            android:theme="@style/Theme.Shoplex.NoActionBar"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,11 +71,26 @@
         </activity>
 
 
+        <activity
+            android:name=".view.activities.CheckOutActivity"
+            android:theme="@style/AppTheme.Home"></activity>
         <activity android:name=".view.activities.ProductDetails" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_key" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/maps_key" />
+
+        <service
+            android:name=".model.services.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.shoplex.cancel" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

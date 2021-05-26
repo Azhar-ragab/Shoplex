@@ -143,6 +143,7 @@
     <string name="Category">Category</string>
     <string name="num">Number</string>
     <string name="totalAmount">Total Amount</string>
+    <string name="first_time_key">FirstTime</string>
     <string name="what_is_your_rate">What is your Rate?</string>
     <string name="please_share_your_oponion_about_the_product">Please Share Your Oponion About The Product</string>
     <string name="your_review">Your Review</string>

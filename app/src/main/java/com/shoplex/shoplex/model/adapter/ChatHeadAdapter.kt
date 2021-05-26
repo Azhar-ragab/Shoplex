@@ -9,50 +9,54 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shoplex.shoplex.R
+import com.shoplex.shoplex.databinding.ChatHeadItemRowBinding
 import com.shoplex.shoplex.model.pojo.ChatHead
 import com.shoplex.shoplex.view.activities.MessageActivity
 
 
-class ChatHeadAdapter (private val chatHead: ArrayList<ChatHead>) :
-    RecyclerView.Adapter<ChatHeadAdapter.ViewHolder>() {
-    companion object{
+class ChatHeadAdapter(private val chatHead: ArrayList<ChatHead>) :
+    RecyclerView.Adapter<ChatHeadAdapter.ChatHeadViewHolder>() {
+
+    companion object {
         val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
+        val CHAT_IMG_KEY = "CHAT_IMG_KEY"
+        val CHAT_ID_KEY  = "chatID"
+        val USER_ID_KEY = "USER_ID_KEY"
+        val PHONE_NNMBER ="phoneNumber"
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.chat_head_item_row, viewGroup, false)
-
-        return ViewHolder(view)
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ChatHeadViewHolder {
+        return ChatHeadViewHolder(
+            ChatHeadItemRowBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        )
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val item = chatHead[position]
-        Glide.with(viewHolder.itemView.context).load(item.productImageUrl).into(viewHolder.image)
-        viewHolder.userName.text = item.userName
-        viewHolder.productName.text = item.productName
-        viewHolder.numOfMessage.text = item.numOfMessage.toString()
-        viewHolder.price.text = item.price.toString()
-        viewHolder.itemView.setOnClickListener {
-            val intent = Intent(viewHolder.itemView.context, MessageActivity::class.java)
-            intent.putExtra(CHAT_TITLE_KEY,item.userName)
-            intent.putExtra("chatID","azhar")
-            intent.putExtra("phoneNumber","01016512198")
-            viewHolder.itemView.context.startActivity(intent)
-        }
-
+    override fun onBindViewHolder(viewHolder: ChatHeadViewHolder, position: Int) {
+        viewHolder.bind(chatHead[position])
     }
 
     override fun getItemCount() = chatHead.size
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image : ImageView = view.findViewById(R.id.imgChatHead)
-        val userName : TextView = view.findViewById(R.id.tvUserNameChatHead)
-        val productName : TextView = view.findViewById(R.id.tvProductNameChatHead)
-        val numOfMessage :TextView = view.findViewById(R.id.tvNumOfMessage)
-        val price : TextView = view.findViewById(R.id.tvPriceChatHeader)
 
+    inner class ChatHeadViewHolder(val binding: ChatHeadItemRowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(chatHead: ChatHead) {
+            Glide.with(itemView.context).load(chatHead.productImageURL).into(binding.imgChatHead)
+            binding.tvUserNameChatHead.text = chatHead.userName
+            binding.tvProductNameChatHead.text = chatHead.productName
+            binding.tvNumOfMessage.text = chatHead.numOfMessage.toString()
+            binding.tvPriceChatHeader.text = chatHead.price.toString()
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, MessageActivity::class.java)
+                intent.putExtra(CHAT_TITLE_KEY, chatHead.userName)
+                intent.putExtra(CHAT_IMG_KEY,chatHead.productImageURL)
+                intent.putExtra(CHAT_ID_KEY,chatHead.chatId)
+                intent.putExtra(USER_ID_KEY,chatHead.userID)
+                intent.putExtra(PHONE_NNMBER,"01016512198")
+
+                itemView.context.startActivity(intent)
+            }
+        }
     }
 
 }

@@ -11,7 +11,7 @@ class OrdersVM: ViewModel , INotifyMVP {
 
     private val ordersDBModel = OrdersDBModel(this)
     var orders: MutableLiveData<ArrayList<Order>> = MutableLiveData()
-
+    var lastOrders:MutableLiveData<ArrayList<Order>> = MutableLiveData()
     constructor(){
 
     }
@@ -32,7 +32,14 @@ class OrdersVM: ViewModel , INotifyMVP {
        this.orders.value=orders
 
     }
+    override fun onLastOrdersReady(lastOrders: ArrayList<Order>) {
+        this.lastOrders.value=lastOrders
+
+    }
     fun getCurrentOrders(){
         ordersDBModel.getCurrentOrders()
+    }
+    fun getLastOrders(){
+        ordersDBModel.getLastOrders()
     }
 }
