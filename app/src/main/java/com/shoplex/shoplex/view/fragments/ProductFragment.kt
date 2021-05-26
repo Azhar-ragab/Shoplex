@@ -13,17 +13,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.databinding.FragmentProductBinding
-import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.extra.User
-import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.view.activities.MapsActivity
@@ -155,7 +153,8 @@ class ProductFragment(val productId: String) : Fragment() {
             //productCart.quantity = 3
             //productCart.specialDiscount = specialDiscount
 
-            var checkout: Checkout = Checkout(DeliveryMethod.Door, PaymentMethod.Fawry, LatLng(UserInfo.location.latitude, UserInfo.location.longitude), product.price, 12)
+            var checkout: Checkout = Checkout(DeliveryMethod.Door, PaymentMethod.Fawry, LatLng(
+                UserInfo.location.latitude, UserInfo.location.longitude), product.price, 12)
             checkout.addProduct(productCart)
 
             for (product in checkout.getAllProducts()){

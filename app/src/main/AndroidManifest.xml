@@ -18,26 +18,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoplex">
         <activity android:name=".view.activities.DescriptionActivity"
-            android:configChanges="orientation">
+            android:configChanges="orientation"/>
 
 
         <activity android:name=".view.activities.LoginActivity">
-
         </activity>
-        <activity android:name=".view.activities.LoginActivity"></activity>
+
         <activity
             android:name=".view.activities.FilterActivity"
             android:theme="@style/AppTheme.Home"/>
 
         <activity android:name=".view.activities.SignupActivity"/>
-        <activity
-            android:name=".view.activities.FilterActivity"
-            android:theme="@style/AppTheme.Home">
 
-        </activity>
-        <activity android:name=".view.activities.SignupActivity">
 
-        </activity>
         <activity
             android:name=".view.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -53,16 +46,11 @@
             android:name=".view.activities.HomeActivity"
             android:windowSoftInputMode="adjustNothing"
             android:theme="@style/AppTheme.Home">
-            android:theme="@style/AppTheme.Home"
-            android:windowSoftInputMode="adjustNothing">
 
         </activity>
         <activity
             android:name=".view.activities.SplashActivity"
             android:theme="@style/Theme.Shoplex.NoActionBar">
-            android:label="@string/title_activity_splash"
-            android:theme="@style/Theme.Shoplex.NoActionBar"
-            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,10 +58,6 @@
             </intent-filter>
         </activity>
 
-
-        <activity
-            android:name=".view.activities.CheckOutActivity"
-            android:theme="@style/AppTheme.Home"></activity>
         <activity android:name=".view.activities.ProductDetails" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
