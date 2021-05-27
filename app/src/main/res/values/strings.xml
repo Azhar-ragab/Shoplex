@@ -149,4 +149,8 @@
     <string name="your_review">Your Review</string>
     <string name="send_review">Send Review</string>
     <string name="notification">Notification</string>
+    <string name="report">Report</string>
+    <string name="proplem">Please Share Us What Is Your Proplem!!</string>
+    <string name="your_report">Your Report</string>
+    <string name="send_report">Send Report</string>
 </resources>
