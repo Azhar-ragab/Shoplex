@@ -35,7 +35,7 @@ class DescriptionActivity : AppCompatActivity() {
 
         try {
             binding.vvVideoView.setMediaController(mediaControls)
-            binding.vvVideoView.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.onlineshopping))
+            binding.vvVideoView.setVideoURI(Uri.parse(binding.root.context.getString(R.string.android) + packageName + binding.root.context.getString(R.string.splash)+ R.raw.onlineshopping))
         } catch (e: Exception) {
             e.message?.let { Log.e("Error", it) }
         }
@@ -54,7 +54,7 @@ class DescriptionActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (outState != null) {
-            outState.putInt("Position", binding.vvVideoView.currentPosition)
+            outState.putInt(binding.root.context.getString(R.string.Position), binding.vvVideoView.currentPosition)
         }
         binding.vvVideoView.pause()
     }

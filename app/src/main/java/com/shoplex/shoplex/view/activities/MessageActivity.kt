@@ -45,10 +45,10 @@ class MessageActivity : AppCompatActivity() {
         val userName = intent.getStringExtra(ChatHeadAdapter.CHAT_TITLE_KEY)
         val productImg = intent.getStringExtra(ChatHeadAdapter.CHAT_IMG_KEY)
         Glide.with(this).load(productImg).into(binding.imgToolbarChat)
-        storeID = intent.getStringExtra("storeID").toString()
-        phoneNumber= intent.getStringExtra("phoneNumber").toString()
-        productID= intent.getStringExtra("productID").toString()
-        chatID=intent.getStringExtra("chatID").toString()
+        storeID = intent.getStringExtra(getString(R.string.storeID)).toString()
+        phoneNumber= intent.getStringExtra(getString(R.string.phones)).toString()
+        productID= intent.getStringExtra(getString(R.string.productID)).toString()
+        chatID=intent.getStringExtra(getString(R.string.chatID)).toString()
         binding.imgToolbarChat.setImageResource(R.drawable.placeholder)
         binding.tvToolbarUserChat.text = userName
         binding.imgToolbarback.setOnClickListener(object : View.OnClickListener {
@@ -79,7 +79,7 @@ class MessageActivity : AppCompatActivity() {
             messageID, Timestamp.now().toDate(),
             storeID, messageText.toString()
         )
-            FirebaseReferences.chatRef.document(chatID).collection("messages")
+            FirebaseReferences.chatRef.document(chatID).collection(getString(R.string.messages))
                 .document(messageID)
                 .set(message).addOnSuccessListener {
                     messageText.clear()
@@ -87,7 +87,7 @@ class MessageActivity : AppCompatActivity() {
     }
     fun getAllMessage() {
 
-        FirebaseReferences.chatRef.document(chatID).collection("messages")
+        FirebaseReferences.chatRef.document(chatID).collection(getString(R.string.messages))
             .get().addOnSuccessListener { result ->
                 for (message in result) {
                     var msg: Message = message.toObject<Message>()
@@ -133,7 +133,7 @@ class MessageActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.call ->{val intent = Intent(Intent.ACTION_DIAL);
-            intent.data = Uri.parse("tel:${phoneNumber}")
+            intent.data = Uri.parse(getString(R.string.tel)+phoneNumber)
                     startActivity(intent)}
 
         }

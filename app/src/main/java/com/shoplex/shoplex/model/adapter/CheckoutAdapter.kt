@@ -3,7 +3,7 @@ package com.shoplex.shoplex.model.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-
+import com.shoplex.shoplex.R
 
 
 import com.shoplex.shoplex.view.fragments.DeliveryFragment
@@ -33,13 +33,13 @@ class CheckoutAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(f
      override fun getPageTitle(position: Int): CharSequence? {
         when(position) {
             0 -> {
-                return "Delivery"
+                return R.string.Delivery.toString()
             }
             1->{
-                return "Payment"
+                return R.string.Payment.toString()
             }
             else-> {
-                return "Summary"
+                return R.string.Summary.toString()
             }
 
         }

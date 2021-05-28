@@ -42,7 +42,7 @@ class SignupActivity : AppCompatActivity() {
                         name,
                         email,
                         Location(0.0, 0.0),
-                        "Address",
+                        getString(R.string.Address),
                         phone,
                         img,
                         arrayListOf(),
@@ -60,7 +60,7 @@ class SignupActivity : AppCompatActivity() {
 
     fun addUser(user: User) {
         ref.set(user).addOnSuccessListener {
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.Success), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -76,7 +76,7 @@ class SignupActivity : AppCompatActivity() {
                     // If sign in fails, display a message to the user.
                     Log.w("TAG", "createUserWithEmail:failure", task.exception)
                     Toast.makeText(
-                        baseContext, "Authentication failed.",
+                        baseContext, getString(R.string.Authenticationfailed),
                         Toast.LENGTH_SHORT
                     ).show()
 

@@ -3,6 +3,7 @@ package com.shoplex.shoplex.model.extra
 import android.content.Context
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.NotificationToken
 import java.util.*
@@ -32,7 +33,7 @@ object UserInfo {
     }
 
     fun saveSharedPreference(context: Context){
-        val sharedPreference = context.getSharedPreferences("UserIngo", Context.MODE_PRIVATE)
+        val sharedPreference = context.getSharedPreferences(context.getString(R.string.UserIngo), Context.MODE_PRIVATE)
         val editor = sharedPreference.edit()
         editor.putString("userID", userID)
         editor.putString("name", name)
@@ -46,7 +47,7 @@ object UserInfo {
     }
 
     fun readSharedPreference(context: Context){
-        val sharedPref = context.getSharedPreferences("UserIngo",Context.MODE_PRIVATE)
+        val sharedPref = context.getSharedPreferences(context.getString(R.string.UserIngo),Context.MODE_PRIVATE)
         sharedPref.getString("userID","")
         sharedPref.getString("name","")
         sharedPref.getString("email","")

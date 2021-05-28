@@ -65,6 +65,6 @@ class LoginActivity : AppCompatActivity(), INotifyMVP {
     }
 
     override fun onUserInfoFailed() {
-        Toast.makeText(applicationContext, "Login Failed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, getString(R.string.LoginFailed), Toast.LENGTH_SHORT).show()
     }
 }

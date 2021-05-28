@@ -18,7 +18,7 @@ class ProductDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProductDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val productId = intent.getStringExtra("productId")
+        val productId = intent.getStringExtra(getString(R.string.productId))
 //        Toast.makeText(this,productId,Toast.LENGTH_SHORT).show()
         var pagerAdapter: PagerAdapter = PagerAdapter(supportFragmentManager, productId!!)
         binding.tabLayout.setupWithViewPager(binding.viewPager)

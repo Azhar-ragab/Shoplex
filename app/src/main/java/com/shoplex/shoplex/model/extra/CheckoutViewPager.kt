@@ -5,13 +5,14 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.viewpager.widget.ViewPager
+import com.shoplex.shoplex.R
 
 
 class CheckoutViewPager(context: Context, attrs: AttributeSet) : ViewPager(context, attrs) {
 
     var isPagingEnabled: Boolean = false
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint(R.string.ClickableViewAccessibility.toString())
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return isPagingEnabled && super.onTouchEvent(event)
     }

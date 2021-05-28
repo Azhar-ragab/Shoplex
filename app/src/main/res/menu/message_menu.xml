@@ -7,7 +7,7 @@
         android:id="@+id/call"
         android:enabled="true"
         android:icon="@drawable/ic_call"
-        android:title="call"
+        android:title="@string/call"
         android:visible="true"
         app:showAsAction="ifRoom" />
 

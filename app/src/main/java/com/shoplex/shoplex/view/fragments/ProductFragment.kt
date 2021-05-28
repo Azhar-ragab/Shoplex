@@ -41,7 +41,7 @@ class ProductFragment(val productId: String) : Fragment() {
     private lateinit var detailsVM: DetailsVM
     private var storeInfo: Store = Store()
     private val imageList = ArrayList<SlideModel>() // Create image list
-    private val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
+    private val CHAT_TITLE_KEY = getString(R.string.CHAT_TITLE_KEY)
     private val MAPS_CODE = 202
     private lateinit var ref: DocumentReference
 
@@ -78,20 +78,20 @@ class ProductFragment(val productId: String) : Fragment() {
         })
         binding.btnCall.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL);
-            intent.data = Uri.parse("tel:${storeInfo.phone}")
+            intent.data = Uri.parse(getString(R.string.telephone) + storeInfo.phone)
             startActivity(intent)
 
         }
         binding.btnMessage.setOnClickListener {
             var intent: Intent = Intent(binding.root.context, MessageActivity::class.java)
-            intent.putExtra("storeID", product.storeID)
+            intent.putExtra(getString(R.string.storeID), product.storeID)
             intent.putExtra(CHAT_TITLE_KEY, product.storeName)
-            intent.putExtra("phoneNumber", storeInfo.phone)
-            intent.putExtra("productID", product.productID)
-            intent.putExtra("CHAT_IMG_KEY",product.images[0])
+            intent.putExtra(getString(R.string.phoneNumber), storeInfo.phone)
+            intent.putExtra(getString(R.string.productID), product.productID)
+            intent.putExtra(getString(R.string.CHAT_IMG_KEY),product.images[0])
 
-            FirebaseReferences.chatRef.whereEqualTo("storeID", product.storeID)
-                .whereEqualTo("userID", UserInfo.userID).get().addOnSuccessListener { values->
+            FirebaseReferences.chatRef.whereEqualTo(getString(R.string.storeID), product.storeID)
+                .whereEqualTo(getString(R.string.userID), UserInfo.userID).get().addOnSuccessListener { values->
                 if (values.count() == 0) {
                     var chat = Chat(
                         ref.id,
@@ -101,18 +101,18 @@ class ProductFragment(val productId: String) : Fragment() {
                         arrayListOf(productId)
                     )
                     ref.set(chat).addOnSuccessListener {
-                        intent.putExtra("chatID",ref.id)
+                        intent.putExtra(getString(R.string.chatID),ref.id)
                         binding.root.context.startActivity(intent)
                     }
                 }
                     else if (values.count()==1){
                         val chat:Chat=values.first().toObject()
-                        intent.putExtra("chatID",chat.chatID)
+                        intent.putExtra(getString(R.string.chatID),chat.chatID)
                        binding.root.context.startActivity(intent)
 
                 }
                     else{
-                        Toast.makeText(context,"ERROR",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,getString(R.string.ERROR),Toast.LENGTH_SHORT).show()
                     }
 
             }
@@ -138,9 +138,9 @@ class ProductFragment(val productId: String) : Fragment() {
         binding.imgLocation.setOnClickListener {
             val location: Location = storeInfo.locations!![0]
             var intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
-            intent.putExtra("locationLat", location.latitude)
-            intent.putExtra("locationLang", location.longitude)
-            intent.putExtra("storeName", product.storeName)
+            intent.putExtra(getString(R.string.locationLat), location.latitude)
+            intent.putExtra(getString(R.string.locationLang), location.longitude)
+            intent.putExtra(getString(R.string.storeName), product.storeName)
             startActivityForResult(intent, MAPS_CODE)
 
 
@@ -182,7 +182,7 @@ class ProductFragment(val productId: String) : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == MAPS_CODE) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
-                val location: Parcelable? = data?.getParcelableExtra("Loc")
+                val location: Parcelable? = data?.getParcelableExtra(getString(R.string.Loc))
                 if (location != null) {
 
                 }
