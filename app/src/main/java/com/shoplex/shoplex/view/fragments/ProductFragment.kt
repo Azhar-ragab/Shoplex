@@ -154,7 +154,8 @@ class ProductFragment(val productId: String) : Fragment() {
             //productCart.quantity = 3
             //productCart.specialDiscount = specialDiscount
 
-            var checkout: Checkout = Checkout(DeliveryMethod.Door, PaymentMethod.Fawry, LatLng(UserInfo.location.latitude, UserInfo.location.longitude), product.price, 12)
+            var checkout: Checkout = Checkout(DeliveryMethod.Door, PaymentMethod.Fawry, LatLng(
+                UserInfo.location.latitude, UserInfo.location.longitude), product.price, 12)
             checkout.addProduct(productCart)
 
             for (product in checkout.getAllProducts()){
