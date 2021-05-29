@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity(), INotifyMVP {
         currentUser = Firebase.auth.currentUser
         if(currentUser != null){
             currentUser?.reload()
-            UserDBModel(null).getUserByMail(currentUser!!.email)
+            UserDBModel(this).getUserByMail(currentUser!!.email)
         }
 
         window.setFlags(
