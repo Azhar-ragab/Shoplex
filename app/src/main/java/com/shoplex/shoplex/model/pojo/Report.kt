@@ -4,14 +4,14 @@ import java.util.*
 
 class Report {
 
-    var customerName : String = ""
+    var type : String = ""
     var reportComment : String = ""
     lateinit var date : Date
 
 
     constructor()
-    constructor(customerName: String, reportComment: String, date: Date) {
-        this.customerName = customerName
+    constructor(type: String, reportComment: String, date: Date) {
+        this.type = type
         this.reportComment = reportComment
         this.date = date
     }
