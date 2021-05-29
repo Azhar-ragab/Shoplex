@@ -1,57 +1,37 @@
 package com.shoplex.shoplex
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.shoplex.shoplex.R
-import com.shoplex.shoplex.Review
-
-
-class ReviewAdapter(private val review: ArrayList<Review>) :
-    RecyclerView.Adapter<ReviewAdapter.ViewHolder>() {
+import com.shoplex.shoplex.databinding.ReveiwItemBinding
 
 
 
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.reveiw_item, viewGroup, false)
 
-        return ViewHolder(view)
+class ReviewAdapter(val reviews: ArrayList<Review>) :
+    RecyclerView.Adapter<ReviewAdapter.reviewViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): reviewViewHolder {
+        return reviewViewHolder(
+            ReveiwItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val item = review[position]
-        Glide.with(viewHolder.itemView.context).load(item.image).into(viewHolder.image)
-        viewHolder.customerName.text = item.customerName
-        viewHolder.rating.rating = item.rate
-        viewHolder.date.text = item.date.toString()
-        viewHolder.comment.text = item.comment.toString()
+    override fun onBindViewHolder(holder: reviewViewHolder, position: Int) =
+        holder.bind(reviews[position])
 
-    }
+    override fun getItemCount() = reviews.size
 
-    override fun getItemCount() = review.size
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView
-        val customerName: TextView
-        var rating: RatingBar
-        val date: TextView
-        val comment: TextView
-
-        init {
-            image = view.findViewById(R.id.imgHead)
-            customerName = view.findViewById(R.id.tv_customer_name)
-            rating = view.findViewById(R.id.ratingBar)
-            date = view.findViewById(R.id.tv_date)
-            comment = view.findViewById(R.id.tv_comment)
+    inner class reviewViewHolder(val binding: ReveiwItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(review: Review) {
+            // Your custom view code here
+            Glide.with(itemView.context).load(review.image).into(binding.imgHead)
+        binding.tvCustomerName.text = review.customerName
+        binding.ratingBar.rating = review.rate
+            binding.tvDate.text = review.date.toString()
+            binding.tvComment.text = review.comment.toString()
+            }
         }
     }
-
-}

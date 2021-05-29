@@ -43,14 +43,14 @@ class CartFragment : Fragment() {
             if(UserInfo.userID != null){
                 startActivity(Intent(context, CheckOutActivity::class.java))
             }else{
-                Toast.makeText(context, "Please Login before checkout", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT).show()
             }
         }
 
         if(UserInfo.userID != null){
             getAllCartProducts()
         }else{
-            Toast.makeText(context, "Please Login to get all cart products", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
@@ -61,7 +61,7 @@ class CartFragment : Fragment() {
         var cartList = ArrayList<String>()
         var cartProducts = ArrayList<ProductCart>()
         FirebaseReferences.usersRef.whereEqualTo(
-            "email",
+            getString(R.string.mail),
             Firebase.auth.currentUser.email
         ).get().addOnSuccessListener { result ->
             for (document in result) {

@@ -41,8 +41,8 @@ class ProfileActivity : AppCompatActivity() {
 
 
             var intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
-            intent.putExtra("locationLat", 13.621085324664428)
-            intent.putExtra("locationLang",123.21271363645793)
+            intent.putExtra(getString(R.string.locationLat), 13.621085324664428)
+            intent.putExtra(getString(R.string.locationLang),123.21271363645793)
             startActivityForResult(intent,MAPS_CODE)
         }
         binding.imgUser.setOnClickListener {
@@ -60,7 +60,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == MAPS_CODE){
             if(resultCode == RESULT_OK){
-                val location: Parcelable? = data?.getParcelableExtra("Loc")
+                val location: Parcelable? = data?.getParcelableExtra(getString(R.string.Loc))
                 if(location != null) {
                     binding.tvLocation.text = getAddress(location as LatLng)
                 }
@@ -83,12 +83,12 @@ class ProfileActivity : AppCompatActivity() {
 
     }
     fun getAddress(loc: LatLng): String{
-        return "Address"
+        return getString(R.string.Address)
     }
     private fun openGallery() {
         var intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.type = "image/*"
+        intent.type = getString(R.string.image)
         startActivityForResult(intent, OPEN_GALLERY_CODE)
     }
 }

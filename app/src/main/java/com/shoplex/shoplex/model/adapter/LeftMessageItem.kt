@@ -1,18 +1,16 @@
 package com.shoplex.shoplex.model.adapter
 
-import android.view.LayoutInflater
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ChatItemLeftBinding
-import com.xwray.groupie.GroupieViewHolder
 import com.shoplex.shoplex.model.pojo.Message
-import com.xwray.groupie.Item
+import com.xwray.groupie.databinding.BindableItem
 
-class LeftMessageItem(val message: Message) : Item<GroupieViewHolder>(){
-    private lateinit var binding: ChatItemLeftBinding
-     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-         binding = ChatItemLeftBinding.inflate(LayoutInflater.from(viewHolder.root.context))
-         binding.tvReplyMessage.text = message.message
-         binding.tvLeftDate.text = message.messageDate.toString()
+
+
+class LeftMessageItem(val message: Message) : BindableItem<ChatItemLeftBinding>(){
+
+    override fun bind(binding: ChatItemLeftBinding, position: Int) {
+        binding.message = message
     }
 
     override fun getLayout(): Int {

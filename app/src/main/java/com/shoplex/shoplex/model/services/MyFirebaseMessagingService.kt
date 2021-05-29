@@ -21,8 +21,8 @@ import com.shoplex.shoplex.view.activities.HomeActivity
 
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
-    private val TAG = "FireBaseMessagingService"
-    var NOTIFICATION_CHANNEL_ID = "net.larntech.notification"
+    private val TAG =R.string.FireBaseMessagingService
+    var NOTIFICATION_CHANNEL_ID =R.string.notchannelid.toString()
     val NOTIFICATION_ID = 100
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
@@ -30,8 +30,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if (remoteMessage.getNotification() !=null ) {
 
             if (remoteMessage.data.size > 0) {
-                val title = remoteMessage.data["title"]
-                val body = remoteMessage.data["body"]
+                val title = remoteMessage.data[this.getString(R.string.title)]
+                val body = remoteMessage.data[this.getString(R.string.body)]
                 showNotification( applicationContext,title, body)
             } else {
                 val title = remoteMessage.notification!!.title
@@ -43,7 +43,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     // Method to get the custom Design for the display of
     // notification.
-    @SuppressLint("RemoteViewLayout")
+    @SuppressLint(R.string.RemoteViewLayout.toString())
     private fun getCustomDesign(
         title: String,
         message: String
@@ -156,12 +156,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     ) {
         val ii: Intent
         ii = Intent(context, HomeActivity::class.java)
-        ii.data = Uri.parse("custom://" + System.currentTimeMillis())
-        ii.action = "actionstring" + System.currentTimeMillis()
+        ii.data = Uri.parse(context.getString(R.string.custom)+ System.currentTimeMillis())
+        ii.action = context.getString(R.string.actionstring) + System.currentTimeMillis()
         ii.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pi =
             PendingIntent.getActivity(context, 0, ii, PendingIntent.FLAG_UPDATE_CURRENT)
-        val cancel = Intent("com.example.cancel")
+        val cancel = Intent(context.getString(R.string.canceled))
         val cancelP =
             PendingIntent.getBroadcast(context, 0, cancel, PendingIntent.FLAG_CANCEL_CURRENT)
 
@@ -177,8 +177,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setContentIntent(pi)
-                .addAction(R.drawable.star_24,"Cancel",cancelP)
-                .addAction(R.drawable.ic_star,"Review",pi)
+                .addAction(R.drawable.star_24,context.getString(R.string.Cancel),cancelP)
+                .addAction(R.drawable.ic_star,context.getString(R.string.Review),pi)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(Notification.CATEGORY_SERVICE)
                 .setWhen(System.currentTimeMillis())

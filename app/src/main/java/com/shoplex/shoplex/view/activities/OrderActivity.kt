@@ -36,6 +36,11 @@ class OrderActivity : AppCompatActivity() {
             orderAdapter = OrderAdapter(orders)
             binding.rvCurrentOrders.adapter = orderAdapter
         })
+        ordersVM.getLastOrders()
+        ordersVM.lastOrders.observe(this, Observer{ lastOrders ->
+            lastOrderAdapter = OrderAdapter(lastOrders)
+            binding.rvLastOrders.adapter = lastOrderAdapter
+        })
         /*
         val currorder = ArrayList<Orders>()
         currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))

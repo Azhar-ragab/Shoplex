@@ -46,6 +46,15 @@ class AccountFragment : Fragment() {
                 showDialog()
             }
         }
+        binding.switchNotification.setOnClickListener {
+            if(binding.switchNotification.isChecked()){
+                Toast.makeText(context,getString(R.string.checked),Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(context,getString(R.string.notchecked),Toast.LENGTH_SHORT).show()
+
+            }
+        }
         return binding.root
     }
 
