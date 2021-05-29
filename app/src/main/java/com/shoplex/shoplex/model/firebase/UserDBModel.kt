@@ -7,7 +7,7 @@ import com.shoplex.shoplex.model.interfaces.INotifyMVP
 import com.shoplex.shoplex.model.pojo.User
 
 class UserDBModel(val notifier: INotifyMVP?) {
-    fun getUserByMail(userEmail: String) {
+    fun getUserByMail(userEmail: String, isFacebookLogin: Boolean = false) {
         FirebaseReferences.usersRef.whereEqualTo("email", userEmail).get().addOnSuccessListener {
             if (it.count() > 0) {
                 val user: User = it.documents[0].toObject()!!
@@ -23,7 +23,13 @@ class UserDBModel(val notifier: INotifyMVP?) {
                 UserInfo.cartList = user.cartList
                 notifier?.onUserInfoReady()
             } else {
-                notifier?.onOrderFailed()
+                if(isFacebookLogin){
+                    notifier?.onNewFacebookAccount()
+                }
+
+            else {
+                    notifier?.onOrderFailed()
+                }
                 UserInfo.clear()
             }
         }.addOnFailureListener {

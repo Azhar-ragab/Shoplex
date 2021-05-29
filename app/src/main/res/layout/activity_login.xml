@@ -171,9 +171,9 @@
                 >
 
             </ImageButton>
-            <ImageButton
+            <com.facebook.login.widget.LoginButton
                 android:id="@+id/btnFace"
-                android:layout_width="@dimen/height_45"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_45"
                 android:layout_marginStart="@dimen/margin_16"
                 app:layout_constraintTop_toTopOf="parent"
@@ -181,34 +181,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_margin="@dimen/margin_32"
-                android:background="@drawable/imground"
                 android:layout_marginTop="@dimen/margin_8"
-                android:src="@drawable/facebook"
                 >
 
-            </ImageButton>
-
-            <ImageButton
-                android:id="@+id/btnPhone"
-                android:layout_width="@dimen/height_45"
-                android:layout_height="@dimen/height_45"
-                android:layout_marginStart="@dimen/margin_16"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="@dimen/margin_32"
-                android:background="@drawable/imground"
-                android:layout_marginTop="@dimen/margin_8"
-                android:src="@drawable/telephone"
-                >
-
-            </ImageButton>
-
-
+            </com.facebook.login.widget.LoginButton>
 
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>

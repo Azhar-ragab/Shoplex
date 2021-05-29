@@ -111,7 +111,7 @@ class AccountFragment : Fragment() {
 
         }
 
-
+   //share application
     private fun shareSuccess(){
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
@@ -123,6 +123,8 @@ class AccountFragment : Fragment() {
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
         startActivity(Intent.createChooser(shareIntent, "choose one"))
     }
+
+    //rate application
     private fun rateSuccess(){
         val uri: Uri = Uri.parse("market://details?id="+ activity?.getPackageName())
         val goToMarket = Intent(Intent.ACTION_VIEW, uri)
