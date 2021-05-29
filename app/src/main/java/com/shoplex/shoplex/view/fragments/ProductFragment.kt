@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.databinding.FragmentProductBinding
