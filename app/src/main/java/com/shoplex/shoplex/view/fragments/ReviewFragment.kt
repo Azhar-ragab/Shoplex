@@ -13,7 +13,6 @@ import com.shoplex.shoplex.databinding.FragmentReviewBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.viewmodel.ProductsVM
-import java.util.*
 
 
 class ReviewFragment(val productId: String) : Fragment() {
