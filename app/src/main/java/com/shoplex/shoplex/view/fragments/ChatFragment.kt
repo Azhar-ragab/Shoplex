@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentChatBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.StoreHeadAdapter
@@ -71,7 +72,7 @@ class ChatFragment : Fragment() {
         return binding.root
     }
     fun getChatHeadsInfo() {
-        FirebaseReferences.chatRef.whereEqualTo("userID", UserInfo.userID).get()
+        FirebaseReferences.chatRef.whereEqualTo(getString(R.string.userID), UserInfo.userID).get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     if (document.exists()) {
@@ -108,11 +109,11 @@ class ChatFragment : Fragment() {
                 }
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.Error), Toast.LENGTH_LONG).show()
             }
     }
     fun getStoreHeadsInfo() {
-        FirebaseReferences.chatRef.whereEqualTo("userID", UserInfo.userID).get()
+        FirebaseReferences.chatRef.whereEqualTo(getString(R.string.userID), UserInfo.userID).get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     if (document.exists()) {
@@ -149,7 +150,7 @@ class ChatFragment : Fragment() {
                 }
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.Error), Toast.LENGTH_LONG).show()
             }
     }
 

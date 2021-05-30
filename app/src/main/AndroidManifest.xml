@@ -15,11 +15,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoplex">
+        <activity
+            android:name=".view.activities.DescriptionActivity"
+            android:configChanges="orientation">
 
-
+        </activity>
         <activity android:name=".view.activities.LoginActivity">
 
         </activity>
+
+
         <activity
             android:name=".view.activities.FilterActivity"
             android:theme="@style/AppTheme.Home">

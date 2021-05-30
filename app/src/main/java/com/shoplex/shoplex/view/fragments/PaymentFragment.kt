@@ -65,13 +65,13 @@ class PaymentFragment : Fragment() {
         binding.tvDiscountPrice.text = "${checkout.totalDiscount} EGP"
         binding.tvShippingPrice.text = "${checkout.shipping} EGP"
         binding.tvTotalPrice.text = "${checkout.totalPrice} EGP"
-        binding.tvCopoun.text = "Discount By ${checkout.totalDiscount}"
+        binding.tvCopoun.text =getString(R.string.DiscountBy) + checkout.totalDiscount
         binding.btnPayment.setOnClickListener {
             if (ischecked) {
                 var pager = (activity as CheckOutActivity).binding.viewPagerCheckout
                 pager.currentItem = pager.currentItem + 1
             } else {
-                Toast.makeText(context, "Choose Payment Method", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.PaymentMethod), Toast.LENGTH_SHORT).show()
             }
         }
 

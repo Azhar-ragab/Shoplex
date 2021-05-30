@@ -42,9 +42,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        storeName = intent.getStringExtra("storeName").toString()
-        latitude = intent.getDoubleExtra("locationLat", 21.139)
-        longitude = intent.getDoubleExtra("locationLang", 123.21271363645793)
+        storeName = intent.getStringExtra(getString(R.string.storename)).toString()
+        latitude = intent.getDoubleExtra(getString(R.string.locationLat), 21.139)
+        longitude = intent.getDoubleExtra(getString(R.string.locationLang), 123.21271363645793)
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -68,7 +68,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 val latLng = LatLng(location.latitude, location.longitude)
                 val markerOptions = MarkerOptions()
                 markerOptions.position(latLng)
-                markerOptions.title("Current Position")
+                markerOptions.title(getString(R.string.CurrentPosition))
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions)
 
@@ -165,10 +165,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 AlertDialog.Builder(this)
-                    .setTitle("Location Permission Needed")
-                    .setMessage("This app needs the Location permission, please accept to use location functionality")
+                    .setTitle(getString(R.string.LocationPermissionNeeded))
+                    .setMessage(getString(R.string.message))
                     .setPositiveButton(
-                        "OK"
+                        getString(R.string.OK)
                     ) { _, _ ->
                         //Prompt the user once explanation has been shown
                         ActivityCompat.requestPermissions(
@@ -221,7 +221,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.permissiondenied), Toast.LENGTH_LONG).show()
                 }
                 return
             }

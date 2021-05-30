@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ChatHeadItemRowBinding
+import com.shoplex.shoplex.model.adapter.ChatHeadAdapter.Companion.CHAT_TITLE_KEY
 import com.shoplex.shoplex.model.pojo.ChatHead
 import com.shoplex.shoplex.view.activities.MessageActivity
 
@@ -18,11 +19,11 @@ class ChatHeadAdapter(private val chatHead: ArrayList<ChatHead>) :
     RecyclerView.Adapter<ChatHeadAdapter.ChatHeadViewHolder>() {
 
     companion object {
-        val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
-        val CHAT_IMG_KEY = "CHAT_IMG_KEY"
-        val CHAT_ID_KEY  = "chatID"
-        val USER_ID_KEY = "USER_ID_KEY"
-        val PHONE_NNMBER ="phoneNumber"
+        val CHAT_TITLE_KEY = R.string.CHAT_TITLE_KEY.toString()
+        val CHAT_IMG_KEY = R.string.CHAT_IMG_KEY.toString()
+        val CHAT_ID_KEY  =R.string.chatID.toString()
+        val USER_ID_KEY = R.string.USER_ID_KEY.toString()
+        val PHONE_NNMBER =R.string.phoneNumber.toString()
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ChatHeadViewHolder {

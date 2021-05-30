@@ -10,6 +10,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentFavoritesBinding
 import com.shoplex.shoplex.model.adapter.FavouriteAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
@@ -31,7 +32,7 @@ class FavoritesFragment : Fragment() {
         if(UserInfo.userID != null){
             getAllFavoriteProducts()
         }else{
-            Toast.makeText(context, "Please Login to get all favorite products", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.favoriteproducts), Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
@@ -41,7 +42,7 @@ class FavoritesFragment : Fragment() {
         var favouriteList = ArrayList<String>()
         var favouriteProducts = ArrayList<Product>()
         FirebaseReferences.usersRef.whereEqualTo(
-            "email",
+            getString(R.string.mail),
             Firebase.auth.currentUser.email
         ).get().addOnSuccessListener { result ->
             for (document in result) {

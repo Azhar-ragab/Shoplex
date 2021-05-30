@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -46,10 +47,11 @@ class HomeFragment : Fragment() {
         }
 
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val category = Category.valueOf(group.findViewById<Chip>(checkedId).text.toString().replace(" ", "_"))
+            val category = Category.valueOf(group.findViewById<Chip>(checkedId).text.toString().replace(" ", getString(R.string.underscore)))
             productsVM.getAllProducts(category)
         }
 
+        binding.chipGroup.findViewById<Chip>(binding.chipGroup.children.first().id).isChecked = true
 
 /*
         val advertisement = ArrayList<Ads_Home>()

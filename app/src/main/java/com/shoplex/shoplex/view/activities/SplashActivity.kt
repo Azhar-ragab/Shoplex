@@ -51,7 +51,7 @@ class SplashActivity : AppCompatActivity(), INotifyMVP {
                 UserInfo.clear()
             }
 
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, DescriptionActivity::class.java)
             startActivity(intent)
             finish()
         }, Splash_Screen.toLong())

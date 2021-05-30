@@ -41,12 +41,12 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
                 binding.btnFavorite.isClickable = false
                 notifyDataSetChanged()
                 user.favouriteList.add(product.productID)
-                FirebaseReferences.usersRef.whereEqualTo("email",Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
+                FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
                         if (document.exists()) {
                             val u = document.toObject<User>()
                             FirebaseReferences.usersRef.document(u.userID).update(
-                                "favouriteList",
+                                binding.root.context.getString(R.string.favorite),
                                 FieldValue.arrayUnion(user.favouriteList[0])
                             )
                         }
@@ -57,12 +57,12 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
             binding.fabAddProduct.setOnClickListener{
                 user.cartList.add(product.productID)
                 Toast.makeText(binding.root.context,product.productID.toString(),Toast.LENGTH_SHORT).show()
-                FirebaseReferences.usersRef.whereEqualTo("email",Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
+                FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
                         if (document.exists()) {
                             val u = document.toObject<User>()
                             FirebaseReferences.usersRef.document(u.userID).update(
-                                "cartList",
+                                binding.root.context.getString(R.string.cartList),
                                 FieldValue.arrayUnion(user.cartList[0])
                             )
                         }
@@ -75,13 +75,13 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
             binding.tvOldPrice.text = product.price.toString()
             binding.tvProductName.text =product.name
             binding.tvReview.text = product.rate.toString()
-            binding.tvSold.text = "12"
-            binding.tvSpace.text = "Space"
+            binding.tvSold.text = R.string.twelve.toString()
+            binding.tvSpace.text = R.string.Space.toString()
             if(product.images.count() > 0)
                 Glide.with(binding.root.context).load(product.images[0]).into(binding.imgProduct)
             itemView.setOnClickListener{
                 var intent:Intent=  Intent(binding.root.context,ProductDetails::class.java )
-                intent.putExtra("productId",product.productID)
+                intent.putExtra(binding.root.context.getString(R.string.productId),product.productID)
                 binding.root.context.startActivity(intent)
             }
         }

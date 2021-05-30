@@ -24,10 +24,10 @@ class PagerAdapter(fm:FragmentManager,val productId:String) : FragmentPagerAdapt
     override fun getPageTitle(position: Int): CharSequence? {
         when(position) {
             0 -> {
-                return "Products"
+                return R.string.Products.toString()
             }
             else -> {
-                return "Reviews"
+                return R.string.Reviews.toString()
             }
         }
     }

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.model.LatLng
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentSummaryBinding
 
 import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
@@ -58,7 +59,7 @@ class SummaryFragment : Fragment() {
             for (product in checkout.getAllProducts()){
                 val order = Order(product,checkout,OrderStatus.Current)
                 FirebaseReferences.ordersRef.document(order.orderID).set(order).addOnSuccessListener {
-                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,getString(R.string.Success), Toast.LENGTH_SHORT).show()
                 }
             }
             startActivity(Intent(context,HomeActivity::class.java))

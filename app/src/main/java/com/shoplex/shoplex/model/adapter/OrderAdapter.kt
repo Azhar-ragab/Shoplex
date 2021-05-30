@@ -47,7 +47,7 @@ class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<Ord
                 }
 
                 itemView.setOnClickListener {
-                    Toast.makeText(itemView.context, "Hello", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(itemView.context, R.string.Hello, Toast.LENGTH_SHORT).show()
                 }
             }
         }
