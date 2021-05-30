@@ -32,9 +32,11 @@ class AdvertisementsAdapter(val advertisements: ArrayList<Product>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
        val context :Context =binding.root.context
-
             Glide.with(binding.root.context).load(product.images[0]).into(binding.imgAdvertisement)
-            binding.txtAdvertisement.text=product.name
+
+            binding.product = product
+
+           // binding.txtAdvertisement.text=product.name
             binding.tvOffer.text=context.getString(R.string.Offer)+product.discount.toString()+context.getString(R.string.percent)
             itemView.setOnClickListener{
                 var intent: Intent =  Intent(binding.root.context, ProductDetails::class.java )

@@ -42,7 +42,7 @@ class ProductFragment(val productId: String) : Fragment() {
     private lateinit var detailsVM: DetailsVM
     private var storeInfo: Store = Store()
     private val imageList = ArrayList<SlideModel>() // Create image list
-    private val CHAT_TITLE_KEY = getString(R.string.CHAT_TITLE_KEY)
+    private val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
     private val MAPS_CODE = 202
     private lateinit var ref: DocumentReference
 

@@ -18,6 +18,4 @@ interface INotifyMVP {
     fun onNewFacebookAccount(){}
     fun onLastOrdersReady(lastOrders:ArrayList<Order>){}
     fun onAllReviwsReady(reviews:ArrayList<Review>){}
-    fun onNewFacebookAccount(){}
-
 }

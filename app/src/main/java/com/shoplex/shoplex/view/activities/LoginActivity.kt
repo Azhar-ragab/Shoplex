@@ -1,11 +1,7 @@
 package com.shoplex.shoplex.view.activities
 
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.*
@@ -28,9 +24,7 @@ import com.shoplex.shoplex.model.firebase.UserDBModel
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
-import java.security.MessageDigest
 import java.util.*
-
 
 class LoginActivity : AppCompatActivity(), INotifyMVP {
 
@@ -42,8 +36,8 @@ class LoginActivity : AppCompatActivity(), INotifyMVP {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ref = FirebaseReferences.usersRef.document()
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+        // FacebookSdk.sdkInitialize(applicationContext);
+        // AppEventsLogger.activateApp(applicationContext);
         callbackManager = CallbackManager.Factory.create();
         // login with facebook
         binding.btnFace.setReadPermissions(Arrays.asList("email"))
@@ -72,7 +66,7 @@ class LoginActivity : AppCompatActivity(), INotifyMVP {
         Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    UserDBModel(this).getUserByMail(email,false)
+                    // UserDBModel(this).getUserByMail(email,false)
 
                     //val user = auth.currentUser
                     //startActivity(Intent(this, HomeActivity::class.java))
@@ -96,11 +90,6 @@ class LoginActivity : AppCompatActivity(), INotifyMVP {
     override fun onUserInfoFailed() {
         Toast.makeText(applicationContext, getString(R.string.LoginFailed), Toast.LENGTH_SHORT).show()
     }
-
-    override fun onNewFacebookAccount() {
-
-    }
-
 
     //login with facebook
     private fun buttonClickLoginFB(){
@@ -131,7 +120,7 @@ class LoginActivity : AppCompatActivity(), INotifyMVP {
         Firebase.auth.signInWithCredential(authCredential).addOnCompleteListener( OnCompleteListener<AuthResult>(){task ->
             if(task.isSuccessful) run {
                 val user: FirebaseUser = Firebase.auth.currentUser
-                UserDBModel(this).getUserByMail(user.email,true)
+                // UserDBModel(this).getUserByMail(user.email,true)
 
             }else{
                 Toast.makeText(applicationContext, "couldn`t register to firebase",Toast.LENGTH_SHORT).show()

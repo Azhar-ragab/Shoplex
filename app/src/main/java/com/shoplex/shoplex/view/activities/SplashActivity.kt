@@ -18,7 +18,6 @@ import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.firebase.UserDBModel
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
 
-
 class SplashActivity : AppCompatActivity(), INotifyMVP {
     val Splash_Screen = 4000
     private lateinit var binding: ActivitySplashBinding
@@ -32,7 +31,7 @@ class SplashActivity : AppCompatActivity(), INotifyMVP {
         currentUser = Firebase.auth.currentUser
         if(currentUser != null){
             currentUser?.reload()
-            UserDBModel(this).getUserByMail(currentUser!!.email)
+            // UserDBModel(this).getUserByMail(currentUser!!.email)
         }
 
         window.setFlags(
