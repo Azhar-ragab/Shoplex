@@ -42,11 +42,11 @@ class LoginActivity : AppCompatActivity(), INotifyMVP {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ref = FirebaseReferences.usersRef.document()
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
         // login with facebook
-        binding.btnFace.setReadPermissions(Arrays.asList("email"))
+        binding.btnFace.setReadPermissions("email", "public_profile")
         binding.btnFace.setOnClickListener {
             buttonClickLoginFB()
         }

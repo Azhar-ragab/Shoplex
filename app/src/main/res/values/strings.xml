@@ -153,7 +153,7 @@
     <string name="proplem">Please Share Us What Is Your Proplem!!</string>
     <string name="your_report">Your Report</string>
     <string name="send_report">Send Report</string>
+    <string name="facebook_app_id">562190761433964</string> <string name="fb_login_protocol_scheme">fb562190761433964</string>
 
-    <string name="facebook_app_id">131547852288999</string> <string name="fb_login_protocol_scheme">fb131547852288999</string>
 
 </resources>

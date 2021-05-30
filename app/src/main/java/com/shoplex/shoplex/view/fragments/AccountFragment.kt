@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -95,6 +96,7 @@ class AccountFragment : Fragment() {
 
         builder?.show()
     }
+    //add Report
     private fun showAddReportDialog() {
         val dialogbinding = DialogAddReportBinding.inflate(layoutInflater)
         val reportBtnSheetDialog = BottomSheetDialog(dialogbinding.root.context)
@@ -105,6 +107,7 @@ class AccountFragment : Fragment() {
                 reportMsg, Timestamp.now().toDate())
             FirebaseReferences.ReportRef.add(report)
             reportBtnSheetDialog.dismiss()
+            Snackbar.make(requireView(), "Your Report has sent Thank You",Snackbar.LENGTH_LONG).show()
         }
             reportBtnSheetDialog.setContentView(dialogbinding.root)
             reportBtnSheetDialog.show()

@@ -7,8 +7,6 @@ import com.bumptech.glide.Glide
 import com.shoplex.shoplex.databinding.ReveiwItemBinding
 
 
-
-
 class ReviewAdapter(val reviews: ArrayList<Review>) :
     RecyclerView.Adapter<ReviewAdapter.reviewViewHolder>() {
 
@@ -27,11 +25,12 @@ class ReviewAdapter(val reviews: ArrayList<Review>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(review: Review) {
             // Your custom view code here
+            binding.review = review
             Glide.with(itemView.context).load(review.image).into(binding.imgHead)
-        binding.tvCustomerName.text = review.customerName
-        binding.ratingBar.rating = review.rate
-            binding.tvDate.text = review.date.toString()
-            binding.tvComment.text = review.comment.toString()
-            }
+//        binding.tvCustomerName.text = review.customerName
+             binding.ratingBar.rating = review.rate
+//            binding.tvDate.text = review.date.toString()
+//            binding.tvComment.text = review.comment.toString()
         }
     }
+}

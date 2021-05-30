@@ -32,8 +32,9 @@ class AdvertisementsAdapter(val advertisements: ArrayList<Product>) :
         fun bind(product: Product) {
             // Your custom view code here
             Glide.with(binding.root.context).load(product.images[0]).into(binding.imgAdvertisement)
-            binding.txtAdvertisement.text=product.name
-            binding.tvOffer.text="Offer ${product.discount} %"
+            binding.product= product
+           // binding.txtAdvertisement.text=product.name
+            // binding.tvOffer.text="Offer ${product.discount} %"
             itemView.setOnClickListener{
                 var intent: Intent =  Intent(binding.root.context, ProductDetails::class.java )
                 intent.putExtra("productId",product.productID)

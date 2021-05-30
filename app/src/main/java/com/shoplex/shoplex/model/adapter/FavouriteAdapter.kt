@@ -35,9 +35,10 @@ class FavouriteAdapter(val favourites: ArrayList<Product>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             Glide.with(binding.root.context).load(product.images[0]).into(binding.imgProduct)
-            binding.tvProductName.text=product.name
-            binding.tvPrice.text=product.newPrice.toString()
-            binding.tvReview.text=product.rate.toString()
+            binding.product=product
+         //   binding.tvProductName.text=product.name
+         //   binding.tvPrice.text=product.newPrice.toString()
+        //    binding.tvReview.text=product.rate.toString()
 
             binding.imgDelete.setOnClickListener {
                 val user:User= User()

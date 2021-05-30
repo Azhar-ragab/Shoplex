@@ -29,12 +29,13 @@ class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<Ord
         fun bind(order: Order) {
 
             if (order.product != null) {
+                binding.order=order
                 Glide.with(itemView.context).load(order.product?.images!![0])
                     .into(binding.imgProduct)
-                binding.tvProductName.text = order.product?.name
-                binding.tvCategory.text = order.product?.category.toString()
-                binding.tvPrice.text = order.product?.price.toString()
-                binding.tvStatus.text = order.orderStatus.toString()
+//                binding.tvProductName.text = order.product?.name
+//                binding.tvCategory.text = order.product?.category.toString()
+//                binding.tvPrice.text = order.product?.price.toString()
+//                binding.tvStatus.text = order.orderStatus.toString()
                 if (order.orderStatus == OrderStatus.Current) {
                     binding.tvbutton.text =
                         itemView.getContext().getResources().getString(R.string.cancel)
