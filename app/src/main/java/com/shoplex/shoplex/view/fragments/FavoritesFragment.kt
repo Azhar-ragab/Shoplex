@@ -39,38 +39,22 @@ class FavoritesFragment : Fragment() {
     }
 
     fun getAllFavoriteProducts() {
-        var favouriteList = ArrayList<String>()
         var favouriteProducts = ArrayList<Product>()
-        FirebaseReferences.usersRef.whereEqualTo(
-            getString(R.string.mail),
-            Firebase.auth.currentUser.email
-        ).get().addOnSuccessListener { result ->
-            for (document in result) {
-                if (document.exists()) {
-                    val u = document.toObject<User>()
-                    FirebaseReferences.usersRef.document(u.userID).get()
-                        .addOnSuccessListener { favourite ->
-                            if (favourite != null) {
-                                val user = favourite.toObject<User>()
-                                favouriteList = user!!.favouriteList
-                                for (product in favouriteList) {
-                                    FirebaseReferences.productsRef.document(product).get()
-                                        .addOnSuccessListener { productResult ->
-                                            if (productResult != null) {
-                                                val prod = productResult.toObject<Product>()
-                                                favouriteProducts.add(prod!!)
-                                                if (document.equals(result.last())) {
-                                                    favouriteAdapter =
-                                                        FavouriteAdapter(favouriteProducts)
-                                                    binding.rvFavourite.adapter = favouriteAdapter
-                                                }
-                                            }
-                                        }
-                                }
-//                        Toast.makeText(context,favouriteList[0],Toast.LENGTH_SHORT).show()
+        FirebaseReferences.usersRef.document(UserInfo.userID!!).get().addOnSuccessListener { result ->
+            val favouriteList: ArrayList<String> = result.get("favouriteList") as ArrayList<String>
+            for (productID in favouriteList){
+                FirebaseReferences.productsRef.document(productID).get()
+                    .addOnSuccessListener { productResult ->
+                        if (productResult != null) {
+                            val prod = productResult.toObject<Product>()
+                            favouriteProducts.add(prod!!)
+                            if (productID == favouriteList.last()) {
+                                favouriteAdapter =
+                                    FavouriteAdapter(favouriteProducts)
+                                binding.rvFavourite.adapter = favouriteAdapter
                             }
                         }
-                }
+                    }
             }
         }
     }

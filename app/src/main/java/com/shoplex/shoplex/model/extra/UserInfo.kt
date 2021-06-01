@@ -1,15 +1,23 @@
 package com.shoplex.shoplex.model.extra
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import com.facebook.login.LoginManager
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.NotificationToken
+import com.shoplex.shoplex.model.pojo.User
+import java.lang.reflect.Type
 import java.util.*
-import kotlin.collections.ArrayList
 
 object UserInfo {
+    private val SHARED_USER_INFO = "USER_INFO"
     var userID: String? = null
     var name: String = ""
     var email: String = ""
@@ -32,30 +40,29 @@ object UserInfo {
         })
     }
 
-    fun saveSharedPreference(context: Context){
-        val sharedPreference = context.getSharedPreferences(context.getString(R.string.UserIngo), Context.MODE_PRIVATE)
+    fun saveUserInfo(context: Context){
+        val sharedPreference = context.getSharedPreferences(SHARED_USER_INFO, Context.MODE_PRIVATE)
         val editor = sharedPreference.edit()
         editor.putString("userID", userID)
         editor.putString("name", name)
         editor.putString("email", email)
         editor.putString("image", image)
-        editor.putFloat("latitude", location.latitude.toFloat())
-        editor.putFloat("longitude", location.longitude.toFloat())
+        editor.putString("location", Gson().toJson(location))
         editor.putString("address", address)
         editor.putString("phone", phone)
         editor.apply()
     }
 
-    fun readSharedPreference(context: Context){
-        val sharedPref = context.getSharedPreferences(context.getString(R.string.UserIngo),Context.MODE_PRIVATE)
-        sharedPref.getString("userID","")
-        sharedPref.getString("name","")
-        sharedPref.getString("email","")
-        sharedPref.getString("image","")
-        sharedPref.getFloat("latitude",0.0f)
-        sharedPref.getFloat("longitude",0.0f)
-        sharedPref.getString("address","")
-        sharedPref.getString("phone","")
+    fun readUserInfo(context: Context){
+        val sharedPref = context.getSharedPreferences(SHARED_USER_INFO,Context.MODE_PRIVATE)
+        userID = sharedPref.getString("userID","")
+        name = sharedPref.getString("name","")!!
+        email = sharedPref.getString("email","")!!
+        image = sharedPref.getString("image","")
+        val locationType: Type = object : TypeToken<Location>() {}.type
+        location = Gson().fromJson(sharedPref.getString("location", null), locationType)?: Location()
+        address = sharedPref.getString("address","")!!
+        phone = sharedPref.getString("phone","")
     }
 
     fun clear(){
@@ -70,5 +77,9 @@ object UserInfo {
         this.cartList = arrayListOf()
     }
 
-
+    fun logout(){
+        clear()
+        FirebaseAuth.getInstance().signOut()
+        LoginManager.getInstance().logOut()
+    }
 }

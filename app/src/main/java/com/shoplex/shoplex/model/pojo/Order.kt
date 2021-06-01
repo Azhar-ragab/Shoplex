@@ -6,7 +6,6 @@ import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
-import com.shoplex.shoplex.model.extra.User
 import com.shoplex.shoplex.model.extra.UserInfo
 import java.util.*
 

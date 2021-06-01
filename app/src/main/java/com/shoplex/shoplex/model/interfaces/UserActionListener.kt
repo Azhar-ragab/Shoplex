@@ -6,8 +6,14 @@ import com.shoplex.shoplex.model.pojo.User
 interface UserActionListener {
     fun showIndicator(){}
     fun hideIndicator(){}
-    fun onAddNewUser(isAdded: Boolean){}
-    fun onUserInfoReady(user: User){
+
+    fun onAddNewUser(user: User?){
+        if(user != null) {
+            onUserInfoReady(user = user)
+        }
+    }
+
+    private fun onUserInfoReady(user: User){
         UserInfo.userID = user.userID
         UserInfo.image = user.image
         UserInfo.name = user.name
@@ -18,9 +24,14 @@ interface UserActionListener {
         UserInfo.phone = user.phone
         UserInfo.favouriteList = user.favouriteList
         UserInfo.cartList = user.cartList
+        UserInfo.updateTokenID()
     }
-    fun onNewFacebookAccountCreated(){}
-    fun onUserInfoFailed(){
+
+    fun onLoginSuccess(user: User){
+        onUserInfoReady(user)
+    }
+
+    fun onLoginFailed(){
         UserInfo.clear()
     }
 }

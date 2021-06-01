@@ -58,36 +58,22 @@ class CartFragment : Fragment() {
 
     fun getAllCartProducts() {
 
-        var cartList = ArrayList<String>()
         var cartProducts = ArrayList<ProductCart>()
-        FirebaseReferences.usersRef.whereEqualTo(
-            getString(R.string.mail),
-            Firebase.auth.currentUser.email
-        ).get().addOnSuccessListener { result ->
-            for (document in result) {
-                if (document.exists()) {
-                    val u = document.toObject<User>()
-                    FirebaseReferences.usersRef.document(u.userID).get()
-                        .addOnSuccessListener { cart ->
-                            if (cart != null) {
-                                val user = cart.toObject<User>()
-                                cartList = user!!.cartList
-                                for (product in cartList) {
-                                    FirebaseReferences.productsRef.document(product).get()
-                                        .addOnSuccessListener { productResult ->
-                                            if (productResult != null) {
-                                                val prod = productResult.toObject<ProductCart>()
-                                                cartProducts.add(prod!!)
-                                                if (document.equals(result.last())) {
-                                                    cartAdapter = CartAdapter(cartProducts)
-                                                    binding.rvCart.adapter = cartAdapter
-                                                }
-                                            }
-                                        }
-                                }
+        FirebaseReferences.usersRef.document(UserInfo.userID!!).get().addOnSuccessListener { result ->
+            val cartList: ArrayList<String> = result.get("cartList") as ArrayList<String>
+            for (productID in cartList){
+                FirebaseReferences.productsRef.document(productID).get()
+                    .addOnSuccessListener { productResult ->
+                        if (productResult != null) {
+                            val prod = productResult.toObject<ProductCart>()
+                            cartProducts.add(prod!!)
+                            if (productID == cartList.last()) {
+                                cartAdapter =
+                                    CartAdapter(cartProducts)
+                                binding.rvCart.adapter = cartAdapter
                             }
                         }
-                }
+                    }
             }
         }
     }

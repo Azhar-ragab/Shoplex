@@ -26,6 +26,11 @@
             android:theme="@style/AppTheme.Home">
 
         </activity>
+        <activity
+            android:name=".view.activities.DescriptionActivity"
+            android:theme="@style/AppTheme.Home">
+
+        </activity>
         <activity android:name=".view.activities.SignupActivity">
 
         </activity>
@@ -56,7 +61,7 @@
         </activity>
         <activity
             android:name=".view.activities.CheckOutActivity"
-            android:theme="@style/AppTheme.Home"></activity>
+            android:theme="@style/AppTheme.Home"/>
         <activity android:name=".view.activities.ProductDetails" />
 
         <meta-data

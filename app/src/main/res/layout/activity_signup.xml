@@ -6,7 +6,7 @@
     <data>
         <variable
             name="userData"
-            type="com.shoplex.shoplex.viewmodel.UserVM" />
+            type="com.shoplex.shoplex.viewmodel.AuthVM" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -19,7 +19,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imgLogo"
+                android:id="@+id/imgSignup"
                 android:layout_width="@dimen/width_120"
                 android:layout_height="@dimen/height_120"
                 android:layout_marginTop="@dimen/margin_16"
@@ -40,7 +40,7 @@
                 android:textSize="36sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
+                app:layout_constraintTop_toBottomOf="@+id/imgSignup" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiName"
@@ -170,9 +170,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/phone"
-                    android:text="@={userData.user.phone}"
-                    android:inputType="phone"
-                    android:maxLength="100" />
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:text="@={userData.user.phone}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

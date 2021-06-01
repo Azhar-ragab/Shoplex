@@ -4,105 +4,74 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.facebook.*
-import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityLoginBinding
+import com.shoplex.shoplex.model.enumurations.AuthType
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.firebase.UserDBModel
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
-import com.shoplex.shoplex.model.pojo.Location
-import com.shoplex.shoplex.model.pojo.User
+
+import com.shoplex.shoplex.viewmodel.AuthVM
+import com.shoplex.shoplex.viewmodel.AuthVMFactory
 import java.util.*
 
-class LoginActivity : AppCompatActivity(), INotifyMVP {
-
+class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var ref: DocumentReference
     lateinit var callbackManager:CallbackManager
+    private lateinit var authVM: AuthVM
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ref = FirebaseReferences.usersRef.document()
-        // FacebookSdk.sdkInitialize(applicationContext);
-        // AppEventsLogger.activateApp(applicationContext);
-        callbackManager = CallbackManager.Factory.create();
+        authVM = ViewModelProvider(this, AuthVMFactory(this)).get(AuthVM::class.java)
+        binding.userData = authVM
+
         // login with facebook
-        binding.btnFace.setReadPermissions(Arrays.asList("email"))
+
+        binding.btnFace.setReadPermissions(listOf("email", "public_profile"))
+        callbackManager = CallbackManager.Factory.create()
+
         binding.btnFace.setOnClickListener {
             buttonClickLoginFB()
         }
 
-
-        //Not Have Account
+        // Not Have Account
         binding.tvCreateAccount.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
+            finish()
         }
-        //Forget Password
+        // Forget Password
         binding.tvForgetPass.setOnClickListener {
 
         }
 
-        //Login button
+        // Login button
         binding.btnLogin.setOnClickListener {
-            login(binding.edEmail.text.toString(), binding.edPassword.text.toString())
+            authVM.login(AuthType.Email)
         }
-    }
-
-    //login
-    private fun login(email: String, password: String) {
-        Firebase.auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // UserDBModel(this).getUserByMail(email,false)
-
-                    //val user = auth.currentUser
-                    //startActivity(Intent(this, HomeActivity::class.java))
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(
-                        baseContext, getString(R.string.login_fail),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-    }
-
-    override fun onUserInfoReady() {
-        startActivity(Intent(this, HomeActivity::class.java))
-        Toast.makeText(applicationContext, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
-        UserInfo.updateTokenID()
-        finish()
-    }
-
-    override fun onUserInfoFailed() {
-        Toast.makeText(applicationContext, getString(R.string.LoginFailed), Toast.LENGTH_SHORT).show()
     }
 
     //login with facebook
     private fun buttonClickLoginFB(){
-        LoginManager.getInstance().registerCallback(
+        val loginManager = LoginManager.getInstance()
+        loginManager.registerCallback(
             callbackManager,
             object : FacebookCallback<LoginResult?> {
                 override fun onSuccess(loginResult: LoginResult?) {
-
-                    handleFaceBookLogin(loginResult?.accessToken)
+                    if(loginResult != null){
+                        authVM.login(AuthType.Facebook, loginResult.accessToken)
+                    }else{
+                        Toast.makeText(applicationContext,"Failed",Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 override fun onCancel() {
-
                     Toast.makeText(applicationContext,"User Cancelled it",Toast.LENGTH_SHORT).show()
                 }
 
@@ -114,65 +83,8 @@ class LoginActivity : AppCompatActivity(), INotifyMVP {
             })
     }
 
-    private fun handleFaceBookLogin(accessToken: AccessToken?) {
-
-        val authCredential:AuthCredential=FacebookAuthProvider.getCredential(accessToken!!.token)
-        Firebase.auth.signInWithCredential(authCredential).addOnCompleteListener( OnCompleteListener<AuthResult>(){task ->
-            if(task.isSuccessful) run {
-                val user: FirebaseUser = Firebase.auth.currentUser
-                // UserDBModel(this).getUserByMail(user.email,true)
-
-            }else{
-                Toast.makeText(applicationContext, "couldn`t register to firebase",Toast.LENGTH_SHORT).show()
-
-            }
-
-
-        })
-
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-       callbackManager.onActivityResult(requestCode,resultCode,data)
         super.onActivityResult(requestCode, resultCode, data)
+        callbackManager.onActivityResult(requestCode,resultCode,data)
     }
-    override fun onNewFacebookAccount() {
-        val userface: FirebaseUser = Firebase.auth.currentUser
-        val user =
-            User(
-                ref.id,
-                userface.displayName,
-                userface.email,
-                Location(0.0, 0.0),
-                "Address",
-                "01016512198",
-                userface.photoUrl.toString(),
-                arrayListOf(),
-                arrayListOf()
-            )
-        addUser(user)
-
-    }
-    fun addUser(user: User) {
-        ref.set(user).addOnSuccessListener {
-
-            UserInfo.userID = user.userID
-            UserInfo.image = user.image
-            UserInfo.name = user.name
-            UserInfo.image = user.image
-            UserInfo.email = user.email
-            UserInfo.location = user.location
-            UserInfo.address = user.address
-            UserInfo.phone = user.phone
-            UserInfo.favouriteList = user.favouriteList
-            UserInfo.cartList = user.cartList
-            UserInfo.updateTokenID()
-            startActivity(Intent(this, HomeActivity::class.java))
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
-
-
 }

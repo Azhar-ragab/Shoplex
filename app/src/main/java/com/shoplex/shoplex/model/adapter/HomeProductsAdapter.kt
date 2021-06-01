@@ -46,7 +46,7 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
                         if (document.exists()) {
                             val u = document.toObject<User>()
                             FirebaseReferences.usersRef.document(u.userID).update(
-                                binding.root.context.getString(R.string.favorite),
+                                "favouriteList",
                                 FieldValue.arrayUnion(user.favouriteList[0])
                             )
                         }
@@ -56,7 +56,7 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
             }
             binding.fabAddProduct.setOnClickListener{
                 user.cartList.add(product.productID)
-                Toast.makeText(binding.root.context,product.productID.toString(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(binding.root.context,product.productID,Toast.LENGTH_SHORT).show()
                 FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
                         if (document.exists()) {

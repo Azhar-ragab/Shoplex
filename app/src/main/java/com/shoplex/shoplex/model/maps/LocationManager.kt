@@ -24,6 +24,7 @@ import kotlin.collections.ArrayList
 class LocationManager: RoutingListener {
     val alexandria: Alexandria = Alexandria()
     private lateinit var marker: Marker
+
     //private lateinit var currentLocation: Location
     lateinit var selectedLocation: LatLng
     private val REQUEST_CODE = 101
@@ -31,7 +32,7 @@ class LocationManager: RoutingListener {
     private lateinit var mMap: GoogleMap
     private val API_KEY = "AIzaSyAyj2_BzoXGMR432LsT4dpv6TV6SdNbtDg"
 
-    private constructor(googleMap: GoogleMap){
+    private constructor(googleMap: GoogleMap) {
         mMap = googleMap
     }
 
@@ -41,37 +42,45 @@ class LocationManager: RoutingListener {
         private var shared: LocationManager? = null
         private lateinit var context: Context
 
-        fun getInstance(googleMap: GoogleMap, context: Context): LocationManager{
+        fun getInstance(googleMap: GoogleMap, context: Context): LocationManager {
             this.context = context
-            return if(shared == null)
+            return if (shared == null)
                 LocationManager(googleMap)
             else
                 shared!!
         }
 
-        fun getInstance(context: Context): LocationManager{
+        fun getInstance(context: Context): LocationManager {
             this.context = context
-            return if(shared == null)
+            return if (shared == null)
                 LocationManager()
             else
                 shared!!
         }
     }
 
-    fun addMarker(current: Location){
+    fun addMarker(current: Location?) {
         // Add a marker in Sydney and move the camera
-        var currentLocation = LatLng(current.latitude, current.longitude)
-        if(!PolyUtil.containsLocation(currentLocation, alexandria.coordinates, false)){
-            currentLocation = alexandria.capital
+        var currentLocation = if (current == null) LatLng(
+            alexandria.capital.latitude,
+            alexandria.capital.longitude
+        ) else LatLng(current.latitude, current.longitude)
+
+        if (!PolyUtil.containsLocation(currentLocation, alexandria.coordinates, false)) {
+            currentLocation = LatLng(alexandria.capital.latitude, alexandria.capital.longitude)
         }
 
         mMap.animateCamera(CameraUpdateFactory.newLatLng(currentLocation))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16F))
-        marker = mMap.addMarker(MarkerOptions().position(currentLocation).title(getAddress(currentLocation, context)))
+        marker = mMap.addMarker(
+            MarkerOptions().position(currentLocation).title(getAddress(currentLocation, context))
+        )
         selectedLocation = currentLocation
 
-        val polygon = mMap.addPolygon(PolygonOptions()
-            .addAll(alexandria.coordinates))
+        val polygon = mMap.addPolygon(
+            PolygonOptions()
+                .addAll(alexandria.coordinates)
+        )
         polygon.strokeColor = 0xff0000ff.toInt()
         polygon.isClickable = false
         polygon.strokeWidth = 4f
@@ -83,15 +92,14 @@ class LocationManager: RoutingListener {
                 marker = mMap.addMarker(MarkerOptions().position(it).title("Your Location"))
 
                 selectedLocation = it
-            }
-            else {
+            } else {
                 Toast.makeText(context, "OutSide", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    fun addMarkers(locations: ArrayList<LatLng>){
-        for (location in locations){
+    fun addMarkers(locations: ArrayList<LatLng>) {
+        for (location in locations) {
             mMap.addMarker(MarkerOptions().position(location).title("Your Location"))
         }
     }
@@ -116,10 +124,11 @@ class LocationManager: RoutingListener {
         routing.execute()
     }
 
-    fun getAddress(location: LatLng, context : Context): String? {
+    fun getAddress(location: LatLng, context: Context): String? {
 
         val geocoder = Geocoder(context, Locale.getDefault())
-        var addresses: List<Address>? = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+        var addresses: List<Address>? =
+            geocoder.getFromLocation(location.latitude, location.longitude, 1)
         return addresses?.get(0)?.getAddressLine(0)
     }
 
