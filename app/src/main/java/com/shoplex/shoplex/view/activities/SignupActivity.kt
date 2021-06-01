@@ -3,14 +3,11 @@ package com.shoplex.shoplex.view.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.model.LatLng
-import com.shoplex.shoplex.LocationActivity
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivitySignupBinding
 import com.shoplex.shoplex.model.enumurations.LocationAction
