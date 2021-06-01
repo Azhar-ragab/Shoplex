@@ -55,7 +55,7 @@ object UserInfo {
 
     fun readUserInfo(context: Context){
         val sharedPref = context.getSharedPreferences(SHARED_USER_INFO,Context.MODE_PRIVATE)
-        userID = sharedPref.getString("userID","")
+        userID = sharedPref.getString("userID",null)
         name = sharedPref.getString("name","")!!
         email = sharedPref.getString("email","")!!
         image = sharedPref.getString("image","")

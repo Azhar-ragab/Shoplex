@@ -94,11 +94,11 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
 
     private fun getUserByMail(userEmail: String, authType: AuthType) {
         FirebaseReferences.usersRef.whereEqualTo("email", userEmail)
-            .whereEqualTo("LoginType", authType).get()
+            .whereEqualTo("authType", authType).get()
             .addOnSuccessListener {
                 var user: User?
                 when {
-                    it.count() > 0 -> {
+                    it.documents.count() > 0 -> {
                         user = it.documents[0].toObject()!!
                         listener.onLoginSuccess(user)
                     }
