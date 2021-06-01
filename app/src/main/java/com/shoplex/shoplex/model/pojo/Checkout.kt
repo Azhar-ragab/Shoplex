@@ -11,6 +11,7 @@ import com.shoplex.shoplex.model.extra.UserInfo
 open class Checkout {
     var deliveryMethod: DeliveryMethod = DeliveryMethod.Door
     var paymentMethod: PaymentMethod = PaymentMethod.Cash
+    @Exclude @get:Exclude
     var deliveryLoc: LatLng? = null
     var subTotalPrice: Float = 0F
     var totalDiscount: Float = 0F

@@ -1,13 +1,12 @@
 package com.shoplex.shoplex.model.pojo
 
 import com.google.android.gms.maps.model.LatLng
-import com.google.firebase.auth.UserInfo
 import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
-import com.shoplex.shoplex.model.extra.User
+import com.shoplex.shoplex.model.extra.UserInfo
 import java.util.*
 
 class Order: Checkout {
@@ -41,7 +40,7 @@ class Order: Checkout {
                 checkout.itemNum
             ) {
         this.productID = product.productID
-        this.userID = User.userID
+        this.userID = UserInfo.userID!!
         this.orderStatus = orderStatus
         this.quantity = product.quantity
         this.specialDiscount = product.specialDiscount

@@ -15,8 +15,7 @@ interface INotifyMVP {
     fun onUserInfoReady(){}
     fun onUserInfoFailed(){}
     fun onCurrentOrdersReady(orders:ArrayList<Order>){}
+    fun onNewFacebookAccount(){}
     fun onLastOrdersReady(lastOrders:ArrayList<Order>){}
     fun onAllReviwsReady(reviews:ArrayList<Review>){}
-    fun onNewFacebookAccount(){}
-
 }

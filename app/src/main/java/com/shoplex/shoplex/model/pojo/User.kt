@@ -1,15 +1,19 @@
 package com.shoplex.shoplex.model.pojo
 
+import com.shoplex.shoplex.model.enumurations.AuthType
+import kotlin.collections.ArrayList
+
 data class User(
-    val userID: String = "",
-    val name: String = "",
-    val email: String = "",
-    val location: Location = Location(0.0, 0.0),
+    var userID: String = "",
+    var name: String = "",
+    var email: String = "",
+    var location: Location = Location(0.0, 0.0),
     var address: String = "",
-    val phone: String = "",
-    val image: String = "",
+    var phone: String = "",
+    var image: String = "",
     val favouriteList: ArrayList<String> = ArrayList(),
-    val cartList: ArrayList<String> = ArrayList()
+    val cartList: ArrayList<String> = ArrayList(),
+    val authType: AuthType = AuthType.Email
 ) {
 }
 

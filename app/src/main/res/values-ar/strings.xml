@@ -152,7 +152,7 @@
     <string name="Offer">Offer</string>
     <string name="percent">%</string>
     <string name="productId">productID</string>
-    <string name="CHAT_TITLE_KEY">\"CHAT_TITLE_KEY\"</string>
+    <string name="CHAT_TITLE_KEY">CHAT_TITLE_KEY</string>
     <string name="CHAT_IMG_KEY">CHAT_IMG_KEY</string>
     <string name="chatID">chatID</string>
     <string name="USER_ID_KEY">USER_ID_KEY</string>

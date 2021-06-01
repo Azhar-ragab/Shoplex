@@ -12,7 +12,7 @@
     <string name="old_price_strike"><strike>Old Price</strike></string>
     <string name="currentProduct">Current Product</string>
     <string name="product">Products</string>
-    <string name="reviews">Review</string>
+    <string name="reviews">Reviews</string>
     <string name="product_name">Name</string>
     <string name="_4_5_5">4.5/5</string>
     <string name="longtext">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,as opposed to using Content here, content here, making it look like readable English.</string>
@@ -75,7 +75,6 @@
     <string name="new_user">New User?</string>
     <string name="create_an_account">Create An Account</string>
     <string name="Checkout">Checkout</string>
-
     <string name="Payment">Payment</string>
     <string name="Summary">Summary</string>
     <string name="DeliveryMethod">Delivery Method</string>
@@ -148,6 +147,7 @@
     <string name="please_share_your_oponion_about_the_product">Please Share Your Oponion About The Product</string>
     <string name="your_review">Your Review</string>
     <string name="send_review">Send Review</string>
+    <string name="title_activity_location">Map</string>
     <string name="notification">Notification</string>
     <string name="welcome">Welcome to ShopLex</string>
     <string name="English">English</string>
@@ -155,7 +155,7 @@
     <string name="Offer">Offer</string>
     <string name="percent">%</string>
     <string name="productId">productID</string>
-    <string name="CHAT_TITLE_KEY">\"CHAT_TITLE_KEY\"</string>
+    <string name="CHAT_TITLE_KEY">CHAT_TITLE_KEY</string>
     <string name="CHAT_IMG_KEY">CHAT_IMG_KEY</string>
     <string name="chatID">chatID</string>
     <string name="USER_ID_KEY">USER_ID_KEY</string>

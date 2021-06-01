@@ -96,7 +96,6 @@ class AccountFragment : Fragment() {
 
         builder?.show()
     }
-    //add Report
     private fun showAddReportDialog() {
         val dialogbinding = DialogAddReportBinding.inflate(layoutInflater)
         val reportBtnSheetDialog = BottomSheetDialog(dialogbinding.root.context)
