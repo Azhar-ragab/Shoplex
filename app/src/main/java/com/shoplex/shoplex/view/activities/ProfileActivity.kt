@@ -55,7 +55,7 @@ class ProfileActivity : AppCompatActivity() {
             email = binding.edEmail.text.toString()
             phone = binding.edPhone.text.toString()
             val user: User = User(UserInfo.userID!!, name ,email,UserInfo.location, UserInfo.address ,
-                phone ,   UserInfo.image , UserInfo.favouriteList,
+                phone, UserInfo.image!! , UserInfo.favouriteList,
                 UserInfo.cartList )
 
             addUser(user)

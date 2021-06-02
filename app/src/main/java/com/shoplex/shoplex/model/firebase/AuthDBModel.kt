@@ -2,6 +2,7 @@ package com.shoplex.shoplex.model.firebase
 
 
 import android.content.Context
+import android.net.Uri
 import android.widget.Toast
 import com.facebook.AccessToken
 import com.google.firebase.auth.AuthCredential
@@ -54,11 +55,14 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
             }
     }
 
-    fun addNewUser(user: User) {
+    private fun addNewUser(user: User) {
         val ref: DocumentReference = FirebaseReferences.usersRef.document()
         user.userID = ref.id
+        //val img = user.image
+        //user.image = ""
         ref.set(user).addOnSuccessListener {
             listener.onAddNewUser(user)
+            //Uri.parse(img)
             Toast.makeText(context, "Success to create your account!", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
             listener.onAddNewUser(null)
@@ -66,7 +70,7 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
         }
     }
 
-    fun addSocialUser(authType: AuthType) {
+     private fun addSocialUser(authType: AuthType) {
         val ref: DocumentReference = FirebaseReferences.usersRef.document()
         val currentUser: FirebaseUser = Firebase.auth.currentUser
 

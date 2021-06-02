@@ -23,6 +23,7 @@ import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.maps.LocationManager
 import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.view.activities.MessageActivity
@@ -153,8 +154,11 @@ class ProductFragment(val productId: String) : Fragment() {
             //productCart.quantity = 3
             //productCart.specialDiscount = specialDiscount
 
+            val address: String? = LocationManager.getInstance(requireContext()).getAddress(LatLng(
+                UserInfo.location.latitude, UserInfo.location.longitude), requireContext())
+
             var checkout: Checkout = Checkout(DeliveryMethod.Door, PaymentMethod.Fawry, LatLng(
-                UserInfo.location.latitude, UserInfo.location.longitude), product.price, 12)
+                UserInfo.location.latitude, UserInfo.location.longitude), address?:"", product.price, 12)
             checkout.addProduct(productCart)
 
             for (product in checkout.getAllProducts()){

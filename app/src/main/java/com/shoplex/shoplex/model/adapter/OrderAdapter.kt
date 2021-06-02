@@ -5,14 +5,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.shoplex.shoplex.Orders
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.OrderItemRowBinding
 import com.shoplex.shoplex.model.enumurations.OrderStatus
-import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Order
-import com.shoplex.shoplex.model.pojo.ProductCart
 
 class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 

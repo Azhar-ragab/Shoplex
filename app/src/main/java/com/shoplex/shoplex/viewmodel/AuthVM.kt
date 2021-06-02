@@ -46,9 +46,11 @@ class AuthVM(val context: Context): ViewModel(), UserActionListener {
         userDBModel.createEmailAccount(user.value!!, password.value!!)
     }
 
+    /*
     fun addUser() {
         userDBModel.addNewUser(user.value!!)
     }
+    */
 
     override fun onAddNewUser(user: User?) {
         super.onAddNewUser(user)
