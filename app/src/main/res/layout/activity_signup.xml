@@ -11,14 +11,16 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imgLogo"
+            android:id="@+id/imgSignup"
             android:layout_width="@dimen/width_120"
             android:layout_height="@dimen/height_120"
             android:layout_marginTop="@dimen/margin_16"
+            android:scaleType="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/product_two" />
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_account" />
 
         <TextView
             android:id="@+id/textView"
@@ -32,7 +34,7 @@
             android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
+            app:layout_constraintTop_toBottomOf="@+id/imgSignup" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tiName"
@@ -158,9 +160,10 @@
                 android:id="@+id/edPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/phone"
+                android:hint="@string/phone_number_hint"
+                android:importantForAutofill="noExcludeDescendants"
                 android:inputType="phone"
-                android:maxLength="100" />
+                android:maxLength="13" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

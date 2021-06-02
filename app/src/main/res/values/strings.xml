@@ -152,4 +152,5 @@
     <string name="welcome">Welcome to ShopLex</string>
     <string name="English">English</string>
     <string name="العربية">العربية</string>
+    <string name="phone_number_hint">+20100000000</string>
 </resources>
