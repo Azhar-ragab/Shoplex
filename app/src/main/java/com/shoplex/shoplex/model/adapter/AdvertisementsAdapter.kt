@@ -1,5 +1,6 @@
 package com.shoplex.shoplex.model.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -30,13 +31,16 @@ class AdvertisementsAdapter(val advertisements: ArrayList<Product>) :
     inner class ProductViewHolder(val binding: RvHomeAdcardviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
-            // Your custom view code here
+       val context :Context =binding.root.context
             Glide.with(binding.root.context).load(product.images[0]).into(binding.imgAdvertisement)
-            binding.txtAdvertisement.text=product.name
-            binding.tvOffer.text="Offer ${product.discount} %"
+
+            binding.product = product
+
+           // binding.txtAdvertisement.text=product.name
+            binding.tvOffer.text=context.getString(R.string.Offer)+product.discount.toString()+context.getString(R.string.percent)
             itemView.setOnClickListener{
                 var intent: Intent =  Intent(binding.root.context, ProductDetails::class.java )
-                intent.putExtra("productId",product.productID)
+                intent.putExtra(context.getString(R.string.productId),product.productID)
                 binding.root.context.startActivity(intent)
             }
         }

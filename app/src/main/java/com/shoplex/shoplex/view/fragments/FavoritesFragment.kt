@@ -10,6 +10,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentFavoritesBinding
 import com.shoplex.shoplex.model.adapter.FavouriteAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
@@ -31,45 +32,29 @@ class FavoritesFragment : Fragment() {
         if(UserInfo.userID != null){
             getAllFavoriteProducts()
         }else{
-            Toast.makeText(context, "Please Login to get all favorite products", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.favoriteproducts), Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
     }
 
     fun getAllFavoriteProducts() {
-        var favouriteList = ArrayList<String>()
         var favouriteProducts = ArrayList<Product>()
-        FirebaseReferences.usersRef.whereEqualTo(
-            "email",
-            Firebase.auth.currentUser.email
-        ).get().addOnSuccessListener { result ->
-            for (document in result) {
-                if (document.exists()) {
-                    val u = document.toObject<User>()
-                    FirebaseReferences.usersRef.document(u.userID).get()
-                        .addOnSuccessListener { favourite ->
-                            if (favourite != null) {
-                                val user = favourite.toObject<User>()
-                                favouriteList = user!!.favouriteList
-                                for (product in favouriteList) {
-                                    FirebaseReferences.productsRef.document(product).get()
-                                        .addOnSuccessListener { productResult ->
-                                            if (productResult != null) {
-                                                val prod = productResult.toObject<Product>()
-                                                favouriteProducts.add(prod!!)
-                                                if (document.equals(result.last())) {
-                                                    favouriteAdapter =
-                                                        FavouriteAdapter(favouriteProducts)
-                                                    binding.rvFavourite.adapter = favouriteAdapter
-                                                }
-                                            }
-                                        }
-                                }
-//                        Toast.makeText(context,favouriteList[0],Toast.LENGTH_SHORT).show()
+        FirebaseReferences.usersRef.document(UserInfo.userID!!).get().addOnSuccessListener { result ->
+            val favouriteList: ArrayList<String> = result.get("favouriteList") as ArrayList<String>
+            for (productID in favouriteList){
+                FirebaseReferences.productsRef.document(productID).get()
+                    .addOnSuccessListener { productResult ->
+                        if (productResult != null) {
+                            val prod = productResult.toObject<Product>()
+                            favouriteProducts.add(prod!!)
+                            if (productID == favouriteList.last()) {
+                                favouriteAdapter =
+                                    FavouriteAdapter(favouriteProducts)
+                                binding.rvFavourite.adapter = favouriteAdapter
                             }
                         }
-                }
+                    }
             }
         }
     }

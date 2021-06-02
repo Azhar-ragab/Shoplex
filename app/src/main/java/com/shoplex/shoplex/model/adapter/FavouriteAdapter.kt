@@ -44,12 +44,12 @@ class FavouriteAdapter(val favourites: ArrayList<Product>) :
                 favourites.remove(product)
                 user.favouriteList.remove(product.productID)
                 notifyDataSetChanged()
-                FirebaseReferences.usersRef.whereEqualTo("email", Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
+                FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail), Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
                         if (document.exists()) {
                             val u = document.toObject<User>()
                             val updates = hashMapOf<String, Any>(
-                                "favouriteList" to FieldValue.arrayRemove(product.productID)
+                                binding.root.context.getString(R.string.favouriteList)to FieldValue.arrayRemove(product.productID)
                             )
                             FirebaseReferences.usersRef.document(u.userID).update(
                                 updates

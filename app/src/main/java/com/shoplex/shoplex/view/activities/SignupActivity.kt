@@ -3,120 +3,66 @@ package com.shoplex.shoplex.view.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.provider.MediaStore
-import android.util.Log
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.ktx.Firebase
-import com.google.type.LatLng
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.maps.model.LatLng
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivitySignupBinding
-import com.shoplex.shoplex.model.extra.FirebaseReferences
+import com.shoplex.shoplex.model.enumurations.LocationAction
 import com.shoplex.shoplex.model.pojo.Location
-import com.shoplex.shoplex.model.pojo.User
+import com.shoplex.shoplex.viewmodel.AuthVM
+import com.shoplex.shoplex.viewmodel.AuthVMFactory
 import java.io.IOException
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
-    private lateinit var ref: DocumentReference
-    private val MAPS_CODE = 202
+    private lateinit var authVM: AuthVM
     private val OPEN_GALLERY_CODE = 200
-    private var imageUser: Uri? = null
-    private lateinit var user: User
+    private var imageUri: Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ref = FirebaseReferences.usersRef.document()
-
-        binding.edPhone.setOnFocusChangeListener(object : View.OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                if (hasFocus) {
-                    binding.tiPhone.setHint(getString(R.string.phone))
-                } else {
-                    binding.tiPhone.setHint(getString(R.string.phone_number_hint))
-                }
-            }
-        })
+        authVM = ViewModelProvider(this, AuthVMFactory(this)).get(AuthVM::class.java)
+        binding.userData = authVM
         binding.btnSignup.setOnClickListener {
-            val name = binding.edName.text.toString()
-            val email = binding.edEmail.text.toString()
-            val phone = binding.edPassword.text.toString()
-            val img =
-                "https://img.etimg.com/thumb/width-1200,height-900,imgsize-122620,resizemode-1,msid-75214721/industry/services/retail/future-group-negotiates-rents-for-its-1700-stores.jpg"
+            val img = "https://img.etimg.com/thumb/width-1200,height-900,imgsize-122620,resizemode-1,msid-75214721/industry/services/retail/future-group-negotiates-rents-for-its-1700-stores.jpg"
+            authVM.user.value!!.image = img
 
-            if (checkEditText()) {
-                createAccount(email, binding.edPassword.text.toString())
-                user =
-                    User(
-                        ref.id,
-                        name,
-                        email,
-                        Location(0.0, 0.0),
-                        "Address",
-                        phone,
-                        img,
-                        arrayListOf(),
-                        arrayListOf()
-                    )
-                addUser(user)
+            if (validateInput()) {
+                authVM.createAccount()
                 startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             }
         }
         binding.btnLocation.setOnClickListener {
-            startActivityForResult(Intent(this, MapsActivity::class.java), MAPS_CODE)
+            startActivityForResult(Intent(this, MapsActivity::class.java)
+                .apply {
+                       putExtra(MapsActivity.LOCATION_ACTION, LocationAction.Add.name)
+            }, MapsActivity.MAPS_CODE)
         }
+
         binding.imgSignup.setOnClickListener {
             openGallary()
-
         }
 
-        editTextChange()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == MAPS_CODE) {
-            if (resultCode == RESULT_OK) {
-                val location: Parcelable? = data?.getParcelableExtra("Loc")
-                if (location != null) {
-                    // binding.tvLocation.text = getAddress(location as LatLng)
-                }
-            }
-        } else if (requestCode == OPEN_GALLERY_CODE) {
-            if (resultCode == RESULT_OK) {
-                if (data == null || data.data == null) {
-                    return
-                }
-                imageUser = data.data
-                try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUser)
-                    binding.imgSignup.setImageBitmap(bitmap)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-
+        onEditTextChanged()
     }
 
     private fun openGallary() {
         var intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
         intent.type = "image/*"
         startActivityForResult(intent, OPEN_GALLERY_CODE)
     }
 
-    fun editTextChange() {
+    private fun onEditTextChanged(){
         binding.edName.addTextChangedListener {
             binding.tiName.error = null
         }
@@ -132,36 +78,12 @@ class SignupActivity : AppCompatActivity() {
         binding.edPhone.addTextChangedListener {
             binding.tiPhone.error = null
         }
-    }
-
-
-    fun addUser(user: User) {
-        ref.set(user).addOnSuccessListener {
-            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        binding.tvLocation.addTextChangedListener{
+            binding.tvLocation.error = null
         }
     }
 
-    private fun createAccount(email: String, password: String) {
-        // [START create_user_with_email]
-        Firebase.auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("TAG", "createUserWithEmail:success")
-
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w("TAG", "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                }
-            }
-    }
-
-    fun checkEditText(): Boolean {
+    private fun validateInput(): Boolean {
         when {
             binding.edName.length() == 0 -> binding.tiName.error = getString(R.string.Required)
             binding.edName.length() < 5 -> binding.tiName.error =
@@ -181,8 +103,13 @@ class SignupActivity : AppCompatActivity() {
                     R.string.not_match
                 )
 
-            !isValidMobile(binding.edPhone.text.toString()) -> binding.tiPhone.error =
+            binding.edPhone.text.toString().isEmpty() -> binding.tiPhone.error =
                 getString(R.string.Required)
+            binding.edPhone.text.toString().length != 11 -> binding.tiPhone.error =
+                "Please Enter Valid Mobile"
+
+            binding.tvLocation.text.trim().toString() == "Egypt" || binding.tvLocation.text.length < 2 -> binding.tvLocation.error =
+                "Please Select valid location!"
             else -> return true
         }
         return false
@@ -198,7 +125,35 @@ class SignupActivity : AppCompatActivity() {
 
     private fun isValidMobile(phone: String): Boolean {
         return if (!Pattern.matches("[a-zA-Z]+", phone)) {
-            phone.length > 11 && phone.length <= 13
+            phone.length == 11
         } else false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == MapsActivity.MAPS_CODE) {
+            if (resultCode == RESULT_OK) {
+                val location: LatLng? = data?.getParcelableExtra(MapsActivity.LOCATION)
+                val address: String? = data?.getStringExtra(MapsActivity.ADDRESS)
+                if (location != null) {
+                    binding.tvLocation.text = address
+                    authVM.user.value!!.address = address!!
+                    authVM.user.value!!.location = Location(location.latitude, location.longitude)
+                }
+            }
+        } else if (requestCode == OPEN_GALLERY_CODE) {
+            if (resultCode == RESULT_OK) {
+                if (data == null || data.data == null) {
+                    return
+                }
+                imageUri = data.data
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+                    binding.imgSignup.setImageBitmap(bitmap)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 }

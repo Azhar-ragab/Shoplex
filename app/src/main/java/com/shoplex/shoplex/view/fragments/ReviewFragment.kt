@@ -13,7 +13,6 @@ import com.shoplex.shoplex.databinding.FragmentReviewBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.viewmodel.ProductsVM
-import java.util.*
 
 
 class ReviewFragment(val productId: String) : Fragment() {
@@ -93,7 +92,7 @@ class ReviewFragment(val productId: String) : Fragment() {
             val reviewMsg = binding.edReview.text.toString()
             val review = Review(UserInfo.name,
                 UserInfo.image,productId ,reviewMsg, Timestamp.now().toDate(), rate)
-            FirebaseReferences.productsRef.document(productId).collection("Reviews").add(review)
+            FirebaseReferences.productsRef.document(productId).collection(getString(R.string.Reviews)).add(review)
             reviewBtnSheetDialog.dismiss()
         }
         reviewBtnSheetDialog.setContentView(binding.root)

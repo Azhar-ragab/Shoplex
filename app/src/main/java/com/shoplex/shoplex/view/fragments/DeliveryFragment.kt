@@ -59,7 +59,7 @@ class DeliveryFragment : Fragment() {
                 var pager = (activity as CheckOutActivity).binding.viewPagerCheckout
                 pager.currentItem = pager.currentItem + 1
             } else {
-                Toast.makeText(context, "Choose Delivery Method", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.deliveryMethod), Toast.LENGTH_SHORT).show()
             }
         }
 

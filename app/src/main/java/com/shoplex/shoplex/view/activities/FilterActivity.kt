@@ -37,15 +37,15 @@ class FilterActivity : AppCompatActivity() {
         binding.rsPrice.setLabelFormatter { value: Float ->
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
-            format.currency = Currency.getInstance("EGP")
+            format.currency = Currency.getInstance(getString(R.string.EGP))
             format.format(value.toDouble())
         }
 
         binding.toggleBtnPrice.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
             if(isChecked){
                 when(checkedId){
-                    R.id.btnLowPrice -> Toast.makeText(this,"Low Price Selected",Toast.LENGTH_SHORT).show()
-                    R.id.btnHighPrice -> Toast.makeText(this,"High Price Selected",Toast.LENGTH_SHORT).show()
+                    R.id.btnLowPrice -> Toast.makeText(this,getString(R.string.LowPriceSelected),Toast.LENGTH_SHORT).show()
+                    R.id.btnHighPrice -> Toast.makeText(this,getString(R.string.HighPriceSelected),Toast.LENGTH_SHORT).show()
                 }
             }
         }

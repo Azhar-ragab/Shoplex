@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val category = Category.valueOf(group.findViewById<Chip>(checkedId).text.toString().replace(" ", "_"))
+            val category = Category.valueOf(group.findViewById<Chip>(checkedId).text.toString().replace(" ", getString(R.string.underscore)))
             productsVM.getAllProducts(category)
         }
 
