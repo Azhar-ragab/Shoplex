@@ -14,6 +14,7 @@ class Order: Checkout {
     var productID: String = ""
     var userID: String = ""
     var storeID: String = ""
+    var storeName: String = ""
     var orderStatus: OrderStatus = OrderStatus.Current
     var quantity: Int = 1
     var specialDiscount: SpecialDiscount? = null

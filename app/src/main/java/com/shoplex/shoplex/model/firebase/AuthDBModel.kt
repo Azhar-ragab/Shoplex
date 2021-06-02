@@ -2,20 +2,26 @@ package com.shoplex.shoplex.model.firebase
 
 
 import android.content.Context
+import android.net.Uri
 import android.widget.Toast
 import com.facebook.AccessToken
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserInfo
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
 import com.shoplex.shoplex.model.enumurations.AuthType
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.interfaces.UserActionListener
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
+import java.util.*
 
 class AuthDBModel(val listener: UserActionListener, val context: Context) {
     fun loginWithEmail(email: String, password: String) {
@@ -57,12 +63,34 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
     fun addNewUser(user: User) {
         val ref: DocumentReference = FirebaseReferences.usersRef.document()
         user.userID = ref.id
+        val img = user.image
+        user.image = ""
         ref.set(user).addOnSuccessListener {
             listener.onAddNewUser(user)
+            addImage(Uri.parse(img),user.userID)
             Toast.makeText(context, "Success to create your account!", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
             listener.onAddNewUser(null)
             Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    private fun addImage(uri: Uri,userId : String) {
+        val imgRef: StorageReference =
+            FirebaseReferences.imagesUserRef.child(userId)
+
+        imgRef.putFile(uri).addOnSuccessListener { _ ->
+            imgRef.downloadUrl.addOnSuccessListener {
+                //add Image to firestorage
+                FirebaseReferences.usersRef.document(userId).update("image",it.toString())
+                //update profile
+                val profileUpdates = userProfileChangeRequest {
+                    photoUri = it
+                }
+                Firebase.auth.currentUser.updateProfile(profileUpdates)
+
+            }
         }
     }
 
