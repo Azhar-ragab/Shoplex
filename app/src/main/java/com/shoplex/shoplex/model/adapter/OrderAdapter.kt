@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.OrderItemRowBinding
 import com.shoplex.shoplex.model.enumurations.OrderStatus
+import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.Order
 
 class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
@@ -38,9 +39,9 @@ class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<Ord
                     binding.tvbutton.text =
                         itemView.getContext().getResources().getString(R.string.cancel)
                     binding.tvbutton.setOnClickListener {
-                       /* FirebaseReferences.ordersRef.document(order.orderID).update("orderStatus",OrderStatus.Canceled).addOnSuccessListener {
+                        FirebaseReferences.ordersRef.document(order.orderID).update("orderStatus",OrderStatus.Canceled).addOnSuccessListener {
                               Toast.makeText(binding.root.context,"success",Toast.LENGTH_SHORT).show()
-                        }*/
+                        }
 
                     }
 

@@ -22,6 +22,7 @@ object FirebaseReferences {
     // -----------------------> Storage <----------------------- //
     // Products
     val imagesProductsRef = imagesDatabase.child("Products")
+    val imagesUserRef = imagesDatabase.child("Users")
 
     //----------------------> Notifications <---------------------------//
     val notificationTokensRef = database.collection("Notification Center")
