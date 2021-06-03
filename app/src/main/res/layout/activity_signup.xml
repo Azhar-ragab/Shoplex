@@ -169,10 +169,10 @@
                     android:id="@+id/edPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/phone"
-                    android:inputType="number"
-                    android:maxLength="11"
+                    android:hint="@string/phone_hint"
                     android:importantForAutofill="noExcludeDescendants"
+                    android:inputType="phone"
+                    android:maxLength="13"
                     android:text="@={userData.user.phone}" />
 
             </com.google.android.material.textfield.TextInputLayout>

@@ -5,12 +5,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.model.LatLng
-
+import com.shoplex.shoplex.LocationActivity
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivitySignupBinding
 import com.shoplex.shoplex.model.enumurations.LocationAction
@@ -35,9 +36,8 @@ class SignupActivity : AppCompatActivity() {
         authVM = ViewModelProvider(this, AuthVMFactory(this)).get(AuthVM::class.java)
         binding.userData = authVM
         binding.btnSignup.setOnClickListener {
-            val img = "https://img.etimg.com/thumb/width-1200,height-900,imgsize-122620,resizemode-1,msid-75214721/industry/services/retail/future-group-negotiates-rents-for-its-1700-stores.jpg"
-            authVM.user.value!!.image = img
-
+            // val img = "https://img.etimg.com/thumb/width-1200,height-900,imgsize-122620,resizemode-1,msid-75214721/industry/services/retail/future-group-negotiates-rents-for-its-1700-stores.jpg"
+            // authVM.user.value!!.image = img
             if (validateInput()) {
                 authVM.createAccount()
                 startActivity(Intent(this, HomeActivity::class.java))
@@ -45,16 +45,26 @@ class SignupActivity : AppCompatActivity() {
             }
         }
         binding.btnLocation.setOnClickListener {
-            startActivityForResult(Intent(this, MapsActivity::class.java)
-                .apply {
-                       putExtra(MapsActivity.LOCATION_ACTION, LocationAction.Add.name)
-            }, MapsActivity.MAPS_CODE)
+            startActivityForResult(
+                Intent(this, MapsActivity::class.java)
+                    .apply {
+                        putExtra(MapsActivity.LOCATION_ACTION, LocationAction.Add.name)
+                    }, MapsActivity.MAPS_CODE
+            )
         }
 
         binding.imgSignup.setOnClickListener {
             openGallary()
         }
-
+        binding.edPhone.setOnFocusChangeListener(object : View.OnFocusChangeListener {
+            override fun onFocusChange(v: View?, hasFocus: Boolean) {
+                if (hasFocus) {
+                    binding.tiPhone.setHint(getString(R.string.phone))
+                } else {
+                    binding.tiPhone.setHint(getString(R.string.phone_hint))
+                }
+            }
+        })
         onEditTextChanged()
     }
 
@@ -108,11 +118,19 @@ class SignupActivity : AppCompatActivity() {
 
             binding.edPhone.text.toString().isEmpty() -> binding.tiPhone.error =
                 getString(R.string.Required)
-            binding.edPhone.text.toString().length != 11 -> binding.tiPhone.error =
+
+            !isValidMobile(binding.edPhone.text.toString()) -> binding.tiPhone.error =
                 "Please Enter Valid Mobile"
 
-            binding.tvLocation.text.trim().toString() == "Egypt" || binding.tvLocation.text.length < 2 -> binding.tvLocation.error =
+            binding.tvLocation.text.trim()
+                .toString() == "Egypt" || binding.tvLocation.text.length < 2 -> binding.tvLocation.error =
                 "Please Select valid location!"
+
+            authVM.user.value?.image.isNullOrEmpty() -> Toast.makeText(
+                this,
+                "Please, Choose Image",
+                Toast.LENGTH_SHORT
+            ).show()
             else -> return true
         }
         return false
@@ -128,7 +146,7 @@ class SignupActivity : AppCompatActivity() {
 
     private fun isValidMobile(phone: String): Boolean {
         return if (!Pattern.matches("[a-zA-Z]+", phone)) {
-            phone.length == 11
+            phone.length > 11 && phone.length <= 13
         } else false
     }
 
@@ -150,6 +168,7 @@ class SignupActivity : AppCompatActivity() {
                     return
                 }
                 imageUri = data.data
+                authVM.user.value!!.image = imageUri.toString()
                 try {
                     val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
                     binding.imgSignup.setImageBitmap(bitmap)
