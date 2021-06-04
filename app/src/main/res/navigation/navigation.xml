@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/homeFragment2"
-        android:name="eg.gov.iti.shoplex.fragments.HomeFragment"
+        android:name="com.shoplex.shoplex.view.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/cartFragment2"
-        android:name="eg.gov.iti.shoplex.fragments.CartFragment"
+        android:name="com.shoplex.shoplex.view.fragments.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/accountFragment2"
-        android:name="eg.gov.iti.shoplex.fragments.AccountFragment"
+        android:name="com.shoplex.shoplex.view.fragments.AccountFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/chatFragment2"
-        android:name="eg.gov.iti.shoplex.fragments.ChatFragment"
+        android:name="com.shoplex.shoplex.view.fragments.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="eg.gov.iti.shoplex.fragments.FavoritesFragment"
+        android:name="com.shoplex.shoplex.view.fragments.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" />
 </navigation>

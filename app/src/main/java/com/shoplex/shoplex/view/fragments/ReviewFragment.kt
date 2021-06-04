@@ -1,4 +1,4 @@
-package com.shoplex.shoplex
+package com.shoplex.shoplex.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,12 +8,14 @@ import androidx.lifecycle.Observer
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.Timestamp
+import com.shoplex.shoplex.R
+import com.shoplex.shoplex.Review
+import com.shoplex.shoplex.ReviewAdapter
 import com.shoplex.shoplex.databinding.DialogAddReviewBinding
 import com.shoplex.shoplex.databinding.FragmentReviewBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.viewmodel.ProductsVM
-
 
 class ReviewFragment(val productId: String) : Fragment() {
 
