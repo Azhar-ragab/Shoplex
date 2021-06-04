@@ -115,5 +115,5 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
             }.addOnFailureListener {
                 listener.onLoginFailed()
             }
-    }ع
+    }
 }
