@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.model.LatLng
-import com.shoplex.shoplex.LocationActivity
+
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivitySignupBinding
 import com.shoplex.shoplex.model.enumurations.LocationAction
@@ -125,6 +125,9 @@ class SignupActivity : AppCompatActivity() {
             binding.tvLocation.text.trim()
                 .toString() == "Egypt" || binding.tvLocation.text.length < 2 -> binding.tvLocation.error =
                 "Please Select valid location!"
+
+
+
 
             authVM.user.value?.image.isNullOrEmpty() -> Toast.makeText(
                 this,

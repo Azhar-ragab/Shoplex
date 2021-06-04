@@ -4,7 +4,7 @@ package com.shoplex.shoplex.model.firebase
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
-import com.facebook.AccessToken
+
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
