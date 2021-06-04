@@ -15,14 +15,18 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.databinding.FragmentProductBinding
+import com.shoplex.shoplex.model.adapter.RightMessageItem
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
+import com.shoplex.shoplex.model.enumurations.keys.ChatMessageKeys
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.maps.LocationManager
 import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.view.activities.MessageActivity
@@ -73,68 +77,57 @@ class ProductFragment(val productId: String) : Fragment() {
             }
 
         })
+
         detailsVM.store.observe(this.viewLifecycleOwner, Observer {
             this.storeInfo = it
         })
+
         binding.btnCall.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL);
             intent.data = Uri.parse(getString(R.string.telephone) + storeInfo.phone)
             startActivity(intent)
-
         }
+
         binding.btnMessage.setOnClickListener {
             var intent: Intent = Intent(binding.root.context, MessageActivity::class.java)
-            intent.putExtra(getString(R.string.storeID), product.storeID)
-            intent.putExtra(CHAT_TITLE_KEY, product.storeName)
-            intent.putExtra(getString(R.string.phoneNumber), storeInfo.phone)
-            intent.putExtra(getString(R.string.productID), product.productID)
-            intent.putExtra(getString(R.string.CHAT_IMG_KEY),product.images[0])
+            intent.putExtra(ChatMessageKeys.CHAT_TITLE_KEY.name, product.storeName)
 
-            FirebaseReferences.chatRef.whereEqualTo(getString(R.string.storeID), product.storeID)
-                .whereEqualTo(getString(R.string.userID), UserInfo.userID).get().addOnSuccessListener { values->
-                if (values.count() == 0) {
-                    var chat = Chat(
-                        ref.id,
-                        UserInfo.userID.toString(),
-                        UserInfo.name,
-                        product.storeID,
-                        arrayListOf(productId)
-                    )
-                    ref.set(chat).addOnSuccessListener {
-                        intent.putExtra(getString(R.string.chatID),ref.id)
+            intent.putExtra(ChatMessageKeys.PRODUCT_ID.name, product.productID)
+            intent.putExtra(ChatMessageKeys.STORE_ID.name, product.storeID)
+            // intent.putExtra(ChatMessageKeys.PHONE.name, storeInfo.phone)
+            intent.putExtra(ChatMessageKeys.CHAT_IMG_KEY.name, product.images[0])
+
+            FirebaseReferences.chatRef.whereEqualTo("storeID", product.storeID)
+                .whereEqualTo("userID", UserInfo.userID).get().addOnSuccessListener { values ->
+                    if (values.count() == 0) {
+                        var chat = Chat(
+                            ref.id,
+                            UserInfo.userID.toString(),
+                            UserInfo.name,
+                            product.storeID,
+                            arrayListOf(productId)
+                        )
+                        ref.set(chat).addOnSuccessListener {
+                            initMessage(chat.chatID)
+                            intent.putExtra(ChatMessageKeys.CHAT_ID.name, ref.id)
+                            binding.root.context.startActivity(intent)
+                        }
+                    } else if (values.count() == 1) {
+                        val chat: Chat = values.first().toObject()
+                        // chat.productIDs.add(product.productID)
+                        if(chat.productIDs.last() != productId)
+                            initMessage(chat.chatID)
+                        FirebaseReferences.chatRef.document(chat.chatID).update("productIDs", FieldValue.arrayUnion(productId))
+                        intent.putExtra(ChatMessageKeys.CHAT_ID.name, chat.chatID)
                         binding.root.context.startActivity(intent)
-                    }
-                }
-                    else if (values.count()==1){
-                        val chat:Chat=values.first().toObject()
-                        intent.putExtra(getString(R.string.chatID),chat.chatID)
-                       binding.root.context.startActivity(intent)
-
-                }
-                    else{
-                        Toast.makeText(context,getString(R.string.ERROR),Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, getString(R.string.ERROR), Toast.LENGTH_SHORT)
+                            .show()
                     }
 
-            }
-//                    if (firstTime) {
-//            ref.set(chat).addOnSuccessListener {
-//
-//                FirebaseReferences.chatRef.document(ref.id).collection("messages")
-//                    .document(messageID)
-//                    .set(message)
-//                messageText.clear()
-//            }
-//           firstTime=false
-//        }
-//        else{
-//            FirebaseReferences.chatRef.document(ref.id).collection("messages")
-//                .document(messageID)
-//                .set(message)
-//            messageText.clear()
-//        }
-
-
+                }
         }
+
         binding.imgLocation.setOnClickListener {
             val location: Location = storeInfo.locations!![0]
             var intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
@@ -142,41 +135,44 @@ class ProductFragment(val productId: String) : Fragment() {
             intent.putExtra(getString(R.string.locationLang), location.longitude)
             intent.putExtra(getString(R.string.storeName), product.storeName)
             startActivityForResult(intent, MAPS_CODE)
-
-
         }
 
         binding.btnBuyProduct.setOnClickListener {
             var specialDiscount: SpecialDiscount = SpecialDiscount(10F, DiscountType.Fixed)
 
-            var productCart: ProductCart = ProductCart(product,3,specialDiscount, 20)
+            var productCart: ProductCart = ProductCart(product, 3, specialDiscount, 20)
             //productCart.quantity = 3
             //productCart.specialDiscount = specialDiscount
 
-            var checkout: Checkout = Checkout(DeliveryMethod.Door, PaymentMethod.Fawry, LatLng(
-                UserInfo.location.latitude, UserInfo.location.longitude), product.price, 12)
+            val address: String? = LocationManager.getInstance(requireContext()).getAddress(
+                LatLng(
+                    UserInfo.location.latitude, UserInfo.location.longitude
+                ), requireContext()
+            )
+
+            var checkout: Checkout = Checkout(
+                DeliveryMethod.Door, PaymentMethod.Fawry, LatLng(
+                    UserInfo.location.latitude, UserInfo.location.longitude
+                ), address ?: "", product.price, 12
+            )
             checkout.addProduct(productCart)
 
-            for (product in checkout.getAllProducts()){
+            for (product in checkout.getAllProducts()) {
                 var order: Order = Order(product, checkout, OrderStatus.Current)
                 ordersNM.addOrder(order)
             }
         }
 
-
-//        Toast.makeText(context,productId,Toast.LENGTH_SHORT).show()
-
-        //imgSlider
-//        imageList.add(SlideModel("https://cdn.cliqueinc.com/posts/285870/best-cheap-spring-accessories-285870-1583111706473-main.750x0c.jpg?interlace=true&quality=70"))
-//        imageList.add(SlideModel("https://cdn.cliqueinc.com/posts/285870/best-cheap-spring-accessories-285870-1583111706473-main.750x0c.jpg?interlace=true&quality=70"))
-//        imageList.add(SlideModel("https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-
-        //property recycler
-//        val property = ArrayList<Property>()
-//        property.add(Property("select Size", arrayListOf("37", "38", "39", "40", "41")))
-
-
         return binding.root
+    }
+
+    private fun initMessage(chatID: String) {
+        var message = Message(
+            toId = UserInfo.userID!!, message = "You started new chat for " + product.name
+        )
+        FirebaseReferences.chatRef.document(chatID).collection(getString(R.string.messages))
+            .document(message.messageID)
+            .set(message)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -190,7 +186,4 @@ class ProductFragment(val productId: String) : Fragment() {
             }
         }
     }
-
-
-
 }

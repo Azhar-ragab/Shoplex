@@ -9,11 +9,9 @@ import com.facebook.AccessToken
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.UserInfo
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
@@ -22,7 +20,6 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.interfaces.UserActionListener
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
-import java.util.*
 
 class AuthDBModel(val listener: UserActionListener, val context: Context) {
     fun loginWithEmail(email: String, password: String) {
@@ -54,23 +51,23 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
                 if (task.isSuccessful) {
                     addNewUser(user)
                 } else {
-                    listener.onAddNewUser(null)
+                    listener.onAddNewUser(context, null)
                     Toast.makeText(context, "Auth Failed!", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
-    fun addNewUser(user: User) {
+    private fun addNewUser(user: User) {
         val ref: DocumentReference = FirebaseReferences.usersRef.document()
         user.userID = ref.id
         val img = user.image
         user.image = ""
         ref.set(user).addOnSuccessListener {
-            listener.onAddNewUser(user)
+            listener.onAddNewUser(context, user)
             addImage(Uri.parse(img),user.userID)
             Toast.makeText(context, "Success to create your account!", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
-            listener.onAddNewUser(null)
+            listener.onAddNewUser(context, null)
             Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -94,7 +91,7 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
         }
     }
 
-    fun addSocialUser(authType: AuthType) {
+    private fun addSocialUser(authType: AuthType) {
         val ref: DocumentReference = FirebaseReferences.usersRef.document()
         val currentUser: FirebaseUser = Firebase.auth.currentUser
 
@@ -112,10 +109,10 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
         )
 
         ref.set(user).addOnSuccessListener {
-            listener.onAddNewUser(user)
+            listener.onAddNewUser(context, user)
             Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
-            listener.onAddNewUser(null)
+            listener.onAddNewUser(context, null)
             Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -128,7 +125,7 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
                 when {
                     it.documents.count() > 0 -> {
                         user = it.documents[0].toObject()!!
-                        listener.onLoginSuccess(user)
+                        listener.onLoginSuccess(context, user)
                     }
                     authType != AuthType.Email -> {
                         addSocialUser(authType)

@@ -16,7 +16,7 @@ import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
 
 class SplashActivity : AppCompatActivity(), INotifyMVP {
-    val Splash_Screen = 4000
+    private val Splash_Screen = 4000
     private lateinit var binding: ActivitySplashBinding
     private lateinit var topAnimation: Animation
     private lateinit var bottomAnimation: Animation

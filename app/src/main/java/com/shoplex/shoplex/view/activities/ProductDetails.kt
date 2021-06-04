@@ -1,15 +1,11 @@
 package com.shoplex.shoplex.view.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.databinding.DataBindingUtil
-
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
-import com.shoplex.shoplex.PagerAdapter
 import com.shoplex.shoplex.R
-import com.shoplex.shoplex.databinding.ActivityHomeBinding
 import com.shoplex.shoplex.databinding.ActivityProductDetailsBinding
+import com.shoplex.shoplex.model.adapter.PagerAdapter
 
 class ProductDetails : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailsBinding
