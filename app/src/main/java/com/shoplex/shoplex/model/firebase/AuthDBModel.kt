@@ -51,7 +51,7 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
                 if (task.isSuccessful) {
                     addNewUser(user)
                 } else {
-                    listener.onAddNewUser(null)
+                    listener.onAddNewUser(context, null)
                     Toast.makeText(context, "Auth Failed!", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -63,11 +63,11 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
         val img = user.image
         user.image = ""
         ref.set(user).addOnSuccessListener {
-            listener.onAddNewUser(user)
+            listener.onAddNewUser(context, user)
             addImage(Uri.parse(img),user.userID)
             Toast.makeText(context, "Success to create your account!", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
-            listener.onAddNewUser(null)
+            listener.onAddNewUser(context, null)
             Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -109,10 +109,10 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
         )
 
         ref.set(user).addOnSuccessListener {
-            listener.onAddNewUser(user)
+            listener.onAddNewUser(context, user)
             Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
-            listener.onAddNewUser(null)
+            listener.onAddNewUser(context, null)
             Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -125,7 +125,7 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
                 when {
                     it.documents.count() > 0 -> {
                         user = it.documents[0].toObject()!!
-                        listener.onLoginSuccess(user)
+                        listener.onLoginSuccess(context, user)
                     }
                     authType != AuthType.Email -> {
                         addSocialUser(authType)

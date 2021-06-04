@@ -163,19 +163,6 @@ class ProductFragment(val productId: String) : Fragment() {
             }
         }
 
-
-//        Toast.makeText(context,productId,Toast.LENGTH_SHORT).show()
-
-        //imgSlider
-//        imageList.add(SlideModel("https://cdn.cliqueinc.com/posts/285870/best-cheap-spring-accessories-285870-1583111706473-main.750x0c.jpg?interlace=true&quality=70"))
-//        imageList.add(SlideModel("https://cdn.cliqueinc.com/posts/285870/best-cheap-spring-accessories-285870-1583111706473-main.750x0c.jpg?interlace=true&quality=70"))
-//        imageList.add(SlideModel("https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-
-        //property recycler
-//        val property = ArrayList<Property>()
-//        property.add(Property("select Size", arrayListOf("37", "38", "39", "40", "41")))
-
-
         return binding.root
     }
 
