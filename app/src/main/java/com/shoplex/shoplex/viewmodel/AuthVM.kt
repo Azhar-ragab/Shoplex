@@ -46,20 +46,22 @@ class AuthVM(val context: Context): ViewModel(), UserActionListener {
         userDBModel.createEmailAccount(user.value!!, password.value!!)
     }
 
+    /*
     fun addUser() {
         userDBModel.addNewUser(user.value!!)
     }
+    */
 
-    override fun onAddNewUser(user: User?) {
-        super.onAddNewUser(user)
+    override fun onAddNewUser(context: Context, user: User?) {
+        super.onAddNewUser(context, user)
         if(user != null){
             UserInfo.saveUserInfo(context)
             (context as SignupActivity).finish()
         }
     }
 
-    override fun onLoginSuccess(user: User) {
-        super.onLoginSuccess(user)
+    override fun onLoginSuccess(context: Context, user: User) {
+        super.onLoginSuccess(context, user)
         // context.startActivity(Intent(context, HomeActivity::class.java))
         Toast.makeText(context, context.getString(R.string.login_success), Toast.LENGTH_SHORT).show()
         (context as LoginActivity).finish()

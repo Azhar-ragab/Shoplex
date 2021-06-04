@@ -34,7 +34,6 @@ class OrdersVM: ViewModel , INotifyMVP {
     }
     override fun onLastOrdersReady(lastOrders: ArrayList<Order>) {
         this.lastOrders.value=lastOrders
-
     }
     fun getCurrentOrders(){
         ordersDBModel.getCurrentOrders()
