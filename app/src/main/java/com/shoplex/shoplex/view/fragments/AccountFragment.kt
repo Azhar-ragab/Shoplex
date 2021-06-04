@@ -1,4 +1,4 @@
-package eg.gov.iti.shoplex.fragments
+package com.shoplex.shoplex.view.fragments
 
 import android.content.ActivityNotFoundException
 import android.content.Intent

@@ -14,6 +14,7 @@ class Order: Checkout {
     var productID: String = ""
     var userID: String = ""
     var storeID: String = ""
+    var storeName: String = ""
     var orderStatus: OrderStatus = OrderStatus.Current
     var quantity: Int = 1
     var specialDiscount: SpecialDiscount? = null
@@ -23,11 +24,12 @@ class Order: Checkout {
         deliveryMethod: DeliveryMethod,
         paymentMethod: PaymentMethod,
         deliveryLoc: LatLng?,
+        deliveryAddress: String,
         subTotalPrice: Float,
         shipping: Int,
         itemNum: Int = 1
     ) :
-            super(deliveryMethod, paymentMethod, deliveryLoc, subTotalPrice, shipping, itemNum) {
+            super(deliveryMethod, paymentMethod, deliveryLoc, deliveryAddress, subTotalPrice, shipping, itemNum) {
     }
 
     constructor(product: ProductCart, checkout: Checkout, orderStatus: OrderStatus) :
@@ -35,6 +37,7 @@ class Order: Checkout {
                 checkout.deliveryMethod,
                 checkout.paymentMethod,
                 checkout.deliveryLoc,
+                checkout.deliveryAddress,
                 checkout.subTotalPrice,
                 checkout.shipping,
                 checkout.itemNum

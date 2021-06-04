@@ -7,12 +7,14 @@ import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.maps.LocationManager
 
 open class Checkout {
     var deliveryMethod: DeliveryMethod = DeliveryMethod.Door
     var paymentMethod: PaymentMethod = PaymentMethod.Cash
     @Exclude @get:Exclude
     var deliveryLoc: LatLng? = null
+    var deliveryAddress: String = ""
     var subTotalPrice: Float = 0F
     var totalDiscount: Float = 0F
     var shipping: Int = 0
@@ -22,15 +24,16 @@ open class Checkout {
 
     constructor(){}
 
-    constructor(deliveryMethod: DeliveryMethod, paymentMethod: PaymentMethod, deliveryLoc: LatLng?, subTotalPrice: Float, shipping: Int, itemNum: Int = 1){
+    constructor(deliveryMethod: DeliveryMethod, paymentMethod: PaymentMethod, deliveryLoc: LatLng?, deliveryAddress: String, subTotalPrice: Float, shipping: Int, itemNum: Int = 1){
         this.deliveryMethod = deliveryMethod
         this.paymentMethod = paymentMethod
         this.deliveryLoc = deliveryLoc
+        this.deliveryAddress = deliveryAddress
         this.subTotalPrice = subTotalPrice
         this.shipping = shipping
         this.totalPrice = subTotalPrice + shipping
         this.itemNum = itemNum
-        this.deliveryLoc = LatLng(UserInfo.location.latitude, UserInfo.location.longitude)
+        //this.deliveryLoc = LatLng(UserInfo.location.latitude, UserInfo.location.longitude)
     }
 
     @Exclude @set:Exclude @get:Exclude

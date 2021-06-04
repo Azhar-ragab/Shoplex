@@ -3,7 +3,6 @@ package com.shoplex.shoplex.viewmodel
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.facebook.AccessToken
@@ -19,7 +18,7 @@ import com.shoplex.shoplex.view.activities.HomeActivity
 import com.shoplex.shoplex.view.activities.LoginActivity
 import com.shoplex.shoplex.view.activities.SignupActivity
 
-class AuthVM(val context: Context) : ViewModel(), UserActionListener {
+class AuthVM(val context: Context): ViewModel(), UserActionListener {
     var user: MutableLiveData<User> = MutableLiveData()
     var email: MutableLiveData<String> = MutableLiveData()
     var password: MutableLiveData<String> = MutableLiveData()
@@ -47,30 +46,24 @@ class AuthVM(val context: Context) : ViewModel(), UserActionListener {
         userDBModel.createEmailAccount(user.value!!, password.value!!)
     }
 
+    /*
     fun addUser() {
         userDBModel.addNewUser(user.value!!)
     }
+    */
 
-    override fun onAddNewUser(user: User?) {
-        super.onAddNewUser(user)
-        if (user != null) {
+    override fun onAddNewUser(context: Context, user: User?) {
+        super.onAddNewUser(context, user)
+        if(user != null){
             UserInfo.saveUserInfo(context)
-            (context as AppCompatActivity).finish()
-//            if (context is SignupActivity) {
-//                context.finish()
-//            } else if (context is LoginActivity) {
-//                context.finish()
-//
-//            }
-
+            (context as SignupActivity).finish()
         }
     }
 
-    override fun onLoginSuccess(user: User) {
-        super.onLoginSuccess(user)
+    override fun onLoginSuccess(context: Context, user: User) {
+        super.onLoginSuccess(context, user)
         // context.startActivity(Intent(context, HomeActivity::class.java))
-        Toast.makeText(context, context.getString(R.string.login_success), Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(context, context.getString(R.string.login_success), Toast.LENGTH_SHORT).show()
         (context as LoginActivity).finish()
     }
 
