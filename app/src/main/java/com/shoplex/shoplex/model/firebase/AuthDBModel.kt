@@ -4,6 +4,7 @@ package com.shoplex.shoplex.model.firebase
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
+import com.facebook.AccessToken
 
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
@@ -34,7 +35,6 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
                 }
             }
     }
-
     fun loginWithFacebook(accessToken: AccessToken) {
         val authCredential: AuthCredential = FacebookAuthProvider.getCredential(accessToken.token)
         Firebase.auth.signInWithCredential(authCredential).addOnCompleteListener { task ->
