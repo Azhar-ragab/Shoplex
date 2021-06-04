@@ -7,6 +7,7 @@ import android.os.Parcelable
 import android.provider.MediaStore
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.type.LatLng
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityProfileBinding
@@ -32,6 +33,7 @@ class ProfileActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
             binding.tvLocation.text = UserInfo.address
             binding.edName.setText(UserInfo.name)
+            Glide.with(baseContext).load(UserInfo.image).into(binding.imgUser)
         }
         if (getSupportActionBar() != null){
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);

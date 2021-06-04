@@ -10,7 +10,7 @@ import com.shoplex.shoplex.model.pojo.LastOrder
 @Database(entities = [LastOrder::class], version = 1)
 abstract class ShoplexDataBase : RoomDatabase(){
 
-    abstract fun shoplexDoa() : ShoplexDoa
+    abstract fun lastOrderDoa() : LastOrderDoa
 
     companion object{
         @Volatile
@@ -24,7 +24,7 @@ abstract class ShoplexDataBase : RoomDatabase(){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     ShoplexDataBase::class.java,
-                    "shoplex_firebase"
+                    "shoplex_Database"
                 ).build()
                 INSTANCE = instance
                 return instance

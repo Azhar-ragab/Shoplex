@@ -8,6 +8,8 @@ import com.shoplex.shoplex.databinding.ActivityOrderBinding
 import com.shoplex.shoplex.model.adapter.OrderAdapter
 import com.shoplex.shoplex.viewmodel.OrdersVM
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.shoplex.shoplex.room.viewmodel.LastOrderViewModel
 
 
 class OrderActivity : AppCompatActivity() {
@@ -31,6 +33,7 @@ class OrderActivity : AppCompatActivity() {
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
             getSupportActionBar()?.setDisplayShowHomeEnabled(true);
         }
+
         ordersVM.getCurrentOrders()
         ordersVM.orders.observe(this, Observer{ orders ->
             orderAdapter = OrderAdapter(orders)
@@ -41,6 +44,10 @@ class OrderActivity : AppCompatActivity() {
             lastOrderAdapter = OrderAdapter(lastOrders)
             binding.rvLastOrders.adapter = lastOrderAdapter
         })
+
+
+
+
         /*
         val currorder = ArrayList<Orders>()
         currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
