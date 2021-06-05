@@ -3,6 +3,7 @@ package com.shoplex.shoplex.viewmodel
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.facebook.AccessToken
@@ -32,12 +33,11 @@ class AuthVM(val context: Context): ViewModel(), UserActionListener {
         this.userDBModel = AuthDBModel(this, context)
     }
 
-    fun login(authType: AuthType, accessToken: AccessToken? = null) {
+    fun login(authType: AuthType, accessToken: String? = null) {
         when (authType) {
             AuthType.Email -> userDBModel.loginWithEmail(email.value!!, password.value!!)
             AuthType.Facebook -> userDBModel.loginWithFacebook(accessToken!!)
-            AuthType.Google -> {
-            }
+            AuthType.Google -> userDBModel.loginWithGoogle(accessToken!!)
         }
     }
 
@@ -56,7 +56,7 @@ class AuthVM(val context: Context): ViewModel(), UserActionListener {
         super.onAddNewUser(context, user)
         if(user != null){
             UserInfo.saveUserInfo(context)
-            (context as SignupActivity).finish()
+            (context as AppCompatActivity).finish()
         }
     }
 

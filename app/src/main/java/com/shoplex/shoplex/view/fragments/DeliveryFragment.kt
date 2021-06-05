@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +13,7 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDeliveryBinding
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.pojo.Checkout
+import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.view.activities.CheckOutActivity
 import com.shoplex.shoplex.viewmodel.CheckoutVM
 
@@ -62,6 +64,16 @@ class DeliveryFragment : Fragment() {
                 Toast.makeText(context, getString(R.string.deliveryMethod), Toast.LENGTH_SHORT).show()
             }
         }
+
+        checkout.deliveryAddress = binding.tvAddress.text.toString()
+        checkout.deliveryLoc = Location(31.1688133,29.931152)
+
+        binding.tvAddress.addTextChangedListener {
+            checkout.deliveryAddress = binding.tvAddress.text.toString()
+            checkout.deliveryLoc = Location(31.1688133,29.931152)
+        }
+        // checkoutVM.deliveryAddress.value = binding.tvAddress.text.toString()
+        // checkoutVM.deliveryLocation.value = Location(31.1688133,29.931152)
 
         return binding.root
     }

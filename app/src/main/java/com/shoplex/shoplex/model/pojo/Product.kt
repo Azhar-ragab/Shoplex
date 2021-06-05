@@ -5,14 +5,10 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.denzcoskun.imageslider.models.SlideModel
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
-import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.enumurations.Premium
-import com.shoplex.shoplex.model.pojo.Properties
+import com.shoplex.shoplex.model.pojo.Location
 import java.util.*
-import kotlin.collections.ArrayList
-
 
 open class Product : Parcelable{
     var productID : String = UUID.randomUUID().toString()
@@ -31,6 +27,7 @@ open class Product : Parcelable{
     var premiumDays: Int = 0
     var properties: ArrayList<Property> = arrayListOf()
     var date: Date? = null
+    val deliveryLoc: Location? = null
 
     var images : ArrayList<String?> = arrayListOf()
 
@@ -53,11 +50,6 @@ open class Product : Parcelable{
         this.newPrice = price
         this.category = category
         this.images.add(productImageUrl)
-        /*
-        if (images.size > 0){
-            this.images[0] = productImageUrl
-        }
-        */
     }
 
     constructor(

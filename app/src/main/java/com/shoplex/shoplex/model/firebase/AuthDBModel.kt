@@ -5,9 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.widget.Toast
 import com.facebook.AccessToken
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
@@ -32,17 +30,29 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
             }
     }
 
-    fun loginWithFacebook(accessToken: AccessToken) {
-        val authCredential: AuthCredential = FacebookAuthProvider.getCredential(accessToken.token)
+    fun loginWithFacebook(accessToken: String) {
+        val authCredential: AuthCredential = FacebookAuthProvider.getCredential(accessToken)
         Firebase.auth.signInWithCredential(authCredential).addOnCompleteListener { task ->
             if (task.isSuccessful) run {
                 val user: FirebaseUser = Firebase.auth.currentUser
                 getUserByMail(user.email, AuthType.Facebook)
             } else {
-                Toast.makeText(context, "couldn`t register to firebase", Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(context, "couldn't register to firebase", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    fun loginWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        FirebaseAuth.getInstance().signInWithCredential(credential)
+            .addOnCompleteListener() { task ->
+                if (task.isSuccessful) {
+                    val user: FirebaseUser = Firebase.auth.currentUser
+                    getUserByMail(user.email, AuthType.Google)
+                } else {
+                    Toast.makeText(context, "couldn't register to firebase", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     fun createEmailAccount(user: User, password: String) {
@@ -79,7 +89,7 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
 
         imgRef.putFile(uri).addOnSuccessListener { _ ->
             imgRef.downloadUrl.addOnSuccessListener {
-                //add Image to firestorage
+                //add Image to FireStorage
                 FirebaseReferences.usersRef.document(userId).update("image",it.toString())
                 //update profile
                 val profileUpdates = userProfileChangeRequest {
