@@ -8,6 +8,8 @@ import com.shoplex.shoplex.databinding.ActivityOrderBinding
 import com.shoplex.shoplex.model.adapter.OrderAdapter
 import com.shoplex.shoplex.viewmodel.OrdersVM
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.shoplex.shoplex.room.viewmodel.LastOrderViewModel
 
 
 class OrderActivity : AppCompatActivity() {
@@ -27,20 +29,49 @@ class OrderActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         }
-        if (supportActionBar != null){
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true);
-            supportActionBar!!.setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null){
+            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
         }
+
         ordersVM.getCurrentOrders()
         ordersVM.orders.observe(this, Observer{ orders ->
             orderAdapter = OrderAdapter(orders)
             binding.rvCurrentOrders.adapter = orderAdapter
         })
         ordersVM.getLastOrders()
-        ordersVM.lastOrders.observe(this, { lastOrders ->
+        ordersVM.lastOrders.observe(this, Observer{ lastOrders ->
             lastOrderAdapter = OrderAdapter(lastOrders)
             binding.rvLastOrders.adapter = lastOrderAdapter
         })
+
+
+
+
+        /*
+        val currorder = ArrayList<Orders>()
+        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+
+        val lastorder = ArrayList<Orders>()
+        lastorder.add(Orders("",OrderStatus.DELIVERD,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+        lastorder.add(Orders("",OrderStatus.CANCEL,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+        lastorder.add(Orders("",OrderStatus.DELIVERD,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+        lastorder.add(Orders("",OrderStatus.CANCEL,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+        lastorder.add(Orders("",OrderStatus.DELIVERD,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
+
+
+        orderAdapter = OrderAdapter(currorder)
+        binding.rvCurrentOrders.adapter = orderAdapter
+        lastOrderAdapter = OrderAdapter(lastorder)
+        binding.rvLastOrders.adapter = lastOrderAdapter
+
+         */
+
+
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
