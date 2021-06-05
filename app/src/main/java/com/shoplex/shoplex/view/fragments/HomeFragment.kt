@@ -16,6 +16,8 @@ import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
 import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.enumurations.Category
+import com.shoplex.shoplex.model.pojo.Filter
+import com.shoplex.shoplex.model.pojo.Sort
 import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
@@ -48,65 +50,20 @@ class HomeFragment : Fragment() {
 
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
             val category = Category.valueOf(group.findViewById<Chip>(checkedId).text.toString().replace(" ", getString(R.string.underscore)))
-            productsVM.getAllProducts(category)
+            val shops = arrayListOf("b4a2643b-7dba-4c29-9bf1-e53dd73acc3b", "b31eafa4-8167-4ee0-92de-6fb5d3b1c0ef")
+            val filter = Filter(lowPrice = 50, highPrice = 250, subCategory = null, rate = null, discount = null, shops = null)
+            val sort = Sort(price = null, rate = false, discount = true, nearestShop = false)
+
+            productsVM.getAllProducts(category, filter, sort)
         }
 
         binding.chipGroup.findViewById<Chip>(binding.chipGroup.children.first().id).isChecked = true
-
-/*
-        val advertisement = ArrayList<Ads_Home>()
-
-        advertisement.add(
-            Ads_Home(
-                "T-Shirt",
-                "http://cdn.shopify.com/s/files/1/0002/2573/8783/products/Tees_Fashion_Blue_90f965c8-8edc-4ef8-99dd-1dcb6977ce13_1078x.png?v=1536327040",
-                "Offer 25%"
-            )
-        )
-        advertisement.add(
-            Ads_Home(
-                "Pants",
-                "https://cdn.shopify.com/s/files/1/0089/3989/6947/files/header-2.3_2e9bf8b4-a065-4aea-9beb-c6913d0344b9_800x.jpg?v=1618672152",
-                "Offer 25%"
-            )
-        )
-        advertisement.add(
-            Ads_Home(
-                "Pants",
-                "https://images.unsplash.com/photo-1483985988355-763728e1935b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFzaGlvbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-                "Offer 25%"
-            )
-        )
-        */
 
         productsVM.getAllPremiums()
         productsVM.advertisments.observe(viewLifecycleOwner, Observer{ advertisements ->
             advertisementsAdapter = AdvertisementsAdapter(advertisements)
             binding.rvAdvertisement.adapter = advertisementsAdapter
        })
-
-        // Products
-
-        /*
-        products.add(
-            Products_Home("Sport Dress" ,
-                12F, 10.5F , 4.5,"Heba" ,"Active Store","5Km/m","https://cdn.shopify.com/s/files/1/0089/3989/6947/files/header-2.3_2e9bf8b4-a065-4aea-9beb-c6913d0344b9_800x.jpg?v=1618672152",5
-
-            )
-        )
-        products.add(
-            Products_Home("Sport Dress" ,
-                12F, 10.5F , 4.5,"Heba" ,"Swich Store","5Km/m","https://images.unsplash.com/photo-1483985988355-763728e1935b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFzaGlvbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",5
-
-            )
-        )
-        products.add(
-            Products_Home("Sport Dress" ,
-                12F, 10.5F , 4.5,"Heba" ,"Active Store","3Km/m ","https://images.unsplash.com/photo-1483985988355-763728e1935b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFzaGlvbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80,5",5
-
-            )
-        )
-        */
 
         binding.rvHomeproducts.layoutManager = GridLayoutManager(this.context, getGridColumnsCount())
         productsVM.products.observe(viewLifecycleOwner, Observer{ products ->

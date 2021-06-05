@@ -7,6 +7,8 @@ import com.shoplex.shoplex.Review
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.firebase.ProductsDBModel
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
+import com.shoplex.shoplex.model.pojo.Filter
+import com.shoplex.shoplex.model.pojo.Sort
 
 class ProductsVM: ViewModel, INotifyMVP {
     var products: MutableLiveData<ArrayList<Product>> = MutableLiveData()
@@ -18,8 +20,8 @@ class ProductsVM: ViewModel, INotifyMVP {
         products.value = arrayListOf()
     }
 
-    fun getAllProducts(category: Category) {
-        productsDBModel.getAllProducts(category)
+    fun getAllProducts(category: Category, filter: Filter, sort: Sort? = null) {
+        productsDBModel.getAllProducts(category, filter, sort)
     }
 
     override fun onAllProductsReady(products: ArrayList<Product>) {
