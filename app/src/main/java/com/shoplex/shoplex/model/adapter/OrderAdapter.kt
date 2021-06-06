@@ -12,7 +12,7 @@ import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.LastOrder
 import com.shoplex.shoplex.model.pojo.Order
-import com.shoplex.shoplex.room.viewmodel.LastOrderViewModel
+
 
 class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 

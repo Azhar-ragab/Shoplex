@@ -2,15 +2,15 @@ package com.shoplex.shoplex.room.repository
 
 import androidx.lifecycle.LiveData
 import com.shoplex.shoplex.model.pojo.LastOrder
-import com.shoplex.shoplex.room.data.LastOrderDoa
+import com.shoplex.shoplex.room.data.ShoplexDao
 
 
-class LastOrderRepo(private val lastOrderDoa: LastOrderDoa) {
+class LastOrderRepo(private val shoplexDao: ShoplexDao) {
 
-    val readAllLastOrder: LiveData<List<LastOrder>> = lastOrderDoa.readAllLastOrder()
+    val readAllLastOrder: LiveData<List<LastOrder>> = shoplexDao.readAllLastOrder()
 
     suspend fun addLastOrder(lastOrder: List<LastOrder>){
-        lastOrderDoa.addLastOrder(lastOrder)
+        shoplexDao.addLastOrder(lastOrder)
     }
 
 }

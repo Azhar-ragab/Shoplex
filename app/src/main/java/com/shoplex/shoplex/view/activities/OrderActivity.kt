@@ -8,20 +8,18 @@ import com.shoplex.shoplex.databinding.ActivityOrderBinding
 import com.shoplex.shoplex.model.adapter.OrderAdapter
 import com.shoplex.shoplex.viewmodel.OrdersVM
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.shoplex.shoplex.room.viewmodel.LastOrderViewModel
 
 
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
-    private lateinit  var orderAdapter:OrderAdapter
-    private lateinit  var lastOrderAdapter:OrderAdapter
+    private lateinit var orderAdapter: OrderAdapter
+    private lateinit var lastOrderAdapter: OrderAdapter
     private lateinit var ordersVM: OrdersVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderBinding.inflate(layoutInflater)
-        this.ordersVM= OrdersVM()
+        this.ordersVM = OrdersVM()
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarorder)
         supportActionBar?.apply {
@@ -29,23 +27,21 @@ class OrderActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         }
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
             getSupportActionBar()?.setDisplayShowHomeEnabled(true);
         }
 
         ordersVM.getCurrentOrders()
-        ordersVM.orders.observe(this, Observer{ orders ->
+        ordersVM.orders.observe(this, Observer { orders ->
             orderAdapter = OrderAdapter(orders)
             binding.rvCurrentOrders.adapter = orderAdapter
         })
         ordersVM.getLastOrders()
-        ordersVM.lastOrders.observe(this, Observer{ lastOrders ->
+        ordersVM.lastOrders.observe(this, Observer { lastOrders ->
             lastOrderAdapter = OrderAdapter(lastOrders)
             binding.rvLastOrders.adapter = lastOrderAdapter
         })
-
-
 
 
         /*
@@ -73,6 +69,7 @@ class OrderActivity : AppCompatActivity() {
 
 
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
         if (item.itemId == android.R.id.home) {

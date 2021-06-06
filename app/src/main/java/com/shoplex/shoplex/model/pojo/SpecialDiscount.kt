@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.shoplex.shoplex.model.enumurations.DiscountType
 
-class SpecialDiscount : Parcelable {
+ class SpecialDiscount : Parcelable {
     var discount: Float = 0F
     var discountType: DiscountType = DiscountType.Fixed
 
@@ -12,7 +12,7 @@ class SpecialDiscount : Parcelable {
         discount = parcel.readFloat()
     }
 
-    private constructor()
+     constructor()
     constructor(discount: Float, discountType: DiscountType){
         this.discount = discount
         this.discountType = discountType
