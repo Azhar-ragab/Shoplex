@@ -1,5 +1,6 @@
 package com.shoplex.shoplex.model.pojo
 
+import androidx.room.Entity
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.Product
@@ -8,7 +9,7 @@ import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.UserInfo
 import java.util.*
-
+@Entity (tableName = "lastOrder")
 class Order: Checkout {
     var orderID: String = UUID.randomUUID().toString()
     var productID: String = ""

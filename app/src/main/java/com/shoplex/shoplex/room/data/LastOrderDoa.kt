@@ -5,14 +5,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.shoplex.shoplex.model.pojo.LastOrder
-
+import com.shoplex.shoplex.model.pojo.Order
+/*
 @Dao
 interface LastOrderDoa {
 
         @Insert(onConflict = OnConflictStrategy.IGNORE)
-        suspend fun addLastOrder(lastOrder: kotlin.collections.List<com.shoplex.shoplex.model.pojo.LastOrder>)
+        suspend fun addLastOrder(lastOrder:Order)
 
-        @Query("SELECT * FROM lastOrder ORDER BY id ASC")
-        fun readAllLastOrder(): LiveData<List<LastOrder>>
-}
+        @Query("SELECT * FROM lastOrder")
+        fun readAllLastOrder(): LiveData<List<Order>>
+}*/
