@@ -151,7 +151,7 @@ class ProductFragment(val productId: String) : Fragment() {
             )
 
             var checkout: Checkout = Checkout(
-                DeliveryMethod.Door, PaymentMethod.Fawry, LatLng(
+                DeliveryMethod.Door, PaymentMethod.Fawry, Location(
                     UserInfo.location.latitude, UserInfo.location.longitude
                 ), address ?: "", product.price, 12
             )

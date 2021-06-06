@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
+import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.UserInfo
@@ -15,15 +16,17 @@ class Order: Checkout {
     var userID: String = ""
     var storeID: String = ""
     var storeName: String = ""
+    var productPrice: Float = 0.0F
     var orderStatus: OrderStatus = OrderStatus.Current
     var quantity: Int = 1
     var specialDiscount: SpecialDiscount? = null
+
     @Exclude @set:Exclude @get:Exclude
     var product:Product? = null
     private constructor(
         deliveryMethod: DeliveryMethod,
         paymentMethod: PaymentMethod,
-        deliveryLoc: LatLng?,
+        deliveryLoc: Location?,
         deliveryAddress: String,
         subTotalPrice: Float,
         shipping: Int,
@@ -44,14 +47,24 @@ class Order: Checkout {
             ) {
         this.productID = product.productID
         this.userID = UserInfo.userID!!
+        this.storeID = product.storeID
+        this.storeName = product.storeName
         this.orderStatus = orderStatus
         this.quantity = product.quantity
         this.specialDiscount = product.specialDiscount
-        this.totalDiscount = if (this.specialDiscount != null)
+        this.shipping = product.shipping
+        this.productPrice = product.price
+        this.subTotalPrice = (product.price * product.quantity)
+        this.totalDiscount = if (this.specialDiscount != null) {
             this.specialDiscount!!.discount
-        else
+        }
+        else {
+            this.specialDiscount = SpecialDiscount(product.discount.toFloat(), DiscountType.Percentage)
             product.price - product.newPrice
+        }
         this.totalPrice = this.subTotalPrice + this.shipping - this.totalDiscount
+        // this.deliveryAddress = checkout.deliveryAddress
+        //this.deliveryLoc = checkout.deliveryLoc
     }
     constructor() : super()
 

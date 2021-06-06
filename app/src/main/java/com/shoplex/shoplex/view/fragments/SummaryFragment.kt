@@ -57,7 +57,7 @@ class SummaryFragment : Fragment() {
 
         binding.btnSummary.setOnClickListener {
             for (product in checkout.getAllProducts()){
-                val order = Order(product,checkout,OrderStatus.Current)
+                val order = Order(product, checkout, OrderStatus.Current)
                 FirebaseReferences.ordersRef.document(order.orderID).set(order).addOnSuccessListener {
                     Toast.makeText(context,getString(R.string.Success), Toast.LENGTH_SHORT).show()
                 }

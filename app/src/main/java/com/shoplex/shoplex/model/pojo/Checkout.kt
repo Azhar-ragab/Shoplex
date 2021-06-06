@@ -12,8 +12,8 @@ import com.shoplex.shoplex.model.maps.LocationManager
 open class Checkout {
     var deliveryMethod: DeliveryMethod = DeliveryMethod.Door
     var paymentMethod: PaymentMethod = PaymentMethod.Cash
-    @Exclude @get:Exclude
-    var deliveryLoc: LatLng? = null
+    // @Exclude @get:Exclude
+    var deliveryLoc: Location? = null
     var deliveryAddress: String = ""
     var subTotalPrice: Float = 0F
     var totalDiscount: Float = 0F
@@ -24,7 +24,7 @@ open class Checkout {
 
     constructor(){}
 
-    constructor(deliveryMethod: DeliveryMethod, paymentMethod: PaymentMethod, deliveryLoc: LatLng?, deliveryAddress: String, subTotalPrice: Float, shipping: Int, itemNum: Int = 1){
+    constructor(deliveryMethod: DeliveryMethod, paymentMethod: PaymentMethod, deliveryLoc: Location?, deliveryAddress: String, subTotalPrice: Float, shipping: Int, itemNum: Int = 1){
         this.deliveryMethod = deliveryMethod
         this.paymentMethod = paymentMethod
         this.deliveryLoc = deliveryLoc

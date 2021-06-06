@@ -1,14 +1,8 @@
 package com.shoplex.shoplex.model.pojo
 
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.android.gms.maps.model.LatLng
 import com.shoplex.shoplex.Product
-import com.shoplex.shoplex.Property
-import com.shoplex.shoplex.model.enumurations.Premium
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ProductCart: Product {
     var quantity: Int = 1
@@ -17,7 +11,7 @@ class ProductCart: Product {
 
     constructor()
 
-    constructor(product: Product, quantity : Int,specialDiscount: SpecialDiscount, shipping: Int) {
+    constructor(product: Product, quantity : Int,specialDiscount: SpecialDiscount?, shipping: Int) {
         this.productID = product.productID
         this.storeID = product.storeID
         this.storeName = product.storeName
