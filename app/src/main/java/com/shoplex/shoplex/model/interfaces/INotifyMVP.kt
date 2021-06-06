@@ -8,7 +8,6 @@ import com.shoplex.shoplex.model.pojo.Store
 
 interface INotifyMVP {
     fun onAllProductsReady(products: ArrayList<Product>){}
-    fun onStoreInfoReady(stores: ArrayList<Store>){}
     fun onOrderSuccess(){}
     fun onOrderFailed(){}
     fun onAllAdvertismentsReady(products: ArrayList<Product>){}

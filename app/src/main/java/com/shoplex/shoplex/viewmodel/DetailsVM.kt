@@ -4,9 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shoplex.shoplex.model.firebase.StoresDBModel
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
+import com.shoplex.shoplex.model.interfaces.StoresListener
 import com.shoplex.shoplex.model.pojo.Store
 
-class DetailsVM :ViewModel,INotifyMVP{
+class DetailsVM :ViewModel, StoresListener{
     var store: MutableLiveData<Store> = MutableLiveData()
     private var storesDBModel = StoresDBModel(this)
     constructor()

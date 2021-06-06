@@ -1,10 +1,11 @@
 package com.shoplex.shoplex.view.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityFilterBinding
@@ -12,25 +13,45 @@ import java.text.NumberFormat
 import java.util.*
 import com.shoplex.shoplex.databinding.BottomSheetShopsBinding
 import com.shoplex.shoplex.model.adapter.StoresLocationsAdapter
+import com.shoplex.shoplex.model.adapter.SubCategoryAdapter
+import com.shoplex.shoplex.model.enumurations.*
+import com.shoplex.shoplex.model.pojo.Filter
+import com.shoplex.shoplex.model.pojo.Sort
 import com.shoplex.shoplex.model.pojo.StoreLocationInfo
+import com.shoplex.shoplex.viewmodel.StoresVM
+import kotlin.collections.ArrayList
 
 
 class FilterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFilterBinding
+    //private var subCatCheckList: ArrayList<String> = arrayListOf()
+    //private var selectedItem = Category.Fashion.name
+
+    private lateinit var storesVM: StoresVM
+
+    companion object{
+        val CATEGORY = "CATEGORY"
+        val FILTER = "FILTER"
+        val SORT = "SORT"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFilterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolBarFilter)
+
+        storesVM = ViewModelProvider(this).get(StoresVM::class.java)
+
+        storesVM.selectedItem.value = intent.getStringExtra(CATEGORY).toString()
+
         supportActionBar?.apply {
             title = getString(R.string.filter)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-
         }
-        if (getSupportActionBar() != null){
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        if (supportActionBar != null){
+            supportActionBar?.setDisplayHomeAsUpEnabled(true);
+            supportActionBar?.setDisplayShowHomeEnabled(true);
         }
 
         //format range slider Label
@@ -41,17 +62,51 @@ class FilterActivity : AppCompatActivity() {
             format.format(value.toDouble())
         }
 
-        binding.toggleBtnPrice.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
-            if(isChecked){
-                when(checkedId){
-                    R.id.btnLowPrice -> Toast.makeText(this,getString(R.string.LowPriceSelected),Toast.LENGTH_SHORT).show()
-                    R.id.btnHighPrice -> Toast.makeText(this,getString(R.string.HighPriceSelected),Toast.LENGTH_SHORT).show()
-                }
-            }
+
+        binding.cardCategoryFilter.setOnClickListener {
+            subCategoryBottomSheetDialog()
         }
 
         binding.cardShopesFilter.setOnClickListener {
-            showBottomSheetDialog()
+            shopsBottomSheetDialog()
+        }
+
+        binding.btnFilterOK.setOnClickListener {
+            var filter = Filter()
+            var sort: Sort? = null
+            if(binding.cbFilter.isChecked) {
+                var stores: ArrayList<String>? = storesVM.storesList.value
+                var subCategory: ArrayList<String>? = storesVM.subCatCheckList.value
+                val minPrice = binding.rsPrice.valueFrom.toInt()
+                val maxPrice = binding.rsPrice.valueTo.toInt()
+                val rate = binding.ratingBarFilter.rating
+                val discount = binding.sliderDiscount.value.toInt()
+
+                if (stores.isNullOrEmpty())
+                    stores = null
+
+                if (subCategory.isNullOrEmpty())
+                    subCategory = null
+
+                filter = Filter(lowPrice = minPrice, highPrice = maxPrice, subCategory = subCategory, rate = rate, discount = discount, shops = stores)
+            }
+
+            var price = binding.cbPrice.isChecked
+            val rate = binding.cbRating.isChecked
+            val discount = binding.cbDiscount.isChecked
+            val nearestShop = binding.cbNersedtShop.isChecked
+
+            if(price || rate || discount || nearestShop){
+                price = (binding.toggleBtnPrice.checkedButtonId != binding.btnLowPrice.id)
+                sort = Sort(price, rate, discount, nearestShop)
+            }
+
+            setResult(RESULT_OK, Intent().apply {
+                putExtra(FILTER, filter)
+                putExtra(SORT, sort)
+            })
+
+            finish()
         }
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -61,23 +116,51 @@ class FilterActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-    private fun showBottomSheetDialog() {
+
+    private fun shopsBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(this)
 
         val bottomSheetShopsBinding = BottomSheetShopsBinding.inflate(layoutInflater)
         var storesLocations: ArrayList<StoreLocationInfo> = arrayListOf()
-        storesLocations.add(StoreLocationInfo("Alpha Store", 280F, 12, 50))
-        storesLocations.add(StoreLocationInfo("Abeer Store", 20F, 5, 15))
-        storesLocations.add(StoreLocationInfo("Heba Store", 80F, 7, 20))
-        storesLocations.add(StoreLocationInfo("Azhar Store", 34F, 12, 50))
-        storesLocations.add(StoreLocationInfo("Habiba Store", 90F, 12, 50))
-        storesLocations.add(StoreLocationInfo("Mohamed Store", 100F, 12, 50))
 
-        val adapter: StoresLocationsAdapter = StoresLocationsAdapter(storesLocations)
+        storesVM.getStoresInfo()
+
+        storesVM.storesLocationInfo.observe(this, {
+            val adapter: StoresLocationsAdapter = StoresLocationsAdapter(it, storesVM.storesList.value!!)
+            bottomSheetShopsBinding.rvShops.adapter = adapter
+        })
+
+        bottomSheetDialog.setContentView(bottomSheetShopsBinding.root)
+
+        bottomSheetDialog.show()
+    }
+
+    private fun subCategoryBottomSheetDialog() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetShopsBinding = BottomSheetShopsBinding.inflate(layoutInflater)
+        val adapter: SubCategoryAdapter = SubCategoryAdapter(getSubCategory(storesVM.selectedItem.value!!), storesVM.subCatCheckList.value!!)
         bottomSheetShopsBinding.rvShops.adapter = adapter
 
         bottomSheetDialog.setContentView(bottomSheetShopsBinding.root)
 
         bottomSheetDialog.show()
     }
+
+    fun getSubCategory(selectedItem: String): Array<String>{
+        val listSubCat =
+            when(Category.valueOf(selectedItem.replace(" ", "_"))) {
+                Category.Fashion -> SubFashion.values()
+                Category.Health_Care -> SubHealth.values()
+                Category.Phone_and_Tablets -> SubPhone.values()
+                Category.Electronics -> SubElectronic.values()
+                Category.Accessories -> SubAccessors.values()
+                Category.Books -> SubBook.values()
+            }
+
+        return ((listSubCat as Array<*>).map {
+            it.toString().split("_").joinToString(" ")
+        }.toTypedArray())
+    }
+
+
 }

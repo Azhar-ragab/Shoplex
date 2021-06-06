@@ -1,7 +1,9 @@
 package com.shoplex.shoplex.model.firebase
 
 import android.content.Context
+import android.util.Log
 import android.util.Range
+import android.widget.Toast
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -14,6 +16,7 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
 import com.shoplex.shoplex.model.pojo.Filter
 import com.shoplex.shoplex.model.pojo.Sort
+import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 import java.util.*
 
 class ProductsDBModel(val notifier: INotifyMVP?) {
@@ -44,6 +47,9 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
                 .whereLessThanOrEqualTo("price", filter.highPrice)
                 .orderBy("price", Query.Direction.ASCENDING)
 
+        if(filter.subCategory != null)
+            query = query.whereIn("subCategory", filter.subCategory)
+
         if (filter.shops != null)
             query = query.whereIn("storeID", filter.shops)
 
@@ -69,8 +75,10 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
                 var product: Product? = document.toObject<Product>()
                 if (product != null) {
                     var pass = true
+                    /*
                     if(filter.subCategory!= null && product.subCategory != filter.subCategory)
                         pass = false
+                    */
 
                     if(filter.rate != null && (product.rate == null || product.rate!! < filter.rate))
                         pass = false

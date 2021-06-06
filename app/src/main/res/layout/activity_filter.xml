@@ -137,7 +137,6 @@
 
             <RatingBar
                 android:id="@+id/ratingBarFilter"
-                style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8"
@@ -185,9 +184,9 @@
                 android:layout_marginStart="@dimen/margin_32"
                 android:layout_marginTop="@dimen/margin_16"
                 android:layout_marginEnd="@dimen/margin_16"
-                android:valueFrom="0.0"
-                android:valueTo="10000.0"
                 android:stepSize="10"
+                android:valueFrom="10"
+                android:valueTo="10000.0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvPriceFilter"
                 app:layout_constraintTop_toBottomOf="@+id/ratingBarFilter"
@@ -200,8 +199,8 @@
                 android:layout_marginStart="@dimen/margin_8"
                 android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginEnd="@dimen/margin_16"
+                android:stepSize="2"
                 android:value="20"
-                android:stepSize="5"
                 android:valueFrom="0.0"
                 android:valueTo="90.0"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -267,13 +266,14 @@
                 android:id="@+id/toggleBtnPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:singleSelection="true"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginEnd="@dimen/margin_16"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cbPrice"
-                app:layout_constraintTop_toBottomOf="@+id/textView4">
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:singleSelection="true">
 
                 <Button
                     android:id="@+id/btnLowPrice"
@@ -302,7 +302,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cbPrice" />
 
             <CheckBox
-                android:id="@+id/chDiscount"
+                android:id="@+id/cbDiscount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
@@ -313,7 +313,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cbRating" />
 
             <CheckBox
-                android:id="@+id/chNersedtShop"
+                android:id="@+id/cbNersedtShop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
@@ -323,9 +323,26 @@
                 android:textColor="@color/darkblue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chDiscount" />
+                app:layout_constraintTop_toBottomOf="@+id/cbDiscount" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnFilterOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/cbFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="49dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
