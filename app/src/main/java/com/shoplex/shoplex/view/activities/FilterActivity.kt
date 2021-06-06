@@ -74,7 +74,7 @@ class FilterActivity : AppCompatActivity() {
         binding.btnFilterOK.setOnClickListener {
             var filter = Filter()
             var sort: Sort? = null
-            if(binding.cbFilter.isChecked) {
+            if(true) {
                 var stores: ArrayList<String>? = storesVM.storesList.value
                 var subCategory: ArrayList<String>? = storesVM.subCatCheckList.value
                 val minPrice = binding.rsPrice.valueFrom.toInt()
@@ -118,7 +118,7 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun shopsBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetDialog = BottomSheetDialog(this,R.style.BottomSheetDialogTheme)
 
         val bottomSheetShopsBinding = BottomSheetShopsBinding.inflate(layoutInflater)
         var storesLocations: ArrayList<StoreLocationInfo> = arrayListOf()
@@ -136,7 +136,7 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun subCategoryBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetDialog = BottomSheetDialog(this,R.style.BottomSheetDialogTheme)
         val bottomSheetShopsBinding = BottomSheetShopsBinding.inflate(layoutInflater)
         val adapter: SubCategoryAdapter = SubCategoryAdapter(getSubCategory(storesVM.selectedItem.value!!), storesVM.subCatCheckList.value!!)
         bottomSheetShopsBinding.rvShops.adapter = adapter
