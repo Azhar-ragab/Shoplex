@@ -9,23 +9,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
+import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
 import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.enumurations.Category
+import com.shoplex.shoplex.model.pojo.ProductCart
+import com.shoplex.shoplex.room.Lisitener
+import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),Lisitener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var advertisementsAdapter: AdvertisementsAdapter
     private lateinit var homeProductAdapter: HomeProductsAdapter
     private lateinit var productsVM: ProductsVM
     private val FILTER_CODE = 202
+    private lateinit var cartVM:CartViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,6 +114,7 @@ class HomeFragment : Fragment() {
             )
         )
         */
+cartVM=ViewModelProvider(this).get(CartViewModel::class.java)
 
         binding.rvHomeproducts.layoutManager = GridLayoutManager(this.context, getGridColumnsCount())
         productsVM.products.observe(viewLifecycleOwner, Observer{ products ->
@@ -131,5 +139,9 @@ class HomeFragment : Fragment() {
 
             }
         }
+    }
+
+    override fun onaddCart(productCart: ProductCart) {
+        cartVM.addCart(productCart)
     }
 }
