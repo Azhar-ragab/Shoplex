@@ -1,7 +1,6 @@
 package com.shoplex.shoplex.room.repository
 
 import androidx.lifecycle.LiveData
-import com.shoplex.shoplex.model.pojo.LastOrder
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.room.data.ShoplexDao
 

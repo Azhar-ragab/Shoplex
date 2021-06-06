@@ -4,14 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.shoplex.shoplex.model.pojo.LastOrder
+import androidx.room.TypeConverters
+import com.shoplex.shoplex.model.pojo.ProductCart
 
 
-@Database(entities = [LastOrder::class,ProductCart::class], version = 1)
+@Database(entities = [ProductCart::class], version = 1)
 @TypeConverters(Converter ::class)
 abstract class ShoplexDataBase : RoomDatabase(){
 
-    abstract fun lastOrderDoa() : LastOrderDoa
+    abstract fun shoplexDao() : ShoplexDao
 
     companion object{
         @Volatile

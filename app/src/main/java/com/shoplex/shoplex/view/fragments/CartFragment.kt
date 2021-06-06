@@ -57,7 +57,6 @@ lateinit var cartViewModel:CartViewModel
         }
 
 
-
         return binding.root
 
     }
