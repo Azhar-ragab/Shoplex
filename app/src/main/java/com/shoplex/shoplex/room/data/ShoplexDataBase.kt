@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.shoplex.shoplex.model.pojo.Order
+import com.shoplex.shoplex.model.pojo.LastOrder
 
-/*
-@Database(entities = [Order::class], version = 1)
+
+@Database(entities = [LastOrder::class,ProductCart::class], version = 1)
+@TypeConverters(Converter ::class)
 abstract class ShoplexDataBase : RoomDatabase(){
 
     abstract fun lastOrderDoa() : LastOrderDoa
@@ -32,4 +33,3 @@ abstract class ShoplexDataBase : RoomDatabase(){
         }
     }
 }
-*/

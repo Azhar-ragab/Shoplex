@@ -3,6 +3,7 @@ package com.shoplex.shoplex.view.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.model.LatLng
+
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivitySignupBinding
 import com.shoplex.shoplex.model.enumurations.LocationAction
@@ -50,6 +52,7 @@ class SignupActivity : AppCompatActivity() {
                     }, MapsActivity.MAPS_CODE
             )
         }
+
         binding.imgSignup.setOnClickListener {
             openGallary()
         }
@@ -72,7 +75,7 @@ class SignupActivity : AppCompatActivity() {
         startActivityForResult(intent, OPEN_GALLERY_CODE)
     }
 
-    private fun onEditTextChanged() {
+    private fun onEditTextChanged(){
         binding.edName.addTextChangedListener {
             binding.tiName.error = null
         }
@@ -88,7 +91,7 @@ class SignupActivity : AppCompatActivity() {
         binding.edPhone.addTextChangedListener {
             binding.tiPhone.error = null
         }
-        binding.tvLocation.addTextChangedListener {
+        binding.tvLocation.addTextChangedListener{
             binding.tvLocation.error = null
         }
     }
@@ -122,6 +125,9 @@ class SignupActivity : AppCompatActivity() {
             binding.tvLocation.text.trim()
                 .toString() == "Egypt" || binding.tvLocation.text.length < 2 -> binding.tvLocation.error =
                 "Please Select valid location!"
+
+
+
 
             authVM.user.value?.image.isNullOrEmpty() -> Toast.makeText(
                 this,
