@@ -7,12 +7,14 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.Property
 import com.shoplex.shoplex.model.enumurations.Premium
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 @Entity(tableName = "Cart")
 data class ProductCart(
@@ -22,7 +24,6 @@ data class ProductCart(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 ) : Product(),Parcelable {
-
 
     constructor(
         product: Product,

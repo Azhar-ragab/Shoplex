@@ -3,10 +3,11 @@ package com.shoplex.shoplex.model.pojo
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.enumurations.OrderStatus
 import kotlinx.android.parcel.Parcelize
 import java.util.*
-
+/*
 @Parcelize
 @Entity (tableName = "lastOrder")
 data class LastOrder(
@@ -24,3 +25,4 @@ data class LastOrder(
     val quantity: Int,
     val specialDiscount: String
 ):Parcelable
+*/

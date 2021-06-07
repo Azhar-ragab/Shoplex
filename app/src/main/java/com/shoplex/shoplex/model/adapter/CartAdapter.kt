@@ -15,7 +15,6 @@ import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.room.Lisitener
 
 class CartAdapter(
-    var carts:ArrayList<ProductCart>,
     var deleteCartClick: Lisitener,
     var updateCartClick: Lisitener
 ) :
@@ -24,7 +23,8 @@ class CartAdapter(
         var deleteCart: Lisitener? = null
         var updateCart: Lisitener? = null
     }
-//    var carts= emptyList<ProductCart>()
+
+    var carts= emptyList<ProductCart>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder(
             RvCartHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -42,46 +42,44 @@ class CartAdapter(
     inner class ProductViewHolder(val binding: RvCartHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductCart) {
-            Glide.with(binding.root.context).load(product.images[0]).into(binding.imgCart)
-            binding.tvCart.text = product.name
-            binding.tvPrice.text = product.price.toString()
-            binding.tvCategory.text = product.category
+            Glide.with(binding.root.context).load(product.product!!.images[0]).into(binding.imgCart)
+            binding.tvCart.text = product.product!!.name
+            binding.tvPrice.text = product.product!!.newPrice.toString()
+            binding.tvCategory.text = product.product!!.category
             binding.number.text = product.quantity.toString()
             binding.imgDelete.setOnClickListener {
                 deleteCart = deleteCartClick
                 if (deleteCart != null) {
-
                     deleteCart!!.ondeleteCart(product)
-                    notifyDataSetChanged()
                 }
             }
-            updateCart = updateCartClick
             var quantity = product.quantity
+            var quant = 1
+            updateCart = updateCartClick
             binding.btnMinus.setOnClickListener {
                 if (quantity > 0) {
-                    quantity--
-                    binding.number.text = quantity.toString()
+                    quant--
+                    binding.number.text = quant.toString()
                     notifyDataSetChanged()
-                    Toast.makeText(binding.root.context, quantity.toString(), Toast.LENGTH_SHORT)
+                    Toast.makeText(binding.root.context, quant.toString(), Toast.LENGTH_SHORT)
                         .show()
                 }
                 if (updateCart != null) {
-                    var cart = ProductCart(quantity = quantity)
+                    var cart = ProductCart(quantity = quant)
                     updateCart!!.onUpdateCart(cart)
                 }
             }
             binding.btnPlus.setOnClickListener {
-
                 if (quantity >= 0) {
-                    quantity++
-                    binding.number.text = quantity.toString()
+                    quant = quantity
+                    quant++
+                    binding.number.text = quant.toString()
                     notifyDataSetChanged()
-                    Toast.makeText(binding.root.context, quantity.toString(), Toast.LENGTH_SHORT)
+                    Toast.makeText(binding.root.context, quant.toString(), Toast.LENGTH_SHORT)
                         .show()
                 }
-
                 if (updateCart != null) {
-                    var cart = ProductCart(quantity = quantity)
+                    var cart = ProductCart(quantity = quant)
                     updateCart!!.onUpdateCart(cart)
                 }
             }

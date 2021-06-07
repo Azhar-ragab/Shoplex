@@ -12,14 +12,14 @@ import androidx.lifecycle.Observer
 
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
-    private lateinit var orderAdapter: OrderAdapter
-    private lateinit var lastOrderAdapter: OrderAdapter
+    private lateinit  var orderAdapter:OrderAdapter
+    private lateinit  var lastOrderAdapter:OrderAdapter
     private lateinit var ordersVM: OrdersVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderBinding.inflate(layoutInflater)
-        this.ordersVM = OrdersVM()
+        this.ordersVM= OrdersVM()
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarorder)
         supportActionBar?.apply {
@@ -27,49 +27,21 @@ class OrderActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         }
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        if (supportActionBar != null){
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+            supportActionBar!!.setDisplayShowHomeEnabled(true);
         }
-
         ordersVM.getCurrentOrders()
-        ordersVM.orders.observe(this, Observer { orders ->
+        ordersVM.orders.observe(this, Observer{ orders ->
             orderAdapter = OrderAdapter(orders)
             binding.rvCurrentOrders.adapter = orderAdapter
         })
         ordersVM.getLastOrders()
-        ordersVM.lastOrders.observe(this, Observer { lastOrders ->
+        ordersVM.lastOrders.observe(this, { lastOrders ->
             lastOrderAdapter = OrderAdapter(lastOrders)
             binding.rvLastOrders.adapter = lastOrderAdapter
         })
-
-
-        /*
-        val currorder = ArrayList<Orders>()
-        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-        currorder.add(Orders("",OrderStatus.CURRENT,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-
-        val lastorder = ArrayList<Orders>()
-        lastorder.add(Orders("",OrderStatus.DELIVERD,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-        lastorder.add(Orders("",OrderStatus.CANCEL,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-        lastorder.add(Orders("",OrderStatus.DELIVERD,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-        lastorder.add(Orders("",OrderStatus.CANCEL,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-        lastorder.add(Orders("",OrderStatus.DELIVERD,"Diamond",10.0F,"Fashion","https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg"))
-
-
-        orderAdapter = OrderAdapter(currorder)
-        binding.rvCurrentOrders.adapter = orderAdapter
-        lastOrderAdapter = OrderAdapter(lastorder)
-        binding.rvLastOrders.adapter = lastOrderAdapter
-
-         */
-
-
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
         if (item.itemId == android.R.id.home) {
