@@ -24,7 +24,7 @@ class CartAdapter(
         var updateCart: Lisitener? = null
     }
 
-    var carts= emptyList<ProductCart>()
+    var carts = emptyList<ProductCart>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder(
             RvCartHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -35,14 +35,15 @@ class CartAdapter(
         holder.bind(carts[position])
 
     override fun getItemCount() = carts.size
-    fun setData(product: List<ProductCart>){
+    fun setData(product: List<ProductCart>) {
         this.carts = product as ArrayList<ProductCart>
         notifyDataSetChanged()
     }
+
     inner class ProductViewHolder(val binding: RvCartHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductCart) {
-           // Glide.with(binding.root.context).load(product.product!!.images[0]).into(binding.imgCart)
+            //   Glide.with(binding.root.context).load(product.product!!.images[0]).into(binding.imgCart)
             binding.tvCart.text = product.product!!.name
             binding.tvPrice.text = product.product!!.newPrice.toString()
             binding.tvCategory.text = product.product!!.category
@@ -53,27 +54,46 @@ class CartAdapter(
                     deleteCart!!.ondeleteCart(product)
                 }
             }
-            var quantity = product.quantity
-            var quant = 1
+            //  var quantity = product.quantity
+            // var quant = 1
             updateCart = updateCartClick
             binding.btnMinus.setOnClickListener {
-                    quant--
-                    binding.number.text = quant.toString()
+
+                if (product.quantity > 0) {
+                    product.quantity--
+                    // quant=quantity
+                    binding.number.text = product.quantity.toString()
                     notifyDataSetChanged()
-                    Toast.makeText(binding.root.context, quant.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        binding.root.context,
+                        product.quantity.toString(),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
                 if (updateCart != null) {
-                    val cart = ProductCart(quant)
+                    var cart = ProductCart(product.quantity)
                     updateCart!!.onUpdateCart(cart)
                 }
             }
             binding.btnPlus.setOnClickListener {
-                    quant = quantity
-                    quant++
-                    binding.number.text = quant.toString()
+                if (product.quantity <100) {
+                    product.quantity++
+                    //  quant=quantity+1
+
+                    binding.number.text = product.quantity.toString()
+
                     notifyDataSetChanged()
-                    Toast.makeText(binding.root.context, quant.toString(), Toast.LENGTH_SHORT).show()
+
+                    Toast.makeText(
+                        binding.root.context,
+                        product.quantity.toString(),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
                 if (updateCart != null) {
-                    val cart = ProductCart(quant)
+                    var cart = ProductCart(product.quantity)
                     updateCart!!.onUpdateCart(cart)
                 }
             }
