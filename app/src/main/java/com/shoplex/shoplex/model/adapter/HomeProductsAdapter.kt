@@ -22,8 +22,10 @@ import com.shoplex.shoplex.room.Lisitener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.ProductDetails
 
-class HomeProductsAdapter(var productsHome: ArrayList<Product>,var addcartClick : Lisitener) :
+class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick :Lisitener) :
     RecyclerView.Adapter<HomeProductsAdapter.ProductViewHolder>() {
+   // private lateinit var cartVm : CartViewModel
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder(
@@ -60,12 +62,12 @@ class HomeProductsAdapter(var productsHome: ArrayList<Product>,var addcartClick 
             }
 
             binding.fabAddProduct.setOnClickListener{
+                user.cartList.add(product.productID)
                 if (addcartClick!=null){
                     var cart=ProductCart(product = product)
                     addcartClick!!.onaddCart(cart)
-                    notifyDataSetChanged()
                 }
-                user.cartList.add(product.productID)
+              //  cartVm=ViewModelProvider(binding.root.).get(CartViewModel::class.java)
                 Toast.makeText(binding.root.context,product.productID,Toast.LENGTH_SHORT).show()
                 FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){

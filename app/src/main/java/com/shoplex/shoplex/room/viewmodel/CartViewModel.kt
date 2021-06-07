@@ -12,9 +12,9 @@ import com.shoplex.shoplex.room.repository.CartRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CartViewModel (app: Application):AndroidViewModel(app){
-    private val readAllCart : LiveData<List<ProductCart>>
-    private val cartRepo : CartRepo
+class CartViewModel(app: Application) : AndroidViewModel(app) {
+     val readAllCart: LiveData<List<ProductCart>>
+    private val cartRepo: CartRepo
 
     init {
         val cartDao = ShoplexDataBase.getDatabase(app).shoplexDao()
@@ -22,9 +22,22 @@ class CartViewModel (app: Application):AndroidViewModel(app){
         readAllCart = cartRepo.readCart
     }
 
-    fun addCart(cart: ProductCart){
+    fun addCart(cart: ProductCart) {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepo.addCart(cart)
         }
     }
+
+    fun deleteCart(productCart: ProductCart) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cartRepo.deleteCart(productCart)
+        }
+    }
+
+    fun updateCart(productCart: ProductCart) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cartRepo.updateCart(productCart)
+        }
+    }
+
 }

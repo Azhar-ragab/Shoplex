@@ -11,4 +11,10 @@ class CartRepo (private val shoplexDao: ShoplexDao) {
     suspend fun addCart(cart: ProductCart){
         shoplexDao.addCart(cart)
     }
+    suspend fun deleteCart(productCart: ProductCart){
+        shoplexDao.deleteCart(productCart)
+    }
+    suspend fun updateCart(productCart: ProductCart){
+        shoplexDao.updateCart(productCart)
+    }
 }
