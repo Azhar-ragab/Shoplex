@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
@@ -25,13 +24,13 @@ import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
 
-class HomeFragment : Fragment(),Lisitener {
+class HomeFragment : Fragment(), Lisitener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var advertisementsAdapter: AdvertisementsAdapter
     private lateinit var homeProductAdapter: HomeProductsAdapter
     private lateinit var productsVM: ProductsVM
     private val FILTER_CODE = 202
-    private lateinit var cartVM:CartViewModel
+    lateinit var cartVM: CartViewModel
 
 
     override fun onCreateView(
@@ -46,7 +45,7 @@ class HomeFragment : Fragment(),Lisitener {
 
         }
         this.productsVM = ProductsVM()
-        for ((index, cat) in productsVM.getCategories().withIndex()){
+        for ((index, cat) in productsVM.getCategories().withIndex()) {
             val chip = inflater.inflate(R.layout.chip_choice_item, null, false) as Chip
             chip.text = cat
             chip.id = index
@@ -54,7 +53,10 @@ class HomeFragment : Fragment(),Lisitener {
         }
 
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val category = Category.valueOf(group.findViewById<Chip>(checkedId).text.toString().replace(" ", getString(R.string.underscore)))
+            val category = Category.valueOf(
+                group.findViewById<Chip>(checkedId).text.toString()
+                    .replace(" ", getString(R.string.underscore))
+            )
             productsVM.getAllProducts(category)
         }
 
@@ -87,10 +89,10 @@ class HomeFragment : Fragment(),Lisitener {
         */
 
         productsVM.getAllPremiums()
-        productsVM.advertisments.observe(viewLifecycleOwner, Observer{ advertisements ->
+        productsVM.advertisments.observe(viewLifecycleOwner, Observer { advertisements ->
             advertisementsAdapter = AdvertisementsAdapter(advertisements)
             binding.rvAdvertisement.adapter = advertisementsAdapter
-       })
+        })
 
         // Products
 
@@ -114,11 +116,12 @@ class HomeFragment : Fragment(),Lisitener {
             )
         )
         */
-cartVM=ViewModelProvider(this).get(CartViewModel::class.java)
+        cartVM = ViewModelProvider(this).get(CartViewModel::class.java)
 
-        binding.rvHomeproducts.layoutManager = GridLayoutManager(this.context, getGridColumnsCount())
-        productsVM.products.observe(viewLifecycleOwner, Observer{ products ->
-            homeProductAdapter = HomeProductsAdapter(products)
+        binding.rvHomeproducts.layoutManager =
+            GridLayoutManager(this.context, getGridColumnsCount())
+        productsVM.products.observe(viewLifecycleOwner, Observer { products ->
+            homeProductAdapter = HomeProductsAdapter(products,this)
             binding.rvHomeproducts.adapter = homeProductAdapter
         })
 
@@ -132,10 +135,11 @@ cartVM=ViewModelProvider(this).get(CartViewModel::class.java)
         val columnCount = (dpWidth / scalingFactor).toInt()
         return if (columnCount >= 2) columnCount else 2 // if column no. is less than 2, we still display 2 columns
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == FILTER_CODE){
-            if(resultCode == AppCompatActivity.RESULT_OK){
+        if (requestCode == FILTER_CODE) {
+            if (resultCode == AppCompatActivity.RESULT_OK) {
 
             }
         }

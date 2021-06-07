@@ -7,21 +7,22 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.Property
 import com.shoplex.shoplex.model.enumurations.Premium
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 @Entity(tableName = "Cart")
 data class ProductCart(
     var quantity: Int = 1,
     var specialDiscount: SpecialDiscount? = SpecialDiscount(),
     var shipping: Int = 0, var product: Product? = Product(),
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 ) : Product() {
-
 
     constructor(
         product: Product,
