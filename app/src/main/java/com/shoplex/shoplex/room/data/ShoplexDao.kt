@@ -1,11 +1,7 @@
 package com.shoplex.shoplex.room.data
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.shoplex.shoplex.model.pojo.LastOrder
+import androidx.room.*
 import com.shoplex.shoplex.model.pojo.ProductCart
 
 @Dao
