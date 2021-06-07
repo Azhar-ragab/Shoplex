@@ -54,8 +54,7 @@ class CartAdapter(
                     deleteCart!!.ondeleteCart(product)
                 }
             }
-            //  var quantity = product.quantity
-            // var quant = 1
+
             updateCart = updateCartClick
             binding.btnMinus.setOnClickListener {
 
@@ -72,14 +71,13 @@ class CartAdapter(
                         .show()
                 }
                 if (updateCart != null) {
-                    var cart = ProductCart(product.quantity)
-                    updateCart!!.onUpdateCart(cart)
+                    //var cart = ProductCart(product.quantity)
+                    updateCart!!.onUpdateCart(product)
                 }
             }
             binding.btnPlus.setOnClickListener {
-                if (product.quantity <100) {
+                if (product.quantity < 100) {
                     product.quantity++
-                    //  quant=quantity+1
 
                     binding.number.text = product.quantity.toString()
 
@@ -93,8 +91,8 @@ class CartAdapter(
                         .show()
                 }
                 if (updateCart != null) {
-                    var cart = ProductCart(product.quantity)
-                    updateCart!!.onUpdateCart(cart)
+                   // var cart = ProductCart(product.quantity)
+                    updateCart!!.onUpdateCart(product)
                 }
             }
         }
