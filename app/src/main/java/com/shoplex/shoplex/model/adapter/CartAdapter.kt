@@ -1,15 +1,8 @@
 package com.shoplex.shoplex.model.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
-import com.shoplex.shoplex.R
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.shoplex.shoplex.Product
-
 import com.shoplex.shoplex.databinding.RvCartHomeBinding
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.room.Lisitener
@@ -58,43 +51,21 @@ class CartAdapter(
             // var quant = 1
             updateCart = updateCartClick
             binding.btnMinus.setOnClickListener {
-
                 if (product.quantity > 0) {
                     product.quantity--
-                    // quant=quantity
                     binding.number.text = product.quantity.toString()
-                    notifyDataSetChanged()
-                    Toast.makeText(
-                        binding.root.context,
-                        product.quantity.toString(),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
                 }
                 if (updateCart != null) {
-                    var cart = ProductCart(product.quantity)
-                    updateCart!!.onUpdateCart(cart)
+                    updateCart!!.onUpdateCart(product)
                 }
             }
             binding.btnPlus.setOnClickListener {
-                if (product.quantity <100) {
+                if (product.quantity < 100) {
                     product.quantity++
-                    //  quant=quantity+1
-
                     binding.number.text = product.quantity.toString()
-
-                    notifyDataSetChanged()
-
-                    Toast.makeText(
-                        binding.root.context,
-                        product.quantity.toString(),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
                 }
                 if (updateCart != null) {
-                    var cart = ProductCart(product.quantity)
-                    updateCart!!.onUpdateCart(cart)
+                    updateCart!!.onUpdateCart(product)
                 }
             }
         }

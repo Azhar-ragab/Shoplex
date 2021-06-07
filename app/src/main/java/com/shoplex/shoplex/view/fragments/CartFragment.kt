@@ -46,8 +46,6 @@ class CartFragment : Fragment(), Lisitener {
             Toast.makeText(context, getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
         }
 
-
-
         return binding.root
 
     }
