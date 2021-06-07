@@ -22,10 +22,10 @@ import com.shoplex.shoplex.room.Lisitener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.ProductDetails
 
-class HomeProductsAdapter(val productsHome: ArrayList<Product>) :
+class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick :Lisitener) :
     RecyclerView.Adapter<HomeProductsAdapter.ProductViewHolder>() {
    // private lateinit var cartVm : CartViewModel
-     var addcartClick :Lisitener? =null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder(

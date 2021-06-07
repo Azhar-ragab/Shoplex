@@ -4,5 +4,7 @@ import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.pojo.ProductCart
 
 interface Lisitener {
-    fun onaddCart(productCart:ProductCart)
+    fun onaddCart(productCart:ProductCart){}
+    fun ondeleteCart(productCart: ProductCart){}
+    fun onUpdateCart(productCart: ProductCart){}
 }

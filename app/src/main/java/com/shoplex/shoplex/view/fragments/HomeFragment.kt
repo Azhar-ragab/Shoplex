@@ -118,7 +118,7 @@ cartVM=ViewModelProvider(this).get(CartViewModel::class.java)
 
         binding.rvHomeproducts.layoutManager = GridLayoutManager(this.context, getGridColumnsCount())
         productsVM.products.observe(viewLifecycleOwner, Observer{ products ->
-            homeProductAdapter = HomeProductsAdapter(products)
+            homeProductAdapter = HomeProductsAdapter(products,this)
             binding.rvHomeproducts.adapter = homeProductAdapter
         })
 
@@ -144,4 +144,6 @@ cartVM=ViewModelProvider(this).get(CartViewModel::class.java)
     override fun onaddCart(productCart: ProductCart) {
         cartVM.addCart(productCart)
     }
+
+
 }

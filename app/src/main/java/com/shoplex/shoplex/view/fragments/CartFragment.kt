@@ -1,5 +1,6 @@
 package com.shoplex.shoplex.view.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.toObject
@@ -25,16 +27,18 @@ import com.shoplex.shoplex.model.pojo.Checkout
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.Summary_Checkout
 import com.shoplex.shoplex.model.pojo.User
+import com.shoplex.shoplex.room.Lisitener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.CheckOutActivity
-import java.util.ArrayList
 
 
-class CartFragment : Fragment() {
+
+class CartFragment : Fragment(), Lisitener {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var cartAdapter: CartAdapter
-lateinit var cartViewModel:CartViewModel
+    lateinit var cartViewModel: CartViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,7 +67,12 @@ lateinit var cartViewModel:CartViewModel
     }
 
     fun getAllCartProducts() {
-
+//     val cartAdapter = CartAdapter(this, this)
+//        binding.rvCart.adapter = cartAdapter
+//        cartViewModel.readAllCart.observe(viewLifecycleOwner, Observer {
+//        cartAdapter.setData(it)
+//
+//        })
         var cartProducts = ArrayList<ProductCart>()
         FirebaseReferences.usersRef.document(UserInfo.userID!!).get()
             .addOnSuccessListener { result ->
@@ -74,15 +83,24 @@ lateinit var cartViewModel:CartViewModel
                             if (productResult != null) {
                                 val prod = productResult.toObject<ProductCart>()
                                 cartProducts.add(prod!!)
-                                cartViewModel.addCart(prod)
+                               // cartViewModel.addCart(prod)
                                 if (productID == cartList.last()) {
                                     cartAdapter =
-                                        CartAdapter(cartProducts)
+                                        CartAdapter(cartProducts,this,this)
                                     binding.rvCart.adapter = cartAdapter
                                 }
                             }
                         }
                 }
             }
+    }
+
+
+    override fun ondeleteCart(productCart: ProductCart) {
+        cartViewModel.deleteCart(productCart)
+    }
+
+    override fun onUpdateCart(productCart: ProductCart) {
+        cartViewModel.updateCart(productCart)
     }
 }
