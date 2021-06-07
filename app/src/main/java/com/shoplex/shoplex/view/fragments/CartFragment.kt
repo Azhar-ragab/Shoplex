@@ -80,7 +80,6 @@ class CartFragment : Fragment(), Lisitener {
               }*/
     }
 
-
     override fun ondeleteCart(productCart: ProductCart) {
         cartViewModel.deleteCart(productCart)
     }

@@ -42,7 +42,7 @@ class CartAdapter(
     inner class ProductViewHolder(val binding: RvCartHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductCart) {
-            Glide.with(binding.root.context).load(product.product!!.images[0]).into(binding.imgCart)
+           // Glide.with(binding.root.context).load(product.product!!.images[0]).into(binding.imgCart)
             binding.tvCart.text = product.product!!.name
             binding.tvPrice.text = product.product!!.newPrice.toString()
             binding.tvCategory.text = product.product!!.category
@@ -57,29 +57,23 @@ class CartAdapter(
             var quant = 1
             updateCart = updateCartClick
             binding.btnMinus.setOnClickListener {
-                if (quantity > 0) {
                     quant--
                     binding.number.text = quant.toString()
                     notifyDataSetChanged()
-                    Toast.makeText(binding.root.context, quant.toString(), Toast.LENGTH_SHORT)
-                        .show()
-                }
+                    Toast.makeText(binding.root.context, quant.toString(), Toast.LENGTH_SHORT).show()
                 if (updateCart != null) {
-                    var cart = ProductCart(quantity = quant)
+                    val cart = ProductCart(quant)
                     updateCart!!.onUpdateCart(cart)
                 }
             }
             binding.btnPlus.setOnClickListener {
-                if (quantity >= 0) {
                     quant = quantity
                     quant++
                     binding.number.text = quant.toString()
                     notifyDataSetChanged()
-                    Toast.makeText(binding.root.context, quant.toString(), Toast.LENGTH_SHORT)
-                        .show()
-                }
+                    Toast.makeText(binding.root.context, quant.toString(), Toast.LENGTH_SHORT).show()
                 if (updateCart != null) {
-                    var cart = ProductCart(quantity = quant)
+                    val cart = ProductCart(quant)
                     updateCart!!.onUpdateCart(cart)
                 }
             }
