@@ -51,7 +51,7 @@ class CartAdapter(
                 deleteCart = deleteCartClick
                 if (deleteCart != null) {
 
-                    deleteCart!!.onaddCart(product)
+                    deleteCart!!.ondeleteCart(product)
                     notifyDataSetChanged()
                 }
             }
