@@ -11,7 +11,7 @@ class ProductCart: Product {
 
     constructor()
 
-    constructor(product: Product, quantity : Int,specialDiscount: SpecialDiscount?, shipping: Int) {
+    constructor(product: Product, quantity : Int, specialDiscount: SpecialDiscount?, shipping: Int) {
         this.productID = product.productID
         this.storeID = product.storeID
         this.storeName = product.storeName
