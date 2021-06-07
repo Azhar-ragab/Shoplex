@@ -4,18 +4,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.bumptech.glide.Glide
 import com.google.type.LatLng
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityProfileBinding
 import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
 import java.io.IOException
 
@@ -26,10 +22,6 @@ class ProfileActivity : AppCompatActivity() {
     private val OPEN_GALLERY_CODE = 200
     private lateinit var user: User
     private var filePath: Uri? = null
-    private  var name:String=""
-    private  var email:String=""
-    private  var  phone: String=""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,40 +33,12 @@ class ProfileActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
             binding.tvLocation.text = UserInfo.address
             binding.edName.setText(UserInfo.name)
-
+            Glide.with(baseContext).load(UserInfo.image).into(binding.imgUser)
         }
         if (getSupportActionBar() != null){
             getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
             getSupportActionBar()?.setDisplayShowHomeEnabled(true);
         }
-        binding.edName.setText(UserInfo.name)
-        binding.edEmail.setText(UserInfo.email)
-        binding.edPhone.setText(UserInfo.phone)
-        binding.btnSave.setOnClickListener{
-            name = binding.edName.text.toString()
-            email = binding.edEmail.text.toString()
-            phone = binding.edPhone.text.toString()
-            val user: User = User(UserInfo.userID!!, name ,email,UserInfo.location, UserInfo.address ,
-                phone, UserInfo.image!! , UserInfo.favouriteList,
-                UserInfo.cartList )
-
-            addUser(user)
-
-        }
-        /*val userID: String = "",
-        val name: String = "",
-        val email: String = "",
-        val location: Location =Location(0.0,0.0),
-        var address: String = "",
-        val phone: String = "",
-        val image: String? = "",
-        val favouriteList: ArrayList<String> = ArrayList(),
-        val cartList: ArrayList<String> = ArrayList()*/
-
-
-
-
-
         binding.btnLocation.setOnClickListener {
 
 
@@ -86,14 +50,6 @@ class ProfileActivity : AppCompatActivity() {
         binding.imgUser.setOnClickListener {
             openGallery()
         }
-    }
-    fun addUser(user: User) {
-        Firebase.firestore.collection("Users").document(UserInfo.userID!!).set(user)
-            .addOnSuccessListener {
-                Toast.makeText(this ,  "Done" ,Toast.LENGTH_SHORT).show()
-            }
-
-
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here

@@ -3,16 +3,18 @@ package com.shoplex.shoplex.model.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.OrderItemRowBinding
 import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.extra.FirebaseReferences
+import com.shoplex.shoplex.model.pojo.LastOrder
 import com.shoplex.shoplex.model.pojo.Order
 
-class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
+class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         return OrderViewHolder(
@@ -43,7 +45,6 @@ class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<Ord
                         FirebaseReferences.ordersRef.document(order.orderID).update("orderStatus",OrderStatus.Canceled).addOnSuccessListener {
                               Toast.makeText(binding.root.context,"success",Toast.LENGTH_SHORT).show()
                         }
-
                     }
 
                 } else {

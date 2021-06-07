@@ -4,6 +4,7 @@ package com.shoplex.shoplex
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Ignore
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.model.enumurations.Premium
@@ -34,7 +35,7 @@ open class Product : Parcelable{
     @Exclude @set:Exclude @get:Exclude
     var imagesListURI : ArrayList<Uri> = arrayListOf()
 
-    @Exclude @set:Exclude @get:Exclude
+    @Exclude @set:Exclude @get:Exclude @Ignore
     var imageSlideList : ArrayList<SlideModel> = arrayListOf()
 
  constructor()
