@@ -5,6 +5,7 @@ import androidx.room.*
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.pojo.LastOrder
 import com.shoplex.shoplex.model.pojo.ProductCart
+import com.shoplex.shoplex.model.pojo.ProductFavourite
 
 @Dao
 interface ShoplexDao {
@@ -30,12 +31,12 @@ interface ShoplexDao {
     //favourite
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addFavourite(favourite: Product)
+    suspend fun addFavourite(favourite: ProductFavourite)
 
     @Delete
-    suspend fun deleteFavourite(productFavourite: Product)
+    suspend fun deleteFavourite(productFavourite: ProductFavourite)
 
     @Query("SELECT * FROM Favourite")
-    fun readFavourite(): LiveData<List<Product>>
+    fun readFavourite(): LiveData<List<ProductFavourite>>
 }
 

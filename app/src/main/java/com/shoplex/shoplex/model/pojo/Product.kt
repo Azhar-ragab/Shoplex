@@ -13,7 +13,6 @@ import com.shoplex.shoplex.model.enumurations.Premium
 import com.shoplex.shoplex.model.pojo.Location
 import java.util.*
 
-@Entity(tableName = "Favourite")
 open class Product : Parcelable {
     var productID: String = UUID.randomUUID().toString()
     var storeID: String = ""

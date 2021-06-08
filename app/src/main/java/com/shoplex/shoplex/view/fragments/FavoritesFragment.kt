@@ -15,6 +15,7 @@ import com.shoplex.shoplex.databinding.FragmentFavoritesBinding
 import com.shoplex.shoplex.model.adapter.FavouriteAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.User
 import kotlin.collections.ArrayList
 
@@ -39,14 +40,14 @@ class FavoritesFragment : Fragment() {
     }
 
     fun getAllFavoriteProducts() {
-        var favouriteProducts = ArrayList<Product>()
+        var favouriteProducts = ArrayList<ProductFavourite>()
         FirebaseReferences.usersRef.document(UserInfo.userID.toString()).get().addOnSuccessListener { result ->
             val favouriteList: ArrayList<String> = result.get("favouriteList") as ArrayList<String>
             for (productID in favouriteList){
                 FirebaseReferences.productsRef.document(productID).get()
                     .addOnSuccessListener { productResult ->
                         if (productResult != null) {
-                            val prod = productResult.toObject<Product>()
+                            val prod = productResult.toObject<ProductFavourite>()
                             if (prod!=null){
                             favouriteProducts.add(prod)
                                 }

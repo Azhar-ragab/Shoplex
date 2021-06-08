@@ -17,6 +17,7 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvHomeProductCardviewBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.ProductCart
+import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.User
 import com.shoplex.shoplex.room.Lisitener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
@@ -48,7 +49,8 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick
                 notifyDataSetChanged()
                 user.favouriteList.add(product.productID)
                 if (addfavClick!=null){
-                    addfavClick!!.onaddFavourite(product)
+                    var favourite=ProductFavourite(product)
+                    addfavClick!!.onaddFavourite(favourite)
                 }
                 FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){

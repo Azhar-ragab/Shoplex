@@ -15,9 +15,10 @@ import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.databinding.FavouriteItemRowBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
+import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.User
 
-class FavouriteAdapter(val favourites: ArrayList<Product>) :
+class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>) :
     RecyclerView.Adapter<FavouriteAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -33,7 +34,7 @@ class FavouriteAdapter(val favourites: ArrayList<Product>) :
 
     inner class ProductViewHolder(val binding: FavouriteItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(product: Product) {
+        fun bind(product: ProductFavourite) {
 //            Glide.with(binding.root.context).load(product.images[0]).into(binding.imgProduct)
             binding.product=product
          //   binding.tvProductName.text=product.name
