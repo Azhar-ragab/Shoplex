@@ -16,6 +16,7 @@ import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvHomeProductCardviewBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.User
@@ -47,22 +48,15 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick
                 binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill)
                 binding.btnFavorite.isClickable = false
                 notifyDataSetChanged()
-                user.favouriteList.add(product.productID)
+                UserInfo.favouriteList.add(product.productID)
                 if (addfavClick!=null){
                     var favourite=ProductFavourite(product)
                     addfavClick!!.onaddFavourite(favourite)
                 }
-                FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
-                    for (document in result){
-                        if (document.exists()) {
-                            val u = document.toObject<User>()
-                            FirebaseReferences.usersRef.document(u.userID).update(
-                                "favouriteList",
-                                FieldValue.arrayUnion(user.favouriteList[0])
-                            )
-                        }
-                    }
-                }
+                FirebaseReferences.usersRef.document(UserInfo.userID.toString()).update(
+                    "favouriteList",
+                    FieldValue.arrayUnion(product.productID)
+                )
 
             }
 
