@@ -2,14 +2,21 @@ package com.shoplex.shoplex.model.pojo
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.shoplex.shoplex.model.pojo.Product
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-class ProductCart: Product {
+@Entity(tableName = "Cart")
+data class ProductCart(
+    var quantity: Int = 1,
+    var specialDiscount: SpecialDiscount? = SpecialDiscount(),
+    var shipping: Int = 0,
+    var product: Product? = Product(),
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+): Product(), Parcelable {
     //var cartQuantity: Int = 1
-    var specialDiscount: SpecialDiscount? = null
-    var shipping: Int = 0
-
-    constructor()
+    // var specialDiscount: SpecialDiscount? = null
+    // var shipping: Int = 0
 
     constructor(product: Product, specialDiscount: SpecialDiscount?, shipping: Int) {
         this.productID = product.productID
@@ -32,15 +39,16 @@ class ProductCart: Product {
         this.shipping = shipping
     }
 
-    constructor(parcel: Parcel) : super() {
+    constructor(parcel: Parcel) : this() {
         //cartQuantity = parcel.readInt()
+        quantity = parcel.readInt()
         specialDiscount = parcel.readParcelable(SpecialDiscount::class.java.classLoader)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
         parcel.writeInt(quantity)
-        parcel.writeParcelable(specialDiscount,1)
+        parcel.writeParcelable(specialDiscount, 1)
 
     }
 

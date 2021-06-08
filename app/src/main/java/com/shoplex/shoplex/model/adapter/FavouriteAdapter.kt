@@ -12,10 +12,16 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FavouriteItemRowBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.Product
+import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.User
+import com.shoplex.shoplex.room.Lisitener
 
-class FavouriteAdapter(val favourites: ArrayList<Product>) :
+class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>,val deleteFavClick:Lisitener) :
     RecyclerView.Adapter<FavouriteAdapter.ProductViewHolder>() {
+
+    companion object {
+        var deleteFavourite: Lisitener? = null
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder(
@@ -30,14 +36,18 @@ class FavouriteAdapter(val favourites: ArrayList<Product>) :
 
     inner class ProductViewHolder(val binding: FavouriteItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(product: Product) {
-            Glide.with(binding.root.context).load(product.images[0]).into(binding.imgProduct)
-            binding.product=product
+        fun bind(product: ProductFavourite) {
+//            Glide.with(binding.root.context).load(product.images[0]).into(binding.imgProduct)
+              binding.product=product
          //   binding.tvProductName.text=product.name
          //   binding.tvPrice.text=product.newPrice.toString()
         //    binding.tvReview.text=product.rate.toString()
 
             binding.imgDelete.setOnClickListener {
+               deleteFavourite = deleteFavClick
+                if (deleteFavourite != null) {
+                    deleteFavourite!!.ondeleteFavourite(product)
+                }
                 val user:User= User()
                 favourites.remove(product)
                 user.favouriteList.remove(product.productID)

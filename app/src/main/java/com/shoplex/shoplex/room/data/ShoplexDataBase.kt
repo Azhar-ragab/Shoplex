@@ -1,16 +1,16 @@
 package com.shoplex.shoplex.room.data
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.shoplex.shoplex.model.pojo.LastOrder
+import androidx.room.*
+import com.shoplex.shoplex.model.pojo.ProductCart
+import com.shoplex.shoplex.model.pojo.ProductFavourite
 
 
-@Database(entities = [LastOrder::class], version = 1)
+@Database(entities = [ProductCart::class, ProductFavourite::class], version = 1)
+@TypeConverters(Converter ::class)
 abstract class ShoplexDataBase : RoomDatabase(){
 
-    abstract fun shoplexDoa() : ShoplexDoa
+    abstract fun shoplexDao() : ShoplexDao
 
     companion object{
         @Volatile
@@ -24,7 +24,7 @@ abstract class ShoplexDataBase : RoomDatabase(){
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     ShoplexDataBase::class.java,
-                    "shoplex_firebase"
+                    "shoplex_Database"
                 ).build()
                 INSTANCE = instance
                 return instance

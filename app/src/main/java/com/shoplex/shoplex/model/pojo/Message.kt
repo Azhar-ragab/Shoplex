@@ -2,6 +2,7 @@ package com.shoplex.shoplex.model.pojo
 
 import androidx.room.Entity
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ServerTimestamp
 
 import java.util.*
 

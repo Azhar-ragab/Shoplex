@@ -3,6 +3,9 @@ package com.shoplex.shoplex.model.pojo
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
