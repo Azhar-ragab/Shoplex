@@ -2,13 +2,12 @@ package com.shoplex.shoplex.room.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.model.pojo.Message
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 
 @Dao
 interface ShoplexDao {
-
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCart(cart: ProductCart)
@@ -31,5 +30,12 @@ interface ShoplexDao {
 
     @Query("SELECT * FROM Favourite")
     fun readFavourite(): LiveData<List<ProductFavourite>>
+
+    //message
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addMessage(message: Message)
+
+    @Query("SELECT * FROM messages where chatID = :chatID order by messageID")
+    fun readAllMessage(chatID : String):LiveData<List<Message>>
 }
 

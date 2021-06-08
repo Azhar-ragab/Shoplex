@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.room.data.ShoplexDataBase
 import com.shoplex.shoplex.room.repository.FavouriteRepo

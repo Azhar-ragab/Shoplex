@@ -30,14 +30,15 @@ open class Product : Parcelable{
     // var premiumDays: Int = 0
     var properties: ArrayList<Property> = arrayListOf()
     var date: Date? = null
-    val deliveryLoc: Location? = null
     var quantity: Int = 1
 
     var images : ArrayList<String?> = arrayListOf()
 
+    @Ignore
     @Exclude @set:Exclude @get:Exclude
     var imagesListURI : ArrayList<Uri> = arrayListOf()
 
+    @Ignore
     @Exclude @set:Exclude @get:Exclude
     var imageSlideList : ArrayList<SlideModel> = arrayListOf()
 

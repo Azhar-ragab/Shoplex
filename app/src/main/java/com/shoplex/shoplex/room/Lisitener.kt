@@ -1,6 +1,5 @@
 package com.shoplex.shoplex.room
 
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 

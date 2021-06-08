@@ -6,11 +6,8 @@ import androidx.room.TypeConverter
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.Property
-import com.shoplex.shoplex.model.pojo.Location
-import com.shoplex.shoplex.model.pojo.ProductCart
-import com.shoplex.shoplex.model.pojo.SpecialDiscount
+import com.shoplex.shoplex.model.pojo.*
 import java.lang.reflect.Type
 import java.util.*
 import kotlin.collections.ArrayList
@@ -119,8 +116,11 @@ class Converter {
         return gson.toJson(list)
     }
 
-    //Checkout
+    @TypeConverter
+    fun premiumToString(specialDiscount: Premium): String = Gson().toJson(specialDiscount)
 
+    @TypeConverter
+    fun stringToPremium(string: String): Premium = Gson().fromJson(string, Premium::class.java)
 
 
 

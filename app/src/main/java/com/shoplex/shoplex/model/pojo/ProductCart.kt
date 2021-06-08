@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Cart")
 data class ProductCart(
-    var quantity: Int = 1,
+    // var quantity: Int = 1,
     var specialDiscount: SpecialDiscount? = SpecialDiscount(),
     var shipping: Int = 0,
     var product: Product? = Product(),
@@ -18,7 +18,7 @@ data class ProductCart(
     // var specialDiscount: SpecialDiscount? = null
     // var shipping: Int = 0
 
-    constructor(product: Product, specialDiscount: SpecialDiscount?, shipping: Int) {
+    constructor(product: Product, specialDiscount: SpecialDiscount?, shipping: Int): this() {
         this.productID = product.productID
         this.storeID = product.storeID
         this.storeName = product.storeName

@@ -48,9 +48,9 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick
                 binding.btnFavorite.isClickable = false
                 notifyDataSetChanged()
                 user.favouriteList.add(product.productID)
-                if (addfavClick!=null){
+                if (addfavClick != null){
                     var favourite=ProductFavourite(product)
-                    addfavClick!!.onaddFavourite(favourite)
+                    addfavClick.onaddFavourite(favourite)
                 }
                 FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
@@ -70,7 +70,7 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick
                 user.cartList.add(product.productID)
                 if (addcartClick!=null){
                     var cart=ProductCart(product = product)
-                    addcartClick!!.onaddCart(cart)
+                    addcartClick.onaddCart(cart)
                 }
               //  cartVm=ViewModelProvider(binding.root.).get(CartViewModel::class.java)
                 Toast.makeText(binding.root.context,product.productID,Toast.LENGTH_SHORT).show()

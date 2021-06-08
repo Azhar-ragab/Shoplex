@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter

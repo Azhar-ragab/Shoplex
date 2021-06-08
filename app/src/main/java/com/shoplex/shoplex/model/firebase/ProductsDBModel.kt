@@ -33,7 +33,7 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
 
     fun getAllProducts(category: Category, filter: Filter, sort: Sort?) {
         var query: Query = FirebaseReferences.productsRef
-            .whereEqualTo("category", category.name)
+            .whereEqualTo("category", category.name.replace("_", " "))
 
         if(filter.lowPrice != null && filter.highPrice != null)
             query = query.whereGreaterThanOrEqualTo("price", filter.lowPrice)
@@ -104,7 +104,7 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
 
     fun getAllPremiums() {
 
-        FirebaseReferences.productsRef.whereGreaterThan("premiumDays", 0)
+        FirebaseReferences.productsRef.whereGreaterThan("premium.premiumDays", 0)
             .addSnapshotListener { values, _ ->
                 var products = arrayListOf<Product>()
                 for (document: DocumentSnapshot in values?.documents!!) {

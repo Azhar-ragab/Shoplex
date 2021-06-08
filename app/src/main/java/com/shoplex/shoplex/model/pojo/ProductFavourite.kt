@@ -4,7 +4,6 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.Exclude
-import com.shoplex.shoplex.Product
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
