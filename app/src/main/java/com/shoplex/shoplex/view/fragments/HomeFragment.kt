@@ -27,17 +27,20 @@ import com.shoplex.shoplex.model.pojo.Sort
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.room.Lisitener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
+import com.shoplex.shoplex.room.viewmodel.FavouriteViewModel
 import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
 
-class HomeFragment : Fragment(),Lisitener {
+class HomeFragment : Fragment(), Lisitener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var startActivitylaunch: ActivityResultLauncher<Intent>
     private lateinit var advertisementsAdapter: AdvertisementsAdapter
     private lateinit var homeProductAdapter: HomeProductsAdapter
     private lateinit var productsVM: ProductsVM
     private var selectedCategory: String = Category.Fashion.name
+    private lateinit var cartVM: CartViewModel
+    private lateinit var favouriteViewModel: FavouriteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +53,7 @@ class HomeFragment : Fragment(),Lisitener {
                 }
             }
     }
-    private val FILTER_CODE = 202
-    private lateinit var cartVM:CartViewModel
+
 
 
     override fun onCreateView(
@@ -68,7 +70,7 @@ class HomeFragment : Fragment(),Lisitener {
         }
 
         this.productsVM = ProductsVM()
-        for ((index, cat) in productsVM.getCategories().withIndex()){
+        for ((index, cat) in productsVM.getCategories().withIndex()) {
             val chip = inflater.inflate(R.layout.chip_choice_item, null, false) as Chip
             chip.text = cat
             chip.id = index
@@ -77,7 +79,8 @@ class HomeFragment : Fragment(),Lisitener {
 
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
             selectedCategory = group.findViewById<Chip>(checkedId).text.toString()
-            val category = Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
+            val category =
+                Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
 
             /*
             val shops = arrayListOf("b4a2643b-7dba-4c29-9bf1-e53dd73acc3b", "b31eafa4-8167-4ee0-92de-6fb5d3b1c0ef")
@@ -93,7 +96,7 @@ class HomeFragment : Fragment(),Lisitener {
         productsVM.advertisments.observe(viewLifecycleOwner, { advertisements ->
             advertisementsAdapter = AdvertisementsAdapter(advertisements)
             binding.rvAdvertisement.adapter = advertisementsAdapter
-       })
+        })
 
         // Products
 
@@ -117,12 +120,13 @@ class HomeFragment : Fragment(),Lisitener {
             )
         )
         */
-cartVM=ViewModelProvider(this).get(CartViewModel::class.java)
+        cartVM = ViewModelProvider(this).get(CartViewModel::class.java)
+        favouriteViewModel=ViewModelProvider(this).get(FavouriteViewModel::class.java)
+        binding.rvHomeproducts.layoutManager =
+            GridLayoutManager(this.context, getGridColumnsCount())
 
-        binding.rvHomeproducts.layoutManager = GridLayoutManager(this.context, getGridColumnsCount())
-
-        productsVM.products.observe(viewLifecycleOwner, Observer{ products ->
-            homeProductAdapter = HomeProductsAdapter(products,this)
+        productsVM.products.observe(viewLifecycleOwner, Observer { products ->
+            homeProductAdapter = HomeProductsAdapter(products, this,this)
             binding.rvHomeproducts.adapter = homeProductAdapter
         })
 
@@ -137,19 +141,25 @@ cartVM=ViewModelProvider(this).get(CartViewModel::class.java)
         return if (columnCount >= 2) columnCount else 2 // if column no. is less than 2, we still display 2 columns
     }
 
-    private fun startFilter(data: Intent){
+    private fun startFilter(data: Intent) {
         val filter: Parcelable? = data.getParcelableExtra(FilterActivity.FILTER)
         val sort: Parcelable? = data.getParcelableExtra(FilterActivity.SORT)
 
         val userFilter: Filter = filter as Filter
         val userSort = sort as? Sort
-        val category = Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
+        val category =
+            Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
         productsVM.getAllProducts(category, userFilter, userSort)
     }
 
     override fun onaddCart(productCart: ProductCart) {
         cartVM.addCart(productCart)
     }
+
+    override fun onaddFavourite(productFavourite: Product) {
+        favouriteViewModel.addFavourite(productFavourite)
+    }
+
 
 
 }

@@ -7,4 +7,7 @@ interface Lisitener {
     fun onaddCart(productCart:ProductCart){}
     fun ondeleteCart(productCart: ProductCart){}
     fun onUpdateCart(productCart: ProductCart){}
+    //favourite
+    fun onaddFavourite(productFavourite: Product){}
+    fun ondeleteFavourite(productFavourite: Product){}
 }

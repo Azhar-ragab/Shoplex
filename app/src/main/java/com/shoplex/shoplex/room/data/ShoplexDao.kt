@@ -2,6 +2,7 @@ package com.shoplex.shoplex.room.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.pojo.LastOrder
 import com.shoplex.shoplex.model.pojo.ProductCart
 
@@ -13,6 +14,7 @@ interface ShoplexDao {
 
     @Query("SELECT * FROM lastOrder ORDER BY id ASC")
     fun readAllLastOrder(): LiveData<List<LastOrder>>
+   //cart
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCart(cart: ProductCart)
@@ -24,5 +26,16 @@ interface ShoplexDao {
 
     @Query("SELECT * FROM Cart")
     fun readCart(): LiveData<List<ProductCart>>
+
+    //favourite
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addFavourite(favourite: Product)
+
+    @Delete
+    suspend fun deleteFavourite(productFavourite: Product)
+
+    @Query("SELECT * FROM Favourite")
+    fun readFavourite(): LiveData<List<Product>>
 }
 

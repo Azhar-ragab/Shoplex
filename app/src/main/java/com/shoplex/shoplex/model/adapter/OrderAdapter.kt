@@ -32,8 +32,7 @@ class OrderAdapter (var ordersInfo: ArrayList<Order>) : RecyclerView.Adapter<Ord
 
             if (order.product != null) {
                 binding.order=order
-                Glide.with(itemView.context).load(order.product?.images!![0])
-                    .into(binding.imgProduct)
+         //       Glide.with(itemView.context).load(order.product?.images!![0]).into(binding.imgProduct)
 //                binding.tvProductName.text = order.product?.name
 //                binding.tvCategory.text = order.product?.category.toString()
 //                binding.tvPrice.text = order.product?.price.toString()

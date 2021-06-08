@@ -7,6 +7,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.Property
+import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.SpecialDiscount
 import java.lang.reflect.Type
 import java.util.*
@@ -64,6 +65,19 @@ class Converter {
     fun toUri(list: ArrayList<Uri?>?): String? {
         val gson = Gson()
         return gson.toJson(list)
+    }
+    @TypeConverter
+    fun toLocation(locationString: String?): Location? {
+        return try {
+            Gson().fromJson(locationString, Location::class.java)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    @TypeConverter
+    fun toLocationString(location: Location?): String? {
+        return Gson().toJson(location)
     }
 
 }

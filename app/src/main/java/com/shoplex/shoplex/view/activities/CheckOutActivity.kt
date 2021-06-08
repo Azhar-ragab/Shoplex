@@ -80,10 +80,17 @@ class CheckOutActivity : AppCompatActivity() {
                                         specialDiscount = it.toObject()
                                     }
                                     // LocationManager.getInstance(this).getRouteInfo(UserInfo.location, prod.deliveryLoc)
-                                    val productCart = ProductCart(prod!!, Random.nextInt(1, 5), specialDiscount, 10)
-                                    // cartProducts.add()
+                                    if (prod!=null) {
+                                        val productCart = ProductCart(
+                                            prod,
+                                            Random.nextInt(1, 5),
+                                            specialDiscount,
+                                            10
+                                        )
+                                        // cartProducts.add()
 
-                                    checkout.addProduct(productCart)
+                                        checkout.addProduct(productCart)
+                                    }
                                 }
                         }
                     }
