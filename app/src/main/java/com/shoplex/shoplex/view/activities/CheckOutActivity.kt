@@ -6,15 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.firestore.ktx.toObject
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityCheckOutBinding
-import com.shoplex.shoplex.model.adapter.CartAdapter
 import com.shoplex.shoplex.model.adapter.CheckoutAdapter
-import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.maps.LocationManager
 import com.shoplex.shoplex.model.pojo.Checkout
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.SpecialDiscount
@@ -80,7 +76,8 @@ class CheckOutActivity : AppCompatActivity() {
                                         specialDiscount = it.toObject()
                                     }
                                     // LocationManager.getInstance(this).getRouteInfo(UserInfo.location, prod.deliveryLoc)
-                                    val productCart = ProductCart(prod!!, Random.nextInt(1, 5), specialDiscount, 10)
+                                    prod?.quantity = Random.nextInt(1, 5)
+                                    val productCart = ProductCart(prod!!, specialDiscount, 10)
                                     // cartProducts.add()
 
                                     checkout.addProduct(productCart)

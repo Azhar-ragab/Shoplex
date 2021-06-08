@@ -6,8 +6,6 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.Message
 import com.xwray.groupie.databinding.BindableItem
 
-
-
 class LeftMessageItem(private val chatID: String, val message: Message) : BindableItem<ChatItemLeftBinding>(){
 
     override fun bind(binding: ChatItemLeftBinding, position: Int) {

@@ -1,13 +1,9 @@
 package com.shoplex.shoplex.model.pojo
 
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
-import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.maps.LocationManager
 
 open class Checkout {
     var deliveryMethod: DeliveryMethod = DeliveryMethod.Door

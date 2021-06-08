@@ -1,23 +1,17 @@
 package com.shoplex.shoplex.viewmodel
 
 import android.content.Context
-import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.facebook.AccessToken
-import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.model.enumurations.AuthType
-import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.firebase.AuthDBModel
 import com.shoplex.shoplex.model.interfaces.UserActionListener
 import com.shoplex.shoplex.model.pojo.User
-import com.shoplex.shoplex.view.activities.HomeActivity
 import com.shoplex.shoplex.view.activities.LoginActivity
-import com.shoplex.shoplex.view.activities.SignupActivity
 
 class AuthVM(val context: Context): ViewModel(), UserActionListener {
     var user: MutableLiveData<User> = MutableLiveData()

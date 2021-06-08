@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -18,11 +17,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.BuildConfig
 import com.shoplex.shoplex.R
-import com.shoplex.shoplex.Report
 import com.shoplex.shoplex.databinding.DialogAddReportBinding
 import com.shoplex.shoplex.databinding.FragmentAccountBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.pojo.Report
 import com.shoplex.shoplex.view.activities.LoginActivity
 import com.shoplex.shoplex.view.activities.OrderActivity
 import com.shoplex.shoplex.view.activities.ProfileActivity

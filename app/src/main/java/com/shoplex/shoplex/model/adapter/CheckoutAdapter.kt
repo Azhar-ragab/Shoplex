@@ -4,8 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.shoplex.shoplex.R
-
-
 import com.shoplex.shoplex.view.fragments.DeliveryFragment
 import com.shoplex.shoplex.view.fragments.PaymentFragment
 import com.shoplex.shoplex.view.fragments.SummaryFragment

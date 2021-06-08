@@ -1,33 +1,34 @@
-package com.shoplex.shoplex
-
+package com.shoplex.shoplex.model.pojo
 
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.firebase.firestore.Exclude
-import com.shoplex.shoplex.model.enumurations.Premium
-import com.shoplex.shoplex.model.pojo.Location
+import com.google.firebase.firestore.ServerTimestamp
+import com.shoplex.shoplex.Property
 import java.util.*
 
 open class Product : Parcelable{
     var productID : String = UUID.randomUUID().toString()
     var storeID : String = ""
     var storeName : String = ""
+    var storeLocation: Location = Location()
     var name : String = ""
     var description: String = ""
     var price : Float = 10F
     var newPrice : Float = 10F
     var discount : Int = 0
     var category : String = ""
-    var productNumber : Int = 0
+    // var productNumber : Int = 0
     var subCategory : String = ""
     var rate : Float? = null
     var premium : Premium? = null
-    var premiumDays: Int = 0
+    // var premiumDays: Int = 0
     var properties: ArrayList<Property> = arrayListOf()
     var date: Date? = null
     val deliveryLoc: Location? = null
+    var quantity: Int = 1
 
     var images : ArrayList<String?> = arrayListOf()
 
@@ -56,7 +57,7 @@ open class Product : Parcelable{
         name: String,
         newPrice: Float,
         oldPrice: Float,
-        sold: String,
+        //sold: String,
         rate: Float,
         productImageUrl: String
     ) {
@@ -77,6 +78,7 @@ open class Product : Parcelable{
         category = parcel.readString().toString()
         subCategory = parcel.readString().toString()
         imagesListURI = parcel.readArrayList(Uri::class.java.classLoader) as ArrayList<Uri>
+        quantity = parcel.readInt()
     }
 
     constructor(
@@ -89,7 +91,7 @@ open class Product : Parcelable{
         this.name = name
         this.price = price
         this.category = category
-        this.productNumber = productNumber
+        // this.productNumber = productNumber
         this.images[0] = images
     }
 
@@ -111,6 +113,7 @@ open class Product : Parcelable{
         parcel.writeString(category)
         parcel.writeString(subCategory)
         parcel.writeArray(imagesListURI.toArray())
+        parcel.writeInt(quantity)
     }
 
     override fun describeContents(): Int {

@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDeliveryBinding
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
@@ -16,7 +14,6 @@ import com.shoplex.shoplex.model.pojo.Checkout
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.view.activities.CheckOutActivity
 import com.shoplex.shoplex.viewmodel.CheckoutVM
-
 
 class DeliveryFragment : Fragment() {
     private lateinit var binding: FragmentDeliveryBinding

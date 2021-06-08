@@ -1,4 +1,4 @@
-package com.shoplex.shoplex
+package com.shoplex.shoplex.view.fragments
 
 import android.content.Intent
 import android.net.Uri
@@ -17,8 +17,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentProductBinding
-import com.shoplex.shoplex.model.adapter.RightMessageItem
+import com.shoplex.shoplex.model.adapter.PropertyAdapter
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.OrderStatus
@@ -34,10 +35,7 @@ import com.shoplex.shoplex.viewmodel.DetailsVM
 import com.shoplex.shoplex.viewmodel.OrdersVM
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
-
 class ProductFragment(val productId: String) : Fragment() {
-    // TODO: Rename and change types of parameters
-
     private lateinit var binding: FragmentProductBinding
     private lateinit var propertyAdapter: PropertyAdapter
     private lateinit var productsVM: ProductsVM
@@ -140,8 +138,8 @@ class ProductFragment(val productId: String) : Fragment() {
         binding.btnBuyProduct.setOnClickListener {
             var specialDiscount: SpecialDiscount = SpecialDiscount(10F, DiscountType.Fixed)
 
-            var productCart: ProductCart = ProductCart(product, 3, specialDiscount, 20)
-            //productCart.quantity = 3
+            product.quantity = 1
+            var productCart: ProductCart = ProductCart(product, specialDiscount, 20)
             //productCart.specialDiscount = specialDiscount
 
             val address: String? = LocationManager.getInstance(requireContext()).getAddress(

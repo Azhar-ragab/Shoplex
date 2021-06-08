@@ -1,19 +1,15 @@
-package com.shoplex.shoplex
+package com.shoplex.shoplex.model.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.view.get
-import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
-
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-
-
+import com.shoplex.shoplex.Property
+import com.shoplex.shoplex.R
 
 class PropertyAdapter(private val properties: ArrayList<Property>, private val context: Context) :
     RecyclerView.Adapter<PropertyAdapter.ViewHolder>() {

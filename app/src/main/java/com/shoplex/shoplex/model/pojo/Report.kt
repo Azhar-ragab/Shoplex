@@ -1,4 +1,4 @@
-package com.shoplex.shoplex
+package com.shoplex.shoplex.model.pojo
 
 import java.util.*
 

@@ -1,22 +1,15 @@
 package com.shoplex.shoplex.model.firebase
 
-import android.content.Context
-import android.util.Log
-import android.util.Range
-import android.widget.Toast
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.storage.FirebaseStorage
-import com.shoplex.shoplex.Product
-import com.shoplex.shoplex.Review
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
 import com.shoplex.shoplex.model.pojo.Filter
+import com.shoplex.shoplex.model.pojo.Product
+import com.shoplex.shoplex.model.pojo.Review
 import com.shoplex.shoplex.model.pojo.Sort
-import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 import java.util.*
 
 class ProductsDBModel(val notifier: INotifyMVP?) {

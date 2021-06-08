@@ -1,11 +1,9 @@
 package com.shoplex.shoplex.model.firebase
 
-import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.toObject
-import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.model.pojo.Product
 import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.interfaces.INotifyMVP
 import com.shoplex.shoplex.model.interfaces.StoresListener
 import com.shoplex.shoplex.model.pojo.Store
 import com.shoplex.shoplex.model.pojo.StoreLocationInfo

@@ -5,7 +5,6 @@ import com.shoplex.shoplex.databinding.ChatItemRightBinding
 import com.shoplex.shoplex.model.pojo.Message
 import com.xwray.groupie.databinding.BindableItem
 
-
 class RightMessageItem(val message: Message) : BindableItem<ChatItemRightBinding>(){
 
     override fun bind(binding: ChatItemRightBinding, position: Int) {

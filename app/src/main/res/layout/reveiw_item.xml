@@ -6,7 +6,7 @@
     <data>
         <variable
             name="review"
-            type="com.shoplex.shoplex.Review" />
+            type="com.shoplex.shoplex.model.pojo.Review" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

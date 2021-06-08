@@ -2,7 +2,6 @@ package com.shoplex.shoplex.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.firebase.OrdersDBModel
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
 import com.shoplex.shoplex.model.pojo.Order

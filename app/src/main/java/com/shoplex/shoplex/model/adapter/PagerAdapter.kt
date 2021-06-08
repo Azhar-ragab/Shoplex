@@ -4,10 +4,9 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.shoplex.shoplex.ProductFragment
 import com.shoplex.shoplex.R
+import com.shoplex.shoplex.view.fragments.ProductFragment
 import com.shoplex.shoplex.view.fragments.ReviewFragment
-
 
 class PagerAdapter(fm: FragmentManager, val context: Context, val productId:String) : FragmentPagerAdapter(fm) {
     override fun getCount(): Int {

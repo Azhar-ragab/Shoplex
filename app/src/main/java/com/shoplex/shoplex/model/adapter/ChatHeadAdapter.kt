@@ -2,22 +2,16 @@ package com.shoplex.shoplex.model.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.toObject
-import com.shoplex.shoplex.Product
-import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ChatHeadItemRowBinding
 import com.shoplex.shoplex.model.enumurations.keys.ChatMessageKeys
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.Chat
 import com.shoplex.shoplex.model.pojo.ChatHead
 import com.shoplex.shoplex.view.activities.MessageActivity
-
 
 class ChatHeadAdapter(private val chatHeads: ArrayList<ChatHead>) :
     RecyclerView.Adapter<ChatHeadAdapter.ChatHeadViewHolder>() {

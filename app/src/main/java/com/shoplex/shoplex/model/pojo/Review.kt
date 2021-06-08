@@ -1,6 +1,5 @@
-package com.shoplex.shoplex
+package com.shoplex.shoplex.model.pojo
 
-import android.widget.RatingBar
 import java.util.*
 
 class Review {

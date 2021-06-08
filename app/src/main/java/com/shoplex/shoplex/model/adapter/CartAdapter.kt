@@ -1,14 +1,9 @@
 package com.shoplex.shoplex.model.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.shoplex.shoplex.R
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.shoplex.shoplex.Product
-
 import com.shoplex.shoplex.databinding.RvCartHomeBinding
 import com.shoplex.shoplex.model.pojo.ProductCart
 
@@ -33,7 +28,7 @@ class CartAdapter(val carts: ArrayList<ProductCart>) :
             binding.tvCart.text=product.name
             binding.tvPrice.text=product.price.toString()
             binding.tvCategory.text=product.category
-            binding.number.text=product.productNumber.toString()
+            binding.number.text=product.quantity.toString()
         }
     }
 }

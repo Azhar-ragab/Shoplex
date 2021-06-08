@@ -1,22 +1,18 @@
 package com.shoplex.shoplex.view.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.google.firebase.auth.ktx.auth
+import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentFavoritesBinding
 import com.shoplex.shoplex.model.adapter.FavouriteAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.pojo.User
-import kotlin.collections.ArrayList
+import com.shoplex.shoplex.model.pojo.Product
 
 class FavoritesFragment : Fragment() {
     private lateinit var binding: FragmentFavoritesBinding

@@ -107,13 +107,12 @@ dependencies {
     //materialish library
     implementation 'com.pnikosis:materialish-progress:1.7'
 
-//retrofit
+    //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.7.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
-//retrofit logger interceptor
+
+    //retrofit logger interceptor
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
-    // fawry plugin aar file
-    implementation ('com.android.library:fawryplugin-release:1.0.28@aar')
 
     //signInGoogle
     implementation 'com.google.android.gms:play-services-auth:19.0.0'

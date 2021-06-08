@@ -1,20 +1,17 @@
 package com.shoplex.shoplex.model.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.shoplex.shoplex.R
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FavouriteItemRowBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
+import com.shoplex.shoplex.model.pojo.Product
 import com.shoplex.shoplex.model.pojo.User
 
 class FavouriteAdapter(val favourites: ArrayList<Product>) :

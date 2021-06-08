@@ -3,15 +3,12 @@ package com.shoplex.shoplex.model.adapter
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import com.shoplex.shoplex.R
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvHomeAdcardviewBinding
+import com.shoplex.shoplex.model.pojo.Product
 import com.shoplex.shoplex.view.activities.ProductDetails
 
 class AdvertisementsAdapter(val advertisements: ArrayList<Product>) :

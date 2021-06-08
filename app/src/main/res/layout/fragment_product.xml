@@ -7,7 +7,7 @@
     <data>
         <variable
             name="product"
-            type="com.shoplex.shoplex.Product" />
+            type="com.shoplex.shoplex.model.pojo.Product" />
     </data>
 
     <LinearLayout

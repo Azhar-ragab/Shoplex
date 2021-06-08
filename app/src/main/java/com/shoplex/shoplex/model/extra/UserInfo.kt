@@ -1,18 +1,14 @@
 package com.shoplex.shoplex.model.extra
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import com.facebook.login.LoginManager
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.shoplex.shoplex.R
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.NotificationToken
-import com.shoplex.shoplex.model.pojo.User
 import java.lang.reflect.Type
 import java.util.*
 

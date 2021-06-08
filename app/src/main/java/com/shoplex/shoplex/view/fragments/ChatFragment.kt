@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.ktx.toObject
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentChatBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
@@ -16,6 +15,7 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Chat
 import com.shoplex.shoplex.model.pojo.ChatHead
+import com.shoplex.shoplex.model.pojo.Product
 
 class ChatFragment : Fragment() {
     private lateinit var chatHeadAdapter: ChatHeadAdapter

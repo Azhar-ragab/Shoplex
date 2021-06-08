@@ -1,10 +1,8 @@
 package com.shoplex.shoplex.model.interfaces
 
-import com.shoplex.shoplex.Product
-import com.shoplex.shoplex.Review
-import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Order
-import com.shoplex.shoplex.model.pojo.Store
+import com.shoplex.shoplex.model.pojo.Product
+import com.shoplex.shoplex.model.pojo.Review
 
 interface INotifyMVP {
     fun onAllProductsReady(products: ArrayList<Product>){}
