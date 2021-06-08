@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -64,12 +63,13 @@ class AccountFragment : Fragment() {
             }
         }
         binding.switchNotification.setOnClickListener {
-            if(binding.switchNotification.isChecked()){
-                Toast.makeText(context,getString(R.string.checked),Toast.LENGTH_SHORT).show()
+            if(binding.switchNotification.isChecked){
+                // Toast.makeText(context,getString(R.string.checked),Toast.LENGTH_SHORT).show()
+                FirebaseReferences.notificationTokensRef.document(UserInfo.userID!!).update("notification", true)
             }
             else{
-                Toast.makeText(context,getString(R.string.notchecked),Toast.LENGTH_SHORT).show()
-
+                // Toast.makeText(context,getString(R.string.notchecked),Toast.LENGTH_SHORT).show()
+                FirebaseReferences.notificationTokensRef.document(UserInfo.userID!!).update("notification", false)
             }
         }
         binding.cardReport.setOnClickListener {

@@ -54,7 +54,7 @@ class ChatFragment : Fragment() {
                                         chat.chatID,
                                         product.name,
                                         product.price,
-                                        product.images[0],
+                                        product.images.firstOrNull(),
                                         chat.userID,
                                         product.storeName,
                                         chat.unreadCustomerMessages

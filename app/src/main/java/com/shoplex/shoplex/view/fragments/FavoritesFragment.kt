@@ -43,7 +43,8 @@ class FavoritesFragment : Fragment() {
                     .addOnSuccessListener { productResult ->
                         if (productResult != null) {
                             val prod = productResult.toObject<Product>()
-                            favouriteProducts.add(prod!!)
+                            if(prod != null)
+                                favouriteProducts.add(prod)
                             if (productID == favouriteList.last()) {
                                 favouriteAdapter =
                                     FavouriteAdapter(favouriteProducts)

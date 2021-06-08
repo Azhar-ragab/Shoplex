@@ -43,9 +43,9 @@ class ProfileActivity : AppCompatActivity() {
             binding.edName.setText(UserInfo.name)
 
         }
-        if (getSupportActionBar() != null){
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        if (supportActionBar != null){
+            supportActionBar?.setDisplayHomeAsUpEnabled(true);
+            supportActionBar?.setDisplayShowHomeEnabled(true);
         }
         binding.edName.setText(UserInfo.name)
         binding.edEmail.setText(UserInfo.email)

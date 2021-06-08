@@ -55,12 +55,15 @@ class CartFragment : Fragment() {
                     .addOnSuccessListener { productResult ->
                         if (productResult != null) {
                             val prod = productResult.toObject<ProductCart>()
-                            cartProducts.add(prod!!)
+                            if(prod != null)
+                                cartProducts.add(prod)
+
                             if (productID == cartList.last()) {
                                 cartAdapter =
                                     CartAdapter(cartProducts)
                                 binding.rvCart.adapter = cartAdapter
                             }
+
                         }
                     }
             }
