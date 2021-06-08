@@ -3,10 +3,13 @@ package com.shoplex.shoplex.room.data
 import android.media.Image
 import android.net.Uri
 import androidx.room.TypeConverter
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.Property
+import com.shoplex.shoplex.model.pojo.Location
+import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.SpecialDiscount
 import java.lang.reflect.Type
 import java.util.*

@@ -5,7 +5,7 @@
     <data>
         <variable
                name="product"
-               type="com.shoplex.shoplex.Product"
+               type="com.shoplex.shoplex.model.pojo.ProductFavourite"
             />
     </data>
 

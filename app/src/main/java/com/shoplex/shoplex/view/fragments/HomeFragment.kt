@@ -25,6 +25,7 @@ import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.pojo.Filter
 import com.shoplex.shoplex.model.pojo.Sort
 import com.shoplex.shoplex.model.pojo.ProductCart
+import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.room.Lisitener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.room.viewmodel.FavouriteViewModel
@@ -53,8 +54,6 @@ class HomeFragment : Fragment(), Lisitener {
                 }
             }
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -156,7 +155,7 @@ class HomeFragment : Fragment(), Lisitener {
         cartVM.addCart(productCart)
     }
 
-    override fun onaddFavourite(productFavourite: Product) {
+    override fun onaddFavourite(productFavourite: ProductFavourite) {
         favouriteViewModel.addFavourite(productFavourite)
     }
 
