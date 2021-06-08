@@ -17,9 +17,14 @@ import com.shoplex.shoplex.databinding.FavouriteItemRowBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.User
+import com.shoplex.shoplex.room.Lisitener
 
-class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>) :
+class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>,val deleteFavClick:Lisitener) :
     RecyclerView.Adapter<FavouriteAdapter.ProductViewHolder>() {
+    companion object {
+        var deleteFavourite: Lisitener? = null
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder(
@@ -42,6 +47,10 @@ class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>) :
         //    binding.tvReview.text=product.rate.toString()
 
             binding.imgDelete.setOnClickListener {
+               deleteFavourite = deleteFavClick
+                if (deleteFavourite != null) {
+                    deleteFavourite!!.ondeleteFavourite(product)
+                }
                 val user:User= User()
                 favourites.remove(product)
                 user.favouriteList.remove(product.productID)

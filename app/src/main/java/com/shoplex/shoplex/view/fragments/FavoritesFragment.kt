@@ -60,7 +60,7 @@ class FavoritesFragment : Fragment(), Lisitener {
                                 }
                                 if (productID == favouriteList.last()) {
                                     favouriteAdapter =
-                                        FavouriteAdapter(favouriteProducts)
+                                        FavouriteAdapter(favouriteProducts,this)
                                     binding.rvFavourite.adapter = favouriteAdapter
                                 }
                             }
