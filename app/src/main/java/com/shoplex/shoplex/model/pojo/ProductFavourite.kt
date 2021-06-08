@@ -3,21 +3,26 @@ package com.shoplex.shoplex.model.pojo
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.Product
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "Favourite")
 data class ProductFavourite(
-    var product: Product = Product(),
+    @Exclude
+    @set:Exclude
+    @get:Exclude
+    var product: Product= Product(),
+    @Exclude
+    @set:Exclude
+    @get:Exclude
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
 
-) : Product(), Parcelable {
-    constructor(
-        product: Product
-    ) : this() {
+) : Product(),Parcelable {
+    init{
 
         this.name = product.name
         this.price = product.price

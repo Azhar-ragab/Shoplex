@@ -49,8 +49,8 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick
                 notifyDataSetChanged()
                 user.favouriteList.add(product.productID)
                 if (addfavClick!=null){
-                    var favorite = ProductFavourite(product)
-                    addfavClick!!.onaddFavourite(favorite)
+                    var favourite=ProductFavourite(product)
+                    addfavClick!!.onaddFavourite(favourite)
                 }
                 FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
