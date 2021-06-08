@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -17,12 +18,15 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.User
+import com.shoplex.shoplex.room.Lisitener
+import com.shoplex.shoplex.room.viewmodel.CartViewModel
+import com.shoplex.shoplex.room.viewmodel.FavouriteViewModel
 import kotlin.collections.ArrayList
 
-class FavoritesFragment : Fragment() {
+class FavoritesFragment : Fragment(), Lisitener {
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var favouriteAdapter: FavouriteAdapter
-
+    private lateinit var favouriteViewModel: FavouriteViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,35 +34,42 @@ class FavoritesFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
-        if(UserInfo.userID != null){
+        if (UserInfo.userID != null) {
             getAllFavoriteProducts()
-        }else{
+        } else {
             Toast.makeText(context, getString(R.string.favoriteproducts), Toast.LENGTH_SHORT).show()
         }
+        favouriteViewModel = ViewModelProvider(this).get(FavouriteViewModel::class.java)
 
         return binding.root
     }
 
     fun getAllFavoriteProducts() {
         var favouriteProducts = ArrayList<ProductFavourite>()
-        FirebaseReferences.usersRef.document(UserInfo.userID.toString()).get().addOnSuccessListener { result ->
-            val favouriteList: ArrayList<String> = result.get("favouriteList") as ArrayList<String>
-            for (productID in favouriteList){
-                FirebaseReferences.productsRef.document(productID).get()
-                    .addOnSuccessListener { productResult ->
-                        if (productResult != null) {
-                            val prod = productResult.toObject<ProductFavourite>()
-                            if (prod!=null){
-                            favouriteProducts.add(prod)
+        FirebaseReferences.usersRef.document(UserInfo.userID.toString()).get()
+            .addOnSuccessListener { result ->
+                val favouriteList: ArrayList<String> =
+                    result.get("favouriteList") as ArrayList<String>
+                for (productID in favouriteList) {
+                    FirebaseReferences.productsRef.document(productID).get()
+                        .addOnSuccessListener { productResult ->
+                            if (productResult != null) {
+                                val prod = productResult.toObject<ProductFavourite>()
+                                if (prod != null) {
+                                    favouriteProducts.add(prod)
                                 }
-                            if (productID == favouriteList.last()) {
-                                favouriteAdapter =
-                                    FavouriteAdapter(favouriteProducts)
-                                binding.rvFavourite.adapter = favouriteAdapter
+                                if (productID == favouriteList.last()) {
+                                    favouriteAdapter =
+                                        FavouriteAdapter(favouriteProducts,this)
+                                    binding.rvFavourite.adapter = favouriteAdapter
+                                }
                             }
                         }
-                    }
+                }
             }
-        }
+    }
+
+    override fun ondeleteFavourite(productFavourite: ProductFavourite) {
+        favouriteViewModel.deleteFavourite(productFavourite)
     }
 }
