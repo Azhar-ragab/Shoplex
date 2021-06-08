@@ -100,8 +100,20 @@ dependencies {
 
     //coroutines
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
     //facebook login
     implementation 'com.facebook.android:facebook-android-sdk:8.1.0'
+    //materialish library
+    implementation 'com.pnikosis:materialish-progress:1.7'
+
+//retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+//retrofit logger interceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+
+
+    //signInGoogle
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 }

@@ -4,44 +4,52 @@ package com.shoplex.shoplex
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
 import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.denzcoskun.imageslider.models.SlideModel
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
-import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.enumurations.Premium
-import com.shoplex.shoplex.model.pojo.Properties
+import com.shoplex.shoplex.model.pojo.Location
 import java.util.*
-import kotlin.collections.ArrayList
 
-
-open class Product : Parcelable{
-    var productID : String = UUID.randomUUID().toString()
-    var storeID : String = ""
-    var storeName : String = ""
-    var name : String = ""
+@Entity(tableName = "Favourite")
+open class Product : Parcelable {
+    var productID: String = UUID.randomUUID().toString()
+    var storeID: String = ""
+    var storeName: String = ""
+    var name: String = ""
     var description: String = ""
-    var price : Float = 10F
-    var newPrice : Float = 10F
-    var discount : Int = 0
-    var category : String = ""
-    var productNumber : Int = 0
-    var subCategory : String = ""
-    var rate : Float? = null
-    var premium : Premium? = null
+    var price: Float = 10F
+    var newPrice: Float = 10F
+    var discount: Int = 0
+    var category: String = ""
+    var productNumber: Int = 0
+    var subCategory: String = ""
+    var rate: Float? = null
+    var premium: Premium? = null
     var premiumDays: Int = 0
     var properties: ArrayList<Property> = arrayListOf()
     var date: Date? = null
+    // val deliveryLoc: Location? = null
 
-    var images : ArrayList<String?> = arrayListOf()
+    var images: ArrayList<String?> = arrayListOf()
 
-    @Exclude @set:Exclude @get:Exclude
-    var imagesListURI : ArrayList<Uri> = arrayListOf()
+    @PrimaryKey(autoGenerate = true)
+    var favouriteid: Int = 0
 
-    @Exclude @set:Exclude @get:Exclude @Ignore
-    var imageSlideList : ArrayList<SlideModel> = arrayListOf()
+    @Exclude
+    @set:Exclude
+    @get:Exclude
+    var imagesListURI: ArrayList<Uri> = arrayListOf()
 
- constructor()
+    @Exclude
+    @set:Exclude
+    @get:Exclude
+    @Ignore
+    var imageSlideList: ArrayList<SlideModel> = arrayListOf()
+
+    constructor()
 
     constructor(
         name: String,
@@ -54,11 +62,6 @@ open class Product : Parcelable{
         this.newPrice = price
         this.category = category
         this.images.add(productImageUrl)
-        /*
-        if (images.size > 0){
-            this.images[0] = productImageUrl
-        }
-        */
     }
 
     constructor(
@@ -93,7 +96,7 @@ open class Product : Parcelable{
         price: Float,
         category: String,
         productNumber: Int,
-        images:String
+        images: String
     ) {
         this.name = name
         this.price = price
@@ -103,9 +106,9 @@ open class Product : Parcelable{
     }
 
     @Exclude
-    fun getImageSlides(): ArrayList<SlideModel>{
+    fun getImageSlides(): ArrayList<SlideModel> {
         this.imageSlideList.clear()
-        for(image in imagesListURI){
+        for (image in imagesListURI) {
             imageSlideList.add(SlideModel(image.toString()))
         }
         return imageSlideList

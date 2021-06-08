@@ -22,7 +22,7 @@ import com.shoplex.shoplex.room.Lisitener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.ProductDetails
 
-class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick :Lisitener) :
+class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick :Lisitener,var addfavClick:Lisitener) :
     RecyclerView.Adapter<HomeProductsAdapter.ProductViewHolder>() {
    // private lateinit var cartVm : CartViewModel
 
@@ -47,6 +47,9 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick
                 binding.btnFavorite.isClickable = false
                 notifyDataSetChanged()
                 user.favouriteList.add(product.productID)
+                if (addfavClick!=null){
+                    addfavClick!!.onaddFavourite(product)
+                }
                 FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
                     for (document in result){
                         if (document.exists()) {

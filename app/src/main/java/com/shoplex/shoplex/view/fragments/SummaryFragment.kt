@@ -2,32 +2,22 @@ package com.shoplex.shoplex.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.maps.model.LatLng
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentSummaryBinding
-
-import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.adapter.SummaryAdapter
 import com.shoplex.shoplex.model.enumurations.OrderStatus
-import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Checkout
 import com.shoplex.shoplex.model.pojo.Order
-import com.shoplex.shoplex.model.pojo.Summary_Checkout
-import com.shoplex.shoplex.model.pojo.User
 import com.shoplex.shoplex.view.activities.CheckOutActivity
 import com.shoplex.shoplex.view.activities.HomeActivity
 import com.shoplex.shoplex.viewmodel.CheckoutVM
-import java.util.ArrayList
-
 
 class SummaryFragment : Fragment() {
     private lateinit var binding: FragmentSummaryBinding
@@ -57,7 +47,7 @@ class SummaryFragment : Fragment() {
 
         binding.btnSummary.setOnClickListener {
             for (product in checkout.getAllProducts()){
-                val order = Order(product,checkout,OrderStatus.Current)
+                val order = Order(product, checkout, OrderStatus.Current)
                 FirebaseReferences.ordersRef.document(order.orderID).set(order).addOnSuccessListener {
                     Toast.makeText(context,getString(R.string.Success), Toast.LENGTH_SHORT).show()
                 }

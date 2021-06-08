@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="product"
-            type="com.shoplex.shoplex.Product" />
+      <variable
+          name="product"
+          type="com.shoplex.shoplex.Product" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="3dp"
-                android:text="TextView"
+                android:text="@{`Offer`+product.discount+`%`}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16"
                 app:layout_constraintBottom_toBottomOf="@+id/view"

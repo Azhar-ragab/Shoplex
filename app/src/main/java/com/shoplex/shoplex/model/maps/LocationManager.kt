@@ -1,25 +1,28 @@
 package com.shoplex.shoplex.model.maps
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.directions.route.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.PolyUtil
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.MalformedURLException
+import java.net.URL
 import java.util.*
-import kotlin.collections.ArrayList
+import javax.net.ssl.HttpsURLConnection
 
 class LocationManager: RoutingListener {
     val alexandria: Alexandria = Alexandria()
@@ -102,6 +105,56 @@ class LocationManager: RoutingListener {
         for (location in locations) {
             mMap.addMarker(MarkerOptions().position(location).title("Your Location"))
         }
+    }
+
+
+    fun getRouteInfo(source: com.shoplex.shoplex.model.pojo.Location, destination: LatLng): RouteInfo? {
+        var response = ""
+        var inputStream: InputStream? = null
+        var urlConnection: HttpsURLConnection? = null
+        val str_source = "origin=" + source.latitude + "," + source.longitude
+        val str_dest = "destination=" + destination.latitude + "," + destination.longitude
+        val parameters = "$str_source&$str_dest&key=$API_KEY"
+        val strUrl = "https://maps.googleapis.com/maps/api/directions/json?$parameters"
+        try {
+            val url = URL(strUrl)
+            urlConnection = url.openConnection() as HttpsURLConnection
+            urlConnection.connect()
+            if (urlConnection.responseCode == HttpsURLConnection.HTTP_OK) {
+                inputStream = urlConnection.inputStream
+                val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+                val stringBuffer = StringBuffer()
+                var line: String? = ""
+                while (bufferedReader.readLine().also { line = it } != null) {
+                    stringBuffer.append(line)
+                }
+                response = stringBuffer.toString()
+                val jsonObject = JSONObject(response)
+                val distance =
+                    jsonObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs")
+                        .getJSONObject(0).getJSONObject("distance").getString("text")
+                val duration =
+                    jsonObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs")
+                        .getJSONObject(0).getJSONObject("duration").getString("text")
+                bufferedReader.close()
+                return RouteInfo(distance, duration)
+            } else {
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        } catch (e: MalformedURLException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            try {
+                inputStream!!.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            urlConnection!!.disconnect()
+        }
+        return null
     }
 
     fun launchGoogleMaps(location: LatLng) {

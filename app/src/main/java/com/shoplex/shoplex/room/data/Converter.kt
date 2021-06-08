@@ -3,13 +3,10 @@ package com.shoplex.shoplex.room.data
 import android.media.Image
 import android.net.Uri
 import androidx.room.TypeConverter
-import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.Property
-import com.shoplex.shoplex.model.pojo.Checkout
-import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.SpecialDiscount
 import java.lang.reflect.Type
 import java.util.*
@@ -19,12 +16,14 @@ class Converter {
     //Special Discount
     @TypeConverter
     fun sdToString(specialDiscount: SpecialDiscount): String = Gson().toJson(specialDiscount)
+
     @TypeConverter
     fun stringToSd(string: String): SpecialDiscount = Gson().fromJson(string, SpecialDiscount::class.java)
 
     //Product
     @TypeConverter
     fun productToString(product: Product): String = Gson().toJson(product)
+
     @TypeConverter
     fun stringToProduct(string: String): Product = Gson().fromJson(string, Product::class.java)
 
@@ -34,6 +33,7 @@ class Converter {
         val listType: Type = object : TypeToken<ArrayList<Property?>?>() {}.getType()
         return Gson().fromJson(value, listType)
     }
+
     @TypeConverter
     fun toProperty(list: ArrayList<Property?>?): String? {
         val gson = Gson()
@@ -45,6 +45,7 @@ class Converter {
     fun fromTimestamp(value: Long?): Date? {
         return value?.let { Date(it) }
     }
+
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time
@@ -56,6 +57,7 @@ class Converter {
         val listType: Type = object : TypeToken<ArrayList<String?>?>() {}.getType()
         return Gson().fromJson(value, listType)
     }
+
     @TypeConverter
     fun toImage(list: ArrayList<String?>?): String? {
         val gson = Gson()
@@ -68,10 +70,24 @@ class Converter {
         val listType: Type = object : TypeToken<ArrayList<Uri?>?>() {}.getType()
         return Gson().fromJson(value, listType)
     }
+
     @TypeConverter
     fun toUri(list: ArrayList<Uri?>?): String? {
         val gson = Gson()
         return gson.toJson(list)
+    }
+    @TypeConverter
+    fun toLocation(locationString: String?): Location? {
+        return try {
+            Gson().fromJson(locationString, Location::class.java)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    @TypeConverter
+    fun toLocationString(location: Location?): String? {
+        return Gson().toJson(location)
     }
 
     //LatLng

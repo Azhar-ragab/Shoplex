@@ -77,17 +77,17 @@
 
                 <RatingBar
                     android:id="@+id/ratingBar1"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
                     android:layout_marginStart="@dimen/margin_16"
-                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:numStars="5"
-                    android:stepSize="12"
                     android:progressTint="@color/yellow"
                     android:rating="4"
                     android:saveEnabled="true"
-                    android:layout_marginLeft="16dp" />
+                    android:stepSize="12" />
                 <RatingBar
                     android:id="@+id/ratingBar2"
                     android:layout_width="wrap_content"

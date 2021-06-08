@@ -40,14 +40,16 @@ class FavoritesFragment : Fragment() {
 
     fun getAllFavoriteProducts() {
         var favouriteProducts = ArrayList<Product>()
-        FirebaseReferences.usersRef.document(UserInfo.userID!!).get().addOnSuccessListener { result ->
+        FirebaseReferences.usersRef.document(UserInfo.userID.toString()).get().addOnSuccessListener { result ->
             val favouriteList: ArrayList<String> = result.get("favouriteList") as ArrayList<String>
             for (productID in favouriteList){
                 FirebaseReferences.productsRef.document(productID).get()
                     .addOnSuccessListener { productResult ->
                         if (productResult != null) {
                             val prod = productResult.toObject<Product>()
-                            favouriteProducts.add(prod!!)
+                            if (prod!=null){
+                            favouriteProducts.add(prod)
+                                }
                             if (productID == favouriteList.last()) {
                                 favouriteAdapter =
                                     FavouriteAdapter(favouriteProducts)

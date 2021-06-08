@@ -18,7 +18,7 @@ data class ProductCart(
     constructor(
         product: Product,
         quantity: Int,
-        specialDiscount: SpecialDiscount,
+        specialDiscount: SpecialDiscount?,
         shipping: Int
     ) : this() {
         this.productID = product.productID

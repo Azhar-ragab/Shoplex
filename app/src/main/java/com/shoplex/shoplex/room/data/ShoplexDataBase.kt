@@ -1,15 +1,11 @@
 package com.shoplex.shoplex.room.data
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.shoplex.shoplex.model.pojo.Order
+import androidx.room.*
 import com.shoplex.shoplex.model.pojo.ProductCart
 
 
-@Database(entities = [ProductCart::class], version = 1)
+@Database(entities = [ProductCart::class, Product::class], version = 1)
 @TypeConverters(Converter ::class)
 abstract class ShoplexDataBase : RoomDatabase(){
 
