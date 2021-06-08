@@ -21,10 +21,10 @@ import com.shoplex.shoplex.room.Lisitener
 
 class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>,val deleteFavClick:Lisitener) :
     RecyclerView.Adapter<FavouriteAdapter.ProductViewHolder>() {
+
     companion object {
         var deleteFavourite: Lisitener? = null
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder(
@@ -41,7 +41,7 @@ class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>,val deleteFav
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductFavourite) {
 //            Glide.with(binding.root.context).load(product.images[0]).into(binding.imgProduct)
-            binding.product=product
+              binding.product=product
          //   binding.tvProductName.text=product.name
          //   binding.tvPrice.text=product.newPrice.toString()
         //    binding.tvReview.text=product.rate.toString()
