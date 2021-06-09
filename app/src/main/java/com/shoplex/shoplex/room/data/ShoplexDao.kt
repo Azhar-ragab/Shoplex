@@ -38,5 +38,9 @@ interface ShoplexDao {
 
     @Query("SELECT * FROM Favourite")
     fun readFavourite(): LiveData<List<ProductFavourite>>
+
+    @Query("SELECT * FROM Favourite WHERE productID = :productId LIMIT 1")
+    fun searchFav(productId:String): LiveData<ProductFavourite>
+
 }
 

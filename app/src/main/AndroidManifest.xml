@@ -14,29 +14,38 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Shoplex"
-       >
+        android:theme="@style/Theme.Shoplex">
 
-        <activity android:name=".view.activities.LoginActivity"></activity>
+        <activity android:name=".view.activities.LoginActivity">
+        </activity>
+
         <activity
-            android:name=".view.activities.FilterActivity"
-            android:theme="@style/AppTheme.Home"></activity>
+            android:name=".view.activities.FilterActivity">
+        </activity>
+
         <activity
-            android:name=".view.activities.DescriptionActivity"
-            android:theme="@style/AppTheme.Home"></activity>
-        <activity android:name=".view.activities.SignupActivity"></activity>
+            android:name=".view.activities.DescriptionActivity">
+        </activity>
+
+        <activity android:name=".view.activities.SignupActivity">
+        </activity>
+
         <activity
             android:name=".view.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
+
         <activity android:name=".view.activities.ProfileActivity" />
+
         <activity
-            android:name=".view.activities.OrderActivity"
-            android:theme="@style/AppTheme.Home" />
+            android:name=".view.activities.OrderActivity" />
+
         <activity android:name=".view.activities.MessageActivity" />
+
         <activity
             android:name=".view.activities.HomeActivity"
-            android:theme="@style/AppTheme.Home"
-            android:windowSoftInputMode="adjustNothing"></activity>
+            android:windowSoftInputMode="adjustNothing">
+        </activity>
+
         <activity
             android:name=".view.activities.SplashActivity"
             android:label="@string/title_activity_splash"
@@ -47,11 +56,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
         <activity
-            android:name=".view.activities.CheckOutActivity"
-            android:theme="@style/AppTheme.Home" />
+            android:name=".view.activities.CheckOutActivity" />
+
         <activity android:name=".view.activities.ProductDetails" />
 
         <meta-data

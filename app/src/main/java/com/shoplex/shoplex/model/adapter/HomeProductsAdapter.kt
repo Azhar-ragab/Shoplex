@@ -44,19 +44,21 @@ class HomeProductsAdapter(val productsHome: ArrayList<Product>, var addcartClick
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             val user:User= User()
+
             binding.btnFavorite.setOnClickListener {
-                binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill)
-                binding.btnFavorite.isClickable = false
-                notifyDataSetChanged()
-                UserInfo.favouriteList.add(product.productID)
-                if (addfavClick!=null){
-                    var favourite=ProductFavourite(product)
-                    addfavClick!!.onaddFavourite(favourite)
-                }
-                FirebaseReferences.usersRef.document(UserInfo.userID.toString()).update(
-                    "favouriteList",
-                    FieldValue.arrayUnion(product.productID)
-                )
+                addfavClick.onSearchFav(product.productID)
+//                binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill)
+//                binding.btnFavorite.isClickable = false
+//                notifyDataSetChanged()
+//                UserInfo.favouriteList.add(product.productID)
+//                if (addfavClick!=null){
+//                    var favourite=ProductFavourite(product)
+//                    addfavClick!!.onaddFavourite(favourite)
+//                }
+//                FirebaseReferences.usersRef.document(UserInfo.userID.toString()).update(
+//                    "favouriteList",
+//                    FieldValue.arrayUnion(product.productID)
+//                )
 
             }
 

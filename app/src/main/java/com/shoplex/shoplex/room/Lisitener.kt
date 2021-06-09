@@ -11,4 +11,5 @@ interface Lisitener {
     //favourite
     fun onaddFavourite(productFavourite: ProductFavourite){}
     fun ondeleteFavourite(productFavourite: ProductFavourite){}
+    fun onSearchFav(productId:String){}
 }

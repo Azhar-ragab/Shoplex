@@ -22,6 +22,7 @@ import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.User
 import com.shoplex.shoplex.room.Lisitener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
+import com.shoplex.shoplex.room.viewmodel.FavouriteFactoryModel
 import com.shoplex.shoplex.room.viewmodel.FavouriteViewModel
 import kotlin.collections.ArrayList
 
@@ -51,6 +52,7 @@ class FavoritesFragment : Fragment(), Lisitener {
         favouriteViewModel.readAllFavourite.observe(viewLifecycleOwner, Observer {
             favouriteAdapter.setData(it)
         })
+
 //        var favouriteProducts = ArrayList<ProductFavourite>()
 //        FirebaseReferences.usersRef.document(UserInfo.userID.toString()).get()
 //            .addOnSuccessListener { result ->
