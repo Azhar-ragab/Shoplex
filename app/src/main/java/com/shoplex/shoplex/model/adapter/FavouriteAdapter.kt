@@ -39,6 +39,7 @@ class FavouriteAdapter( val deleteFavClick:Lisitener) :
         holder.bind(favourites[position])
 
     override fun getItemCount() = favourites.size
+
     fun setData(product: List<ProductFavourite>){
         this.favourites = product as ArrayList<ProductFavourite>
         notifyDataSetChanged()

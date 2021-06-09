@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.Property
 import com.shoplex.shoplex.model.pojo.Location
+import com.shoplex.shoplex.model.pojo.Premium
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.SpecialDiscount
 import java.lang.reflect.Type
@@ -119,9 +120,11 @@ class Converter {
         return gson.toJson(list)
     }
 
-    //Checkout
+    @TypeConverter
+    fun PremiumToString(specialDiscount: Premium): String = Gson().toJson(specialDiscount)
 
-
+    @TypeConverter
+    fun stringToPremium(string: String): Premium = Gson().fromJson(string, Premium::class.java)
 
 
 }

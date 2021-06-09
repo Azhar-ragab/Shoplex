@@ -20,10 +20,9 @@ data class ProductFavourite(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
-
 ) : Product(),Parcelable {
     init{
-
+        this.productID = product.productID
         this.name = product.name
         this.price = product.price
         this.newPrice = product.price

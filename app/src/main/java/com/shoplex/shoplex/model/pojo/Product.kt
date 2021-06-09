@@ -4,13 +4,10 @@ package com.shoplex.shoplex
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.room.Entity
 import androidx.room.Ignore
-import androidx.room.PrimaryKey
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.firebase.firestore.Exclude
-import com.shoplex.shoplex.model.enumurations.Premium
-import com.shoplex.shoplex.model.pojo.Location
+import com.shoplex.shoplex.model.pojo.Premium
 import java.util.*
 
 open class Product : Parcelable {
