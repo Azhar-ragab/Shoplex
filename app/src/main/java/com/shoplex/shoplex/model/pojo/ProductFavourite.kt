@@ -22,7 +22,7 @@ data class ProductFavourite(
 
 ) : Product(),Parcelable {
     init{
-
+        this.productID=product.productID
         this.name = product.name
         this.price = product.price
         this.newPrice = product.price

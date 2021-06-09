@@ -26,6 +26,7 @@ import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.room.Lisitener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
+import com.shoplex.shoplex.room.viewmodel.FavouriteFactoryModel
 import com.shoplex.shoplex.room.viewmodel.FavouriteViewModel
 import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
@@ -117,14 +118,21 @@ class HomeFragment : Fragment(), Lisitener {
             )
         )
         */
+        Toast.makeText(context, "abc", Toast.LENGTH_SHORT).show()
+
         cartVM = ViewModelProvider(this).get(CartViewModel::class.java)
-        favouriteViewModel=ViewModelProvider(this).get(FavouriteViewModel::class.java)
+        favouriteViewModel=ViewModelProvider(this, FavouriteFactoryModel(requireContext(),"1")).get(FavouriteViewModel::class.java)
         binding.rvHomeproducts.layoutManager =
             GridLayoutManager(this.context, getGridColumnsCount())
 
         productsVM.products.observe(viewLifecycleOwner, Observer { products ->
             homeProductAdapter = HomeProductsAdapter(products, this,this)
             binding.rvHomeproducts.adapter = homeProductAdapter
+        })
+        favouriteViewModel.searchFavourite.observe(viewLifecycleOwner,{
+            if (it!=null) {
+                Toast.makeText(context, "abc ${it.productID}", Toast.LENGTH_SHORT).show()
+            }
         })
 
         return binding.root

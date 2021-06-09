@@ -37,5 +37,9 @@ interface ShoplexDao {
 
     @Query("SELECT * FROM messages where chatID = :chatID order by messageID")
     fun readAllMessage(chatID : String):LiveData<List<Message>>
+
+    @Query("SELECT * FROM Favourite WHERE productID = :productId LIMIT 1")
+    fun searchFav(productId:String): LiveData<ProductFavourite>
+
 }
 

@@ -12,16 +12,18 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FavouriteItemRowBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.Product
+import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.User
 import com.shoplex.shoplex.room.Lisitener
 
-class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>,val deleteFavClick:Lisitener) :
+class FavouriteAdapter( val deleteFavClick:Lisitener) :
     RecyclerView.Adapter<FavouriteAdapter.ProductViewHolder>() {
-
     companion object {
         var deleteFavourite: Lisitener? = null
     }
+    var favourites= emptyList<ProductFavourite>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder(
@@ -33,7 +35,10 @@ class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>,val deleteFav
         holder.bind(favourites[position])
 
     override fun getItemCount() = favourites.size
-
+    fun setData(product: List<ProductFavourite>){
+        this.favourites = product as ArrayList<ProductFavourite>
+        notifyDataSetChanged()
+    }
     inner class ProductViewHolder(val binding: FavouriteItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductFavourite) {
@@ -44,28 +49,21 @@ class FavouriteAdapter(val favourites: ArrayList<ProductFavourite>,val deleteFav
         //    binding.tvReview.text=product.rate.toString()
 
             binding.imgDelete.setOnClickListener {
+               // val user:User= User()
+                //   favourites.remove(product)
+
+                FirebaseReferences.usersRef.document(UserInfo.userID.toString()).update(
+                    "favouriteList",FieldValue.arrayRemove(product.productID)
+                )
                deleteFavourite = deleteFavClick
                 if (deleteFavourite != null) {
                     deleteFavourite!!.ondeleteFavourite(product)
-                }
-                val user:User= User()
-                favourites.remove(product)
-                user.favouriteList.remove(product.productID)
-                notifyDataSetChanged()
-                FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail), Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
-                    for (document in result){
-                        if (document.exists()) {
-                            val u = document.toObject<User>()
-                            val updates = hashMapOf<String, Any>(
-                                binding.root.context.getString(R.string.favouriteList)to FieldValue.arrayRemove(product.productID)
-                            )
-                            FirebaseReferences.usersRef.document(u.userID).update(
-                                updates
-                            )
 
-                        }
-                    }
                 }
+                UserInfo.favouriteList.remove(product.productID)
+                notifyDataSetChanged()
+
+
             }
         }
     }
