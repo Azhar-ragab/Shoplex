@@ -14,16 +14,18 @@ import com.shoplex.shoplex.databinding.FragmentCartBinding
 import com.shoplex.shoplex.model.adapter.CartAdapter
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.ProductCart
-import com.shoplex.shoplex.room.Lisitener
+import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
+import com.shoplex.shoplex.model.pojo.ProductQuantity
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.CheckOutActivity
 
 
-class CartFragment : Fragment(), Lisitener {
+class CartFragment : Fragment(), FavouriteCartListener {
 
     private lateinit var binding: FragmentCartBinding
    // private lateinit var cartAdapter: CartAdapter
-    lateinit var cartViewModel: CartViewModel
+    private lateinit var cartViewModel: CartViewModel
+    private var productsQuantity: ArrayList<ProductQuantity> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +36,9 @@ class CartFragment : Fragment(), Lisitener {
 
         binding.btnCheckout.setOnClickListener {
             if (UserInfo.userID != null) {
-                startActivity(Intent(context, CheckOutActivity::class.java))
+                startActivity(Intent(context, CheckOutActivity::class.java).apply {
+                    this.putExtra("PRODUCTS_QUANTITY", productsQuantity)
+                })
             } else {
                 Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT).show()
             }
@@ -51,10 +55,17 @@ class CartFragment : Fragment(), Lisitener {
     }
 
     fun getAllCartProducts() {
-        val cartAdapter = CartAdapter(this, this)
+        val cartAdapter = CartAdapter(this)
         binding.rvCart.adapter = cartAdapter
         cartViewModel.readAllCart.observe(viewLifecycleOwner, Observer {
             cartAdapter.setData(it)
+            binding.tvPrice.text = it.map { product ->
+                product.quantity * product.newPrice
+            }.sum().toString()
+
+            it.forEach { product ->
+                productsQuantity.add(ProductQuantity(product.productID, product.quantity))
+            }
         })
         /*  var cartProducts = ArrayList<ProductCart>()
           FirebaseReferences.usersRef.document(UserInfo.userID!!).get()
@@ -78,11 +89,12 @@ class CartFragment : Fragment(), Lisitener {
               }*/
     }
 
-    override fun ondeleteCart(productCart: ProductCart) {
-        cartViewModel.deleteCart(productCart)
+    override fun onDeleteFromCart(productID: String) {
+        super.onDeleteFromCart(productID)
+        cartViewModel.deleteCart(productID)
     }
 
-    override fun onUpdateCart(productCart: ProductCart) {
-        cartViewModel.updateCart(productCart)
+    override fun onUpdateCartQuantity(productID: String, quantity: Int) {
+        cartViewModel.updateCart(productID, quantity)
     }
 }

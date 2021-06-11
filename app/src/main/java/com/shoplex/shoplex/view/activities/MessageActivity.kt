@@ -8,8 +8,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityMessageBinding
@@ -20,6 +22,8 @@ import com.shoplex.shoplex.model.enumurations.keys.ChatMessageKeys
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Message
+import com.shoplex.shoplex.room.viewmodel.MessageFactoryModel
+import com.shoplex.shoplex.room.viewmodel.MessageViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
@@ -31,7 +35,8 @@ class MessageActivity : AppCompatActivity() {
     lateinit var productID: String
     lateinit var chatID: String
     var firstTime = true
-    private var firstUnread: Int = -1
+    private var position: Int = -1
+    private lateinit var messageVM: MessageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,21 +55,32 @@ class MessageActivity : AppCompatActivity() {
         binding.imgToolbarChat.setImageResource(R.drawable.placeholder)
         binding.tvToolbarUserChat.text = userName
         binding.imgToolbarback.setOnClickListener { finish() }
+
+        messageVM = ViewModelProvider(
+            this,
+            MessageFactoryModel(this, chatID)
+        ).get(MessageViewModel::class.java)
+
+
         getAllMessage()
         binding.btnSendMessage.setOnClickListener {
             performSendMessage()
         }
-
-        binding.edSendMesssage.setOnFocusChangeListener { v, hasFocus ->
-            /*
-            if(hasFocus){
-                Toast.makeText(this, "Read", Toast.LENGTH_SHORT).show()
-            }
-            */
-        }
-
     }
 
+    private fun performSendMessage() {
+        //send Message to Firebase
+        val messageText = binding.edSendMesssage.text
+        messageAdapter.add(RightMessageItem(Message(message = messageText.toString())))
+        var message = Message(toId = storeID, message = messageText.toString())
+        FirebaseReferences.chatRef.document(chatID).collection("messages")
+            .document(message.messageID)
+            .set(message)
+
+        messageText.clear()
+    }
+
+    /*
     private fun performSendMessage() {
         val messageText = binding.edSendMesssage.text
         var message = Message(
@@ -78,7 +94,66 @@ class MessageActivity : AppCompatActivity() {
                 messageText.clear()
             }
     }
+    */
 
+    private fun listenToNewMessages(lastID: String) {
+        FirebaseReferences.chatRef.document(chatID).collection("messages")
+            .whereGreaterThan("messageID", lastID).addSnapshotListener { snapshots, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                }
+                for ((index,dc) in snapshots!!.documentChanges.withIndex()) {
+                    if ((dc.type) == DocumentChange.Type.ADDED) {
+                        val message = dc.document.toObject<Message>()
+                        if (message.toId == UserInfo.userID) {
+                            message.chatID = chatID
+                            if (!message.isSent) {
+                                FirebaseReferences.chatRef.document(chatID).collection("messages")
+                                    .document(message.messageID).update("isSent", true)
+                            }
+                            if (!message.isRead && position == -1)
+                                position = messageAdapter.groupCount + index -1
+
+                            messageAdapter.add(LeftMessageItem(chatID, message))
+                            messageVM.addMessage(message)
+                        } else if (message.toId != UserInfo.userID) {
+                            message.chatID = chatID
+                            messageVM.addMessage(message)
+                        }
+                    }
+                }
+                if (position > 0){
+                    binding.rvMessage.scrollToPosition(position)
+                    position = 0
+                }
+            }
+    }
+
+    private fun getAllMessage() {
+        binding.rvMessage.adapter = messageAdapter
+        messageVM.readAllMessage.observe(this,  {
+            for (message in it) {
+                if (message.toId == UserInfo.userID) {
+                    messageAdapter.add(LeftMessageItem(chatID, message))
+
+                } else if (message.toId != UserInfo.userID) {
+                    messageAdapter.add(RightMessageItem(message))
+                }
+            }
+            val lastID = if (it.isEmpty()) {
+                "1"
+            } else {
+                // position = it.count() - 1
+                binding.rvMessage.scrollToPosition(it.count() - 1)
+                it.last().messageID
+            }
+            messageVM.readAllMessage.removeObservers(this)
+            listenToNewMessages(lastID)
+            //getAllMessageFromFirebase(lastID)
+        })
+    }
+
+    /*
     private fun getAllMessage() {
         FirebaseReferences.chatRef.document(chatID).collection(getString(R.string.messages))
             .get().addOnSuccessListener { result ->
@@ -125,6 +200,7 @@ class MessageActivity : AppCompatActivity() {
                 binding.rvMessage.adapter = messageAdapter
             }
     }
+    */
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.message_menu, menu)

@@ -17,8 +17,10 @@ import com.google.android.gms.tasks.Task
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityMapsBinding
 import com.shoplex.shoplex.model.enumurations.LocationAction
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.maps.LocationManager
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -28,6 +30,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val LOCATION_ACTION = "LOCATION_ACTION"
         val ADDRESS = "ADDRESS"
         val LOCATION = "LOCATION"
+        val STORE_LOCATIONS = "STORE_LOCATIONS"
     }
 
     private lateinit var mGoogleMap: GoogleMap
@@ -38,6 +41,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private val REQUEST_CODE = 101
     private lateinit var storeName: String
     private lateinit var locationAction: LocationAction
+    private lateinit var storeLocations: ArrayList<LatLng>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,50 +50,71 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         requestPermission()
-        if(intent.getStringExtra(LOCATION_ACTION) == LocationAction.Add.toString()){
+        if (intent.getStringExtra(LOCATION_ACTION) == LocationAction.Add.toString()) {
             locationAction = LocationAction.Add
-        }else{
+        } else if (intent.getStringExtra(LOCATION_ACTION) == LocationAction.ShowStores.toString()) {
+            locationAction = LocationAction.ShowStores
+            storeLocations = intent.getParcelableArrayListExtra<Location>(STORE_LOCATIONS) as ArrayList<LatLng>
+        } else if (intent.getStringExtra(LOCATION_ACTION) == LocationAction.Change.toString()) {
+            locationAction = LocationAction.Change
+        } else {
             storeName = intent.getStringExtra(getString(R.string.storename)).toString()
             //latitude = intent.getDoubleExtra(getString(R.string.locationLat), 21.139)
             //longitude = intent.getDoubleExtra(getString(R.string.locationLang), 123.21271363645793)
         }
 
         binding.btnOK.setOnClickListener {
-            when(locationAction){
-                LocationAction.Add -> {
-                    setResult(RESULT_OK, Intent().apply {
-                        val selectedLocation = locationManager.selectedLocation
-                        val address = locationManager.getAddress(
-                            LatLng(
-                                selectedLocation.latitude,
-                                selectedLocation.longitude
-                            ), applicationContext
-                        )
-                        putExtra(ADDRESS, address)
-                        putExtra(LOCATION, selectedLocation)
-                    })
-                }
+            when (locationAction) {
+                LocationAction.Add, LocationAction.Change -> addNewLocation()
+                //LocationAction.ShowStores -> showStoresLocations()
             }
             finish()
 
         }
     }
 
+    fun addNewLocation(){
+        setResult(RESULT_OK, Intent().apply {
+            val selectedLocation = locationManager.selectedLocation
+            val address = locationManager.getAddress(
+                LatLng(
+                    selectedLocation.latitude,
+                    selectedLocation.longitude
+                ), applicationContext
+            )
+            putExtra(ADDRESS, address)
+            putExtra(LOCATION, selectedLocation)
+        })
+    }
 
+    fun showStoresLocations(){
+        locationManager.addMarkers(storeLocations)
+    }
 
     fun requestPermission() {
-        if(ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-        // if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE)
-
-        } else{
+        if (ActivityCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ), REQUEST_CODE
+            )
+        } else {
             var task: Task<Location> = mFusedLocationClient.lastLocation
             task.addOnSuccessListener { location ->
                 val mapFragment = supportFragmentManager
                     .findFragmentById(R.id.mapFragment) as SupportMapFragment
-                mapFragment.getMapAsync(this)
-                    currentLocation = location
+                mapFragment.getMapAsync( this)
+                currentLocation = location
             }
         }
     }
@@ -98,8 +123,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mGoogleMap = googleMap
         locationManager = LocationManager.getInstance(mGoogleMap, this)
 
-        locationManager.addMarker(currentLocation)
+        if(locationAction == LocationAction.Change) {
+            currentLocation?.latitude = UserInfo.location.latitude
+            currentLocation?.longitude = UserInfo.location.longitude
+        }
 
+        locationManager.addMarker(currentLocation, locationAction != LocationAction.ShowStores)
+
+        if(locationAction == LocationAction.ShowStores)
+            showStoresLocations()
+        // locationManager.addMarkers()
 
         //val start = locationManager.alexandria.capital
         //val end = LatLng(31.1467777,30.9073034)

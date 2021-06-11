@@ -56,15 +56,14 @@ class SignupActivity : AppCompatActivity() {
         binding.imgSignup.setOnClickListener {
             openGallary()
         }
-        binding.edPhone.setOnFocusChangeListener(object : View.OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        binding.edPhone.onFocusChangeListener =
+            View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    binding.tiPhone.setHint(getString(R.string.phone))
+                    binding.tiPhone.hint = getString(R.string.phone)
                 } else {
-                    binding.tiPhone.setHint(getString(R.string.phone_hint))
+                    binding.tiPhone.hint = getString(R.string.phone_hint)
                 }
             }
-        })
         onEditTextChanged()
     }
 

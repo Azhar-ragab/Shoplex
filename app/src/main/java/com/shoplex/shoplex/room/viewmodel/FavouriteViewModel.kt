@@ -1,8 +1,6 @@
 package com.shoplex.shoplex.room.viewmodel
 
-import android.app.Application
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,16 +10,16 @@ import com.shoplex.shoplex.room.repository.FavouriteRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FavouriteViewModel(context: Context,val productId: String) : ViewModel() {
+class FavouriteViewModel(context: Context) : ViewModel() {
     val readAllFavourite: LiveData<List<ProductFavourite>>
-    val searchFavourite:LiveData<ProductFavourite>
+    var searchFavourite: LiveData<ProductFavourite>
     private val favouriteRepo:FavouriteRepo
 
     init {
         val favouriteDao = ShoplexDataBase.getDatabase(context).shoplexDao()
-        favouriteRepo = FavouriteRepo(favouriteDao,productId)
+        favouriteRepo = FavouriteRepo(favouriteDao)
         readAllFavourite = favouriteRepo.readFavourite
-        searchFavourite=favouriteRepo.searchFav
+        searchFavourite = favouriteRepo.searchFavourite
     }
 
     fun addFavourite(favourite: ProductFavourite) {
@@ -30,18 +28,15 @@ class FavouriteViewModel(context: Context,val productId: String) : ViewModel() {
         }
     }
 
-    fun deleteFavourite(productFavourite: ProductFavourite) {
+    fun deleteFavourite(productId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            favouriteRepo.deleteFavourite(productFavourite)
+            favouriteRepo.deleteFavourite(productId)
         }
     }
 
     fun searchFavourite(productId:String){
         viewModelScope.launch(Dispatchers.IO) {
-            favouriteRepo.searchFavourite(productId)
+            favouriteRepo.productID.value = productId
         }
     }
-
-
-
 }

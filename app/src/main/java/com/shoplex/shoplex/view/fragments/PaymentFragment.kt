@@ -28,8 +28,8 @@ class PaymentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPaymentBinding.inflate(inflater, container, false)
-        checkout = (activity as CheckOutActivity).checkout
         checkoutVM = (activity as CheckOutActivity).checkoutVM
+        checkout = checkoutVM.checkout.value!!
 
         binding.rgPayment.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
@@ -39,12 +39,12 @@ class PaymentFragment : Fragment() {
                     //Toast.makeText(context, binding.rbCash.text.toString(), Toast.LENGTH_SHORT).show()
                 }
                 binding.rbFawry.id -> {
-                    checkoutVM.paymentMethod.value = PaymentMethod.Fawry
+                    checkoutVM.paymentMethod.value = PaymentMethod.Cash
                     ischecked = true
                     //Toast.makeText(context, binding.rbFawry.text.toString(), Toast.LENGTH_SHORT).show()
                 }
                 binding.rbVodafone.id -> {
-                    checkoutVM.paymentMethod.value = PaymentMethod.Vodafone_Cash
+                    checkoutVM.paymentMethod.value = PaymentMethod.Visa_Master
                     ischecked = true
                     //Toast.makeText(context, binding.rbVodafone.text.toString(), Toast.LENGTH_SHORT).show()
                 }

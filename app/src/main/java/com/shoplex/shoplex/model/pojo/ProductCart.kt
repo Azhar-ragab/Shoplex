@@ -2,15 +2,25 @@ package com.shoplex.shoplex.model.pojo
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.Nullable
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.Exclude
 
 @Entity(tableName = "Cart")
 data class ProductCart(
     // var quantity: Int = 1,
-    var specialDiscount: SpecialDiscount? = SpecialDiscount(),
+    @Nullable
+    var specialDiscount: SpecialDiscount? = null,
     var shipping: Int = 0,
-    var product: Product? = Product(),
+    @Exclude
+    @get:Exclude
+    @Ignore
+    val product: Product = Product(),
+    @Exclude
+    @set:Exclude
+    @get:Exclude
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 ): Product(), Parcelable {
@@ -18,7 +28,8 @@ data class ProductCart(
     // var specialDiscount: SpecialDiscount? = null
     // var shipping: Int = 0
 
-    constructor(product: Product, specialDiscount: SpecialDiscount?, shipping: Int): this() {
+    constructor(product: Product, specialDiscount: SpecialDiscount?, shipping: Int): this()
+    init{
         this.productID = product.productID
         this.storeID = product.storeID
         this.storeName = product.storeName

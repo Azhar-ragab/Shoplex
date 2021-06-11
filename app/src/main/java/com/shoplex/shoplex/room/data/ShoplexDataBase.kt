@@ -11,7 +11,7 @@ import com.shoplex.shoplex.model.pojo.ProductFavourite
 @TypeConverters(Converter ::class)
 abstract class ShoplexDataBase : RoomDatabase(){
 
-    abstract fun shoplexDao() : ShoplexDao
+    abstract fun shoplexDao() : ShopLexDao
 
     companion object{
         @Volatile

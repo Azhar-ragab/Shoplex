@@ -28,15 +28,15 @@ class CartViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun deleteCart(productCart: ProductCart) {
+    fun deleteCart(productID: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            cartRepo.deleteCart(productCart)
+            cartRepo.deleteCart(productID)
         }
     }
 
-    fun updateCart(productCart: ProductCart) {
+    fun updateCart(productID: String, quantity: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            cartRepo.updateCart(productCart)
+            cartRepo.updateCart(productID, quantity)
         }
     }
 

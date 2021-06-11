@@ -2,19 +2,21 @@ package com.shoplex.shoplex.room.repository
 
 import androidx.lifecycle.LiveData
 import com.shoplex.shoplex.model.pojo.ProductCart
-import com.shoplex.shoplex.room.data.ShoplexDao
+import com.shoplex.shoplex.room.data.ShopLexDao
 
-class CartRepo (private val shoplexDao: ShoplexDao) {
+class CartRepo (private val shopLexDao: ShopLexDao) {
 
-    val readCart: LiveData<List<ProductCart>> = shoplexDao.readCart()
+    val readCart: LiveData<List<ProductCart>> = shopLexDao.readCart()
 
     suspend fun addCart(cart: ProductCart){
-        shoplexDao.addCart(cart)
+        shopLexDao.addCart(cart)
     }
-    suspend fun deleteCart(productCart: ProductCart){
-        shoplexDao.deleteCart(productCart)
+    suspend fun deleteCart(productID: String){
+        shopLexDao.deleteCart(productID)
     }
-    suspend fun updateCart(productCart: ProductCart){
-        shoplexDao.updateCart(productCart)
+    suspend fun updateCart(productID: String, quantity: Int){
+        shopLexDao.updateCart(productID, quantity)
     }
+
+
 }

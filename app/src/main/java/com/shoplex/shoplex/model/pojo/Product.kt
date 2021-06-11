@@ -3,6 +3,7 @@ package com.shoplex.shoplex.model.pojo
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -25,7 +26,9 @@ open class Product : Parcelable{
     var category : String = ""
     // var productNumber : Int = 0
     var subCategory : String = ""
+    @Nullable
     var rate : Float? = null
+    @Nullable
     var premium : Premium? = null
     // var premiumDays: Int = 0
     var properties: ArrayList<Property> = arrayListOf()
@@ -41,6 +44,14 @@ open class Product : Parcelable{
     @Ignore
     @Exclude @set:Exclude @get:Exclude
     var imageSlideList : ArrayList<SlideModel> = arrayListOf()
+
+    @Ignore
+    @Exclude @set:Exclude @get:Exclude
+    var isFavourite = false
+
+    @Ignore
+    @Exclude @set:Exclude @get:Exclude
+    var isCart = false
 
  constructor()
 

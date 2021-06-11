@@ -32,9 +32,9 @@ class SummaryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentSummaryBinding.inflate(inflater, container, false)
-        checkout = (activity as CheckOutActivity).checkout
-
         checkoutVM = (activity as CheckOutActivity).checkoutVM
+
+        checkout = checkoutVM.checkout.value!! //(activity as CheckOutActivity).checkout
 
         summaryAdapter = SummaryAdapter(checkout.getAllProducts())
         binding.rvSummary.adapter = summaryAdapter

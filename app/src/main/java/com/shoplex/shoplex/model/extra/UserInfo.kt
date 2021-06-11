@@ -37,16 +37,15 @@ object UserInfo {
     }
 
     fun saveUserInfo(context: Context){
-        val sharedPreference = context.getSharedPreferences(SHARED_USER_INFO, Context.MODE_PRIVATE)
-        val editor = sharedPreference.edit()
-        editor.putString("userID", userID)
-        editor.putString("name", name)
-        editor.putString("email", email)
-        editor.putString("image", image)
-        editor.putString("location", Gson().toJson(location))
-        editor.putString("address", address)
-        editor.putString("phone", phone)
-        editor.apply()
+        context.getSharedPreferences(SHARED_USER_INFO, Context.MODE_PRIVATE).edit()
+        .putString("userID", userID)
+        .putString("name", name)
+        .putString("email", email)
+        .putString("image", image)
+        .putString("location", Gson().toJson(location))
+        .putString("address", address)
+        .putString("phone", phone)
+        .apply()
     }
 
     fun readUserInfo(context: Context){

@@ -15,10 +15,14 @@ import kotlin.collections.ArrayList
 class Converter {
     //Special Discount
     @TypeConverter
-    fun sdToString(specialDiscount: SpecialDiscount): String = Gson().toJson(specialDiscount)
+    fun sdToString(specialDiscount: SpecialDiscount?): String?{
+        if(specialDiscount != null)
+            return Gson().toJson(specialDiscount)
+        return null
+    }
 
     @TypeConverter
-    fun stringToSd(string: String): SpecialDiscount = Gson().fromJson(string, SpecialDiscount::class.java)
+    fun stringToSd(string: String?): SpecialDiscount? = Gson().fromJson(string, SpecialDiscount::class.java)
 
     //Product
     @TypeConverter
@@ -117,10 +121,14 @@ class Converter {
     }
 
     @TypeConverter
-    fun premiumToString(specialDiscount: Premium): String = Gson().toJson(specialDiscount)
+    fun premiumToString(premium: Premium?): String?{
+        if(premium != null)
+            return Gson().toJson(premium)
+        return null
+    }
 
     @TypeConverter
-    fun stringToPremium(string: String): Premium = Gson().fromJson(string, Premium::class.java)
+    fun stringToPremium(string: String?): Premium? = Gson().fromJson(string, Premium::class.java)
 
 
 

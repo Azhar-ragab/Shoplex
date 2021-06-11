@@ -7,44 +7,42 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.chip.Chip
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
 import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.enumurations.Category
-import com.shoplex.shoplex.model.pojo.Filter
-import com.shoplex.shoplex.model.pojo.Sort
-import com.shoplex.shoplex.model.pojo.ProductCart
-import com.shoplex.shoplex.model.pojo.ProductFavourite
-import com.shoplex.shoplex.room.Lisitener
+import com.shoplex.shoplex.model.enumurations.LocationAction
+import com.shoplex.shoplex.model.pojo.*
+import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
-import com.shoplex.shoplex.room.viewmodel.FavouriteFactoryModel
-import com.shoplex.shoplex.room.viewmodel.FavouriteViewModel
 import com.shoplex.shoplex.view.activities.FilterActivity
+import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
 
-class HomeFragment : Fragment(), Lisitener {
+class HomeFragment : Fragment(), FavouriteCartListener {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var startActivitylaunch: ActivityResultLauncher<Intent>
+    private lateinit var startActivityLaunch: ActivityResultLauncher<Intent>
     private lateinit var advertisementsAdapter: AdvertisementsAdapter
     private lateinit var homeProductAdapter: HomeProductsAdapter
     private lateinit var productsVM: ProductsVM
     private var selectedCategory: String = Category.Fashion.name
     private lateinit var cartVM: CartViewModel
-    private lateinit var favouriteViewModel: FavouriteViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startActivitylaunch =
+        startActivityLaunch =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == Activity.RESULT_OK) {
                     val data: Intent? = it.data
@@ -62,7 +60,7 @@ class HomeFragment : Fragment(), Lisitener {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.btnFilter.setOnClickListener {
 
-            startActivitylaunch.launch(Intent(context, FilterActivity::class.java).apply {
+            startActivityLaunch.launch(Intent(context, FilterActivity::class.java).apply {
                 this.putExtra(FilterActivity.CATEGORY, selectedCategory)
             })
         }
@@ -81,6 +79,11 @@ class HomeFragment : Fragment(), Lisitener {
                 Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
 
             /*
+            homeProductAdapter = HomeProductsAdapter(arrayListOf())
+            homeProductAdapter.productsHome.clear()
+            homeProductAdapter.notifyDataSetChanged()
+*/
+            /*
             val shops = arrayListOf("b4a2643b-7dba-4c29-9bf1-e53dd73acc3b", "b31eafa4-8167-4ee0-92de-6fb5d3b1c0ef")
             val filter = Filter(lowPrice = 50, highPrice = 250, subCategory = null, rate = null, discount = null, shops = null)
             val sort = Sort(price = null, rate = false, discount = true, nearestShop = false)
@@ -98,42 +101,55 @@ class HomeFragment : Fragment(), Lisitener {
 
         // Products
 
-        /*
-        products.add(
-            Products_Home("Sport Dress" ,
-                12F, 10.5F , 4.5,"Heba" ,"Active Store","5Km/m","https://cdn.shopify.com/s/files/1/0089/3989/6947/files/header-2.3_2e9bf8b4-a065-4aea-9beb-c6913d0344b9_800x.jpg?v=1618672152",5
-
-            )
-        )
-        products.add(
-            Products_Home("Sport Dress" ,
-                12F, 10.5F , 4.5,"Heba" ,"Swich Store","5Km/m","https://images.unsplash.com/photo-1483985988355-763728e1935b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFzaGlvbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",5
-
-            )
-        )
-        products.add(
-            Products_Home("Sport Dress" ,
-                12F, 10.5F , 4.5,"Heba" ,"Active Store","3Km/m ","https://images.unsplash.com/photo-1483985988355-763728e1935b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZmFzaGlvbnxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80,5",5
-
-            )
-        )
-        */
-        Toast.makeText(context, "abc", Toast.LENGTH_SHORT).show()
-
         cartVM = ViewModelProvider(this).get(CartViewModel::class.java)
-        favouriteViewModel=ViewModelProvider(this, FavouriteFactoryModel(requireContext(),"1")).get(FavouriteViewModel::class.java)
+        //favouriteViewModel = ViewModelProvider(this, FavouriteFactoryModel(requireContext())).get(FavouriteViewModel::class.java)
         binding.rvHomeproducts.layoutManager =
             GridLayoutManager(this.context, getGridColumnsCount())
 
-        productsVM.products.observe(viewLifecycleOwner, Observer { products ->
-            homeProductAdapter = HomeProductsAdapter(products, this,this)
+        productsVM.products.observe(viewLifecycleOwner, { products ->
+            homeProductAdapter = HomeProductsAdapter(products)
             binding.rvHomeproducts.adapter = homeProductAdapter
         })
-        favouriteViewModel.searchFavourite.observe(viewLifecycleOwner,{
-            if (it!=null) {
-                Toast.makeText(context, "abc ${it.productID}", Toast.LENGTH_SHORT).show()
+
+
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                if(newText.isEmpty()){
+                    homeProductAdapter.search("")
+                }
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                homeProductAdapter.search(binding.searchView.query.toString())
+                return false
             }
         })
+
+        binding.btnLocation.setOnClickListener {
+            // Toast.makeText(requireContext(), "Location", Toast.LENGTH_SHORT).show()
+
+            /*
+            for (location in locations){
+                Toast.makeText(requireContext(), "Lat: ${location.latitude}, Lon: ${location.longitude}", Toast.LENGTH_SHORT).show()
+            }
+
+             */
+
+            startActivity(
+                Intent(requireContext(), MapsActivity::class.java)
+                    .apply {
+                        putExtra(MapsActivity.LOCATION_ACTION, LocationAction.ShowStores.name)
+                        val locations: ArrayList<LatLng> = homeProductAdapter.productsHome.groupBy {
+                            it.storeLocation
+                        }.map {
+                            LatLng(it.key.latitude, it.key.longitude)
+                        } as ArrayList<LatLng>
+                        putParcelableArrayListExtra(MapsActivity.STORE_LOCATIONS, locations)
+                    }
+            )
+        }
 
         return binding.root
     }
@@ -157,14 +173,15 @@ class HomeFragment : Fragment(), Lisitener {
         productsVM.getAllProducts(category, userFilter, userSort)
     }
 
-    override fun onaddCart(productCart: ProductCart) {
+    override fun onAddToCart(productCart: ProductCart) {
         cartVM.addCart(productCart)
     }
 
-    override fun onaddFavourite(productFavourite: ProductFavourite) {
-        favouriteViewModel.addFavourite(productFavourite)
+    override fun onSearchForFavouriteCart(productId: String) {
+        //favouriteViewModel.searchFavourite(productId)
     }
 
-
-
+    override fun onAddToFavourite(productFavourite: ProductFavourite) {
+        //favouriteViewModel.addFavourite(productFavourite)
+    }
 }

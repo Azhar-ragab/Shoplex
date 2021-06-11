@@ -20,7 +20,7 @@ import kotlin.random.Random
 class CheckOutActivity : AppCompatActivity() {
     lateinit var binding: ActivityCheckOutBinding
     var productCart : ArrayList<ProductCart> = arrayListOf()
-    var checkout: Checkout = Checkout()
+
     lateinit var checkoutVM: CheckoutVM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +33,13 @@ class CheckOutActivity : AppCompatActivity() {
         supportActionBar?.apply {
             title = getString(R.string.Checkout)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-
         }
         if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true);
             supportActionBar?.setDisplayShowHomeEnabled(true);
         }
 
-        getAllCartProducts()
+        checkoutVM.getAllCartProducts()
 
         var checkoutAdapter: CheckoutAdapter = CheckoutAdapter(supportFragmentManager)
         binding.tabLayoutCheckout.setupWithViewPager(binding.viewPagerCheckout)
@@ -58,35 +57,7 @@ class CheckOutActivity : AppCompatActivity() {
         })
     }
 
-    fun getAllCartProducts() {
 
-        // var cartProducts = ArrayList<ProductCart>()
-        FirebaseReferences.usersRef.document(UserInfo.userID!!).get().addOnSuccessListener { result ->
-            val cartList: java.util.ArrayList<String> = result.get("cartList") as java.util.ArrayList<String>
-            for (productID in cartList){
-                FirebaseReferences.productsRef.document(productID).get()
-                    .addOnSuccessListener { productResult ->
-                        if (productResult != null) {
-                            val prod = productResult.toObject<ProductCart>()
-                            FirebaseReferences.productsRef.document(productID)
-                                .collection("Special Discounts")
-                                .document(UserInfo.userID!!).get().addOnSuccessListener {
-                                    var specialDiscount: SpecialDiscount? = null
-                                    if(it.exists()){
-                                        specialDiscount = it.toObject()
-                                    }
-                                    // LocationManager.getInstance(this).getRouteInfo(UserInfo.location, prod.deliveryLoc)
-                                    prod?.quantity = Random.nextInt(1, 5)
-                                    val productCart = ProductCart(prod!!, specialDiscount, 10)
-                                    // cartProducts.add()
-
-                                    checkout.addProduct(productCart)
-                                }
-                        }
-                    }
-            }
-        }
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here

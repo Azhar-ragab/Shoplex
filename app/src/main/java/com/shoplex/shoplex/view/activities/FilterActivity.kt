@@ -19,6 +19,7 @@ import com.shoplex.shoplex.model.pojo.Filter
 import com.shoplex.shoplex.model.pojo.Sort
 import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 import com.shoplex.shoplex.viewmodel.StoresVM
+import kotlinx.android.synthetic.main.activity_filter.*
 import kotlin.collections.ArrayList
 
 
@@ -49,7 +50,7 @@ class FilterActivity : AppCompatActivity() {
             title = getString(R.string.filter)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
-        if (supportActionBar != null){
+        if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true);
             supportActionBar?.setDisplayShowHomeEnabled(true);
         }
@@ -74,29 +75,47 @@ class FilterActivity : AppCompatActivity() {
         binding.btnFilterOK.setOnClickListener {
             var filter = Filter()
             var sort: Sort? = null
-            if(true) {
-                var stores: ArrayList<String>? = storesVM.storesList.value
-                var subCategory: ArrayList<String>? = storesVM.subCatCheckList.value
-                val minPrice = binding.rsPrice.valueFrom.toInt()
-                val maxPrice = binding.rsPrice.valueTo.toInt()
-                val rate = binding.ratingBarFilter.rating
-                val discount = binding.sliderDiscount.value.toInt()
 
-                if (stores.isNullOrEmpty())
-                    stores = null
 
-                if (subCategory.isNullOrEmpty())
-                    subCategory = null
+            var stores: ArrayList<String>? = storesVM.storesList.value
+            var subCategory: ArrayList<String>? = storesVM.subCatCheckList.value
+            var minPrice: Int? = null
+            var maxPrice: Int? = null
+            var rateFilter: Float? = null
+            var discountFilter: Int? = null
 
-                filter = Filter(lowPrice = minPrice, highPrice = maxPrice, subCategory = subCategory, rate = rate, discount = discount, shops = stores)
+            if (stores.isNullOrEmpty())
+                stores = null
+
+            if (subCategory.isNullOrEmpty())
+                subCategory = null
+
+            if (binding.cbPriceFilter.isChecked) {
+                minPrice = binding.rsPrice.values[0].toInt()
+                maxPrice = binding.rsPrice.values[1].toInt()
             }
+
+            if (binding.cbRateFilter.isChecked)
+                rateFilter = binding.ratingBarFilter.rating
+
+            if (binding.cbDiscountFilter.isChecked)
+                discountFilter = binding.sliderDiscount.value.toInt()
+
+            filter = Filter(
+                lowPrice = minPrice,
+                highPrice = maxPrice,
+                subCategory = subCategory,
+                rate = rateFilter,
+                discount = discountFilter,
+                shops = stores
+            )
 
             var price = binding.cbPrice.isChecked
             val rate = binding.cbRating.isChecked
             val discount = binding.cbDiscount.isChecked
             val nearestShop = binding.cbNersedtShop.isChecked
 
-            if(price || rate || discount || nearestShop){
+            if (price || rate || discount || nearestShop) {
                 price = (binding.toggleBtnPrice.checkedButtonId != binding.btnLowPrice.id)
                 sort = Sort(price, rate, discount, nearestShop)
             }
@@ -109,6 +128,7 @@ class FilterActivity : AppCompatActivity() {
             finish()
         }
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here
         if (item.itemId == android.R.id.home) {

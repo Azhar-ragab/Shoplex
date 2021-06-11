@@ -136,7 +136,7 @@
                     android:background="@drawable/card">
 
                     <CheckBox
-                        android:id="@+id/tvRateFilter"
+                        android:id="@+id/cbRateFilter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_8"
@@ -159,16 +159,16 @@
                         android:layout_marginStart="@dimen/margin_8"
                         android:layout_marginEnd="@dimen/margin_8"
                         app:layout_constraintEnd_toEndOf="@id/rsPrice"
-                        app:layout_constraintBottom_toBottomOf="@id/tvRateFilter"
+                        app:layout_constraintBottom_toBottomOf="@id/cbRateFilter"
                         app:layout_constraintStart_toStartOf="@+id/rsPrice"
                         app:layout_constraintStart_toEndOf="@id/rsPrice"
-                        app:layout_constraintTop_toTopOf="@id/tvRateFilter">
+                        app:layout_constraintTop_toTopOf="@id/cbRateFilter">
 
                     </RatingBar>
 
 
                     <CheckBox
-                        android:id="@+id/tvPriceFilter"
+                        android:id="@+id/cbPriceFilter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_8"
@@ -177,7 +177,7 @@
                         android:textColor="@color/darkblue"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvRateFilter" />
+                        app:layout_constraintTop_toBottomOf="@+id/cbRateFilter" />
 
                     <com.google.android.material.slider.RangeSlider
                         android:id="@+id/rsPrice"
@@ -186,12 +186,12 @@
                         android:layout_marginStart="@dimen/margin_32"
                         android:layout_marginEnd="@dimen/margin_16"
                         android:stepSize="10"
-                        android:valueFrom="10"
-                        android:valueTo="10000.0"
+                        android:valueFrom="0"
+                        android:valueTo="5000.0"
+                        app:layout_constraintBottom_toBottomOf="@id/cbPriceFilter"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tvPriceFilter"
-                        app:layout_constraintTop_toTopOf="@+id/tvPriceFilter"
-                        app:layout_constraintBottom_toBottomOf="@id/tvPriceFilter"
+                        app:layout_constraintStart_toEndOf="@+id/cbPriceFilter"
+                        app:layout_constraintTop_toTopOf="@+id/cbPriceFilter"
                         app:values="@array/initial_slider_values" />
 
                     <com.google.android.material.slider.Slider
@@ -205,12 +205,12 @@
                         android:valueFrom="0.0"
                         android:valueTo="90.0"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tvDiscountFilter"
-                        app:layout_constraintTop_toTopOf="@+id/tvDiscountFilter"
-                        app:layout_constraintBottom_toBottomOf="@id/tvDiscountFilter"/>
+                        app:layout_constraintStart_toEndOf="@+id/cbDiscountFilter"
+                        app:layout_constraintTop_toTopOf="@+id/cbDiscountFilter"
+                        app:layout_constraintBottom_toBottomOf="@id/cbDiscountFilter"/>
 
                     <CheckBox
-                        android:id="@+id/tvDiscountFilter"
+                        android:id="@+id/cbDiscountFilter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -221,7 +221,7 @@
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvPriceFilter" />
+                        app:layout_constraintTop_toBottomOf="@+id/cbPriceFilter" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 

@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.shoplex.shoplex.R
-import com.shoplex.shoplex.view.fragments.ProductFragment
+import com.shoplex.shoplex.view.fragments.DetailsFragment
 import com.shoplex.shoplex.view.fragments.ReviewFragment
 
 class PagerAdapter(fm: FragmentManager, val context: Context, val productId:String) : FragmentPagerAdapter(fm) {
@@ -16,7 +16,7 @@ class PagerAdapter(fm: FragmentManager, val context: Context, val productId:Stri
     override fun getItem(position: Int): Fragment {
         when(position) {
             0 -> {
-                return ProductFragment(productId)
+                return DetailsFragment(productId)
             }
             else -> {
                 return ReviewFragment(productId)

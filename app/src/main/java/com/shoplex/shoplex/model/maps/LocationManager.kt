@@ -62,7 +62,7 @@ class LocationManager: RoutingListener {
         }
     }
 
-    fun addMarker(current: Location?) {
+    fun addMarker(current: Location?, isAdd: Boolean) {
         // Add a marker in Sydney and move the camera
         var currentLocation = if (current == null) LatLng(
             alexandria.capital.latitude,
@@ -89,14 +89,16 @@ class LocationManager: RoutingListener {
         polygon.strokeWidth = 4f
 
 
-        mMap.setOnMapClickListener {
-            if (PolyUtil.containsLocation(it, alexandria.coordinates, false)) {
-                marker.remove()
-                marker = mMap.addMarker(MarkerOptions().position(it).title("Your Location"))
+        if(isAdd) {
+            mMap.setOnMapClickListener {
+                if (PolyUtil.containsLocation(it, alexandria.coordinates, false)) {
+                    marker.remove()
+                    marker = mMap.addMarker(MarkerOptions().position(it).title("Your Location"))
 
-                selectedLocation = it
-            } else {
-                Toast.makeText(context, "OutSide", Toast.LENGTH_SHORT).show()
+                    selectedLocation = it
+                } else {
+                    Toast.makeText(context, "OutSide", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.shoplex.shoplex.model.firebase
 
+import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
@@ -14,31 +15,14 @@ import java.util.*
 
 class ProductsDBModel(val notifier: INotifyMVP?) {
 
-    /*
-    fun getAllProducts(category: Category) {
-        FirebaseReferences.productsRef.whereEqualTo("category", category.name)
-            .addSnapshotListener { values, _ ->
-                var products = arrayListOf<Product>()
-                for (document: DocumentSnapshot in values?.documents!!) {
-                    var product: Product? = document.toObject<Product>()
-                    if (product != null) {
-                        products.add(product)
-                    }
-                }
-                this.notifier?.onAllProductsReady(products)
-            }
-    }
-    */
-
-
     fun getAllProducts(category: Category, filter: Filter, sort: Sort?) {
         var query: Query = FirebaseReferences.productsRef
             .whereEqualTo("category", category.name.replace("_", " "))
 
         if(filter.lowPrice != null && filter.highPrice != null)
-            query = query.whereGreaterThanOrEqualTo("price", filter.lowPrice)
-                .whereLessThanOrEqualTo("price", filter.highPrice)
-                .orderBy("price", Query.Direction.ASCENDING)
+            query = query.whereGreaterThanOrEqualTo("newPrice", filter.lowPrice)
+                .whereLessThanOrEqualTo("newPrice", filter.highPrice)
+                //.orderBy("newPrice", Query.Direction.ASCENDING)
 
         if(filter.subCategory != null)
             query = query.whereIn("subCategory", filter.subCategory)
@@ -49,9 +33,9 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
         if (sort != null) {
 
             if (sort.price == false)
-                query = query.orderBy("price", Query.Direction.ASCENDING)
+                query = query.orderBy("newPrice", Query.Direction.ASCENDING)
             else if (sort.price == true)
-                query = query.orderBy("price", Query.Direction.DESCENDING)
+                query = query.orderBy("newPrice", Query.Direction.DESCENDING)
 
             if(sort.rate)
                 query = query.orderBy("rate", Query.Direction.DESCENDING)
@@ -60,18 +44,18 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
                 query = query.orderBy("discount", Query.Direction.DESCENDING)
         }
 
-        query.addSnapshotListener { values, _ ->
-            if(values == null)
-                return@addSnapshotListener
+        query.addSnapshotListener { values, error ->
+
+
+            if(error != null){
+                Log.i("FIREBASEINDEXES", error.toString())
+            }
+
             var products = arrayListOf<Product>()
             for (document: DocumentSnapshot in values?.documents!!) {
                 var product: Product? = document.toObject<Product>()
                 if (product != null) {
                     var pass = true
-                    /*
-                    if(filter.subCategory!= null && product.subCategory != filter.subCategory)
-                        pass = false
-                    */
 
                     if(filter.rate != null && (product.rate == null || product.rate!! < filter.rate))
                         pass = false

@@ -1,5 +1,6 @@
 package com.shoplex.shoplex.view.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.android.gms.maps.model.LatLng
@@ -18,7 +20,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
-import com.shoplex.shoplex.databinding.FragmentProductBinding
+import com.shoplex.shoplex.databinding.FragmentDetailsBinding
 import com.shoplex.shoplex.model.adapter.PropertyAdapter
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.DiscountType
@@ -27,19 +29,25 @@ import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.enumurations.keys.ChatMessageKeys
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.model.maps.LocationManager
 import com.shoplex.shoplex.model.pojo.*
+import com.shoplex.shoplex.room.data.ShoplexDataBase
+import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.view.activities.MessageActivity
 import com.shoplex.shoplex.viewmodel.DetailsVM
 import com.shoplex.shoplex.viewmodel.OrdersVM
 import com.shoplex.shoplex.viewmodel.ProductsVM
+import kotlinx.android.synthetic.main.fragment_details.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-class ProductFragment(val productId: String) : Fragment() {
-    private lateinit var binding: FragmentProductBinding
+class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener {
+    private lateinit var binding: FragmentDetailsBinding
     private lateinit var propertyAdapter: PropertyAdapter
     private lateinit var productsVM: ProductsVM
-    private lateinit var product: Product
+    private var product: Product = Product()
     private lateinit var detailsVM: DetailsVM
     private var storeInfo: Store = Store()
     private val imageList = ArrayList<SlideModel>() // Create image list
@@ -47,6 +55,8 @@ class ProductFragment(val productId: String) : Fragment() {
     private val MAPS_CODE = 202
     private lateinit var ref: DocumentReference
 
+    private lateinit var repo: FavoriteCartRepo
+    private lateinit var lifecycleScope: CoroutineScope
 
     private val ordersNM = OrdersVM()
 
@@ -56,12 +66,15 @@ class ProductFragment(val productId: String) : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        binding = FragmentProductBinding.inflate(inflater, container, false)
+        binding = FragmentDetailsBinding.inflate(inflater, container, false)
+        lifecycleScope = (context as AppCompatActivity).lifecycleScope
+        repo = FavoriteCartRepo(ShoplexDataBase.getDatabase(binding.root.context).shoplexDao())
+
         this.productsVM = ProductsVM()
         this.detailsVM = DetailsVM()
         ref = FirebaseReferences.chatRef.document()
         productsVM.getProductById(productId)
-        productsVM.products.observe(this.viewLifecycleOwner, Observer {
+        productsVM.products.observe(this.viewLifecycleOwner,  {
             if (it.count() > 0) {
                 this.product = it[0]
                 detailsVM.getStoreData(product.storeID)
@@ -71,7 +84,7 @@ class ProductFragment(val productId: String) : Fragment() {
                 binding.imgSliderDetails.setImageList(imageList, ScaleTypes.CENTER_CROP)
                 propertyAdapter = context?.let { PropertyAdapter(product.properties, it) }!!
                 binding.rvProperty.adapter = propertyAdapter
-
+                onSearchForFavouriteCart(product.productID)
             }
 
         })
@@ -80,10 +93,42 @@ class ProductFragment(val productId: String) : Fragment() {
             this.storeInfo = it
         })
 
+        repo.searchFavouriteByID.observe(context as AppCompatActivity, {
+            if (it == null) {
+                binding.btnFavourite.setBackgroundResource(R.drawable.ic_favorite)
+                product.isFavourite = false
+            } else {
+                binding.btnFavourite.setBackgroundResource(R.drawable.ic_favorite_fill)
+                product.isFavourite = true
+            }
+        })
+
+        repo.searchCartByID.observe(context as AppCompatActivity, {
+            if (it == null) {
+                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_cart), null)
+                product.isCart = false
+            } else {
+                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_done), null)
+                product.isCart = true
+            }
+        })
+
         binding.btnCall.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL);
             intent.data = Uri.parse(getString(R.string.telephone) + storeInfo.phone)
             startActivity(intent)
+        }
+
+        binding.btnFavourite.setOnClickListener {
+            if (product.isFavourite) {
+                onDeleteFromFavourite(product.productID)
+                binding.btnFavourite.setBackgroundResource(R.drawable.ic_favorite)
+                product.isFavourite = false
+            } else {
+                onAddToFavourite(ProductFavourite(product))
+                binding.btnFavourite.setBackgroundResource(R.drawable.ic_favorite_fill)
+                product.isFavourite = true
+            }
         }
 
         binding.btnMessage.setOnClickListener {
@@ -149,7 +194,7 @@ class ProductFragment(val productId: String) : Fragment() {
             )
 
             var checkout: Checkout = Checkout(
-                DeliveryMethod.Door, PaymentMethod.Fawry, Location(
+                DeliveryMethod.Door, PaymentMethod.Cash, Location(
                     UserInfo.location.latitude, UserInfo.location.longitude
                 ), address ?: "", product.price, 12
             )
@@ -158,6 +203,18 @@ class ProductFragment(val productId: String) : Fragment() {
             for (product in checkout.getAllProducts()) {
                 var order: Order = Order(product, checkout, OrderStatus.Current)
                 ordersNM.addOrder(order)
+            }
+        }
+
+        binding.btnAddToCart.setOnClickListener {
+            if (product.isCart) {
+                onDeleteFromCart(product.productID)
+                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_cart), null)
+                product.isCart = false
+            } else {
+                onAddToCart(ProductCart(product = product))
+                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_done), null)
+                product.isCart = true
             }
         }
 
@@ -183,5 +240,38 @@ class ProductFragment(val productId: String) : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onAddToCart(productCart: ProductCart) {
+        super.onAddToCart(productCart)
+        lifecycleScope.launch {
+            productCart.quantity = 1
+            repo.addCart(productCart)
+        }
+    }
+
+    override fun onDeleteFromCart(productID: String) {
+        super.onDeleteFromCart(productID)
+        lifecycleScope.launch {
+            repo.deleteCart(productID)
+        }
+    }
+
+    override fun onAddToFavourite(productFavourite: ProductFavourite) {
+        super.onAddToFavourite(productFavourite)
+        lifecycleScope.launch {
+            repo.addFavourite(productFavourite)
+        }
+    }
+
+    override fun onDeleteFromFavourite(productID: String) {
+        super.onDeleteFromFavourite(productID)
+        lifecycleScope.launch {
+            repo.deleteFavourite(productID)
+        }
+    }
+
+    override fun onSearchForFavouriteCart(productId: String) {
+        repo.productID.value = productId
     }
 }

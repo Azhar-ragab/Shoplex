@@ -252,12 +252,13 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/btnAddToCart"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textAllCaps="false"
-                    android:text="@string/Add"
                     android:drawableEnd="@drawable/ic_cart"
+                    android:text="@string/Add"
+                    android:textAllCaps="false"
                     android:textSize="@dimen/text_size_16" />
             </LinearLayout>
 
