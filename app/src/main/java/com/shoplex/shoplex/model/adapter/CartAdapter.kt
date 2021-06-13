@@ -2,6 +2,7 @@ package com.shoplex.shoplex.model.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shoplex.shoplex.databinding.RvCartHomeBinding
@@ -53,20 +54,22 @@ class CartAdapter(
             // var quant = 1
             // updateCart = updateCartClick
             binding.btnMinus.setOnClickListener {
-                if (product.quantity > 1) {
-                    product.quantity--
-                    binding.number.text = product.quantity.toString()
-                    favouriteCartListener.onUpdateCartQuantity(product.productID, product.quantity)
+                if (product.cartQuantity > 1) {
+                    product.cartQuantity--
+                    //binding.number.text = product.quantity.toString()
+                    favouriteCartListener.onUpdateCartQuantity(product.productID, product.cartQuantity--)
                 }
 //                if (updateCart != null) {
 //                    updateCart!!.onUpdateCartQuantity(product.productID, product.quantity)
 //                }
             }
             binding.btnPlus.setOnClickListener {
-                if (product.quantity < 100) {
-                    product.quantity++
-                    binding.number.text = product.quantity.toString()
-                    favouriteCartListener.onUpdateCartQuantity(product.productID, product.quantity)
+                if (product.cartQuantity < product.quantity) {
+                    product.cartQuantity++
+                    //binding.number.text = product.quantity.toString()
+                    favouriteCartListener.onUpdateCartQuantity(product.productID, product.cartQuantity)
+                }else{
+                    Toast.makeText(binding.root.context, "Max Quantity", Toast.LENGTH_SHORT).show()
                 }
 //                if (updateCart != null) {
 //                    updateCart!!.onUpdateCartQuantity(product.productID, product.quantity)

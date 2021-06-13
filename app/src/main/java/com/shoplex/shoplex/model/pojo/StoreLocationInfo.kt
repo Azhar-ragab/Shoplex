@@ -1,6 +1,10 @@
 package com.shoplex.shoplex.model.pojo
 
-class StoreLocationInfo {
+import androidx.room.Entity
+
+@Entity(tableName = "StoresLocation", primaryKeys = ["storeID","location"])
+data class StoreLocationInfo(val storeID : String = "", val location: Location = Location(), val storeName: String? = null, val distance: String? = null, val duration: String? = null)
+/*{
     var storeID : String = ""
     var storeName: String = ""
     var distance: Float = 0F
@@ -12,7 +16,7 @@ class StoreLocationInfo {
         this.storeName = storeName
     }
 
-    constructor(storeID : String, storeName: String, distance: Float, carTime: Int, walkingTime: Int) {
+    constructor {
         this.storeID = storeID
         this.storeName = storeName
         this.distance = distance
@@ -20,3 +24,4 @@ class StoreLocationInfo {
         this.walkingTime = walkingTime
     }
 }
+ */

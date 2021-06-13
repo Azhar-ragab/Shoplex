@@ -2,28 +2,32 @@ package com.shoplex.shoplex.model.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.shoplex.shoplex.model.pojo.Product
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvHomeProductCardviewBinding
-import com.shoplex.shoplex.model.pojo.ProductCart
-import com.shoplex.shoplex.model.pojo.User
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
-import com.shoplex.shoplex.model.pojo.ProductFavourite
+import com.shoplex.shoplex.model.maps.LocationManager
+import com.shoplex.shoplex.model.maps.RouteInfo
+import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.room.data.ShoplexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import com.shoplex.shoplex.view.activities.ProductDetails
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class HomeProductsAdapter(var productsHome: ArrayList<Product>) :
-    RecyclerView.Adapter<HomeProductsAdapter.ProductViewHolder>() {
+class HomeAdapter(var productsHome: ArrayList<Product>) :
+    RecyclerView.Adapter<HomeAdapter.ProductViewHolder>() {
     private lateinit var context: Context
     private var originalProducts: ArrayList<Product> = arrayListOf()
 
@@ -70,6 +74,11 @@ class HomeProductsAdapter(var productsHome: ArrayList<Product>) :
 
             //val viewModel = ViewModelProvider(context as AppCompatActivity, FavouriteFactoryModel(context, product.productID)).get(FavouriteViewModel::class.java)
 
+            if(product.quantity == 0){
+                binding.btnFavorite.visibility = View.INVISIBLE
+                binding.fabAddProduct.visibility = View.INVISIBLE
+            }
+
             repo.searchFavouriteByID.observe(context as AppCompatActivity, {
                 if (it == null) {
                     binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite)
@@ -90,7 +99,16 @@ class HomeProductsAdapter(var productsHome: ArrayList<Product>) :
                 }
             })
 
+            repo.storeLocationInfo.observe(context as AppCompatActivity, {
+                if (it != null) {
+                    binding.tvSpace.text = it.distance
+                } else {
+                    findRoute(product.storeID, product.storeName, product.storeLocation)
+                }
+            })
+
             onSearchForFavouriteCart(product.productID)
+            onFindingRoute(StoreLocationInfo(storeID = product.storeID, location = product.storeLocation))
 
             binding.btnFavorite.setOnClickListener {
                 if (product.isFavourite) {
@@ -160,6 +178,9 @@ class HomeProductsAdapter(var productsHome: ArrayList<Product>) :
 //                }
             }
 
+            binding.product = product
+
+            /*
             binding.tvStorename.text = product.storeName
             binding.tvNewPrice.text = product.newPrice.toString()
             binding.tvOldPrice.text = product.price.toString()
@@ -167,8 +188,11 @@ class HomeProductsAdapter(var productsHome: ArrayList<Product>) :
             binding.tvReview.text = product.rate.toString()
             binding.tvSold.text = R.string.twelve.toString()
             binding.tvSpace.text = R.string.Space.toString()
-            if (product.images.count() > 0)
-                Glide.with(binding.root.context).load(product.images[0]).into(binding.imgProduct)
+            */
+
+            Glide.with(binding.root.context).load(product.images.firstOrNull())
+                .error(R.drawable.product).into(binding.imgProduct)
+
             itemView.setOnClickListener {
                 var intent: Intent = Intent(binding.root.context, ProductDetails::class.java)
                 intent.putExtra(
@@ -177,12 +201,38 @@ class HomeProductsAdapter(var productsHome: ArrayList<Product>) :
                 )
                 binding.root.context.startActivity(intent)
             }
+
+
+
+        }
+
+        private fun findRoute(storeID: String, storeName: String, storeLocation: Location) {
+            GlobalScope.launch(Dispatchers.IO) {
+                val info: RouteInfo? = LocationManager.getInstance(context).getRouteInfo(
+                    UserInfo.location,
+                    storeLocation
+                )
+
+                var res = "N/A"
+
+                if(info != null){
+                    val locationInfo = StoreLocationInfo(storeID, storeLocation, storeName, info.distance, info.duration)
+                    onAddStoreInfo(locationInfo)
+                    res = info.distance!!
+                }
+
+                (context as AppCompatActivity).runOnUiThread {
+                    binding.tvSpace.text = res
+                }
+
+                Log.i("LOCATIONINFO", info.toString())
+            }
         }
 
         override fun onAddToCart(productCart: ProductCart) {
             super.onAddToCart(productCart)
             lifecycleScope.launch {
-                productCart.quantity = 1
+                productCart.cartQuantity = 1
                 repo.addCart(productCart)
             }
         }
@@ -214,6 +264,18 @@ class HomeProductsAdapter(var productsHome: ArrayList<Product>) :
             super.onDeleteFromFavourite(productID)
             lifecycleScope.launch {
                 repo.deleteFavourite(productID)
+            }
+        }
+
+        override fun onAddStoreInfo(storeLocationInfo: StoreLocationInfo) {
+            lifecycleScope.launch {
+                repo.addNewLocation(storeLocationInfo)
+            }
+        }
+
+        override fun onFindingRoute(storeLocation: StoreLocationInfo) {
+            lifecycleScope.launch {
+                repo.storeIfo.value = storeLocation
             }
         }
     }

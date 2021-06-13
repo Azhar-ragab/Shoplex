@@ -5,9 +5,10 @@ import androidx.room.*
 import com.shoplex.shoplex.model.pojo.Message
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.ProductFavourite
+import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 
 
-@Database(entities = [ProductCart::class, ProductFavourite::class, Message::class], version = 1)
+@Database(entities = [ProductCart::class, ProductFavourite::class, Message::class, StoreLocationInfo::class], version = 1)
 @TypeConverters(Converter ::class)
 abstract class ShoplexDataBase : RoomDatabase(){
 

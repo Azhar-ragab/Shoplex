@@ -22,7 +22,7 @@ open class Product : Parcelable{
     var description: String = ""
     var price : Float = 10F
     var newPrice : Float = 10F
-    var discount : Int = 0
+    var discount : Float = 0F
     var category : String = ""
     // var productNumber : Int = 0
     var subCategory : String = ""
@@ -89,7 +89,7 @@ open class Product : Parcelable{
         description = parcel.readString().toString()
         price = parcel.readFloat()
         newPrice = parcel.readFloat()
-        discount = parcel.readInt()
+        discount = parcel.readFloat()
         category = parcel.readString().toString()
         subCategory = parcel.readString().toString()
         imagesListURI = parcel.readArrayList(Uri::class.java.classLoader) as ArrayList<Uri>
@@ -124,7 +124,7 @@ open class Product : Parcelable{
         parcel.writeString(description)
         parcel.writeFloat(price)
         parcel.writeFloat(newPrice)
-        parcel.writeInt(discount)
+        parcel.writeFloat(discount)
         parcel.writeString(category)
         parcel.writeString(subCategory)
         parcel.writeArray(imagesListURI.toArray())

@@ -126,7 +126,7 @@
                 android:layout_height="15dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@{``+product.quantity}"
+                android:text="@{``+product.cartQuantity}"
                 android:gravity="center"
                 app:layout_constraintEnd_toStartOf="@+id/btn_plus"
                 app:layout_constraintStart_toEndOf="@+id/btn_minus"

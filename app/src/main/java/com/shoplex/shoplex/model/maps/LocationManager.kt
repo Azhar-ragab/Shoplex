@@ -110,7 +110,7 @@ class LocationManager: RoutingListener {
     }
 
 
-    fun getRouteInfo(source: com.shoplex.shoplex.model.pojo.Location, destination: LatLng): RouteInfo? {
+    fun getRouteInfo(source: com.shoplex.shoplex.model.pojo.Location, destination: com.shoplex.shoplex.model.pojo.Location): RouteInfo? {
         var response = ""
         var inputStream: InputStream? = null
         var urlConnection: HttpsURLConnection? = null
@@ -150,11 +150,11 @@ class LocationManager: RoutingListener {
             e.printStackTrace()
         } finally {
             try {
-                inputStream!!.close()
+                inputStream?.close()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-            urlConnection!!.disconnect()
+            urlConnection?.disconnect()
         }
         return null
     }

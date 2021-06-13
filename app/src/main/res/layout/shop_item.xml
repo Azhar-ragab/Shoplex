@@ -57,7 +57,7 @@
                         android:layout_gravity="start"
                         android:layout_marginEnd="@dimen/margin_8"
                         android:drawableLeft="@drawable/ic_car"
-                        android:text="@{String.valueOf(locationInfo.carTime)}" />
+                        android:text="@{String.valueOf(locationInfo.distance)}" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -71,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:drawableLeft="@drawable/ic_walk"
-                        android:text="@{String.valueOf(locationInfo.walkingTime)}" />
+                        android:text="@{String.valueOf(locationInfo.duration)}" />
                 </LinearLayout>
 
                 <LinearLayout

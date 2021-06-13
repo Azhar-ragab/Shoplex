@@ -37,7 +37,7 @@ class StoresDBModel(val notifier:StoresListener) {
 
                 products.groupBy { it.storeID }.forEach {
                     val item = it.value[0]
-                    storesInfo.add(StoreLocationInfo(item.storeID, item.storeName))
+                    storesInfo.add(StoreLocationInfo(item.storeID, item.storeLocation))
                 }
 
                 this.notifier.onStoresReady(storesInfo)

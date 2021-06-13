@@ -19,7 +19,7 @@ import com.google.android.material.chip.Chip
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
-import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
+import com.shoplex.shoplex.model.adapter.HomeAdapter
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.enumurations.LocationAction
 import com.shoplex.shoplex.model.pojo.*
@@ -34,7 +34,7 @@ class HomeFragment : Fragment(), FavouriteCartListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var startActivityLaunch: ActivityResultLauncher<Intent>
     private lateinit var advertisementsAdapter: AdvertisementsAdapter
-    private lateinit var homeProductAdapter: HomeProductsAdapter
+    private lateinit var homeProductAdapter: HomeAdapter
     private lateinit var productsVM: ProductsVM
     private var selectedCategory: String = Category.Fashion.name
     private lateinit var cartVM: CartViewModel
@@ -107,7 +107,7 @@ class HomeFragment : Fragment(), FavouriteCartListener {
             GridLayoutManager(this.context, getGridColumnsCount())
 
         productsVM.products.observe(viewLifecycleOwner, { products ->
-            homeProductAdapter = HomeProductsAdapter(products)
+            homeProductAdapter = HomeAdapter(products)
             binding.rvHomeproducts.adapter = homeProductAdapter
         })
 

@@ -26,7 +26,7 @@ class SummaryAdapter(private val summaryCheck: ArrayList<ProductCart>) :
             Glide.with(itemView.context).load(productCart.images[0].toString()).into(binding.imgProductSummary)
             binding.tvProductName.text = productCart.name
             binding.tvPriceSimmary.text = productCart.newPrice.toString()
-            binding.tvQuantity.text = productCart.quantity.toString()
+            binding.tvQuantity.text = productCart.cartQuantity.toString()
         }
     }
     override fun getItemCount() = summaryCheck.size

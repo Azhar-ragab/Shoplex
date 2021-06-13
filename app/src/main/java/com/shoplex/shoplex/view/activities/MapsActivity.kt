@@ -42,6 +42,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var storeName: String
     private lateinit var locationAction: LocationAction
     private lateinit var storeLocations: ArrayList<LatLng>
+    private lateinit var location: com.shoplex.shoplex.model.pojo.Location
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +58,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             storeLocations = intent.getParcelableArrayListExtra<Location>(STORE_LOCATIONS) as ArrayList<LatLng>
         } else if (intent.getStringExtra(LOCATION_ACTION) == LocationAction.Change.toString()) {
             locationAction = LocationAction.Change
+            location = intent.getParcelableExtra<com.shoplex.shoplex.model.pojo.Location>(LOCATION) as com.shoplex.shoplex.model.pojo.Location
         } else {
             storeName = intent.getStringExtra(getString(R.string.storename)).toString()
             //latitude = intent.getDoubleExtra(getString(R.string.locationLat), 21.139)
@@ -124,8 +126,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         locationManager = LocationManager.getInstance(mGoogleMap, this)
 
         if(locationAction == LocationAction.Change) {
-            currentLocation?.latitude = UserInfo.location.latitude
-            currentLocation?.longitude = UserInfo.location.longitude
+            currentLocation?.latitude = location.latitude
+            currentLocation?.longitude = location.longitude
         }
 
         locationManager.addMarker(currentLocation, locationAction != LocationAction.ShowStores)

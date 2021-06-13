@@ -1,6 +1,5 @@
 package com.shoplex.shoplex.view.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -39,7 +38,6 @@ import com.shoplex.shoplex.view.activities.MessageActivity
 import com.shoplex.shoplex.viewmodel.DetailsVM
 import com.shoplex.shoplex.viewmodel.OrdersVM
 import com.shoplex.shoplex.viewmodel.ProductsVM
-import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -113,6 +111,16 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
             }
         })
 
+        /*
+        repo.storeLocationInfo.observe(context as AppCompatActivity, {
+            if (it != null) {
+                //product.
+            } else {
+                findRoute(product.storeID, product.storeName, product.storeLocation)
+            }
+        })
+        */
+
         binding.btnCall.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL);
             intent.data = Uri.parse(getString(R.string.telephone) + storeInfo.phone)
@@ -183,8 +191,8 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
         binding.btnBuyProduct.setOnClickListener {
             var specialDiscount: SpecialDiscount = SpecialDiscount(10F, DiscountType.Fixed)
 
-            product.quantity = 1
-            var productCart: ProductCart = ProductCart(product, specialDiscount, 20)
+            //product.quantity = 1
+            var productCart: ProductCart = ProductCart(product, 1, specialDiscount)
             //productCart.specialDiscount = specialDiscount
 
             val address: String? = LocationManager.getInstance(requireContext()).getAddress(
@@ -193,6 +201,7 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
                 ), requireContext()
             )
 
+            /*
             var checkout: Checkout = Checkout(
                 DeliveryMethod.Door, PaymentMethod.Cash, Location(
                     UserInfo.location.latitude, UserInfo.location.longitude
@@ -200,10 +209,13 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
             )
             checkout.addProduct(productCart)
 
+
             for (product in checkout.getAllProducts()) {
-                var order: Order = Order(product, checkout, OrderStatus.Current)
+                var order: Order = Order(product)
                 ordersNM.addOrder(order)
             }
+
+             */
         }
 
         binding.btnAddToCart.setOnClickListener {
@@ -245,7 +257,7 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
     override fun onAddToCart(productCart: ProductCart) {
         super.onAddToCart(productCart)
         lifecycleScope.launch {
-            productCart.quantity = 1
+            productCart.cartQuantity = 1
             repo.addCart(productCart)
         }
     }

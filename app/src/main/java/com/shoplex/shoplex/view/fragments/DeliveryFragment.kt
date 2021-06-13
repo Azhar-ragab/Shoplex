@@ -3,33 +3,24 @@ package com.shoplex.shoplex.view.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.model.LatLng
-import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDeliveryBinding
-import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.LocationAction
-import com.shoplex.shoplex.model.pojo.Checkout
-import com.shoplex.shoplex.model.pojo.Filter
 import com.shoplex.shoplex.model.pojo.Location
-import com.shoplex.shoplex.model.pojo.Sort
 import com.shoplex.shoplex.view.activities.CheckOutActivity
-import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.viewmodel.CheckoutVM
 
 class DeliveryFragment : Fragment() {
     private lateinit var binding: FragmentDeliveryBinding
-    private lateinit var checkout: Checkout
+    //private lateinit var checkout: Checkout
     //private var isChecked = false
     private lateinit var checkoutVM: CheckoutVM
     private lateinit var startActivityLaunch: ActivityResultLauncher<Intent>
@@ -53,7 +44,7 @@ class DeliveryFragment : Fragment() {
         binding = FragmentDeliveryBinding.inflate(inflater, container, false)
 
         checkoutVM = (activity as CheckOutActivity).checkoutVM
-        checkout = checkoutVM.checkout.value!!
+        //checkout = checkoutVM.checkout.value!!
 
         //checkout.deliveryMethod = DeliveryMethod.Door
 
@@ -73,11 +64,11 @@ class DeliveryFragment : Fragment() {
             }
         }
 
-        checkoutVM.subTotal.observe(viewLifecycleOwner, {
+        checkoutVM.subTotalPrice.observe(viewLifecycleOwner, {
             binding.tvSubtotalPrice.text = "$it EGP"
         })
 
-        checkoutVM.discount.observe(viewLifecycleOwner, {
+        checkoutVM.totalDiscount.observe(viewLifecycleOwner, {
             binding.tvDiscountPrice.text = "$it EGP"
         })
 
@@ -86,10 +77,13 @@ class DeliveryFragment : Fragment() {
         })
 
 
-        checkoutVM.total.observe(viewLifecycleOwner, {
+        checkoutVM.totalPrice.observe(viewLifecycleOwner, {
             binding.tvTotalPrice.text = "$it EGP"
         })
 
+        checkoutVM.deliveryAddress.observe(viewLifecycleOwner, {
+            binding.tvAddress.text = it
+        })
 
         /*
         binding.tvDiscountPrice.text = "${checkout.totalDiscount} EGP"
@@ -111,16 +105,19 @@ class DeliveryFragment : Fragment() {
         binding.btnChangeAddress.setOnClickListener {
             startActivityLaunch.launch(Intent(context, MapsActivity::class.java).apply {
                 this.putExtra(MapsActivity.LOCATION_ACTION, LocationAction.Change.name)
+                this.putExtra(MapsActivity.LOCATION, checkoutVM.deliveryLocation.value)
             })
         }
 
-        checkout.deliveryAddress = binding.tvAddress.text.toString()
-        checkout.deliveryLoc = Location(31.1688133,29.931152)
+        //checkout.deliveryAddress = binding.tvAddress.text.toString()
+        //checkout.deliveryLoc = UserInfo.location
 
+        /*
         binding.tvAddress.addTextChangedListener {
             checkout.deliveryAddress = binding.tvAddress.text.toString()
             checkout.deliveryLoc = Location(31.1688133,29.931152)
         }
+        */
         // checkoutVM.deliveryAddress.value = binding.tvAddress.text.toString()
         // checkoutVM.deliveryLocation.value = Location(31.1688133,29.931152)
 
@@ -131,10 +128,11 @@ class DeliveryFragment : Fragment() {
 
         val location: LatLng? = data.getParcelableExtra(MapsActivity.LOCATION)
         val address: String? = data.getStringExtra(MapsActivity.ADDRESS)
-        if (location != null) {
+        if (location != null && (checkoutVM.deliveryLocation.value!!.latitude != location.latitude || checkoutVM.deliveryLocation.value!!.longitude != location.longitude)) {
             binding.tvAddress.text = address
             checkoutVM.deliveryAddress.value = address
             checkoutVM.deliveryLocation.value = Location(location.latitude, location.longitude)
+            checkoutVM.reAddShipping()
         }
     }
 }

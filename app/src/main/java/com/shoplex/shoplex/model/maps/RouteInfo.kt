@@ -33,4 +33,8 @@ class RouteInfo {
         dur /= 60.0
         return (dis / dur).toInt().toString() + " km/h"
     }
+
+    override fun toString(): String {
+        return "Distance: $distance, Duration: $duration"
+    }
 }

@@ -2,9 +2,7 @@ package com.shoplex.shoplex.room.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.shoplex.shoplex.model.pojo.Message
-import com.shoplex.shoplex.model.pojo.ProductCart
-import com.shoplex.shoplex.model.pojo.ProductFavourite
+import com.shoplex.shoplex.model.pojo.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -30,7 +28,7 @@ interface ShopLexDao {
     @Query("DELETE FROM Cart WHERE productID = :productID")
     suspend fun deleteCart(productID: String)
 
-    @Query("UPDATE Cart SET quantity = :quantity WHERE productID = :productID")
+    @Query("UPDATE Cart SET cartQuantity = :quantity WHERE productID = :productID")
     suspend fun updateCart(productID: String, quantity: Int)
 
     // Message
@@ -46,5 +44,11 @@ interface ShopLexDao {
     @Query("SELECT * FROM Cart WHERE productID = :productId LIMIT 1")
     fun searchCart(productId:String): Flow<ProductCart>
 
+    // Store Location
+    @Insert
+    suspend fun addLocation(location: StoreLocationInfo)
+
+    @Query("SELECT * FROM StoresLocation WHERE storeID = :storeID AND location = :location LIMIT 1")
+    fun getLocation(storeID:String, location: Location): Flow<StoreLocationInfo>
 }
 

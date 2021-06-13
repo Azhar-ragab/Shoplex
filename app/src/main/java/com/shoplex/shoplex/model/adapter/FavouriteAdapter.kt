@@ -102,7 +102,7 @@ class FavouriteAdapter :
 
         override fun onAddToCart(productCart: ProductCart) {
             super.onAddToCart(productCart)
-            productCart.quantity = 1
+            productCart.cartQuantity = 1
             lifecycleScope.launch {
                 repo.addCart(productCart)
             }

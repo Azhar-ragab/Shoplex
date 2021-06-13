@@ -37,7 +37,7 @@ class CartFragment : Fragment(), FavouriteCartListener {
         binding.btnCheckout.setOnClickListener {
             if (UserInfo.userID != null) {
                 startActivity(Intent(context, CheckOutActivity::class.java).apply {
-                    this.putExtra("PRODUCTS_QUANTITY", productsQuantity)
+                    this.putParcelableArrayListExtra("PRODUCTS_QUANTITY", productsQuantity)
                 })
             } else {
                 Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT).show()
@@ -60,11 +60,12 @@ class CartFragment : Fragment(), FavouriteCartListener {
         cartViewModel.readAllCart.observe(viewLifecycleOwner, Observer {
             cartAdapter.setData(it)
             binding.tvPrice.text = it.map { product ->
-                product.quantity * product.newPrice
+                product.cartQuantity * product.newPrice
             }.sum().toString()
 
+            productsQuantity.clear()
             it.forEach { product ->
-                productsQuantity.add(ProductQuantity(product.productID, product.quantity))
+                productsQuantity.add(ProductQuantity(product.productID, product.cartQuantity))
             }
         })
         /*  var cartProducts = ArrayList<ProductCart>()

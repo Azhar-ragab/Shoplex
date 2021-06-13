@@ -13,11 +13,13 @@ data class ProductCart(
     // var quantity: Int = 1,
     @Nullable
     var specialDiscount: SpecialDiscount? = null,
-    var shipping: Int = 0,
+    @Exclude
+    var cartQuantity: Int = 1,
+    var shipping: Float = 0F,
     @Exclude
     @get:Exclude
     @Ignore
-    val product: Product = Product(),
+    var product: Product = Product(),
     @Exclude
     @set:Exclude
     @get:Exclude
@@ -28,7 +30,12 @@ data class ProductCart(
     // var specialDiscount: SpecialDiscount? = null
     // var shipping: Int = 0
 
-    constructor(product: Product, specialDiscount: SpecialDiscount?, shipping: Int): this()
+    constructor(product: Product, cartQuantity: Int, specialDiscount: SpecialDiscount?):
+            this(
+                specialDiscount,
+                cartQuantity,
+                product = product
+            )
     init{
         this.productID = product.productID
         this.storeID = product.storeID
@@ -48,6 +55,8 @@ data class ProductCart(
         this.quantity = product.quantity
         this.specialDiscount = specialDiscount
         this.shipping = shipping
+        this.storeLocation = product.storeLocation
+        this.cartQuantity = cartQuantity
     }
 
     constructor(parcel: Parcel) : this() {

@@ -7,6 +7,7 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.ProductFavourite
+import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 
 interface FavouriteCartListener {
     // Favourite
@@ -16,13 +17,6 @@ interface FavouriteCartListener {
                 .collection("Lists")
                 .document("Favorite")
                  .update("favoriteList" , FieldValue.arrayUnion(productFavourite.productID))
-                //.set(hashMapOf("FavoriteList" to productFavourite.productID), SetOptions.merge())
-        //                .addOnCompleteListener {
-//                    Log.i("FavoriteListEX", it.isSuccessful.toString())
-//                }
-//                .addOnFailureListener {
-//                    Log.i("FavoriteListEX", it.toString())
-//                }
         }
     }
 
@@ -57,4 +51,8 @@ interface FavouriteCartListener {
     fun onUpdateCartQuantity(productID: String, quantity: Int){}
 
     fun onSearchForFavouriteCart(productId:String){}
+
+    fun onAddStoreInfo(storeLocationInfo: StoreLocationInfo){}
+
+    fun onFindingRoute(storeLocation: StoreLocationInfo){}
 }

@@ -228,6 +228,8 @@
     <string name="facebook_app_id">562190761433964</string>
     <string name="fb_login_protocol_scheme">fb562190761433964</string>
     <string name="phone_hint">+201204876123</string>
+    <string name="visaORMaster">Visa/ Master Card</string>
+    <string name="items">Items</string>
 
 
 </resources>
