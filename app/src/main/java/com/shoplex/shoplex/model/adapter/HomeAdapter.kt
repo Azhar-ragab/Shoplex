@@ -20,7 +20,7 @@ import com.shoplex.shoplex.model.maps.RouteInfo
 import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.room.data.ShoplexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
-import com.shoplex.shoplex.view.activities.ProductDetails
+import com.shoplex.shoplex.view.activities.DetailsActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -194,7 +194,7 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
                 .error(R.drawable.product).into(binding.imgProduct)
 
             itemView.setOnClickListener {
-                var intent: Intent = Intent(binding.root.context, ProductDetails::class.java)
+                var intent: Intent = Intent(binding.root.context, DetailsActivity::class.java)
                 intent.putExtra(
                     binding.root.context.getString(R.string.productId),
                     product.productID

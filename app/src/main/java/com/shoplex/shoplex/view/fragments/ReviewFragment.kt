@@ -30,53 +30,29 @@ class ReviewFragment(val productId: String) : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentReviewBinding.inflate(inflater, container, false)
         this.productsVM = ProductsVM()
-
-//        val review = ArrayList<Review>()
-//
-//        review.add(
-//            Review(
-//                "azhar",
-//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-//
-//                Date(15), 5F
-//            )
-//        )
-//        review.add(
-//            Review(
-//                "azhar",
-//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-//
-//                Date(15), 5F
-//            )
-//        )
-//        review.add(
-//            Review(
-//                "azhar",
-//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-//
-//                Date(15), 5F
-//            )
-//        )
-//        review.add(
-//            Review(
-//                "azhar",
-//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-//
-//                Date(15), 5F
-//            )
-//        )
-//
-//        reviewAdapter = ReviewAdapter(review)
-//        binding.rvReview.adapter = reviewAdapter
         productsVM.getReviewByProductId(productId)
-        productsVM.reviews.observe(viewLifecycleOwner, Observer{ reviews ->
+
+        productsVM.reviews.observe(viewLifecycleOwner, { reviews ->
             reviewAdapter = ReviewAdapter(reviews)
             binding.rvReview.adapter = reviewAdapter
         })
+
+        productsVM.reviewStatistics.observe(viewLifecycleOwner, {
+            binding.reviewStat = it
+            if(it.total != 0) {
+                binding.fiveStars.progress = ((it.fiveStars.toFloat() / it.total) * 100).toInt()
+                binding.fourStars.progress = ((it.fourStars.toFloat() / it.total) * 100).toInt()
+                binding.threeStars.progress = ((it.threeStars.toFloat() / it.total) * 100).toInt()
+                binding.twoStars.progress = ((it.twoStars.toFloat() / it.total) * 100).toInt()
+                binding.oneStar.progress = ((it.oneStar.toFloat() / it.total) * 100).toInt()
+            }
+        })
+
+        /*
+        productsVM.reviewStatistics.observe(viewLifecycleOwner, {
+
+        })
+        */
 
         binding.btnSheetAddReview.setOnClickListener {
             showAddReviewRialog()
@@ -99,7 +75,5 @@ class ReviewFragment(val productId: String) : Fragment() {
         }
         reviewBtnSheetDialog.setContentView(binding.root)
         reviewBtnSheetDialog.show()
-
     }
-
 }

@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvHomeAdcardviewBinding
 import com.shoplex.shoplex.model.pojo.Product
-import com.shoplex.shoplex.view.activities.ProductDetails
+import com.shoplex.shoplex.view.activities.DetailsActivity
 
 class AdvertisementsAdapter(val advertisements: ArrayList<Product>) :
     RecyclerView.Adapter<AdvertisementsAdapter.ProductViewHolder>() {
@@ -35,7 +35,7 @@ class AdvertisementsAdapter(val advertisements: ArrayList<Product>) :
            // binding.txtAdvertisement.text=product.name
             // binding.tvOffer.text="Offer ${product.discount} %"
             itemView.setOnClickListener{
-                var intent: Intent =  Intent(binding.root.context, ProductDetails::class.java )
+                var intent: Intent =  Intent(binding.root.context, DetailsActivity::class.java )
                 intent.putExtra(context.getString(R.string.productId),product.productID)
                 binding.root.context.startActivity(intent)
             }

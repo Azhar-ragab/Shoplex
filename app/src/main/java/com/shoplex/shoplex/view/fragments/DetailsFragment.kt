@@ -33,6 +33,7 @@ import com.shoplex.shoplex.model.maps.LocationManager
 import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.room.data.ShoplexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
+import com.shoplex.shoplex.view.activities.CheckOutActivity
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.view.activities.MessageActivity
 import com.shoplex.shoplex.viewmodel.DetailsVM
@@ -189,6 +190,19 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
         }
 
         binding.btnBuyProduct.setOnClickListener {
+            if (UserInfo.userID != null) {
+                startActivity(Intent(context, CheckOutActivity::class.java).apply {
+                    this.putParcelableArrayListExtra("PRODUCTS_QUANTITY", arrayListOf<ProductQuantity>().apply {
+                        this.add(ProductQuantity(product.productID, 1))
+                    })
+
+                    this.putExtra("isBuyNow", true)
+                })
+            } else {
+                Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT).show()
+            }
+
+            /*
             var specialDiscount: SpecialDiscount = SpecialDiscount(10F, DiscountType.Fixed)
 
             //product.quantity = 1
@@ -200,6 +214,7 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
                     UserInfo.location.latitude, UserInfo.location.longitude
                 ), requireContext()
             )
+            */
 
             /*
             var checkout: Checkout = Checkout(

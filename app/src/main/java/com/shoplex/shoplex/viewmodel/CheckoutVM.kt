@@ -128,6 +128,38 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
             }
     }
 
+    fun getProductByID(productID: String) {
+        FirebaseReferences.productsRef.document(productID).get()
+            .addOnSuccessListener { productResult ->
+                if (productResult.exists()) {
+                    val prod = productResult.toObject<ProductCart>()
+                    FirebaseReferences.productsRef.document(productID)
+                        .collection("Special Discounts")
+                        .document(UserInfo.userID!!).get().addOnSuccessListener {
+                            var specialDiscount: SpecialDiscount? = null
+                            if (it.exists()) {
+                                specialDiscount = it.toObject()
+                            }
+
+                            val productCart =
+                                ProductCart(prod!!, 1, specialDiscount)
+                            // cartProducts.add()
+
+                            if (prod.quantity == 0) {
+                                Toast.makeText(
+                                    context,
+                                    "Product ${prod.name} out of stock",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                onDeleteFromFavourite(prod.productID)
+                            } else {
+                                addProduct(productCart)
+                            }
+                        }
+                }
+            }
+    }
+
     fun addProduct(productCart: ProductCart){
         this.products.add(productCart)
         this.subTotalPrice.value = this.subTotalPrice.value?.plus((productCart.cartQuantity * productCart.newPrice))

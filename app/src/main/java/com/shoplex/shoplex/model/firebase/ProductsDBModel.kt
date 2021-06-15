@@ -7,11 +7,9 @@ import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.interfaces.INotifyMVP
-import com.shoplex.shoplex.model.pojo.Filter
-import com.shoplex.shoplex.model.pojo.Product
-import com.shoplex.shoplex.model.pojo.Review
-import com.shoplex.shoplex.model.pojo.Sort
+import com.shoplex.shoplex.model.pojo.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ProductsDBModel(val notifier: INotifyMVP?) {
 
@@ -100,8 +98,8 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
                 this.notifier?.onAllAdvertismentsReady(products)
             }
     }
-    fun getReviewByProductId(productId: String) {
 
+    fun getReviewByProductId(productId: String) {
         FirebaseReferences.productsRef.document(productId).collection("Reviews")
             .addSnapshotListener  { values,_ ->
                 var reviews = arrayListOf<Review>()
@@ -113,6 +111,16 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
                 }
                 this.notifier?.onAllReviwsReady(reviews)
             }
+    }
+
+    fun getReviewsStatistics(productId: String){
+        FirebaseReferences.productsRef.document(productId).collection("Statistics").document("Reviews").get().addOnSuccessListener {
+            if(it.exists()) {
+                val statistic: ReviewStatistics = it.toObject()!!
+                this.notifier?.onReviewStatisticsReady(statistic)
+            }
+
+        }
     }
 
 }

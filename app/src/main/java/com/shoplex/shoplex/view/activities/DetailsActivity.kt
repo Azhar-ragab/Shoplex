@@ -4,15 +4,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
 import com.shoplex.shoplex.R
-import com.shoplex.shoplex.databinding.ActivityProductDetailsBinding
+import com.shoplex.shoplex.databinding.ActivityDetailsBinding
 import com.shoplex.shoplex.model.adapter.PagerAdapter
 
-class ProductDetails : AppCompatActivity() {
-    private lateinit var binding: ActivityProductDetailsBinding
+class DetailsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityProductDetailsBinding.inflate(layoutInflater)
+        binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val productId = intent.getStringExtra(getString(R.string.productId))
 //        Toast.makeText(this,productId,Toast.LENGTH_SHORT).show()

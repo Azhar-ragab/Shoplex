@@ -2,6 +2,7 @@ package com.shoplex.shoplex.view.activities
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
@@ -15,7 +16,7 @@ import com.shoplex.shoplex.viewmodel.CheckoutVM
 
 class CheckOutActivity : AppCompatActivity() {
     lateinit var binding: ActivityCheckOutBinding
-    var productCart : ArrayList<ProductCart> = arrayListOf()
+    //var productCart : ArrayList<ProductCart> = arrayListOf()
 
     lateinit var checkoutVM: CheckoutVM
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,15 @@ class CheckOutActivity : AppCompatActivity() {
             supportActionBar?.setDisplayShowHomeEnabled(true);
         }
 
-        checkoutVM.getAllCartProducts()
+        if(!intent.hasExtra("isBuyNow")) {
+            checkoutVM.getAllCartProducts()
+        }else{
+            val product = checkoutVM.productQuantities.firstOrNull()
+            if(product != null)
+            checkoutVM.getProductByID(product.productID)
+            else
+                Toast.makeText(this, "Product Not Found!", Toast.LENGTH_SHORT).show()
+        }
 
         var checkoutAdapter: CheckoutAdapter = CheckoutAdapter(supportFragmentManager)
         binding.tabLayoutCheckout.setupWithViewPager(binding.viewPagerCheckout)
@@ -53,8 +62,6 @@ class CheckOutActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
     }
-
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // handle arrow click here

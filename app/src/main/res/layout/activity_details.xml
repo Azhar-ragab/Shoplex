@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.activities.ProductDetails">
+        tools:context=".view.activities.DetailsActivity">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"

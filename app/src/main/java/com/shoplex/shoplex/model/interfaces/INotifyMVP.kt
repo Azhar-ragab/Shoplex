@@ -1,9 +1,6 @@
 package com.shoplex.shoplex.model.interfaces
 
-import com.shoplex.shoplex.model.pojo.ChatHead
-import com.shoplex.shoplex.model.pojo.Order
-import com.shoplex.shoplex.model.pojo.Product
-import com.shoplex.shoplex.model.pojo.Review
+import com.shoplex.shoplex.model.pojo.*
 
 interface INotifyMVP {
     fun onAllProductsReady(products: ArrayList<Product>){}
@@ -16,5 +13,6 @@ interface INotifyMVP {
     fun onNewFacebookAccount(){}
     fun onLastOrdersReady(lastOrders:ArrayList<Order>){}
     fun onAllReviwsReady(reviews:ArrayList<Review>){}
+    fun onReviewStatisticsReady(reviewStatistics: ReviewStatistics){}
     fun ongetChatHead(chatHeads: ArrayList<ChatHead>){}
 }
