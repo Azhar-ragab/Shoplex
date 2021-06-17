@@ -29,7 +29,6 @@ import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
-
 class HomeFragment : Fragment(), FavouriteCartListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var startActivityLaunch: ActivityResultLauncher<Intent>

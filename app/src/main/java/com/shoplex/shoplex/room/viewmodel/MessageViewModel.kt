@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shoplex.shoplex.model.pojo.Message
-import com.shoplex.shoplex.room.data.ShoplexDataBase
+import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.MessageRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ class MessageViewModel(context: Context,chatID : String) : ViewModel() {
     private val messageRepo : MessageRepo
 
     init {
-        val messageDao = ShoplexDataBase.getDatabase(context).shoplexDao()
+        val messageDao = ShopLexDataBase.getDatabase(context).shoplexDao()
         messageRepo = MessageRepo(messageDao,chatID)
         readAllMessage = messageRepo.readAllMessage
     }

@@ -16,7 +16,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Shoplex">
+        android:theme="@style/Theme.Shoplex"
+        android:name=".model.extra.ArchLifecycleApp">
 
         <activity android:name=".view.activities.LoginActivity"/>
         <activity

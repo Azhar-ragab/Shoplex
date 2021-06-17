@@ -14,24 +14,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDetailsBinding
 import com.shoplex.shoplex.model.adapter.PropertyAdapter
-import com.shoplex.shoplex.model.enumurations.DeliveryMethod
-import com.shoplex.shoplex.model.enumurations.DiscountType
-import com.shoplex.shoplex.model.enumurations.OrderStatus
-import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.enumurations.keys.ChatMessageKeys
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
-import com.shoplex.shoplex.model.maps.LocationManager
 import com.shoplex.shoplex.model.pojo.*
-import com.shoplex.shoplex.room.data.ShoplexDataBase
+import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import com.shoplex.shoplex.view.activities.CheckOutActivity
 import com.shoplex.shoplex.view.activities.MapsActivity
@@ -67,7 +61,7 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
 
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
         lifecycleScope = (context as AppCompatActivity).lifecycleScope
-        repo = FavoriteCartRepo(ShoplexDataBase.getDatabase(binding.root.context).shoplexDao())
+        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(binding.root.context).shoplexDao())
 
         this.productsVM = ProductsVM()
         this.detailsVM = DetailsVM()

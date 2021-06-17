@@ -38,8 +38,8 @@ class ProductsVM: ViewModel, INotifyMVP {
     }
 
     fun getReviewByProductId(productId: String) {
-        productsDBModel.getReviewByProductId(productId)
         productsDBModel.getReviewsStatistics(productId)
+        productsDBModel.getReviewByProductId(productId)
     }
 
     override fun onAllProductsReady(products: ArrayList<Product>) {

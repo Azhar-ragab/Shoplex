@@ -1,28 +1,5 @@
 package com.shoplex.shoplex.model.pojo
 
-import android.content.Context
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
-import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.Exclude
-import com.google.firebase.firestore.IgnoreExtraProperties
-import com.google.firebase.firestore.PropertyName
-import com.shoplex.shoplex.model.enumurations.DeliveryMethod
-import com.shoplex.shoplex.model.enumurations.DiscountType
-import com.shoplex.shoplex.model.enumurations.PaymentMethod
-import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.maps.LocationManager
-import com.shoplex.shoplex.model.maps.RouteInfo
-import com.shoplex.shoplex.room.data.ShoplexDataBase
-import com.shoplex.shoplex.room.repository.FavoriteCartRepo
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlin.math.cos
-
 //class Checkout {
 //    var deliveryMethod: DeliveryMethod = DeliveryMethod.Door
 //    var paymentMethod: PaymentMethod = PaymentMethod.Cash

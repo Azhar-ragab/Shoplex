@@ -10,14 +10,14 @@ import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 
 @Database(entities = [ProductCart::class, ProductFavourite::class, Message::class, StoreLocationInfo::class], version = 1)
 @TypeConverters(Converter ::class)
-abstract class ShoplexDataBase : RoomDatabase(){
+abstract class ShopLexDataBase : RoomDatabase(){
 
     abstract fun shoplexDao() : ShopLexDao
 
     companion object{
         @Volatile
-        private var INSTANCE : ShoplexDataBase? = null
-        fun getDatabase(context: Context):ShoplexDataBase{
+        private var INSTANCE : ShopLexDataBase? = null
+        fun getDatabase(context: Context):ShopLexDataBase{
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -25,9 +25,9 @@ abstract class ShoplexDataBase : RoomDatabase(){
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ShoplexDataBase::class.java,
+                    ShopLexDataBase::class.java,
                     "shoplex_Database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 return instance
             }

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.DiscountType
@@ -17,13 +16,12 @@ import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.model.maps.LocationManager
 import com.shoplex.shoplex.model.maps.RouteInfo
 import com.shoplex.shoplex.model.pojo.*
-import com.shoplex.shoplex.room.data.ShoplexDataBase
+import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
     var deliveryMethod: MutableLiveData<DeliveryMethod> = MutableLiveData()
@@ -53,7 +51,7 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
 
     init {
         lifecycleScope = (context as AppCompatActivity).lifecycleScope
-        repo = FavoriteCartRepo(ShoplexDataBase.getDatabase(context).shoplexDao())
+        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shoplexDao())
 
         deliveryMethod.value = DeliveryMethod.Door
         paymentMethod.value = PaymentMethod.Cash

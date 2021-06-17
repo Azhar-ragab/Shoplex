@@ -18,7 +18,7 @@ import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.model.maps.LocationManager
 import com.shoplex.shoplex.model.maps.RouteInfo
 import com.shoplex.shoplex.model.pojo.*
-import com.shoplex.shoplex.room.data.ShoplexDataBase
+import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import com.shoplex.shoplex.view.activities.DetailsActivity
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +37,7 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         context = parent.context
         lifecycleScope = (context as AppCompatActivity).lifecycleScope
-        repo = FavoriteCartRepo(ShoplexDataBase.getDatabase(context).shoplexDao())
+        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shoplexDao())
 
         return ProductViewHolder(
             RvHomeProductCardviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)

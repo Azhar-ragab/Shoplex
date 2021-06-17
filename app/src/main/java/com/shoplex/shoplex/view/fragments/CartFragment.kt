@@ -19,11 +19,9 @@ import com.shoplex.shoplex.model.pojo.ProductQuantity
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.CheckOutActivity
 
-
 class CartFragment : Fragment(), FavouriteCartListener {
 
     private lateinit var binding: FragmentCartBinding
-   // private lateinit var cartAdapter: CartAdapter
     private lateinit var cartViewModel: CartViewModel
     private var productsQuantity: ArrayList<ProductQuantity> = arrayListOf()
 

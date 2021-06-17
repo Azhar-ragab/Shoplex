@@ -27,8 +27,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if (remoteMessage.data.isNotEmpty()) {
             val title = remoteMessage.data[this.getString(R.string.title)]
             val body = remoteMessage.data[this.getString(R.string.body)]
-            if(remoteMessage.data.containsKey("productID"))
-            productID = remoteMessage.data["productID"]
+            if (remoteMessage.data.containsKey("productID"))
+                productID = remoteMessage.data["productID"]
             showNotification(applicationContext, title, body)
         } else {
             val title = remoteMessage.notification!!.title

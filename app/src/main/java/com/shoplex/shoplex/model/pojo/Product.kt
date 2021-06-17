@@ -34,6 +34,7 @@ open class Product : Parcelable{
     var properties: ArrayList<Property> = arrayListOf()
     var date: Date? = null
     var quantity: Int = 1
+    var sold: Int = 0
 
     var images : ArrayList<String?> = arrayListOf()
 

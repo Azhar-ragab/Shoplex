@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shoplex.shoplex.model.pojo.ProductFavourite
-import com.shoplex.shoplex.room.data.ShoplexDataBase
+import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.FavouriteRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ class FavouriteViewModel(context: Context) : ViewModel() {
     private val favouriteRepo:FavouriteRepo
 
     init {
-        val favouriteDao = ShoplexDataBase.getDatabase(context).shoplexDao()
+        val favouriteDao = ShopLexDataBase.getDatabase(context).shoplexDao()
         favouriteRepo = FavouriteRepo(favouriteDao)
         readAllFavourite = favouriteRepo.readFavourite
         searchFavourite = favouriteRepo.searchFavourite

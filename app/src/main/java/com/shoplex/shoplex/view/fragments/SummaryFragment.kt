@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -20,7 +18,7 @@ import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Order
-import com.shoplex.shoplex.room.data.ShoplexDataBase
+import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import com.shoplex.shoplex.view.activities.CheckOutActivity
 import com.shoplex.shoplex.viewmodel.CheckoutVM
@@ -83,7 +81,7 @@ class SummaryFragment : Fragment() {
             binding.tvDeliveryStatue.text = it.name.replace("_", " ")
         })
 
-        checkoutVM.paymentMethod.observe(viewLifecycleOwner, Observer{
+        checkoutVM.paymentMethod.observe(viewLifecycleOwner, {
             if(it == PaymentMethod.Visa_Master && checkoutVM.isAllProductsReady.value!!){
                 binding.btnSummary.isEnabled = false
                 fetchInitData(checkoutVM.totalPrice.value!!.toDouble())
@@ -157,7 +155,7 @@ class SummaryFragment : Fragment() {
 
     private fun deleteFromCart(productID: String){
         if(UserInfo.userID != null) {
-            val repo = FavoriteCartRepo(ShoplexDataBase.getDatabase(requireContext()).shoplexDao())
+            val repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(requireContext()).shoplexDao())
             lifecycleScope.launch {
                 repo.deleteCart(productID)
                 FirebaseReferences.usersRef.document(UserInfo.userID!!)

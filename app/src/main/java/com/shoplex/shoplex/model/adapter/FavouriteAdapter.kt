@@ -7,15 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.firestore.FieldValue
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FavouriteItemRowBinding
-import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.model.pojo.ProductCart
-import com.shoplex.shoplex.room.data.ShoplexDataBase
+import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -31,7 +28,7 @@ class FavouriteAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         context = parent.context
         lifecycleScope = (context as AppCompatActivity).lifecycleScope
-        repo = FavoriteCartRepo(ShoplexDataBase.getDatabase(context).shoplexDao())
+        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shoplexDao())
 
         return ProductViewHolder(
             FavouriteItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
