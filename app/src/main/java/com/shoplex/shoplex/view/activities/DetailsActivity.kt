@@ -15,10 +15,8 @@ class DetailsActivity : AppCompatActivity() {
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val productId = intent.getStringExtra(getString(R.string.productId))
-//        Toast.makeText(this,productId,Toast.LENGTH_SHORT).show()
-        var pagerAdapter: PagerAdapter = PagerAdapter(supportFragmentManager, this, productId!!)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
-        binding.viewPager.adapter = pagerAdapter
+        binding.viewPager.adapter = PagerAdapter(supportFragmentManager, this, productId!!)
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.viewPager.currentItem = tab.position

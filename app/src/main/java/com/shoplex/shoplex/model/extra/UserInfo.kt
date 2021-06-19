@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.NotificationToken
+import com.shoplex.shoplex.model.pojo.RecentVisit
 import java.lang.reflect.Type
 import java.util.*
 
@@ -62,6 +63,24 @@ object UserInfo {
         phone = sharedPref.getString("phone","")
     }
 
+    fun saveNotification(context: Context, value: Boolean){
+        FirebaseReferences.notificationTokensRef.document(userID!!)
+            .update("notification", value)
+        context.getSharedPreferences(SHARED_USER_INFO, Context.MODE_PRIVATE).edit().putBoolean("notification", value).apply()
+    }
+
+    fun readNotification(context: Context) : Boolean{
+        val shared = context.getSharedPreferences(
+            SHARED_USER_INFO,
+            Context.MODE_PRIVATE
+        )
+        return shared.getBoolean("notification", true)
+    }
+
+    fun saveToRecentVisits(){
+        FirebaseReferences.recentVisits.add(RecentVisit())
+    }
+
     fun clear(){
         this.userID = null
         this.name = ""
@@ -74,9 +93,22 @@ object UserInfo {
         this.cartList = arrayListOf()
     }
 
+    fun clearSharedPref(context: Context){
+        context.getSharedPreferences(SHARED_USER_INFO, Context.MODE_PRIVATE).edit()
+            .remove("name")
+            .remove("email")
+            .remove("image")
+            .remove("location")
+            .remove("address")
+            .remove("phone")
+            .apply()
+    }
+
+    /*
     fun logout(){
         clear()
         FirebaseAuth.getInstance().signOut()
         LoginManager.getInstance().logOut()
     }
+    */
 }

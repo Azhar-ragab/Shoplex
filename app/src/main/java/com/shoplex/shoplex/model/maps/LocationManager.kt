@@ -75,9 +75,8 @@ class LocationManager: RoutingListener {
 
         mMap.animateCamera(CameraUpdateFactory.newLatLng(currentLocation))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16F))
-        marker = mMap.addMarker(
-            MarkerOptions().position(currentLocation).title(getAddress(currentLocation, context))
-        )
+        val loc = com.shoplex.shoplex.model.pojo.Location(currentLocation.latitude, currentLocation.longitude)
+        marker = mMap.addMarker(MarkerOptions().position(currentLocation).title(getAddress(loc)))
         selectedLocation = currentLocation
 
         val polygon = mMap.addPolygon(
@@ -179,7 +178,7 @@ class LocationManager: RoutingListener {
         routing.execute()
     }
 
-    fun getAddress(location: LatLng, context: Context): String? {
+    fun getAddress(location: com.shoplex.shoplex.model.pojo.Location): String? {
 
         val geocoder = Geocoder(context, Locale.getDefault())
         var addresses: List<Address>? =

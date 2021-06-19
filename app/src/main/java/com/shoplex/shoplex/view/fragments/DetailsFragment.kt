@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDetailsBinding
+import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.PropertyAdapter
 import com.shoplex.shoplex.model.enumurations.keys.ChatMessageKeys
 import com.shoplex.shoplex.model.extra.FirebaseReferences
@@ -31,7 +32,6 @@ import com.shoplex.shoplex.view.activities.CheckOutActivity
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.view.activities.MessageActivity
 import com.shoplex.shoplex.viewmodel.DetailsVM
-import com.shoplex.shoplex.viewmodel.OrdersVM
 import com.shoplex.shoplex.viewmodel.ProductsVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -43,20 +43,17 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
     private var product: Product = Product()
     private lateinit var detailsVM: DetailsVM
     private var storeInfo: Store = Store()
-    private val imageList = ArrayList<SlideModel>() // Create image list
-    private val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
+    private val imageList = ArrayList<SlideModel>()
     private val MAPS_CODE = 202
-    private lateinit var ref: DocumentReference
+    //private lateinit var ref: DocumentReference
 
     private lateinit var repo: FavoriteCartRepo
     private lateinit var lifecycleScope: CoroutineScope
 
-    private val ordersNM = OrdersVM()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
@@ -65,7 +62,7 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
 
         this.productsVM = ProductsVM()
         this.detailsVM = DetailsVM()
-        ref = FirebaseReferences.chatRef.document()
+
         productsVM.getProductById(productId)
         productsVM.products.observe(this.viewLifecycleOwner,  {
             if (it.count() > 0) {
@@ -82,7 +79,7 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
 
         })
 
-        detailsVM.store.observe(this.viewLifecycleOwner, Observer {
+        detailsVM.store.observe(this.viewLifecycleOwner, {
             this.storeInfo = it
         })
 
@@ -135,40 +132,41 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
         }
 
         binding.btnMessage.setOnClickListener {
-            var intent: Intent = Intent(binding.root.context, MessageActivity::class.java)
-            intent.putExtra(ChatMessageKeys.CHAT_TITLE_KEY.name, product.storeName)
-
-            intent.putExtra(ChatMessageKeys.PRODUCT_ID.name, product.productID)
-            intent.putExtra(ChatMessageKeys.STORE_ID.name, product.storeID)
-            // intent.putExtra(ChatMessageKeys.PHONE.name, storeInfo.phone)
-            intent.putExtra(ChatMessageKeys.CHAT_IMG_KEY.name, product.images[0])
+            // val intent = Intent(binding.root.context, MessageActivity::class.java)
+            // intent.putExtra(ChatHeadAdapter.PHONE.name, storeInfo.phone)
 
             FirebaseReferences.chatRef.whereEqualTo("storeID", product.storeID)
                 .whereEqualTo("userID", UserInfo.userID).get().addOnSuccessListener { values ->
-                    if (values.count() == 0) {
-                        var chat = Chat(
-                            ref.id,
-                            UserInfo.userID.toString(),
-                            UserInfo.name,
-                            product.storeID,
-                            arrayListOf(productId)
-                        )
-                        ref.set(chat).addOnSuccessListener {
-                            initMessage(chat.chatID)
-                            intent.putExtra(ChatMessageKeys.CHAT_ID.name, ref.id)
-                            binding.root.context.startActivity(intent)
+                    when {
+                        values.count() == 0 -> {
+                            val newChatRef = FirebaseReferences.chatRef.document()
+                            val chat = Chat(
+                                newChatRef.id,
+                                UserInfo.userID!!,
+                                product.storeID,
+                                UserInfo.name,
+                                product.storeName,
+                                storeInfo.phone,
+                                true,
+                                productIDs = arrayListOf(productId)
+                            )
+                            newChatRef.set(chat).addOnSuccessListener {
+                                initMessage(chat.chatID)
+                                openMessagesActivity(chat.chatID)
+                            }
                         }
-                    } else if (values.count() == 1) {
-                        val chat: Chat = values.first().toObject()
-                        // chat.productIDs.add(product.productID)
-                        if(chat.productIDs.last() != productId)
-                            initMessage(chat.chatID)
-                        FirebaseReferences.chatRef.document(chat.chatID).update("productIDs", FieldValue.arrayUnion(productId))
-                        intent.putExtra(ChatMessageKeys.CHAT_ID.name, chat.chatID)
-                        binding.root.context.startActivity(intent)
-                    } else {
-                        Toast.makeText(context, getString(R.string.ERROR), Toast.LENGTH_SHORT)
-                            .show()
+                        values.count() == 1 -> {
+                            val chat: Chat = values.first().toObject()
+                            if (chat.productIDs.last() != productId)
+                                initMessage(chat.chatID)
+                            FirebaseReferences.chatRef.document(chat.chatID)
+                                .update("productIDs", FieldValue.arrayUnion(productId))
+                            openMessagesActivity(chat.chatID)
+                        }
+                        else -> {
+                            Toast.makeText(context, getString(R.string.ERROR), Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
 
                 }
@@ -176,7 +174,7 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
 
         binding.imgLocation.setOnClickListener {
             val location: Location = storeInfo.locations!![0]
-            var intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
+            val intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
             intent.putExtra(getString(R.string.locationLat), location.latitude)
             intent.putExtra(getString(R.string.locationLang), location.longitude)
             intent.putExtra(getString(R.string.storeName), product.storeName)
@@ -242,8 +240,19 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
         return binding.root
     }
 
+    private fun openMessagesActivity(chatID: String){
+        binding.root.context.startActivity(Intent(binding.root.context, MessageActivity::class.java).apply {
+            this.putExtra(ChatHeadAdapter.CHAT_TITLE_KEY, product.storeName)
+            this.putExtra(ChatHeadAdapter.CHAT_IMG_KEY, product.images.firstOrNull())
+            this.putExtra(ChatHeadAdapter.CHAT_ID_KEY, chatID)
+            this.putExtra(ChatHeadAdapter.PRODUCT_ID, product.productID)
+            this.putExtra(ChatHeadAdapter.STORE_ID_KEY, product.storeID)
+            this.putExtra(ChatHeadAdapter.STORE_PHONE, storeInfo.phone)
+        })
+    }
+
     private fun initMessage(chatID: String) {
-        var message = Message(
+        val message = Message(
             toId = UserInfo.userID!!, message = "You started new chat for " + product.name
         )
         FirebaseReferences.chatRef.document(chatID).collection(getString(R.string.messages))

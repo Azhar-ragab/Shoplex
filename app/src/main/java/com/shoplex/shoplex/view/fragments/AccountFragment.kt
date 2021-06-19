@@ -21,9 +21,10 @@ import com.shoplex.shoplex.databinding.FragmentAccountBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Report
-import com.shoplex.shoplex.view.activities.LoginActivity
 import com.shoplex.shoplex.view.activities.OrderActivity
 import com.shoplex.shoplex.view.activities.ProfileActivity
+import com.shoplex.shoplex.view.activities.auth.AuthActivity
+import com.shoplex.shoplex.viewmodel.AuthVM
 
 class AccountFragment : Fragment() {
     lateinit var  binding: FragmentAccountBinding
@@ -57,7 +58,7 @@ class AccountFragment : Fragment() {
 
         binding.btnLogout.setOnClickListener {
             if (UserInfo.userID == null) {
-                startActivity(Intent(this.context, LoginActivity::class.java))
+                startActivity(Intent(this.context, AuthActivity::class.java))
             } else {
                 showDialog()
             }
@@ -85,8 +86,9 @@ class AccountFragment : Fragment() {
         builder?.setMessage(getString(R.string.logoutMessage))
 
         builder?.setPositiveButton(getString(R.string.yes)) { dialog, which ->
-            Firebase.auth.signOut()
-            getActivity()?.finish()
+            //Firebase.auth.signOut()
+            //getActivity()?.finish()
+            AuthVM.logout(requireContext())
         }
 
         builder?.setNegativeButton(getString(R.string.no)) { dialog, which ->

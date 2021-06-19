@@ -49,6 +49,7 @@
         <activity
             android:name=".view.activities.CheckOutActivity"/>
         <activity android:name=".view.activities.DetailsActivity" />
+        <activity android:name=".view.activities.auth.AuthActivity"/>
 
         <service
             android:name=".model.services.MyFirebaseMessagingService"

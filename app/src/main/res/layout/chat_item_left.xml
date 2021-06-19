@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
    >
     <data>
+        <import type="com.shoplex.shoplex.model.extra.DateUtils"/>
         <variable
             name="message"
             type="com.shoplex.shoplex.model.pojo.Message" />
@@ -31,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/drawable_padding"
-        android:text="@{String.valueOf(message.messageDate)}"
+        android:text="@{DateUtils.getDate(message.messageDate)}"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/tvReplyMessage"
         app:layout_constraintTop_toBottomOf="@+id/tvReplyMessage" />

@@ -11,4 +11,12 @@ class MessageRepo(private val messageDao: ShopLexDao, val chatID : String) {
     suspend fun addMessage(rightMessage : Message){
         messageDao.addMessage(rightMessage)
     }
+
+    fun setSent(messageID: String){
+        messageDao.setSent(messageID)
+    }
+
+    fun setReadMessage(messageID: String){
+        messageDao.setReadMessage(messageID)
+    }
 }

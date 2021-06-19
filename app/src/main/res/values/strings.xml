@@ -37,7 +37,7 @@
     <string name="old_price">old_price</string>
     <string name="new_price">new_price</string>
     <string name="rating_value">rating_value</string>
-    <string name="sold">sold</string>
+    <string name="sold">%s/%s Sold</string>
     <string name="name">name</string>
     <string name="storeName">storeName</string>
     <string name="space">space</string>
@@ -71,6 +71,9 @@
     <string name="filter">Filter</string>
     <string name="login">Login</string>
     <string name="forgotPassword">Forget Password?</string>
+    <string name="reset">Reset</string>
+    <string name="close_dialog">Close</string>
+    <string name="email_send">Email Send</string>
     <string name="or">OR</string>
     <string name="new_user">New User?</string>
     <string name="create_an_account">Create An Account</string>
@@ -231,5 +234,10 @@
     <string name="visaORMaster">Visa/ Master Card</string>
     <string name="items">Items</string>
 
-
+    <string name="Login">Login</string>
+    <string name="Signup">Signup</string>
+    <string name="Confirmpassword">Confirm password</string>
+    <string name="orLoginvia">Or Login Via</string>
+    <string name="orSignUpvia">Or Sign Up Via</string>
+    <string name="Delivered">Delivered</string>
 </resources>

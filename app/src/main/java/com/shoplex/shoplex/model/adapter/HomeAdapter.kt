@@ -2,13 +2,11 @@ package com.shoplex.shoplex.model.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shoplex.shoplex.R
@@ -224,8 +222,6 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
                 (context as AppCompatActivity).runOnUiThread {
                     binding.tvSpace.text = res
                 }
-
-                Log.i("LOCATIONINFO", info.toString())
             }
         }
 

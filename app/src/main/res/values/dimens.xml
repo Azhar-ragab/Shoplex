@@ -58,4 +58,11 @@
     <dimen name="margin_bottom_32">32dp</dimen>
     <dimen name="margin_64">64dp</dimen>
     <dimen name="margin_4">4dp</dimen>
+
+    <dimen name="cardBorderRadius">12dp</dimen>
+    <dimen name="width_165">165dp</dimen>
+    <dimen name="height_24">24dp</dimen>
+    <dimen name="height_28">28dp</dimen>
+    <dimen name="height_75">75dp</dimen>
+    <dimen name="margin_30">30dp</dimen>
 </resources>

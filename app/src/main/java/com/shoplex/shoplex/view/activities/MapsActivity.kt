@@ -77,12 +77,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     fun addNewLocation(){
         setResult(RESULT_OK, Intent().apply {
-            val selectedLocation = locationManager.selectedLocation
+            val selectedLocation = com.shoplex.shoplex.model.pojo.Location(locationManager.selectedLocation.latitude, locationManager.selectedLocation.longitude)
             val address = locationManager.getAddress(
-                LatLng(
+                com.shoplex.shoplex.model.pojo.Location(
                     selectedLocation.latitude,
                     selectedLocation.longitude
-                ), applicationContext
+                )
             )
             putExtra(ADDRESS, address)
             putExtra(LOCATION, selectedLocation)

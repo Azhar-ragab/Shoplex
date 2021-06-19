@@ -12,9 +12,11 @@ import com.google.firebase.firestore.Exclude
 data class ProductCart(
     // var quantity: Int = 1,
     @Nullable
+    @Ignore
     var specialDiscount: SpecialDiscount? = null,
     @Exclude
     var cartQuantity: Int = 1,
+    @Ignore
     var shipping: Float = 0F,
     @Exclude
     @get:Exclude
@@ -23,8 +25,8 @@ data class ProductCart(
     @Exclude
     @set:Exclude
     @get:Exclude
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    @PrimaryKey
+    var id: String = ""
 ): Product(), Parcelable {
     //var cartQuantity: Int = 1
     // var specialDiscount: SpecialDiscount? = null
@@ -37,6 +39,7 @@ data class ProductCart(
                 product = product
             )
     init{
+        this.id = product.productID
         this.productID = product.productID
         this.storeID = product.storeID
         this.storeName = product.storeName

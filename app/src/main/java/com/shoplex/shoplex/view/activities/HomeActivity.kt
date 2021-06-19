@@ -30,13 +30,11 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val seletedItemId = bottomNavigationView.selectedItemId
 
-        if (seletedItemId == R.id.homeFragment2) {
+        if (bottomNavigationView.selectedItemId == R.id.homeFragment2) {
             finishAffinity()
         } else {
             findNavController(R.id.nav_host_fragment).popBackStack()
         }
-
     }
 }

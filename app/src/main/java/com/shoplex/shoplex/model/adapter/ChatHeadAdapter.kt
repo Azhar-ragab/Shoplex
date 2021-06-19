@@ -2,19 +2,28 @@ package com.shoplex.shoplex.model.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.firestore.ktx.toObject
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ChatHeadItemRowBinding
-import com.shoplex.shoplex.model.enumurations.keys.ChatMessageKeys
-import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.pojo.Chat
 import com.shoplex.shoplex.model.pojo.ChatHead
 import com.shoplex.shoplex.view.activities.MessageActivity
 
-class ChatHeadAdapter(private val chatHeads: ArrayList<ChatHead>) :
+class ChatHeadAdapter(private var chatHeads: ArrayList<ChatHead>) :
     RecyclerView.Adapter<ChatHeadAdapter.ChatHeadViewHolder>() {
+
+    private var originalChats: ArrayList<ChatHead> = arrayListOf()
+
+    companion object {
+        const val CHAT_TITLE_KEY = "CHAT_TITLE_KEY"
+        const val CHAT_IMG_KEY = "CHAT_IMG_KEY"
+        const val CHAT_ID_KEY = "CHAT_ID_KEY"
+        const val STORE_ID_KEY = "STORE_ID_KEY"
+        const val STORE_PHONE = "STORE_PHONE"
+        const val PRODUCT_ID = "PRODUCT_ID"
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ChatHeadViewHolder {
         return ChatHeadViewHolder(
@@ -22,62 +31,55 @@ class ChatHeadAdapter(private val chatHeads: ArrayList<ChatHead>) :
         )
     }
 
-    override fun onBindViewHolder(viewHolder: ChatHeadViewHolder, position: Int) {
-        //viewHolder.bind(chatHead[position])
-        setListener(viewHolder, chatHeads[position])
-    }
-
-    private fun setListener(viewHolder: ChatHeadViewHolder, chatHead: ChatHead){
-        FirebaseReferences.chatRef.document(chatHead.chatId).addSnapshotListener { value, error ->
-            if(error != null)
-                return@addSnapshotListener
-
-            if(value != null) {
-                val chat: Chat = value.toObject()!!
-                /*
-                if(chat.productIDs.size != chatHead.productsIDs.size) {
-                    FirebaseReferences.productsRef
-                        .document(chat.productIDs.last()).get()
-                        .addOnSuccessListener { productDocument ->
-                            if (productDocument != null) {
-                                val product = productDocument.toObject<Product>()!!
-                                chatHead.productsIDs = chat.productIDs
-                                chatHead.storeId = product.storeID
-                                chatHead.productName = product.name
-                                chatHead.price = product.price
-                                chatHead.productImageURL = product.images[0]
-                                chatHead.numOfMessage = chat.unreadStoreMessages
-                            }
-                        }
-                }
-                */
-                chatHead.numOfMessage = chat.unreadCustomerMessages
-                viewHolder.bind(chatHead)
-            }
-        }
-    }
+    override fun onBindViewHolder(viewHolder: ChatHeadViewHolder, position: Int) = viewHolder.bind(chatHeads[position])
 
     override fun getItemCount() = chatHeads.size
+
+    fun search(searchText: String){
+        if (!searchText.isNullOrEmpty()) {
+            if (originalChats.isEmpty())
+                originalChats = chatHeads
+            chatHeads = originalChats.filter {
+                it.productName.contains(
+                    searchText,
+                    true
+                ) || it.storeName.contains(searchText, true)
+            } as ArrayList<ChatHead>
+        } else {
+            chatHeads = originalChats
+        }
+        notifyDataSetChanged()
+    }
 
     inner class ChatHeadViewHolder(val binding: ChatHeadItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(chatHead: ChatHead) {
-            Glide.with(itemView.context).load(chatHead.productImageURL).into(binding.imgChatHead)
-            binding.tvUserNameChatHead.text = chatHead.userName
-            binding.tvProductNameChatHead.text = chatHead.productName
-            binding.tvNumOfMessage.text = chatHead.numOfMessage.toString()
-            binding.tvPriceChatHeader.text = chatHead.price.toString()
+            Glide.with(itemView.context).load(chatHead.productImageURL).error(R.drawable.product)
+                .into(binding.imgChatHead)
+
+            binding.chatHead = chatHead
+
+            if (chatHead.numOfMessage > 0)
+                binding.tvNumOfMessage.visibility = View.VISIBLE
+            else
+                binding.tvNumOfMessage.visibility = View.INVISIBLE
+
+            if (chatHead.isStoreOnline)
+                binding.cardImg.visibility = View.VISIBLE
+            else
+                binding.cardImg.visibility = View.INVISIBLE
+
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, MessageActivity::class.java)
-                intent.putExtra(ChatMessageKeys.CHAT_TITLE_KEY.name, chatHead.userName)
-                intent.putExtra(ChatMessageKeys.CHAT_IMG_KEY.name,chatHead.productImageURL)
-                intent.putExtra(ChatMessageKeys.CHAT_ID.name,chatHead.chatId)
-                // intent.putExtra(ChatMessageKeys.USER_ID_KEY.name,chatHead.userID)
-
+                intent.putExtra(CHAT_TITLE_KEY, chatHead.storeName)
+                intent.putExtra(CHAT_IMG_KEY, chatHead.productImageURL)
+                intent.putExtra(CHAT_ID_KEY, chatHead.chatId)
+                intent.putExtra(PRODUCT_ID, chatHead.productID)
+                intent.putExtra(STORE_ID_KEY, chatHead.storeId)
+                intent.putExtra(STORE_PHONE, chatHead.storePhone)
                 itemView.context.startActivity(intent)
             }
         }
     }
-
 }

@@ -12,7 +12,7 @@ interface ShopLexDao {
     @Query("SELECT * FROM Favourite")
     fun readFavourite(): LiveData<List<ProductFavourite>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addFavourite(favourite: ProductFavourite)
 
     @Query("DELETE FROM Favourite WHERE productID = :productID")
@@ -22,7 +22,7 @@ interface ShopLexDao {
     @Query("SELECT * FROM Cart")
     fun readCart(): LiveData<List<ProductCart>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCart(cart: ProductCart)
 
     @Query("DELETE FROM Cart WHERE productID = :productID")
@@ -38,6 +38,12 @@ interface ShopLexDao {
     @Query("SELECT * FROM messages where chatID = :chatID order by messageID")
     fun readAllMessage(chatID : String):LiveData<List<Message>>
 
+    @Query("UPDATE messages SET isSent = 1 where messageID = :messageID")
+    fun setSent(messageID : String)
+
+    @Query("UPDATE messages SET isRead = 1 where messageID = :messageID")
+    fun setReadMessage(messageID : String)
+
     @Query("SELECT * FROM Favourite WHERE productID = :productId LIMIT 1")
     fun searchFav(productId:String): Flow<ProductFavourite>
 
@@ -45,7 +51,7 @@ interface ShopLexDao {
     fun searchCart(productId:String): Flow<ProductCart>
 
     // Store Location
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addLocation(location: StoreLocationInfo)
 
     @Query("SELECT * FROM StoresLocation WHERE storeID = :storeID AND location = :location LIMIT 1")

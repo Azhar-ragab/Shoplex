@@ -9,38 +9,26 @@
             type="com.shoplex.shoplex.viewmodel.AuthVM" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.activities.SignupActivity">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:paddingBottom="32dp"
+            android:paddingTop="8dp">
 
             <ImageView
                 android:id="@+id/imgSignup"
-                android:layout_width="@dimen/width_120"
-                android:layout_height="@dimen/height_120"
-                android:layout_marginTop="@dimen/margin_16"
+                android:layout_width="@dimen/width_75"
+                android:layout_height="@dimen/height_75"
+                android:layout_marginTop="@dimen/margin_6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/product_two" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/signup"
-
-                android:textAlignment="center"
-                android:textSize="36sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgSignup" />
+                app:srcCompat="@drawable/buynow" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiName"
@@ -48,14 +36,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="16dp"
+
                 android:layout_marginEnd="@dimen/margin_16"
                 android:inputType="textWebEmailAddress"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/imgSignup"
                 app:startIconDrawable="@drawable/ic_person">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -74,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_16"
+
                 android:layout_marginEnd="@dimen/margin_16"
                 android:inputType="textWebEmailAddress"
                 app:endIconMode="clear_text"
@@ -89,9 +77,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
-                    android:text="@={userData.user.email}"
-                    android:maxLength="100"
-                    android:inputType="textEmailAddress" />
+                    android:text="@={userData.email}"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="100" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,7 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_16"
+
                 android:layout_marginEnd="@dimen/margin_16"
                 android:inputType="textPassword"
                 app:endIconMode="password_toggle"
@@ -129,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_16"
+
                 android:layout_marginEnd="@dimen/margin_16"
                 android:inputType="textPassword"
                 app:endIconMode="password_toggle"
@@ -143,7 +131,7 @@
                     android:id="@+id/edConfirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/password"
+                    android:hint="@string/Confirmpassword"
                     android:inputType="textPassword"
                     android:maxLength="100" />
 
@@ -155,7 +143,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_16"
+
                 android:layout_marginEnd="@dimen/margin_16"
                 android:inputType="phone"
                 app:endIconMode="clear_text"
@@ -170,30 +158,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/phone_hint"
+                    android:text="@={userData.user.phone}"
                     android:importantForAutofill="noExcludeDescendants"
                     android:inputType="phone"
-                    android:maxLength="13"
-                    android:text="@={userData.user.phone}" />
+                    android:maxLength="13" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/btnSignup"
-                android:layout_width="@dimen/width_320"
-                android:layout_height="@dimen/height_50"
-                android:layout_marginTop="@dimen/margin_32"
-                android:layout_marginBottom="@dimen/margin_bottom_32"
-                android:fontFamily="sans-serif-black"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:text="@string/signup"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textSize="30sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 
             <TextView
                 android:id="@+id/tvLocation"
@@ -201,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16"
                 android:layout_marginEnd="@dimen/margin_8"
-                android:text="@={userData.user.address}"
+                android:text="@{userData.user.address}"
                 app:layout_constraintEnd_toStartOf="@+id/btnLocation"
                 app:layout_constraintStart_toStartOf="@+id/tiPhone"
                 app:layout_constraintTop_toBottomOf="@+id/tiPhone" />
@@ -216,5 +186,5 @@
                 app:layout_constraintTop_toTopOf="@+id/tvLocation" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 </layout>

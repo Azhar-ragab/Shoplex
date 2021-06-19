@@ -1,8 +1,6 @@
 package com.shoplex.shoplex.model.interfaces
 
-import android.util.Log
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.SetOptions
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.ProductCart
@@ -13,7 +11,7 @@ interface FavouriteCartListener {
     // Favourite
     fun onAddToFavourite(productFavourite: ProductFavourite){
         if(UserInfo.userID != null) {
-            val ref = FirebaseReferences.usersRef.document(UserInfo.userID!!)
+            FirebaseReferences.usersRef.document(UserInfo.userID!!)
                 .collection("Lists")
                 .document("Favorite")
                  .update("favoriteList" , FieldValue.arrayUnion(productFavourite.productID))

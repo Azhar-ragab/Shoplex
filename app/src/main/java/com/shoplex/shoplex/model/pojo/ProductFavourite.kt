@@ -17,10 +17,11 @@ data class ProductFavourite(
     @Exclude
     @set:Exclude
     @get:Exclude
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    @PrimaryKey
+    var id: String = ""
 ) : Product(),Parcelable {
     init {
+        this.id = product.productID
         this.productID = product.productID
         this.storeID = product.storeID
         this.storeName = product.storeName

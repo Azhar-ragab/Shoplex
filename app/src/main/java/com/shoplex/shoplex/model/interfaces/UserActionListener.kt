@@ -2,11 +2,17 @@ package com.shoplex.shoplex.model.interfaces
 
 import android.content.Context
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Cart
 import com.shoplex.shoplex.model.pojo.Favorite
 import com.shoplex.shoplex.model.pojo.User
+import com.shoplex.shoplex.room.data.ShopLexDao
+import com.shoplex.shoplex.room.data.ShopLexDataBase
+import com.shoplex.shoplex.room.repository.FavoriteCartRepo
+import kotlinx.coroutines.launch
 
 interface UserActionListener {
     fun showIndicator(){}
@@ -38,6 +44,9 @@ interface UserActionListener {
         UserInfo.phone = user.phone
         UserInfo.favouriteList = user.favouriteList
         UserInfo.cartList = user.cartList
+        (context as AppCompatActivity).lifecycleScope.launch {
+            FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shoplexDao()).syncProducts(context)
+        }
         UserInfo.updateTokenID()
         UserInfo.saveUserInfo(context)
     }
