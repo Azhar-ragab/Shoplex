@@ -24,6 +24,7 @@ class FavoriteCartRepo(private val shopLexDao: ShopLexDao) {
 
     var productID = MutableStateFlow("")
     var storeIfo = MutableStateFlow(StoreLocationInfo())
+    var storesIDs = MutableStateFlow(ArrayList<String>())
 
     // Favorite
     val favoriteProducts: LiveData<List<ProductFavourite>> = shopLexDao.readFavourite()
@@ -34,6 +35,10 @@ class FavoriteCartRepo(private val shopLexDao: ShopLexDao) {
 
     val storeLocationInfo = storeIfo.flatMapLatest {
         shopLexDao.getLocation(it.storeID, it.location)
+    }.asLiveData()
+
+    val storesLocationInfo = storesIDs.flatMapLatest {
+        shopLexDao.getLocations(it)
     }.asLiveData()
 
     suspend fun addFavourite(favourite: ProductFavourite) {
@@ -68,16 +73,14 @@ class FavoriteCartRepo(private val shopLexDao: ShopLexDao) {
     }
 
     suspend fun syncProducts(context: Context) {
-        var favProductsList: Array<String> = arrayOf()
-        var cartProductsList: Array<String> = arrayOf()
 
         FirebaseReferences.usersRef.document(UserInfo.userID!!).collection("Lists")
             .get().addOnSuccessListener {
 
                 GlobalScope.launch {
-                    withContext(Dispatchers.Main){
+                    withContext(Dispatchers.Main) {
                         favoriteProducts.observe(context as AppCompatActivity, { favProducts ->
-                            favProductsList = favProducts.groupBy { productFav ->
+                            val favProductsList = favProducts.groupBy { productFav ->
                                 productFav.productID
                             }.map { mapEntry ->
                                 mapEntry.key
@@ -92,9 +95,9 @@ class FavoriteCartRepo(private val shopLexDao: ShopLexDao) {
                 }
 
                 GlobalScope.launch {
-                    withContext(Dispatchers.Main){
+                    withContext(Dispatchers.Main) {
                         cartProducts.observe(context as AppCompatActivity, { cartProducts ->
-                            cartProductsList = cartProducts.groupBy { productFav ->
+                            val cartProductsList = cartProducts.groupBy { productFav ->
                                 productFav.productID
                             }.map { mapEntry ->
                                 mapEntry.key
@@ -108,23 +111,20 @@ class FavoriteCartRepo(private val shopLexDao: ShopLexDao) {
                     }
                 }
 
-
                 for (document in it.documents) {
                     if (document.reference.id == "Cart") {
                         val cartList = document.get("cartList") as ArrayList<String>
 
                         for (cartID in cartList) {
-                          //  if (!cartProductsList.contains(cartID)) {
-                                FirebaseReferences.productsRef.document(cartID).get()
-                                    .addOnSuccessListener { result ->
-                                        if (result.exists()) {
-                                            val product = result.toObject<Product>()
-                                            GlobalScope.launch {
-                                                addCart(ProductCart(product = product!!))
-                                            }
+                            FirebaseReferences.productsRef.document(cartID).get()
+                                .addOnSuccessListener { result ->
+                                    if (result.exists()) {
+                                        val product = result.toObject<Product>()
+                                        GlobalScope.launch {
+                                            addCart(ProductCart(product = product!!))
                                         }
                                     }
-                          //  }
+                                }
                         }
                     }
 
@@ -132,17 +132,15 @@ class FavoriteCartRepo(private val shopLexDao: ShopLexDao) {
                         val favoriteList = document.get("favoriteList") as ArrayList<String>
 
                         for (favID in favoriteList) {
-                          //  if (!favProductsList.contains(favID)) {
-                                FirebaseReferences.productsRef.document(favID).get()
-                                    .addOnSuccessListener { result ->
-                                        if (result.exists()) {
-                                            val product = result.toObject<Product>()
-                                            GlobalScope.launch {
-                                                addFavourite(ProductFavourite(product!!))
-                                            }
+                            FirebaseReferences.productsRef.document(favID).get()
+                                .addOnSuccessListener { result ->
+                                    if (result.exists()) {
+                                        val product = result.toObject<Product>()
+                                        GlobalScope.launch {
+                                            addFavourite(ProductFavourite(product!!))
                                         }
                                     }
-                    //        }
+                                }
                         }
                     }
                 }

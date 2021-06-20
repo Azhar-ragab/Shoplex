@@ -20,8 +20,6 @@ import com.shoplex.shoplex.viewmodel.CheckoutVM
 
 class DeliveryFragment : Fragment() {
     private lateinit var binding: FragmentDeliveryBinding
-    //private lateinit var checkout: Checkout
-    //private var isChecked = false
     private lateinit var checkoutVM: CheckoutVM
     private lateinit var startActivityLaunch: ActivityResultLauncher<Intent>
 
@@ -44,23 +42,13 @@ class DeliveryFragment : Fragment() {
         binding = FragmentDeliveryBinding.inflate(inflater, container, false)
 
         checkoutVM = (activity as CheckOutActivity).checkoutVM
-        //checkout = checkoutVM.checkout.value!!
-
-        //checkout.deliveryMethod = DeliveryMethod.Door
 
         binding.rgDelivery.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                binding.radioDoorDelivery.id -> {
-                    checkoutVM.deliveryMethod.value = DeliveryMethod.Door
-                    //isChecked = true
-                    // Toast.makeText(context, binding.radioDoorDelivery.text.toString(), Toast.LENGTH_SHORT).show()
-                }
-                binding.radioPostStation.id -> {
-                    checkoutVM.deliveryMethod.value = DeliveryMethod.Post_Station
-                    //isChecked = true
-                    // Toast.makeText(context, binding.radioPostStation.text.toString(), Toast.LENGTH_SHORT).show()
-                }
-                //else -> isChecked = false
+                binding.radioDoorDelivery.id -> checkoutVM.deliveryMethod.value =
+                    DeliveryMethod.Door
+                binding.radioPostStation.id -> checkoutVM.deliveryMethod.value =
+                    DeliveryMethod.Post_Station
             }
         }
 
@@ -85,21 +73,9 @@ class DeliveryFragment : Fragment() {
             binding.tvAddress.text = it
         })
 
-        /*
-        binding.tvDiscountPrice.text = "${checkout.totalDiscount} EGP"
-        binding.tvShippingPrice.text = "${checkout.shipping} EGP"
-        binding.tvTotalPrice.text = "${checkout.totalPrice} EGP"
-        */
         binding.btnDelivery.setOnClickListener {
-            var pager = (activity as CheckOutActivity).binding.viewPagerCheckout
+            val pager = (activity as CheckOutActivity).binding.viewPagerCheckout
             pager.currentItem = pager.currentItem + 1
-            /*
-            if (isChecked) {
-
-            } else {
-                Toast.makeText(context, getString(R.string.deliveryMethod), Toast.LENGTH_SHORT).show()
-            }
-            */
         }
 
         binding.btnChangeAddress.setOnClickListener {
@@ -108,19 +84,6 @@ class DeliveryFragment : Fragment() {
                 this.putExtra(MapsActivity.LOCATION, checkoutVM.deliveryLocation.value)
             })
         }
-
-        //checkout.deliveryAddress = binding.tvAddress.text.toString()
-        //checkout.deliveryLoc = UserInfo.location
-
-        /*
-        binding.tvAddress.addTextChangedListener {
-            checkout.deliveryAddress = binding.tvAddress.text.toString()
-            checkout.deliveryLoc = Location(31.1688133,29.931152)
-        }
-        */
-        // checkoutVM.deliveryAddress.value = binding.tvAddress.text.toString()
-        // checkoutVM.deliveryLocation.value = Location(31.1688133,29.931152)
-
         return binding.root
     }
 

@@ -10,18 +10,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDetailsBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.PropertyAdapter
-import com.shoplex.shoplex.model.enumurations.keys.ChatMessageKeys
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
@@ -36,7 +34,7 @@ import com.shoplex.shoplex.viewmodel.ProductsVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener {
+class DetailsFragment(private val productId: String) : Fragment(), FavouriteCartListener {
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var propertyAdapter: PropertyAdapter
     private lateinit var productsVM: ProductsVM
@@ -45,7 +43,6 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
     private var storeInfo: Store = Store()
     private val imageList = ArrayList<SlideModel>()
     private val MAPS_CODE = 202
-    //private lateinit var ref: DocumentReference
 
     private lateinit var repo: FavoriteCartRepo
     private lateinit var lifecycleScope: CoroutineScope
@@ -54,14 +51,12 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
         lifecycleScope = (context as AppCompatActivity).lifecycleScope
-        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(binding.root.context).shoplexDao())
+        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(binding.root.context).shopLexDao())
 
-        this.productsVM = ProductsVM()
-        this.detailsVM = DetailsVM()
+        this.productsVM = ViewModelProvider(this).get(ProductsVM::class.java)
+        this.detailsVM = ViewModelProvider(this).get(DetailsVM::class.java)
 
         productsVM.getProductById(productId)
         productsVM.products.observe(this.viewLifecycleOwner,  {
@@ -103,16 +98,6 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
             }
         })
 
-        /*
-        repo.storeLocationInfo.observe(context as AppCompatActivity, {
-            if (it != null) {
-                //product.
-            } else {
-                findRoute(product.storeID, product.storeName, product.storeLocation)
-            }
-        })
-        */
-
         binding.btnCall.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL);
             intent.data = Uri.parse(getString(R.string.telephone) + storeInfo.phone)
@@ -132,9 +117,6 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
         }
 
         binding.btnMessage.setOnClickListener {
-            // val intent = Intent(binding.root.context, MessageActivity::class.java)
-            // intent.putExtra(ChatHeadAdapter.PHONE.name, storeInfo.phone)
-
             FirebaseReferences.chatRef.whereEqualTo("storeID", product.storeID)
                 .whereEqualTo("userID", UserInfo.userID).get().addOnSuccessListener { values ->
                     when {
@@ -148,7 +130,8 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
                                 product.storeName,
                                 storeInfo.phone,
                                 true,
-                                productIDs = arrayListOf(productId)
+                                productIDs = arrayListOf(productId),
+                                storeImage = storeInfo.image
                             )
                             newChatRef.set(chat).addOnSuccessListener {
                                 initMessage(chat.chatID)
@@ -174,7 +157,7 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
 
         binding.imgLocation.setOnClickListener {
             val location: Location = storeInfo.locations!![0]
-            val intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
+            val intent = Intent(binding.root.context, MapsActivity::class.java)
             intent.putExtra(getString(R.string.locationLat), location.latitude)
             intent.putExtra(getString(R.string.locationLang), location.longitude)
             intent.putExtra(getString(R.string.storeName), product.storeName)
@@ -193,36 +176,6 @@ class DetailsFragment(val productId: String) : Fragment(), FavouriteCartListener
             } else {
                 Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT).show()
             }
-
-            /*
-            var specialDiscount: SpecialDiscount = SpecialDiscount(10F, DiscountType.Fixed)
-
-            //product.quantity = 1
-            var productCart: ProductCart = ProductCart(product, 1, specialDiscount)
-            //productCart.specialDiscount = specialDiscount
-
-            val address: String? = LocationManager.getInstance(requireContext()).getAddress(
-                LatLng(
-                    UserInfo.location.latitude, UserInfo.location.longitude
-                ), requireContext()
-            )
-            */
-
-            /*
-            var checkout: Checkout = Checkout(
-                DeliveryMethod.Door, PaymentMethod.Cash, Location(
-                    UserInfo.location.latitude, UserInfo.location.longitude
-                ), address ?: "", product.price, 12
-            )
-            checkout.addProduct(productCart)
-
-
-            for (product in checkout.getAllProducts()) {
-                var order: Order = Order(product)
-                ordersNM.addOrder(order)
-            }
-
-             */
         }
 
         binding.btnAddToCart.setOnClickListener {

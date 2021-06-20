@@ -32,4 +32,14 @@ class ArchLifecycleApp : Application(), LifecycleObserver {
             }
         }
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun onAppDestroy(){
+        if (UserInfo.userID != null) {
+            FirebaseReferences.chatRef.whereEqualTo("userID", UserInfo.userID!!).get().addOnSuccessListener {
+                for(ref in it.documents)
+                    ref.reference.update("isClientOnline", false)
+            }
+        }
+    }
 }

@@ -4,57 +4,64 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.annotation.Nullable
-import androidx.room.Entity
 import androidx.room.Ignore
-import androidx.room.PrimaryKey
 import com.denzcoskun.imageslider.models.SlideModel
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
-import com.shoplex.shoplex.Property
 import java.util.*
 
-open class Product : Parcelable{
-    var productID : String = UUID.randomUUID().toString()
-    var storeID : String = ""
-    var storeName : String = ""
+open class Product : Parcelable {
+    var productID: String = UUID.randomUUID().toString()
+    var storeID: String = ""
+    var storeName: String = ""
     var storeLocation: Location = Location()
-    var name : String = ""
+    var name: String = ""
     var description: String = ""
-    var price : Float = 10F
-    var newPrice : Float = 10F
-    var discount : Float = 0F
-    var category : String = ""
-    // var productNumber : Int = 0
-    var subCategory : String = ""
+    var price: Float = 10F
+    var newPrice: Float = 10F
+    var discount: Float = 0F
+    var category: String = ""
+    var subCategory: String = ""
+
     @Nullable
-    var rate : Float? = null
+    var rate: Float? = null
+
     @Nullable
-    var premium : Premium? = null
-    // var premiumDays: Int = 0
+    var premium: Premium? = null
     var properties: ArrayList<Property> = arrayListOf()
+
+    @ServerTimestamp
     var date: Date? = null
     var quantity: Int = 1
     var sold: Int = 0
 
-    var images : ArrayList<String?> = arrayListOf()
+    var images: ArrayList<String?> = arrayListOf()
 
     @Ignore
-    @Exclude @set:Exclude @get:Exclude
-    var imagesListURI : ArrayList<Uri> = arrayListOf()
+    @Exclude
+    @set:Exclude
+    @get:Exclude
+    var imagesListURI: ArrayList<Uri> = arrayListOf()
 
     @Ignore
-    @Exclude @set:Exclude @get:Exclude
-    var imageSlideList : ArrayList<SlideModel> = arrayListOf()
+    @Exclude
+    @set:Exclude
+    @get:Exclude
+    var imageSlideList: ArrayList<SlideModel> = arrayListOf()
 
     @Ignore
-    @Exclude @set:Exclude @get:Exclude
+    @Exclude
+    @set:Exclude
+    @get:Exclude
     var isFavourite = false
 
     @Ignore
-    @Exclude @set:Exclude @get:Exclude
+    @Exclude
+    @set:Exclude
+    @get:Exclude
     var isCart = false
 
- constructor()
+    constructor()
 
     constructor(
         name: String,
@@ -73,19 +80,18 @@ open class Product : Parcelable{
         name: String,
         newPrice: Float,
         oldPrice: Float,
-        //sold: String,
         rate: Float,
         productImageUrl: String
     ) {
         this.name = name
         this.newPrice = newPrice
         this.price = oldPrice
-        //this.sold = sold
         this.rate = rate
         this.images[0] = productImageUrl
     }
 
     constructor(parcel: Parcel) : this() {
+        productID = parcel.readString().toString()
         name = parcel.readString().toString()
         description = parcel.readString().toString()
         price = parcel.readFloat()
@@ -93,34 +99,23 @@ open class Product : Parcelable{
         discount = parcel.readFloat()
         category = parcel.readString().toString()
         subCategory = parcel.readString().toString()
+        premium = parcel.readParcelable(Premium::class.java.classLoader)
         imagesListURI = parcel.readArrayList(Uri::class.java.classLoader) as ArrayList<Uri>
         quantity = parcel.readInt()
-    }
-
-    constructor(
-        name: String,
-        price: Float,
-        category: String,
-        productNumber: Int,
-        images:String
-    ) {
-        this.name = name
-        this.price = price
-        this.category = category
-        // this.productNumber = productNumber
-        this.images[0] = images
+        rate = parcel.readFloat()
     }
 
     @Exclude
-    fun getImageSlides(): ArrayList<SlideModel>{
+    fun getImageSlides(): ArrayList<SlideModel> {
         this.imageSlideList.clear()
-        for(image in imagesListURI){
+        for (image in imagesListURI) {
             imageSlideList.add(SlideModel(image.toString()))
         }
         return imageSlideList
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(productID)
         parcel.writeString(name)
         parcel.writeString(description)
         parcel.writeFloat(price)
@@ -128,8 +123,10 @@ open class Product : Parcelable{
         parcel.writeFloat(discount)
         parcel.writeString(category)
         parcel.writeString(subCategory)
+        parcel.writeParcelable(premium, 0)
         parcel.writeArray(imagesListURI.toArray())
         parcel.writeInt(quantity)
+        rate?.let { parcel.writeFloat(it) }
     }
 
     override fun describeContents(): Int {
@@ -145,5 +142,4 @@ open class Product : Parcelable{
             return arrayOfNulls(size)
         }
     }
-
 }

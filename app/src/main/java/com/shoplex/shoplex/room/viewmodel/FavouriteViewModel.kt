@@ -16,7 +16,7 @@ class FavouriteViewModel(context: Context) : ViewModel() {
     private val favouriteRepo:FavouriteRepo
 
     init {
-        val favouriteDao = ShopLexDataBase.getDatabase(context).shoplexDao()
+        val favouriteDao = ShopLexDataBase.getDatabase(context).shopLexDao()
         favouriteRepo = FavouriteRepo(favouriteDao)
         readAllFavourite = favouriteRepo.readFavourite
         searchFavourite = favouriteRepo.searchFavourite

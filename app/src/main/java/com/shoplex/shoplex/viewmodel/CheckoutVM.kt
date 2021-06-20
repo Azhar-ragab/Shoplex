@@ -23,12 +23,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
+class CheckoutVM(val context: Context) : ViewModel(), FavouriteCartListener {
     var deliveryMethod: MutableLiveData<DeliveryMethod> = MutableLiveData()
     var paymentMethod: MutableLiveData<PaymentMethod> = MutableLiveData()
     var deliveryLocation: MutableLiveData<Location> = MutableLiveData()
     var deliveryAddress: MutableLiveData<String> = MutableLiveData()
-    //var checkout: MutableLiveData<Checkout> = MutableLiveData()
     var subTotalPrice: MutableLiveData<Float> = MutableLiveData()
     var totalDiscount: MutableLiveData<Float> = MutableLiveData()
     var shipping: MutableLiveData<Float> = MutableLiveData()
@@ -36,22 +35,15 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
     var coupons: MutableLiveData<Float> = MutableLiveData()
     val isAllProductsReady: MutableLiveData<Boolean> = MutableLiveData()
 
-    private var itemsNum: Int = 1
-
     private var repo: FavoriteCartRepo
     private var lifecycleScope: CoroutineScope
 
     private var products: ArrayList<ProductCart> = arrayListOf()
     var productQuantities: ArrayList<ProductQuantity> = arrayListOf()
 
-//    var subTotal: MutableLiveData<Float> = MutableLiveData()
-//    var discount: MutableLiveData<Float> = MutableLiveData()
-//    var shipping: MutableLiveData<Int> = MutableLiveData()
-//    var total: MutableLiveData<Float> = MutableLiveData()
-
     init {
         lifecycleScope = (context as AppCompatActivity).lifecycleScope
-        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shoplexDao())
+        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shopLexDao())
 
         deliveryMethod.value = DeliveryMethod.Door
         paymentMethod.value = PaymentMethod.Cash
@@ -63,24 +55,9 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
         totalPrice.value = 0F
         coupons.value = 0F
         isAllProductsReady.value = false
-
-        //checkout.value = Checkout(context)
-
-//        subTotal.value = 0F
-//        discount.value = 0F
-//        shipping.value = 0
-//        total.value = 0F
-
-        /*
-        deliveryLocation.observe(context as AppCompatActivity, {
-            checkout.value?.deliveryLoc = deliveryLocation.value
-            checkout.value?.deliveryAddress = deliveryAddress.value!!
-        })
-        */
     }
 
     fun getAllCartProducts() {
-        // var cartProducts = ArrayList<ProductCart>()
         FirebaseReferences.usersRef.document(UserInfo.userID!!)
             .collection("Lists")
             .document("Cart").get().addOnSuccessListener { result ->
@@ -97,28 +74,32 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
                                         if (it.exists()) {
                                             specialDiscount = it.toObject()
                                         }
-                                        // LocationManager.getInstance(this).getRouteInfo(UserInfo.location, prod.deliveryLoc)
-                                        prod?.cartQuantity = productQuantities.find { product -> product.productID == prod?.productID }?.quantity?: 1
+                                        prod?.cartQuantity =
+                                            productQuantities.find { product -> product.productID == prod?.productID }?.quantity
+                                                ?: 1
 
-                                        val productCart = ProductCart(prod!!, prod.cartQuantity, specialDiscount)
-                                        // cartProducts.add()
+                                        val productCart =
+                                            ProductCart(prod!!, prod.cartQuantity, specialDiscount)
 
-                                        if(prod.quantity == 0){
-                                            Toast.makeText(context, "Product ${prod.name} out of stock", Toast.LENGTH_SHORT).show()
+                                        if (prod.quantity == 0) {
+                                            Toast.makeText(
+                                                context,
+                                                "Product ${prod.name} out of stock",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                             onDeleteFromFavourite(prod.productID)
-                                        }else{
-                                            if(prod.cartQuantity > prod.quantity){
-                                                Toast.makeText(context, "${prod.cartQuantity - prod.quantity} items of product ${prod.name} was solid remains ${prod.quantity}", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            if (prod.cartQuantity > prod.quantity) {
+                                                Toast.makeText(
+                                                    context,
+                                                    "${prod.cartQuantity - prod.quantity} items of product ${prod.name} was solid remains ${prod.quantity}",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
                                                 onUpdateCartQuantity(prod.productID, prod.quantity)
                                                 prod.cartQuantity = prod.quantity
                                             }
                                             addProduct(productCart)
                                         }
-
-//                                        subTotal.value = checkout.value?.subTotalPrice
-//                                        discount.value = checkout.value?.totalDiscount
-                                        //shipping.value = checkout.value?.shipping
-                                        //total.value = checkout.value?.totalPrice
                                     }
                             }
                         }
@@ -141,7 +122,6 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
 
                             val productCart =
                                 ProductCart(prod!!, 1, specialDiscount)
-                            // cartProducts.add()
 
                             if (prod.quantity == 0) {
                                 Toast.makeText(
@@ -158,20 +138,20 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
             }
     }
 
-    fun addProduct(productCart: ProductCart){
+    fun addProduct(productCart: ProductCart) {
         this.products.add(productCart)
-        this.subTotalPrice.value = this.subTotalPrice.value?.plus((productCart.cartQuantity * productCart.newPrice))
-        //this.totalPrice = this.subTotalPrice
-        var discount: Float = 0F
-        if(productCart.specialDiscount != null){
-            discount = if(productCart.specialDiscount!!.discountType == DiscountType.Fixed) {
+        this.subTotalPrice.value =
+            this.subTotalPrice.value?.plus((productCart.cartQuantity * productCart.newPrice))
+        var discount = 0F
+        if (productCart.specialDiscount != null) {
+            discount = if (productCart.specialDiscount!!.discountType == DiscountType.Fixed) {
                 productCart.specialDiscount!!.discount
-            }else{
+            } else {
                 productCart.price * (productCart.specialDiscount!!.discount / 100)
             }
 
             this.coupons.value = this.coupons.value?.plus(discount)
-        }else if(productCart.price != productCart.newPrice){
+        } else if (productCart.price != productCart.newPrice) {
             discount = (productCart.price - productCart.newPrice)
         }
 
@@ -180,16 +160,17 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
         productCart.newPrice = "%.2f".format(productCart.price - productCart.discount).toFloat()
 
         addShipping(productCart)
-        // this.shipping += productCart.shipping
-        this.totalDiscount.value = this.totalDiscount.value?.plus((productCart.cartQuantity * discount))
-        this.totalPrice.value = "%.2f".format(subTotalPrice.value?.minus(totalDiscount.value!!)).toFloat()
+        this.totalDiscount.value =
+            this.totalDiscount.value?.plus((productCart.cartQuantity * discount))
+        this.totalPrice.value =
+            "%.2f".format(subTotalPrice.value?.minus(totalDiscount.value!!)).toFloat()
     }
 
-    fun getAllProducts(): ArrayList<ProductCart>{
+    fun getAllProducts(): ArrayList<ProductCart> {
         return products
     }
 
-    private fun addShipping(productCart: ProductCart){
+    private fun addShipping(productCart: ProductCart) {
         GlobalScope.launch(Dispatchers.IO) {
             val info: RouteInfo? = LocationManager.getInstance(context).getRouteInfo(
                 deliveryLocation.value!!,
@@ -198,7 +179,7 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
 
             var res = "N/A"
 
-            if(info != null){
+            if (info != null) {
                 res = info.distance!!
             }
             val cost = calcShipping(res)
@@ -206,36 +187,25 @@ class CheckoutVM(val context: Context): ViewModel(), FavouriteCartListener {
             totalPrice.postValue(totalPrice.value?.plus(cost))
             shipping.postValue(shipping.value?.plus(cost))
             productCart.shipping = cost.toFloat()
-            if(productCart == products.last()){
+            if (productCart == products.last()) {
                 isAllProductsReady.postValue(true)
             }
         }
-//        repo.storeLocationInfo.observe(context as AppCompatActivity, {
-//            if (it != null) {
-//                val cost = calcShipping(it.distance!!)
-//                this.totalPrice.value = this.totalPrice.value?.plus(cost)
-//                this.shipping.value = this.shipping.value?.plus(cost)
-//            } else {
-//
-//            }
-//        })
-//        this.totalPrice.value = this.totalPrice.value?.plus(10)
-//        this.shipping.value = this.shipping.value?.plus(10)
     }
 
-    fun reAddShipping(){
+    fun reAddShipping() {
         this.totalPrice.postValue(totalPrice.value?.minus(this.shipping.value!!))
         this.shipping.value = 0F
         this.isAllProductsReady.value = false
-        for(product in products){
+        for (product in products) {
             addShipping(product)
         }
     }
 
-    private fun calcShipping(distance: String): Int{
-        return if(distance.contains("km", true)){
+    private fun calcShipping(distance: String): Int {
+        return if (distance.contains("km", true)) {
             (5 * distance.split(" ")[0].toFloat()).toInt()
-        }else{
+        } else {
             15
         }
     }

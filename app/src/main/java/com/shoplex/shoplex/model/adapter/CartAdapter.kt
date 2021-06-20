@@ -13,10 +13,6 @@ class CartAdapter(
     var favouriteCartListener: FavouriteCartListener
 ) :
     RecyclerView.Adapter<CartAdapter.ProductViewHolder>() {
-//    companion object {
-//        var deleteCart: FavouriteCartListener? = null
-//        var updateCart: FavouriteCartListener? = null
-//    }
 
     var carts = emptyList<ProductCart>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -41,39 +37,29 @@ class CartAdapter(
                 .into(binding.imgCart)
 
             binding.product = product
-            /*
-            binding.tvCart.text = product.product.name
-            binding.tvPrice.text = product.product.newPrice.toString()
-            binding.tvCategory.text = product.product.category
-            binding.number.text = product.quantity.toString()
-            */
             binding.imgDelete.setOnClickListener {
                 favouriteCartListener.onDeleteFromCart(product.productID)
             }
-            //  var quantity = product.quantity
-            // var quant = 1
-            // updateCart = updateCartClick
+
             binding.btnMinus.setOnClickListener {
                 if (product.cartQuantity > 1) {
                     product.cartQuantity--
-                    //binding.number.text = product.quantity.toString()
-                    favouriteCartListener.onUpdateCartQuantity(product.productID, product.cartQuantity--)
+                    favouriteCartListener.onUpdateCartQuantity(
+                        product.productID,
+                        product.cartQuantity--
+                    )
                 }
-//                if (updateCart != null) {
-//                    updateCart!!.onUpdateCartQuantity(product.productID, product.quantity)
-//                }
             }
             binding.btnPlus.setOnClickListener {
                 if (product.cartQuantity < product.quantity) {
                     product.cartQuantity++
-                    //binding.number.text = product.quantity.toString()
-                    favouriteCartListener.onUpdateCartQuantity(product.productID, product.cartQuantity)
-                }else{
+                    favouriteCartListener.onUpdateCartQuantity(
+                        product.productID,
+                        product.cartQuantity
+                    )
+                } else {
                     Toast.makeText(binding.root.context, "Max Quantity", Toast.LENGTH_SHORT).show()
                 }
-//                if (updateCart != null) {
-//                    updateCart!!.onUpdateCartQuantity(product.productID, product.quantity)
-//                }
             }
         }
     }

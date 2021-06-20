@@ -10,12 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentChatBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
+import com.shoplex.shoplex.model.adapter.StoreHeadAdapter
 import com.shoplex.shoplex.viewmodel.ChatHeadVM
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
     private lateinit var chatsVm: ChatHeadVM
     private lateinit var chatsAdapter: ChatHeadAdapter
+    private lateinit var storeHeadsAdapter: StoreHeadAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,23 +34,29 @@ class ChatFragment : Fragment() {
 
         chatsVm.chatHeads.observe(viewLifecycleOwner, { chatHeads ->
             chatsAdapter = ChatHeadAdapter(chatHeads)
+            storeHeadsAdapter = StoreHeadAdapter(chatHeads)
             binding.rvChat.adapter = chatsAdapter
+            binding.rvStore.adapter = storeHeadsAdapter
         })
 
         chatsVm.changedPosition.observe(viewLifecycleOwner, {
             binding.rvChat.adapter?.notifyItemChanged(it)
+            binding.rvStore.adapter?.notifyItemChanged(it)
         })
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
-                if(newText.isEmpty()){
+                if (newText.isEmpty()) {
                     chatsAdapter.search("")
+                    storeHeadsAdapter.search("")
                 }
                 return false
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                chatsAdapter.search(binding.searchView.query.toString())
+                val search = binding.searchView.query.toString()
+                chatsAdapter.search(search)
+                storeHeadsAdapter.search(search)
                 return false
             }
         })

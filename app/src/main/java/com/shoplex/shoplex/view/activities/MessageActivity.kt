@@ -56,9 +56,9 @@ class MessageActivity : AppCompatActivity() {
         ).get(MessageViewModel::class.java)
 
         messageVM.isOnline.observe(this, {
-            if(it){
+            if (it) {
                 binding.cardIsOnline.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.cardIsOnline.visibility = View.INVISIBLE
             }
         })
@@ -95,9 +95,7 @@ class MessageActivity : AppCompatActivity() {
         var firstTimeToLoadMessages = (lastID == "1")
         FirebaseReferences.chatRef.document(chatID).collection("messages")
             .whereGreaterThan("messageID", lastID).addSnapshotListener { snapshots, error ->
-                if (error != null) {
-                    return@addSnapshotListener
-                }
+                if (error != null) return@addSnapshotListener
 
                 for ((index, dc) in snapshots!!.documentChanges.withIndex()) {
                     if ((dc.type) == DocumentChange.Type.ADDED) {
@@ -126,7 +124,7 @@ class MessageActivity : AppCompatActivity() {
 
                 firstTimeToLoadMessages = false
 
-                if (position > 0){
+                if (position > 0) {
                     binding.rvMessage.smoothScrollToPosition(position)
                     position = 0
                 }
@@ -135,7 +133,7 @@ class MessageActivity : AppCompatActivity() {
 
     private fun getAllMessage() {
         binding.rvMessage.adapter = messageAdapter
-        messageVM.readAllMessage.observe(this,  {
+        messageVM.readAllMessage.observe(this, {
             for (message in it) {
                 if (message.toId == UserInfo.userID) {
                     messageAdapter.add(LeftMessageItem(chatID, message, messageVM))
@@ -163,11 +161,11 @@ class MessageActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.call -> {
-                if(phoneNumber.length > 10) {
+                if (phoneNumber.length > 10) {
                     val intent = Intent(Intent.ACTION_DIAL)
                     intent.data = Uri.parse(getString(R.string.tel) + phoneNumber)
                     startActivity(intent)
-                }else{
+                } else {
                     Toast.makeText(this, "Phone Number is not specified", Toast.LENGTH_SHORT).show()
                 }
             }

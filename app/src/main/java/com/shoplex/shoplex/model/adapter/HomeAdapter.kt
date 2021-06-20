@@ -35,7 +35,7 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         context = parent.context
         lifecycleScope = (context as AppCompatActivity).lifecycleScope
-        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shoplexDao())
+        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shopLexDao())
 
         return ProductViewHolder(
             RvHomeProductCardviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -48,7 +48,7 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
     override fun getItemCount() = productsHome.size
 
     fun search(searchText: String) {
-        if (!searchText.isNullOrEmpty()) {
+        if (searchText.isNotEmpty()) {
             if (originalProducts.isEmpty())
                 originalProducts = productsHome
             productsHome = originalProducts.filter {
@@ -66,11 +66,6 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
     inner class ProductViewHolder(val binding: RvHomeProductCardviewBinding) :
         RecyclerView.ViewHolder(binding.root), FavouriteCartListener {
         fun bind(product: Product) {
-            val user: User = User()
-
-            // onSearchForFavourite(product.productID)
-
-            //val viewModel = ViewModelProvider(context as AppCompatActivity, FavouriteFactoryModel(context, product.productID)).get(FavouriteViewModel::class.java)
 
             if(product.quantity == 0){
                 binding.btnFavorite.visibility = View.INVISIBLE
@@ -100,9 +95,9 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
             repo.storeLocationInfo.observe(context as AppCompatActivity, {
                 if (it != null) {
                     binding.tvSpace.text = it.distance
-                } else {
+                } else if(!UserInfo.userID.isNullOrEmpty()){
                     findRoute(product.storeID, product.storeName, product.storeLocation)
-                }
+                } 
             })
 
             onSearchForFavouriteCart(product.productID)
@@ -118,31 +113,6 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
                     binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill)
                     product.isFavourite = true
                 }
-                /*
-                if (addfavClick!=null){
-                    var favourite=ProductFavourite(product)
-                    addfavClick.onaddFavourite(favourite)
-                }
-                 */
-
-                //var favourite=ProductFavourite(product)
-                //addfavClick.onaddFavourite(favourite)
-                //onSearchForFavourite(product.productID)
-
-                // 7cca2006-fbcf-4287-8e0d-43baa6f65e85
-//                binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill)
-//                binding.btnFavorite.isClickable = false
-//                notifyDataSetChanged()
-//                UserInfo.favouriteList.add(product.productID)
-//                if (addfavClick!=null){
-//                    var favourite=ProductFavourite(product)
-//                    addfavClick!!.onaddFavourite(favourite)
-//                }
-//                FirebaseReferences.usersRef.document(UserInfo.userID.toString()).update(
-//                    "favouriteList",
-//                    FieldValue.arrayUnion(product.productID)
-//                )
-
             }
 
             binding.fabAddProduct.setOnClickListener {
@@ -155,53 +125,25 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
                     binding.fabAddProduct.setImageDrawable(context.getDrawable(R.drawable.ic_done))
                     product.isCart = true
                 }
-
-//                user.cartList.add(product.productID)
-//                var cart=ProductCart(product = product)
-//                onAddToCart(cart)
-//
-//              //  cartVm=ViewModelProvider(binding.root.).get(CartViewModel::class.java)
-//                Toast.makeText(binding.root.context,product.productID,Toast.LENGTH_SHORT).show()
-//                FirebaseReferences.usersRef.whereEqualTo(binding.root.context.getString(R.string.mail),Firebase.auth.currentUser.email).get().addOnSuccessListener { result ->
-//                    for (document in result){
-//                        if (document.exists()) {
-//                            val u = document.toObject<User>()
-//                            FirebaseReferences.usersRef.document(u.userID).update(
-//                                binding.root.context.getString(R.string.cartList),
-//                                FieldValue.arrayUnion(user.cartList[0])
-//
-//                            )
-//                        }
-//                    }
-//                }
             }
 
             binding.product = product
-
-            /*
-            binding.tvStorename.text = product.storeName
-            binding.tvNewPrice.text = product.newPrice.toString()
-            binding.tvOldPrice.text = product.price.toString()
-            binding.tvProductName.text = product.name
-            binding.tvReview.text = product.rate.toString()
-            binding.tvSold.text = R.string.twelve.toString()
-            binding.tvSpace.text = R.string.Space.toString()
-            */
 
             Glide.with(binding.root.context).load(product.images.firstOrNull())
                 .error(R.drawable.product).into(binding.imgProduct)
 
             itemView.setOnClickListener {
-                var intent: Intent = Intent(binding.root.context, DetailsActivity::class.java)
-                intent.putExtra(
-                    binding.root.context.getString(R.string.productId),
-                    product.productID
-                )
-                binding.root.context.startActivity(intent)
+                binding.root.context.startActivity(
+                    Intent(
+                        binding.root.context,
+                        DetailsActivity::class.java
+                    ).apply {
+                        this.putExtra(
+                            binding.root.context.getString(R.string.productId),
+                            product.productID
+                        )
+                    })
             }
-
-
-
         }
 
         private fun findRoute(storeID: String, storeName: String, storeLocation: Location) {
@@ -211,7 +153,7 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
                     storeLocation
                 )
 
-                var res = "N/A"
+                var res = context.getString(R.string.NA)
 
                 if(info != null){
                     val locationInfo = StoreLocationInfo(storeID, storeLocation, storeName, info.distance, info.duration)
@@ -242,10 +184,6 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
 
         override fun onSearchForFavouriteCart(productId: String) {
             repo.productID.value = productId
-            //viewModelScope.launch(Dispatchers.IO) {
-            //favouriteRepo.addFavourite(favourite)
-            //}
-            //   repo.searchFavourite(productId)
         }
 
         override fun onAddToFavourite(productFavourite: ProductFavourite) {
@@ -253,7 +191,6 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
             lifecycleScope.launch {
                 repo.addFavourite(productFavourite)
             }
-            //favouriteViewModel.addFavourite(productFavourite)
         }
 
         override fun onDeleteFromFavourite(productID: String) {

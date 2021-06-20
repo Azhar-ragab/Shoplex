@@ -11,11 +11,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CartViewModel(app: Application) : AndroidViewModel(app) {
-     val readAllCart: LiveData<List<ProductCart>>
+    val readAllCart: LiveData<List<ProductCart>>
     private val cartRepo: CartRepo
 
     init {
-        val cartDao = ShopLexDataBase.getDatabase(app).shoplexDao()
+        val cartDao = ShopLexDataBase.getDatabase(app).shopLexDao()
         cartRepo = CartRepo(cartDao)
         readAllCart = cartRepo.readCart
     }
@@ -37,5 +37,4 @@ class CartViewModel(app: Application) : AndroidViewModel(app) {
             cartRepo.updateCart(productID, quantity)
         }
     }
-
 }

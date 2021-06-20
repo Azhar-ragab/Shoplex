@@ -15,5 +15,6 @@ data class ChatHead(
     var numOfMessage: Int = 0,
     val date: Date = Timestamp.now().toDate(),
     var isStoreOnline: Boolean = false,
-    val storePhone: String = ""
+    val storePhone: String = "",
+    val storeImage: String = ""
 )

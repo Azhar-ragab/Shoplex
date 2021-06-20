@@ -31,7 +31,7 @@ import org.json.JSONException
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class LoginTabFragment :Fragment() {
+class LoginTabFragment : Fragment() {
 
     private lateinit var binding: LoginTabFragmentBinding
     private lateinit var authVM: AuthVM
@@ -49,19 +49,24 @@ class LoginTabFragment :Fragment() {
                     val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                     val account = task.getResult(ApiException::class.java)
                     if (task.isSuccessful && account != null) {
-                        Firebase.auth.fetchSignInMethodsForEmail(account.email!!).addOnCompleteListener {
-                            if (it.isSuccessful && (it.result.signInMethods.isNullOrEmpty() || it.result.signInMethods?.first() == "google.com")) {
-                                authVM.login(AuthType.Google, account.idToken!!)
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Email Registered before!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                        Firebase.auth.fetchSignInMethodsForEmail(account.email!!)
+                            .addOnCompleteListener {
+                                if (it.isSuccessful && (it.result.signInMethods.isNullOrEmpty() || it.result.signInMethods?.first() == "google.com")) {
+                                    authVM.login(AuthType.Google, account.idToken!!)
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Email Registered before!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
-                        }
                     } else {
-                        Toast.makeText(requireContext(), "Google sign in failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Google sign in failed",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -79,7 +84,7 @@ class LoginTabFragment :Fragment() {
         }
 
         authVM.isLoginBtnPressed.observe(requireActivity(), {
-            if(it){
+            if (it) {
                 validate()
             }
         })
@@ -105,55 +110,67 @@ class LoginTabFragment :Fragment() {
     private fun loginWithFacebook() {
         callbackManager = CallbackManager.Factory.create()
         LoginManager.getInstance().logInWithReadPermissions(this, setOf("public_profile", "email"))
-        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult?) {
-                loginResult?.let {
-                    Log.d("facebook", it.accessToken.token)
-                    val request = GraphRequest.newMeRequest(loginResult.accessToken) { _, response ->
-                        val json = response.jsonObject
-                        try {
-                            if (json != null) {
-                                //val data = json.getJSONObject("picture").getJSONObject("data")
-                                //val name = json.getString("name")
-                                val email = json.getString("email")
-                                //val picUrl = data.getString("url")
+        LoginManager.getInstance()
+            .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult?) {
+                    loginResult?.let {
+                        Log.d("facebook", it.accessToken.token)
+                        val request =
+                            GraphRequest.newMeRequest(loginResult.accessToken) { _, response ->
+                                val json = response.jsonObject
+                                try {
+                                    if (json != null) {
+                                        //val data = json.getJSONObject("picture").getJSONObject("data")
+                                        //val name = json.getString("name")
+                                        val email = json.getString("email")
+                                        //val picUrl = data.getString("url")
 
-                                // authVM.login(AuthType.Facebook, loginResult.accessToken.token)
+                                        // authVM.login(AuthType.Facebook, loginResult.accessToken.token)
 
-                                Firebase.auth.fetchSignInMethodsForEmail(email).addOnCompleteListener { signInResponse ->
-                                    if (signInResponse.isSuccessful && (signInResponse.result.signInMethods.isNullOrEmpty() || signInResponse.result.signInMethods?.first() == "facebook.com")) {
-                                         // authVM.login(AuthType.Facebook, loginResult.accessToken.token)
-                                    } else {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Email Registered before!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        Firebase.auth.fetchSignInMethodsForEmail(email)
+                                            .addOnCompleteListener { signInResponse ->
+                                                if (signInResponse.isSuccessful && (signInResponse.result.signInMethods.isNullOrEmpty() || signInResponse.result.signInMethods?.first() == "facebook.com")) {
+                                                    // authVM.login(AuthType.Facebook, loginResult.accessToken.token)
+                                                } else {
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        "Email Registered before!",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            }
+
                                     }
+                                } catch (e: JSONException) {
                                 }
-
                             }
-                        } catch (e: JSONException) {
-                        }
                     }
                 }
-            }
 
-            override fun onCancel() {
-                Toast.makeText(requireActivity(), "Facebook login cancelled", Toast.LENGTH_SHORT).show()
-            }
+                override fun onCancel() {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Facebook login cancelled",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-            override fun onError(error: FacebookException?) {
-                Toast.makeText(requireActivity(), "Facebook login failed: ${error.toString()}", Toast.LENGTH_SHORT).show()
-            }
+                override fun onError(error: FacebookException?) {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Facebook login failed: ${error.toString()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-        })
+            })
     }
 
-    private fun validate(){
+    private fun validate() {
         when {
             binding.edEmail.length() == 0 -> binding.tiEmail.error = getString(R.string.Required)
-            !(isEmailValid(binding.edEmail.text.toString())) -> binding.tiEmail.error = getString(R.string.require_email)
+            !(isEmailValid(binding.edEmail.text.toString())) -> binding.tiEmail.error =
+                getString(R.string.require_email)
             binding.edPassword.length() == 0 -> binding.tiPassword.error =
                 getString(R.string.Required)
             binding.edPassword.length() < 8 -> binding.tiPassword.error =
@@ -172,7 +189,7 @@ class LoginTabFragment :Fragment() {
         return matcher.matches()
     }
 
-    private fun onEditTextChanged(){
+    private fun onEditTextChanged() {
         binding.edEmail.addTextChangedListener {
             binding.tiEmail.error = null
         }

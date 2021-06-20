@@ -20,7 +20,7 @@ class MessageViewModel(context: Context, val chatID: String) : ViewModel() {
     var isOnline: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
-        val messageDao = ShopLexDataBase.getDatabase(context).shoplexDao()
+        val messageDao = ShopLexDataBase.getDatabase(context).shopLexDao()
         messageRepo = MessageRepo(messageDao, chatID)
         readAllMessage = messageRepo.readAllMessage
         listenToOnlineUser()

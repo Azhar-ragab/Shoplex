@@ -1,7 +1,6 @@
 package com.shoplex.shoplex.model.extra
 
 import android.annotation.SuppressLint
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage

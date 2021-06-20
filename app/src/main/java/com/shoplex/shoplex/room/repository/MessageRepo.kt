@@ -4,19 +4,19 @@ import androidx.lifecycle.LiveData
 import com.shoplex.shoplex.model.pojo.Message
 import com.shoplex.shoplex.room.data.ShopLexDao
 
-class MessageRepo(private val messageDao: ShopLexDao, val chatID : String) {
+class MessageRepo(private val messageDao: ShopLexDao, val chatID: String) {
 
-    val readAllMessage : LiveData<List<Message>> = messageDao.readAllMessage(chatID)
+    val readAllMessage: LiveData<List<Message>> = messageDao.readAllMessage(chatID)
 
-    suspend fun addMessage(rightMessage : Message){
+    suspend fun addMessage(rightMessage: Message) {
         messageDao.addMessage(rightMessage)
     }
 
-    fun setSent(messageID: String){
+    fun setSent(messageID: String) {
         messageDao.setSent(messageID)
     }
 
-    fun setReadMessage(messageID: String){
+    fun setReadMessage(messageID: String) {
         messageDao.setReadMessage(messageID)
     }
 }

@@ -9,12 +9,11 @@ import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Cart
 import com.shoplex.shoplex.model.pojo.Favorite
 import com.shoplex.shoplex.model.pojo.User
-import com.shoplex.shoplex.room.data.ShopLexDao
 import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import kotlinx.coroutines.launch
 
-interface UserActionListener {
+interface AuthListener {
     fun showIndicator(){}
     fun hideIndicator(){}
 
@@ -42,13 +41,13 @@ interface UserActionListener {
         UserInfo.location = user.location
         UserInfo.address = user.address
         UserInfo.phone = user.phone
-        UserInfo.favouriteList = user.favouriteList
-        UserInfo.cartList = user.cartList
         (context as AppCompatActivity).lifecycleScope.launch {
-            FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shoplexDao()).syncProducts(context)
+            FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shopLexDao()).syncProducts(context)
         }
         UserInfo.updateTokenID()
         UserInfo.saveUserInfo(context)
+        UserInfo.saveToRecentVisits()
+        UserInfo.saveNotification(context, true)
     }
 
     fun onLoginSuccess(context: Context, user: User){

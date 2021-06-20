@@ -5,32 +5,29 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Task
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityMapsBinding
 import com.shoplex.shoplex.model.enumurations.LocationAction
-import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.maps.LocationManager
-import java.util.*
-import kotlin.collections.ArrayList
-
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    companion object{
-        val MAPS_CODE = 202
-        val LOCATION_ACTION = "LOCATION_ACTION"
-        val ADDRESS = "ADDRESS"
-        val LOCATION = "LOCATION"
-        val STORE_LOCATIONS = "STORE_LOCATIONS"
+    companion object {
+        private const val REQUEST_CODE = 101
+        const val MAPS_CODE = 202
+        const val LOCATION_ACTION = "LOCATION_ACTION"
+        const val ADDRESS = "ADDRESS"
+        const val LOCATION = "LOCATION"
+        const val STORE_LOCATIONS = "STORE_LOCATIONS"
     }
 
     private lateinit var mGoogleMap: GoogleMap
@@ -38,7 +35,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationManager: LocationManager
     private var currentLocation: Location? = null
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-    private val REQUEST_CODE = 101
+
     private lateinit var storeName: String
     private lateinit var locationAction: LocationAction
     private lateinit var storeLocations: ArrayList<LatLng>
@@ -51,33 +48,42 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         requestPermission()
-        if (intent.getStringExtra(LOCATION_ACTION) == LocationAction.Add.toString()) {
-            locationAction = LocationAction.Add
-        } else if (intent.getStringExtra(LOCATION_ACTION) == LocationAction.ShowStores.toString()) {
-            locationAction = LocationAction.ShowStores
-            storeLocations = intent.getParcelableArrayListExtra<Location>(STORE_LOCATIONS) as ArrayList<LatLng>
-        } else if (intent.getStringExtra(LOCATION_ACTION) == LocationAction.Change.toString()) {
-            locationAction = LocationAction.Change
-            location = intent.getParcelableExtra<com.shoplex.shoplex.model.pojo.Location>(LOCATION) as com.shoplex.shoplex.model.pojo.Location
-        } else {
-            storeName = intent.getStringExtra(getString(R.string.storename)).toString()
-            //latitude = intent.getDoubleExtra(getString(R.string.locationLat), 21.139)
-            //longitude = intent.getDoubleExtra(getString(R.string.locationLang), 123.21271363645793)
+        when {
+            intent.getStringExtra(LOCATION_ACTION) == LocationAction.Add.toString() -> {
+                locationAction = LocationAction.Add
+            }
+            intent.getStringExtra(LOCATION_ACTION) == LocationAction.ShowStores.toString() -> {
+                locationAction = LocationAction.ShowStores
+                storeLocations =
+                    intent.getParcelableArrayListExtra<Location>(STORE_LOCATIONS) as ArrayList<LatLng>
+            }
+            intent.getStringExtra(LOCATION_ACTION) == LocationAction.Change.toString() -> {
+                locationAction = LocationAction.Change
+                location =
+                    intent.getParcelableExtra<com.shoplex.shoplex.model.pojo.Location>(LOCATION) as com.shoplex.shoplex.model.pojo.Location
+            }
+            else -> {
+                storeName = intent.getStringExtra(getString(R.string.storename)).toString()
+            }
         }
 
         binding.btnOK.setOnClickListener {
             when (locationAction) {
                 LocationAction.Add, LocationAction.Change -> addNewLocation()
-                //LocationAction.ShowStores -> showStoresLocations()
+                LocationAction.ShowRoute -> TODO()
+                LocationAction.ShowStores -> TODO()
             }
             finish()
 
         }
     }
 
-    fun addNewLocation(){
+    fun addNewLocation() {
         setResult(RESULT_OK, Intent().apply {
-            val selectedLocation = com.shoplex.shoplex.model.pojo.Location(locationManager.selectedLocation.latitude, locationManager.selectedLocation.longitude)
+            val selectedLocation = com.shoplex.shoplex.model.pojo.Location(
+                locationManager.selectedLocation.latitude,
+                locationManager.selectedLocation.longitude
+            )
             val address = locationManager.getAddress(
                 com.shoplex.shoplex.model.pojo.Location(
                     selectedLocation.latitude,
@@ -89,7 +95,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         })
     }
 
-    fun showStoresLocations(){
+    fun showStoresLocations() {
         locationManager.addMarkers(storeLocations)
     }
 
@@ -102,7 +108,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
@@ -111,11 +116,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 ), REQUEST_CODE
             )
         } else {
-            var task: Task<Location> = mFusedLocationClient.lastLocation
+            val task: Task<Location> = mFusedLocationClient.lastLocation
             task.addOnSuccessListener { location ->
                 val mapFragment = supportFragmentManager
                     .findFragmentById(R.id.mapFragment) as SupportMapFragment
-                mapFragment.getMapAsync( this)
+                mapFragment.getMapAsync(this)
                 currentLocation = location
             }
         }
@@ -125,24 +130,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mGoogleMap = googleMap
         locationManager = LocationManager.getInstance(mGoogleMap, this)
 
-        if(locationAction == LocationAction.Change) {
+        if (locationAction == LocationAction.Change) {
             currentLocation?.latitude = location.latitude
             currentLocation?.longitude = location.longitude
         }
 
         locationManager.addMarker(currentLocation, locationAction != LocationAction.ShowStores)
 
-        if(locationAction == LocationAction.ShowStores)
+        if (locationAction == LocationAction.ShowStores)
             showStoresLocations()
-        // locationManager.addMarkers()
-
-        //val start = locationManager.alexandria.capital
-        //val end = LatLng(31.1467777,30.9073034)
-
-        // locationManager.launchGoogleMaps(start)
-        // locationManager.addMarkers(locationManager.alexandria.coordinates)
-
-        // locationManager.findRoutes(start, end)
     }
 
     override fun onRequestPermissionsResult(

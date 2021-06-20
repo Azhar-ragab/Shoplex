@@ -6,15 +6,15 @@ import com.google.firebase.firestore.ServerTimestamp
 import com.shoplex.shoplex.model.enumurations.Plan
 import java.util.*
 
-data class Premium(val plan: Plan? = null,
-                   val premiumDays: Int = 0,
-                   @ServerTimestamp val premiumStart: Date? = null
+data class Premium(
+    val plan: Plan? = null,
+    val premiumDays: Int = 0,
+    @ServerTimestamp val premiumStart: Date? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         plan = Plan.valueOf(parcel.readString().toString()),
         parcel.readInt(),
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(plan?.name)

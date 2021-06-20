@@ -3,17 +3,14 @@ package com.shoplex.shoplex.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shoplex.shoplex.model.firebase.OrdersDBModel
-import com.shoplex.shoplex.model.interfaces.INotifyMVP
+import com.shoplex.shoplex.model.interfaces.ProductsListener
 import com.shoplex.shoplex.model.pojo.Order
 
-class OrdersVM: ViewModel , INotifyMVP {
+class OrdersVM: ViewModel(), ProductsListener {
 
     private val ordersDBModel = OrdersDBModel(this)
     var orders: MutableLiveData<ArrayList<Order>> = MutableLiveData()
     var lastOrders:MutableLiveData<ArrayList<Order>> = MutableLiveData()
-    constructor(){
-
-    }
 
     fun addOrder(order: Order){
         ordersDBModel.addOrder(order)

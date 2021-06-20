@@ -8,7 +8,7 @@ import com.shoplex.shoplex.model.pojo.Message
 import com.shoplex.shoplex.room.viewmodel.MessageViewModel
 import com.xwray.groupie.databinding.BindableItem
 
-class RightMessageItem(val message: Message, private val messageVM: MessageViewModel) : BindableItem<ChatItemRightBinding>(){
+class RightMessageItem(val message: Message, private val messageVM: MessageViewModel) : BindableItem<ChatItemRightBinding>() {
 
     override fun bind(binding: ChatItemRightBinding, position: Int) {
         binding.message = message
@@ -32,7 +32,5 @@ class RightMessageItem(val message: Message, private val messageVM: MessageViewM
         }
     }
 
-    override fun getLayout(): Int {
-        return R.layout.chat_item_right
-    }
+    override fun getLayout(): Int = R.layout.chat_item_right
 }

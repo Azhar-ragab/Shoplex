@@ -17,4 +17,5 @@ data class Chat(
     @Exclude @set:Exclude
     var unreadStoreMessages: Int = 0,
     var productIDs: ArrayList<String> = arrayListOf(String()),
+    val storeImage: String = ""
 )

@@ -14,25 +14,16 @@ class PagerAdapter(fm: FragmentManager, val context: Context, val productId:Stri
     }
 
     override fun getItem(position: Int): Fragment {
-        when(position) {
-            0 -> {
-                return DetailsFragment(productId)
-            }
-            else -> {
-                return ReviewFragment(productId)
-            }
+        return when (position) {
+            0 -> DetailsFragment(productId)
+            else -> ReviewFragment(productId)
         }
     }
+
     override fun getPageTitle(position: Int): CharSequence? {
-        when(position) {
-            0 -> {
-                return this.context.getString(R.string.Products)
-            }
-            else -> {
-                return this.context.getString(R.string.Reviews)
-            }
+        return when (position) {
+            0 -> this.context.getString(R.string.Products)
+            else -> this.context.getString(R.string.Reviews)
         }
     }
-
-
 }

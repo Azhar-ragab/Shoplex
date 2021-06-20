@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="product"
             type="com.shoplex.shoplex.model.pojo.Product" />
@@ -62,7 +62,7 @@
                     android:layout_marginEnd="4dp"
                     android:background="@color/white"
                     android:backgroundTint="@color/white"
-                    android:clickable="true"
+                    android:visibility="@{(product.quantity != 0? View.VISIBLE: View.INVISIBLE)}"
                     app:fabCustomSize="40dp"
 
                     app:layout_constraintBottom_toBottomOf="@+id/img_product"
@@ -120,7 +120,7 @@
                     android:drawablePadding="@dimen/margin_4"
                     android:gravity="center_vertical"
                     android:paddingEnd="@dimen/padding_8"
-                    android:text="@{`` + (product.rate == null? `N/A` : product.rate)}"
+                    android:text="@{`` + (product.rate == null? @string/NA : product.rate)}"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:drawableStartCompat="@drawable/star_24"
@@ -131,8 +131,8 @@
                     android:id="@+id/tv_sold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/sold(product.sold, product.quantity)}"
-                    android:textColor="@color/gray"
+                    android:text="@{(product.quantity != 0? @string/sold(product.sold, product.quantity): @string/outOfStock)}"
+                    android:textColor="@{(product.quantity != 0?@color/gray: @color/red)}"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_review"
                     app:layout_constraintEnd_toEndOf="@+id/tv_product_name"
@@ -173,8 +173,8 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="4dp"
-
                     android:layout_marginEnd="4dp"
+                    android:visibility="@{(product.quantity != 0? View.VISIBLE: View.INVISIBLE)}"
                     android:background="@drawable/ic_favorite"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

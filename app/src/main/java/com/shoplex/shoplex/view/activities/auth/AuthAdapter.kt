@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.shoplex.shoplex.R
 
-class AuthAdapter(fm:FragmentManager, val context:Context) : FragmentPagerAdapter(fm) {
+class AuthAdapter(fm: FragmentManager, val context: Context) : FragmentPagerAdapter(fm) {
     override fun getCount(): Int {
         return 2
     }

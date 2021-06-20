@@ -24,13 +24,9 @@ class ReviewAdapter(val reviews: ArrayList<Review>) :
     inner class ReviewViewHolder(val binding: ReveiwItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(review: Review) {
-            // Your custom view code here
             binding.review = review
             Glide.with(itemView.context).load(review.image).into(binding.imgHead)
-//        binding.tvCustomerName.text = review.customerName
-             binding.ratingBar.rating = review.rate
-//            binding.tvDate.text = review.date.toString()
-//            binding.tvComment.text = review.comment.toString()
+            binding.ratingBar.rating = review.rate
         }
     }
 }

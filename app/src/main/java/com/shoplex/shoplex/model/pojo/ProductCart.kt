@@ -10,7 +10,6 @@ import com.google.firebase.firestore.Exclude
 
 @Entity(tableName = "Cart")
 data class ProductCart(
-    // var quantity: Int = 1,
     @Nullable
     @Ignore
     var specialDiscount: SpecialDiscount? = null,
@@ -28,17 +27,15 @@ data class ProductCart(
     @PrimaryKey
     var id: String = ""
 ): Product(), Parcelable {
-    //var cartQuantity: Int = 1
-    // var specialDiscount: SpecialDiscount? = null
-    // var shipping: Int = 0
 
-    constructor(product: Product, cartQuantity: Int, specialDiscount: SpecialDiscount?):
+    constructor(product: Product, cartQuantity: Int, specialDiscount: SpecialDiscount?) :
             this(
                 specialDiscount,
                 cartQuantity,
                 product = product
             )
-    init{
+
+    init {
         this.id = product.productID
         this.productID = product.productID
         this.storeID = product.storeID
@@ -56,14 +53,10 @@ data class ProductCart(
         this.date = product.date
         this.images = product.images
         this.quantity = product.quantity
-        this.specialDiscount = specialDiscount
-        this.shipping = shipping
         this.storeLocation = product.storeLocation
-        this.cartQuantity = cartQuantity
     }
 
     constructor(parcel: Parcel) : this() {
-        //cartQuantity = parcel.readInt()
         quantity = parcel.readInt()
         specialDiscount = parcel.readParcelable(SpecialDiscount::class.java.classLoader)
     }
@@ -88,5 +81,4 @@ data class ProductCart(
             return arrayOfNulls(size)
         }
     }
-
 }

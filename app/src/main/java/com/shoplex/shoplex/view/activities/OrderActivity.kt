@@ -2,34 +2,32 @@ package com.shoplex.shoplex.view.activities
 
 import android.app.NotificationManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityOrderBinding
-import com.shoplex.shoplex.model.adapter.OrderAdapter
-import com.shoplex.shoplex.viewmodel.OrdersVM
-import androidx.lifecycle.Observer
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.databinding.DialogAddReviewBinding
+import com.shoplex.shoplex.model.adapter.OrderAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Review
-
+import com.shoplex.shoplex.viewmodel.OrdersVM
 
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
-    private lateinit  var orderAdapter: OrderAdapter
-    private lateinit  var lastOrderAdapter: OrderAdapter
+    private lateinit var orderAdapter: OrderAdapter
+    private lateinit var lastOrderAdapter: OrderAdapter
     private lateinit var ordersVM: OrdersVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderBinding.inflate(layoutInflater)
-        this.ordersVM= OrdersVM()
+        this.ordersVM = ViewModelProvider(this).get(OrdersVM::class.java)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarorder)
         supportActionBar?.apply {
@@ -37,13 +35,13 @@ class OrderActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
 
-        if (supportActionBar != null){
+        if (supportActionBar != null) {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             supportActionBar!!.setDisplayShowHomeEnabled(true)
         }
 
         ordersVM.getCurrentOrders()
-        ordersVM.orders.observe(this, Observer{ orders ->
+        ordersVM.orders.observe(this, { orders ->
             orderAdapter = OrderAdapter(orders)
             binding.rvCurrentOrders.adapter = orderAdapter
         })
@@ -58,18 +56,18 @@ class OrderActivity : AppCompatActivity() {
             Context.NOTIFICATION_SERVICE
         ) as NotificationManager
 
-        if(intent.hasExtra("isNoti")) {
+        if (intent.hasExtra("isNotification")) {
             val productId = intent.getStringExtra("productID")
             notificationManager.cancel(100)
-            if(productId != null)
-            showAddReviewDialog(productId)
+            if (productId != null)
+                showAddReviewDialog(productId)
         }
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // handle arrow click here
-        if (item.itemId == android.R.id.home) {
-            finish() // close this activity and return to preview activity (if there is any)
-        }
+
+        if (item.itemId == android.R.id.home) finish()
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -78,25 +76,28 @@ class OrderActivity : AppCompatActivity() {
         val reviewBtnSheetDialog = BottomSheetDialog(binding.root.context)
         reviewBtnSheetDialog.setContentView(binding.root)
 
-        FirebaseReferences.productsRef.document(productId).collection("Reviews").document(UserInfo.userID!!).get().addOnSuccessListener {
-            if(it.exists()){
-                val review: Review = it.toObject()!!
-                binding.rbAddReview.rating = review.rate
-                binding.edReview.setText(review.comment)
-                binding.btnSendReview.text = "Update Review"
+        FirebaseReferences.productsRef.document(productId).collection("Reviews")
+            .document(UserInfo.userID!!).get().addOnSuccessListener {
+                if (it.exists()) {
+                    val review: Review = it.toObject()!!
+                    binding.rbAddReview.rating = review.rate
+                    binding.edReview.setText(review.comment)
+                    binding.btnSendReview.text = getString(R.string.UpdateReview)
+                }
+                reviewBtnSheetDialog.show()
             }
-            reviewBtnSheetDialog.show()
-        }
 
         binding.btnSendReview.setOnClickListener {
-            //val numStats = binding.rbAddReview.numStars
             val rate: Float = binding.rbAddReview.rating
             val reviewMsg = binding.edReview.text.toString()
             val review = Review(
+                productId,
                 UserInfo.name,
-                UserInfo.image, productId ,reviewMsg, Timestamp.now().toDate(), rate)
+                UserInfo.image, reviewMsg, rate
+            )
             FirebaseReferences.productsRef.document(productId).collection("Reviews").document(
-                UserInfo.userID!!).set(review)
+                UserInfo.userID!!
+            ).set(review)
             reviewBtnSheetDialog.dismiss()
         }
     }

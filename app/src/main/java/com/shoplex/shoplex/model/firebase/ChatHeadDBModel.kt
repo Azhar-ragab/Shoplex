@@ -29,12 +29,13 @@ class ChatHeadDBModel(private val listener: ChatsListener) {
                                             chat.chatID,
                                             product.name,
                                             product.price,
-                                            product.images.first(),
+                                            product.images.firstOrNull(),
                                             chat.userID,
                                             chat.storeName,
                                             chat.unreadCustomerMessages,
                                             isStoreOnline = chat.isStoreOnline,
-                                            storePhone = chat.storePhone
+                                            storePhone = chat.storePhone,
+                                            storeImage = chat.storeImage
                                         )
                                         setListener(chatHead, chatHeads.size)
                                         chatHeads.add(chatHead)

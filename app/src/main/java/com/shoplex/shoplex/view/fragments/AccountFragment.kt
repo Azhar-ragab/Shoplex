@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.BuildConfig
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.DialogAddReportBinding
@@ -27,14 +25,13 @@ import com.shoplex.shoplex.view.activities.auth.AuthActivity
 import com.shoplex.shoplex.viewmodel.AuthVM
 
 class AccountFragment : Fragment() {
-    lateinit var  binding: FragmentAccountBinding
+    lateinit var binding: FragmentAccountBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
 
-           binding = FragmentAccountBinding.inflate(inflater, container, false)
+        binding = FragmentAccountBinding.inflate(inflater, container, false)
 
         if (UserInfo.userID == null)
             binding.btnLogout.text = getString(R.string.login)
@@ -64,13 +61,12 @@ class AccountFragment : Fragment() {
             }
         }
         binding.switchNotification.setOnClickListener {
-            if(binding.switchNotification.isChecked){
-                // Toast.makeText(context,getString(R.string.checked),Toast.LENGTH_SHORT).show()
-                FirebaseReferences.notificationTokensRef.document(UserInfo.userID!!).update("notification", true)
-            }
-            else{
-                // Toast.makeText(context,getString(R.string.notchecked),Toast.LENGTH_SHORT).show()
-                FirebaseReferences.notificationTokensRef.document(UserInfo.userID!!).update("notification", false)
+            if (binding.switchNotification.isChecked) {
+                FirebaseReferences.notificationTokensRef.document(UserInfo.userID!!)
+                    .update("notification", true)
+            } else {
+                FirebaseReferences.notificationTokensRef.document(UserInfo.userID!!)
+                    .update("notification", false)
             }
         }
         binding.cardReport.setOnClickListener {
@@ -85,37 +81,39 @@ class AccountFragment : Fragment() {
         builder?.setTitle(getString(R.string.logOut))
         builder?.setMessage(getString(R.string.logoutMessage))
 
-        builder?.setPositiveButton(getString(R.string.yes)) { dialog, which ->
-            //Firebase.auth.signOut()
-            //getActivity()?.finish()
+        builder?.setPositiveButton(getString(R.string.yes)) { _, _ ->
             AuthVM.logout(requireContext())
         }
 
-        builder?.setNegativeButton(getString(R.string.no)) { dialog, which ->
+        builder?.setNegativeButton(getString(R.string.no)) { dialog, _ ->
             dialog.cancel()
         }
 
         builder?.show()
     }
-    private fun showAddReportDialog() {
-        val dialogbinding = DialogAddReportBinding.inflate(layoutInflater)
-        val reportBtnSheetDialog = BottomSheetDialog(dialogbinding.root.context)
 
-        dialogbinding.btnSendReport.setOnClickListener {
-            val reportMsg = dialogbinding.edReport.text.toString()
-            val report = Report("Client",
-                reportMsg, Timestamp.now().toDate())
+    private fun showAddReportDialog() {
+        val dialogBinding = DialogAddReportBinding.inflate(layoutInflater)
+        val reportBtnSheetDialog = BottomSheetDialog(dialogBinding.root.context)
+
+        dialogBinding.btnSendReport.setOnClickListener {
+            val reportMsg = dialogBinding.edReport.text.toString()
+            val report = Report(
+                "Client",
+                reportMsg, Timestamp.now().toDate()
+            )
             FirebaseReferences.ReportRef.add(report)
             reportBtnSheetDialog.dismiss()
-            Snackbar.make(requireView(), "Your Report has sent Thank You",Snackbar.LENGTH_LONG).show()
+            Snackbar.make(requireView(), "Your Report has sent Thank You", Snackbar.LENGTH_LONG)
+                .show()
         }
-            reportBtnSheetDialog.setContentView(dialogbinding.root)
-            reportBtnSheetDialog.show()
+        reportBtnSheetDialog.setContentView(dialogBinding.root)
+        reportBtnSheetDialog.show()
 
-        }
+    }
 
-   //share application
-    private fun shareSuccess(){
+    //share application
+    private fun shareSuccess() {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Shoplex")
@@ -128,22 +126,23 @@ class AccountFragment : Fragment() {
     }
 
     //rate application
-    private fun rateSuccess(){
-        val uri: Uri = Uri.parse("market://details?id="+ activity?.getPackageName())
+    private fun rateSuccess() {
+        val uri: Uri = Uri.parse("market://details?id=" + activity?.packageName)
         val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-        // To count with Play market backstack, After pressing back button,
-        // to taken back to our application, we need to add following flags to intent.
-        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+        goToMarket.addFlags(
+            Intent.FLAG_ACTIVITY_NO_HISTORY or
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        )
         try {
             startActivity(goToMarket)
         } catch (e: ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW,
-                Uri.parse("http://play.google.com/store/apps/details?id="+ activity?.getPackageName())))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + activity?.packageName)
+                )
+            )
         }
     }
-
-
-
-    }
+}

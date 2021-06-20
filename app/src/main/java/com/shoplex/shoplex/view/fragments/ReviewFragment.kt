@@ -1,13 +1,11 @@
 package com.shoplex.shoplex.view.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import androidx.lifecycle.Observer
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.Timestamp
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.DialogAddReviewBinding
 import com.shoplex.shoplex.databinding.FragmentReviewBinding
@@ -17,7 +15,7 @@ import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Review
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
-class ReviewFragment(val productId: String) : Fragment() {
+class ReviewFragment(private val productId: String) : Fragment() {
 
     lateinit var binding: FragmentReviewBinding
     private lateinit var reviewAdapter: ReviewAdapter
@@ -26,8 +24,8 @@ class ReviewFragment(val productId: String) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
+
         binding = FragmentReviewBinding.inflate(inflater, container, false)
         this.productsVM = ProductsVM()
         productsVM.getReviewByProductId(productId)
@@ -39,7 +37,7 @@ class ReviewFragment(val productId: String) : Fragment() {
 
         productsVM.reviewStatistics.observe(viewLifecycleOwner, {
             binding.reviewStat = it
-            if(it.total != 0) {
+            if (it.total != 0) {
                 binding.fiveStars.progress = ((it.fiveStars.toFloat() / it.total) * 100).toInt()
                 binding.fourStars.progress = ((it.fourStars.toFloat() / it.total) * 100).toInt()
                 binding.threeStars.progress = ((it.threeStars.toFloat() / it.total) * 100).toInt()
@@ -48,29 +46,25 @@ class ReviewFragment(val productId: String) : Fragment() {
             }
         })
 
-        /*
-        productsVM.reviewStatistics.observe(viewLifecycleOwner, {
-
-        })
-        */
-
         binding.btnSheetAddReview.setOnClickListener {
-            showAddReviewRialog()
+            showAddReviewDialog()
         }
         return binding.root
     }
 
-    private fun showAddReviewRialog() {
+    private fun showAddReviewDialog() {
         val binding = DialogAddReviewBinding.inflate(layoutInflater)
         val reviewBtnSheetDialog = BottomSheetDialog(binding.root.context)
 
         binding.btnSendReview.setOnClickListener {
-            val numStats = binding.rbAddReview.numStars
             val rate: Float = binding.rbAddReview.rating
             val reviewMsg = binding.edReview.text.toString()
-            val review = Review(UserInfo.name,
-                UserInfo.image,productId ,reviewMsg, Timestamp.now().toDate(), rate)
-            FirebaseReferences.productsRef.document(productId).collection(getString(R.string.Reviews)).add(review)
+            val review = Review(
+                productId, UserInfo.name,
+                UserInfo.image, reviewMsg, rate
+            )
+            FirebaseReferences.productsRef.document(productId)
+                .collection(getString(R.string.Reviews)).add(review)
             reviewBtnSheetDialog.dismiss()
         }
         reviewBtnSheetDialog.setContentView(binding.root)

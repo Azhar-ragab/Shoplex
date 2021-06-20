@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.shoplex.shoplex.Property
+import com.shoplex.shoplex.model.pojo.Property
 import com.shoplex.shoplex.R
 
 class PropertyAdapter(private val properties: ArrayList<Property>, private val context: Context) :
@@ -26,27 +26,22 @@ class PropertyAdapter(private val properties: ArrayList<Property>, private val c
         return ViewHolder(view)
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val item = properties[position]
 
         viewHolder.nameProp.text = item.name
         val inflater = LayoutInflater.from(context)
-        for (i in item.values) {
+        for (value in item.values) {
             val chipItem = inflater.inflate(R.layout.chip_item, null, false) as Chip
-            chipItem.text = i
+            chipItem.text = value
             chipItem.setOnCloseIconClickListener {
                 viewHolder.chipValues.removeView(it)
             }
             viewHolder.chipValues.addView(chipItem)
         }
-
     }
 
-    override fun getItemCount(): Int {
-
-        return properties.size
-    }
+    override fun getItemCount(): Int = properties.size
 }
 
 

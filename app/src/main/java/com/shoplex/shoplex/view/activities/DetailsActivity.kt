@@ -22,9 +22,9 @@ class DetailsActivity : AppCompatActivity() {
                 binding.viewPager.currentItem = tab.position
                 title = tab.text
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-
     }
 }

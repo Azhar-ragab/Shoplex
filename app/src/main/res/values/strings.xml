@@ -112,6 +112,8 @@
     <string name="discountFilter">Discount</string>
     <string name="sort">Sorting</string>
     <string name="nearest_shop">Nearest Shop</string>
+    <string name="outOfStock">Out Of Stock</string>
+    <string name="NA">N/A</string>
 
     <string-array name="initial_slider_values">
         <item>10</item>
@@ -184,6 +186,7 @@
     <string name="actionstring">actionstring</string>
     <string name="canceled">com.example.cancel</string>
     <string name="Cancel">Cancel</string>
+    <string name="UpdateReview">Update Review</string>
     <string name="Review">Review</string>
     <string name="android">android.resource://</string>
     <string name="splash">/</string>

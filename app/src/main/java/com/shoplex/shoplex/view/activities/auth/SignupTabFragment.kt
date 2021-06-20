@@ -20,7 +20,7 @@ import com.shoplex.shoplex.viewmodel.AuthVM
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class SignupTabFragment: Fragment() {
+class SignupTabFragment : Fragment() {
     private lateinit var binding: SignupTabFragmentBinding
     private lateinit var authVM: AuthVM
 
@@ -67,7 +67,7 @@ class SignupTabFragment: Fragment() {
 
 
         authVM.isSignupBtnPressed.observe(requireActivity(), {
-            if(it){
+            if (it) {
                 authVM.isSignupValid.value = checkEditText()
                 authVM.isLoginBtnPressed.value = false
             }
@@ -79,7 +79,7 @@ class SignupTabFragment: Fragment() {
             })
         }
 
-        binding.imgSignup.setOnClickListener{
+        binding.imgSignup.setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
             intent.type = "image/*"
@@ -91,7 +91,7 @@ class SignupTabFragment: Fragment() {
         return binding.root
     }
 
-    private fun onEditTextChanged(){
+    private fun onEditTextChanged() {
         binding.edName.addTextChangedListener {
             binding.tiName.error = null
         }
@@ -107,7 +107,7 @@ class SignupTabFragment: Fragment() {
         binding.edPhone.addTextChangedListener {
             binding.tiPhone.error = null
         }
-        binding.tvLocation.addTextChangedListener{
+        binding.tvLocation.addTextChangedListener {
             binding.tvLocation.error = null
         }
     }
@@ -140,7 +140,11 @@ class SignupTabFragment: Fragment() {
             !isValidMobile(binding.edPhone.text.toString()) -> binding.tiPhone.error =
                 "Please Enter Valid Mobile"
 
-            authVM.user.value?.address.isNullOrEmpty() || (authVM.user.value?.location?.latitude == 0.0 && authVM.user.value?.location?.longitude == 0.0) -> Toast.makeText(requireContext(),"Choose Your Location",Toast.LENGTH_LONG).show()
+            authVM.user.value?.address.isNullOrEmpty() || (authVM.user.value?.location?.latitude == 0.0 && authVM.user.value?.location?.longitude == 0.0) -> Toast.makeText(
+                requireContext(),
+                "Choose Your Location",
+                Toast.LENGTH_LONG
+            ).show()
 
             authVM.user.value?.image.isNullOrEmpty() -> Toast.makeText(
                 requireContext(),

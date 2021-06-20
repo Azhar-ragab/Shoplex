@@ -151,17 +151,17 @@
                         android:id="@+id/ratingBarFilter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_8"
+                        android:layout_marginEnd="@dimen/margin_8"
                         android:numStars="5"
                         android:progressBackgroundTint="@color/grey_font"
                         android:progressTint="@color/yellow"
-                        android:rating="4"
+                        android:rating="2.5"
                         android:saveEnabled="true"
-                        android:layout_marginStart="@dimen/margin_8"
-                        android:layout_marginEnd="@dimen/margin_8"
-                        app:layout_constraintEnd_toEndOf="@id/rsPrice"
                         app:layout_constraintBottom_toBottomOf="@id/cbRateFilter"
-                        app:layout_constraintStart_toStartOf="@+id/rsPrice"
+                        app:layout_constraintEnd_toEndOf="@id/rsPrice"
                         app:layout_constraintStart_toEndOf="@id/rsPrice"
+                        app:layout_constraintStart_toStartOf="@+id/rsPrice"
                         app:layout_constraintTop_toTopOf="@id/cbRateFilter">
 
                     </RatingBar>
@@ -201,13 +201,13 @@
                         android:layout_marginStart="@dimen/margin_8"
                         android:layout_marginEnd="@dimen/margin_16"
                         android:stepSize="2"
-                        android:value="20"
+                        android:value="10"
                         android:valueFrom="0.0"
                         android:valueTo="90.0"
+                        app:layout_constraintBottom_toBottomOf="@id/cbDiscountFilter"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/cbDiscountFilter"
-                        app:layout_constraintTop_toTopOf="@+id/cbDiscountFilter"
-                        app:layout_constraintBottom_toBottomOf="@id/cbDiscountFilter"/>
+                        app:layout_constraintTop_toTopOf="@+id/cbDiscountFilter" />
 
                     <CheckBox
                         android:id="@+id/cbDiscountFilter"

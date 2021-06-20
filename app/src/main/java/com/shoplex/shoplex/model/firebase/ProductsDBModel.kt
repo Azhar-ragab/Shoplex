@@ -6,12 +6,10 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.interfaces.INotifyMVP
+import com.shoplex.shoplex.model.interfaces.ProductsListener
 import com.shoplex.shoplex.model.pojo.*
-import java.util.*
-import kotlin.collections.ArrayList
 
-class ProductsDBModel(val notifier: INotifyMVP?) {
+class ProductsDBModel(val notifier: ProductsListener?) {
 
     fun getAllProducts(category: Category, filter: Filter, sort: Sort?) {
         var query: Query = FirebaseReferences.productsRef
@@ -21,9 +19,10 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
             query = query.whereGreaterThanOrEqualTo("newPrice", filter.lowPrice)
                 .whereLessThanOrEqualTo("newPrice", filter.highPrice)
                 //.orderBy("newPrice", Query.Direction.ASCENDING)
-
+/*
         if(filter.subCategory != null)
             query = query.whereIn("subCategory", filter.subCategory)
+        */
 
         if (filter.shops != null)
             query = query.whereIn("storeID", filter.shops)
@@ -54,6 +53,9 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
                 var product: Product? = document.toObject<Product>()
                 if (product != null) {
                     var pass = true
+
+                    if(filter.subCategory != null && filter.subCategory.contains(product.subCategory))
+                        pass = false
 
                     if(filter.rate != null && (product.rate == null || product.rate!! < filter.rate))
                         pass = false
@@ -95,7 +97,7 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
                         products.add(product)
                     }
                 }
-                this.notifier?.onAllAdvertismentsReady(products)
+                this.notifier?.onAllAdvertisementsReady(products)
             }
     }
 
@@ -109,7 +111,7 @@ class ProductsDBModel(val notifier: INotifyMVP?) {
                         reviews.add(review)
                     }
                 }
-                this.notifier?.onAllReviwsReady(reviews)
+                this.notifier?.onAllReviewsReady(reviews)
             }
     }
 

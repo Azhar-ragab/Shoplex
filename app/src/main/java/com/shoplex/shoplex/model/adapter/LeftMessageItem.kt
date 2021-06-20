@@ -18,7 +18,5 @@ class LeftMessageItem(private val chatID: String, val message: Message, private 
         }
     }
 
-    override fun getLayout(): Int {
-        return R.layout.chat_item_left
-    }
+    override fun getLayout(): Int = R.layout.chat_item_left
 }

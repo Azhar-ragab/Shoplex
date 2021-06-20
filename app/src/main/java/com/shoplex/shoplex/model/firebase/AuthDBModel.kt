@@ -4,8 +4,6 @@ package com.shoplex.shoplex.model.firebase
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -15,15 +13,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.shoplex.shoplex.model.enumurations.AuthType
 import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.interfaces.UserActionListener
+import com.shoplex.shoplex.model.interfaces.AuthListener
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
-import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
 
 
-class AuthDBModel(val listener: UserActionListener, val context: Context) {
+class AuthDBModel(val listener: AuthListener, val context: Context) {
     fun loginWithEmail(email: String, password: String) {
         Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -131,8 +126,6 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
             "Address",
             currentUser.phoneNumber ?: "",
             currentUser.photoUrl.toString(),
-            arrayListOf(),
-            arrayListOf(),
             authType
         )
 

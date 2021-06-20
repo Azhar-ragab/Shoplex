@@ -7,12 +7,11 @@ import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 
-
 @Database(entities = [ProductCart::class, ProductFavourite::class, Message::class, StoreLocationInfo::class], version = 1)
 @TypeConverters(Converter ::class)
 abstract class ShopLexDataBase : RoomDatabase(){
 
-    abstract fun shoplexDao() : ShopLexDao
+    abstract fun shopLexDao() : ShopLexDao
 
     companion object{
         @Volatile

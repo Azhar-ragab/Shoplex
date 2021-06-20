@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
@@ -35,7 +34,6 @@ import java.io.IOException
 class SummaryFragment : Fragment() {
     private lateinit var binding: FragmentSummaryBinding
     private lateinit var summaryAdapter: SummaryAdapter
-    // lateinit var checkout: Checkout
     private lateinit var checkoutVM: CheckoutVM
 
     private lateinit var paymentSheet: PaymentSheet
@@ -44,13 +42,10 @@ class SummaryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentSummaryBinding.inflate(inflater, container, false)
         binding.btnSummary.isEnabled = false
         checkoutVM = (activity as CheckOutActivity).checkoutVM
-
-        //checkout = checkoutVM.checkout.value!! //(activity as CheckOutActivity).checkout
 
         summaryAdapter = SummaryAdapter(checkoutVM.getAllProducts())
         binding.rvSummary.adapter = summaryAdapter
@@ -69,7 +64,7 @@ class SummaryFragment : Fragment() {
 
         checkoutVM.totalPrice.observe(viewLifecycleOwner, {
             binding.tvTotalPrice.text = "$it ${requireContext().getString(R.string.EGP)}"
-            if(checkoutVM.isAllProductsReady.value == true && checkoutVM.paymentMethod.value == PaymentMethod.Visa_Master){
+            if (checkoutVM.isAllProductsReady.value == true && checkoutVM.paymentMethod.value == PaymentMethod.Visa_Master) {
                 binding.btnSummary.isEnabled = false
                 fetchInitData(checkoutVM.totalPrice.value!!.toDouble())
             }
@@ -82,7 +77,7 @@ class SummaryFragment : Fragment() {
         })
 
         checkoutVM.paymentMethod.observe(viewLifecycleOwner, {
-            if(it == PaymentMethod.Visa_Master && checkoutVM.isAllProductsReady.value!!){
+            if (it == PaymentMethod.Visa_Master && checkoutVM.isAllProductsReady.value!!) {
                 binding.btnSummary.isEnabled = false
                 fetchInitData(checkoutVM.totalPrice.value!!.toDouble())
             }
@@ -90,29 +85,22 @@ class SummaryFragment : Fragment() {
         })
 
         checkoutVM.isAllProductsReady.observe(viewLifecycleOwner, {
-            if(it){
-                if(checkoutVM.paymentMethod.value == PaymentMethod.Visa_Master) {
+            if (it) {
+                if (checkoutVM.paymentMethod.value == PaymentMethod.Visa_Master) {
                     //binding.btnSummary.isEnabled = false
                     fetchInitData(checkoutVM.totalPrice.value!!.toDouble())
-                }else{
+                } else {
                     binding.btnSummary.isEnabled = true
                 }
             }
         })
 
-//        binding.tvSubtotalPrice.text = "${checkout.subTotalPrice} EGP"
-//        binding.tvDiscountPrice.text = "${checkout.totalDiscount} EGP"
-//        binding.tvShippingPrice.text = "${checkout.shipping} EGP"
-//        binding.tvTotalPrice.text = "${checkout.totalPrice} EGP"
-
         binding.btnSummary.setOnClickListener {
-            if(checkoutVM.paymentMethod.value == PaymentMethod.Visa_Master){
+            if (checkoutVM.paymentMethod.value == PaymentMethod.Visa_Master) {
                 presentPaymentSheet()
-            }
-            else{
+            } else {
                 execOrders()
             }
-            //startActivity(Intent(context,HomeActivity::class.java))
         }
 
         return binding.root
@@ -122,8 +110,8 @@ class SummaryFragment : Fragment() {
         super.onCreate(savedInstanceState)
         configPaymentMethod()
     }
-    
-    private fun configPaymentMethod(){
+
+    private fun configPaymentMethod() {
         PaymentConfiguration.init(requireContext(), STRIPE_PUBLISHABLE_KEY)
 
         paymentSheet = PaymentSheet(this) { result ->
@@ -132,7 +120,7 @@ class SummaryFragment : Fragment() {
 
     }
 
-    private fun execOrders(){
+    private fun execOrders() {
         binding.btnSummary.isEnabled = false
         val products = checkoutVM.getAllProducts()
         for (product in products) {
@@ -153,9 +141,9 @@ class SummaryFragment : Fragment() {
         }
     }
 
-    private fun deleteFromCart(productID: String){
-        if(UserInfo.userID != null) {
-            val repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(requireContext()).shoplexDao())
+    private fun deleteFromCart(productID: String) {
+        if (UserInfo.userID != null) {
+            val repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(requireContext()).shopLexDao())
             lifecycleScope.launch {
                 repo.deleteCart(productID)
                 FirebaseReferences.usersRef.document(UserInfo.userID!!)
@@ -163,7 +151,6 @@ class SummaryFragment : Fragment() {
                     .document("Cart")
                     .update("cartList", FieldValue.arrayRemove(productID))
             }
-
         }
     }
 
@@ -176,12 +163,9 @@ class SummaryFragment : Fragment() {
         val itemMap: MutableMap<String, Any> = HashMap()
         val itemList: MutableList<Map<String, Any>> = ArrayList()
         payMap["currency"] = "egp"
-
-        // itemMap["id"] = "photo_subscription"
         itemMap["amount"] = amount
         itemList.add(itemMap)
         payMap["items"] = itemList
-
 
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val json = Gson().toJson(payMap)
@@ -202,7 +186,8 @@ class SummaryFragment : Fragment() {
                 override fun onResponse(call: Call, response: Response) {
                     if (!response.isSuccessful) {
                         requireActivity().runOnUiThread {
-                            Toast.makeText(requireContext(), "Not Success", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Not Success", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     } else {
                         requireActivity().runOnUiThread {
@@ -212,9 +197,6 @@ class SummaryFragment : Fragment() {
                         val responseJson =
                             responseData?.let { JSONObject(it) } ?: JSONObject()
 
-
-                        //customerId = responseJson.getString("customer")
-                        //ephemeralKeySecret = responseJson.getString("ephemeralKey")
                         paymentIntentClientSecret = responseJson.getString("clientSecret")
 
                         requireActivity().runOnUiThread {
@@ -235,7 +217,7 @@ class SummaryFragment : Fragment() {
     private fun onPaymentSheetResult(
         paymentSheetResult: PaymentSheetResult
     ) {
-        when(paymentSheetResult) {
+        when (paymentSheetResult) {
             is PaymentSheetResult.Canceled -> {
                 Toast.makeText(
                     requireContext(),
@@ -254,7 +236,6 @@ class SummaryFragment : Fragment() {
             is PaymentSheetResult.Completed -> {
                 execOrders()
 
-                //requireActivity().finish()
                 Toast.makeText(
                     requireContext(),
                     "Payment Complete",
@@ -266,7 +247,7 @@ class SummaryFragment : Fragment() {
 
     private companion object {
         private const val BACKEND_URL = "https://evening-sands-34009.herokuapp.com/"
-        private const val STRIPE_PUBLISHABLE_KEY = "pk_test_51IzX9KFY0dskT72W2vHiMNJU0OGs9DukriXP1pfarCuYGkGPvZ8TaMRxxOK2W3WfQa1zO7JEOpiSqRya9BIn6okK00AZ4bRvHz"
+        private const val STRIPE_PUBLISHABLE_KEY =
+            "pk_test_51IzX9KFY0dskT72W2vHiMNJU0OGs9DukriXP1pfarCuYGkGPvZ8TaMRxxOK2W3WfQa1zO7JEOpiSqRya9BIn6okK00AZ4bRvHz"
     }
-
 }

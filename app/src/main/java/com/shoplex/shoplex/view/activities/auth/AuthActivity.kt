@@ -39,7 +39,7 @@ class AuthActivity : AppCompatActivity() {
             if (binding.viewPager.currentItem == 0) {
                 authVM.isLoginBtnPressed.value = true
                 authVM.isLoginValid.observe(this, {
-                    if(it){
+                    if (it) {
                         authVM.login(AuthType.Email)
                         authVM.isLoginValid.value = false
                     }
@@ -47,7 +47,7 @@ class AuthActivity : AppCompatActivity() {
             } else {
                 authVM.isSignupBtnPressed.value = true
                 authVM.isSignupValid.observe(this, {
-                    if(it){
+                    if (it) {
                         authVM.createAccount()
                         finish()
                         authVM.isSignupValid.value = false

@@ -14,33 +14,21 @@ import com.shoplex.shoplex.viewmodel.CheckoutVM
 
 class PaymentFragment : Fragment() {
 
-    lateinit var binding: FragmentPaymentBinding
-    // lateinit var checkout: Checkout
-    //var ischecked = false
-
+    private lateinit var binding: FragmentPaymentBinding
     private lateinit var checkoutVM: CheckoutVM
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPaymentBinding.inflate(inflater, container, false)
         checkoutVM = (activity as CheckOutActivity).checkoutVM
-        // checkout = checkoutVM.checkout.value!!
 
         binding.rgPayment.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                binding.rbCash.id -> {
-                    checkoutVM.paymentMethod.value = PaymentMethod.Cash
-                    //ischecked = true
-                    //Toast.makeText(context, binding.rbCash.text.toString(), Toast.LENGTH_SHORT).show()
-                }
-                binding.rbVisaMaster.id -> {
-                    checkoutVM.paymentMethod.value = PaymentMethod.Visa_Master
-                    //ischecked = true
-                    //Toast.makeText(context, binding.rbFawry.text.toString(), Toast.LENGTH_SHORT).show()
-                }
-                //else -> ischecked = false
+                binding.rbCash.id -> checkoutVM.paymentMethod.value = PaymentMethod.Cash
+                binding.rbVisaMaster.id -> checkoutVM.paymentMethod.value =
+                    PaymentMethod.Visa_Master
             }
         }
 
@@ -69,25 +57,13 @@ class PaymentFragment : Fragment() {
             binding.tvTotalPrice.text = "$it ${requireContext().getString(R.string.EGP)}"
         })
 
-        //binding.total = checkout.totalPrice.value.toString()
-
-//        binding.tvSubtotalPrice.text = "${checkout.subTotalPrice.value} EGP"
-//        binding.tvDiscountPrice.text = "${checkout.totalDiscount.value} EGP"
-//        binding.tvShippingPrice.text = "${checkout.shipping.value} EGP"
-//        binding.tvTotalPrice.text = "${checkout.totalPrice.value} EGP"
         binding.tvCopoun.text = "${getString(R.string.DiscountBy)} ${checkoutVM.coupons.value}"
         binding.btnPayment.setOnClickListener {
 
-            var pager = (activity as CheckOutActivity).binding.viewPagerCheckout
+            val pager = (activity as CheckOutActivity).binding.viewPagerCheckout
             pager.currentItem = pager.currentItem + 1
-//            if (ischecked) {
-//
-//            } else {
-//                Toast.makeText(context, getString(R.string.PaymentMethod), Toast.LENGTH_SHORT).show()
-//            }
         }
 
-        // Inflate the layout for this fragment
         return binding.root
     }
 }

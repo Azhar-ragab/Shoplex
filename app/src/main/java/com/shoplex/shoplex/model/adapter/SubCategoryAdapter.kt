@@ -24,13 +24,13 @@ class SubCategoryAdapter(val subCategories: Array<String>, val checkList: ArrayL
         fun bind(item: String) {
             binding.cbSubCategoryName.text = item
             binding.cbSubCategoryName.setOnClickListener {
-                if(binding.cbSubCategoryName.isChecked)
+                if (binding.cbSubCategoryName.isChecked)
                     checkList.add(item)
                 else
                     checkList.remove(item)
             }
 
-            if(checkList.contains(item))
+            if (checkList.contains(item))
                 binding.cbSubCategoryName.isChecked = true
         }
     }

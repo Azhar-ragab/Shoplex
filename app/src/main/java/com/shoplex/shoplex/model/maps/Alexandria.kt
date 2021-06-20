@@ -8,7 +8,7 @@ class Alexandria {
     val capital: LatLng = LatLng(31.2000924,29.9187387)
     val coordinates: ArrayList<LatLng> = arrayListOf()
 
-    constructor(){
+    init {
         coordinates.add(LatLng( 31.2350264, 29.4716069))
         coordinates.add(LatLng( 31.1275122, 29.5234367))
         coordinates.add(LatLng( 31.0000466, 29.5875558))

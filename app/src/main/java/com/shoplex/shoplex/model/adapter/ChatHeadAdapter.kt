@@ -36,7 +36,7 @@ class ChatHeadAdapter(private var chatHeads: ArrayList<ChatHead>) :
     override fun getItemCount() = chatHeads.size
 
     fun search(searchText: String){
-        if (!searchText.isNullOrEmpty()) {
+        if (searchText.isNotEmpty()) {
             if (originalChats.isEmpty())
                 originalChats = chatHeads
             chatHeads = originalChats.filter {

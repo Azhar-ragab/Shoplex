@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 class FavouriteAdapter :
     RecyclerView.Adapter<FavouriteAdapter.ProductViewHolder>() {
 
-    var favourites = emptyList<ProductFavourite>()
+    private var favourites = emptyList<ProductFavourite>()
     private lateinit var context: Context
     private lateinit var repo: FavoriteCartRepo
     private lateinit var lifecycleScope: CoroutineScope
@@ -28,7 +28,7 @@ class FavouriteAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         context = parent.context
         lifecycleScope = (context as AppCompatActivity).lifecycleScope
-        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shoplexDao())
+        repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shopLexDao())
 
         return ProductViewHolder(
             FavouriteItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -47,11 +47,9 @@ class FavouriteAdapter :
     inner class ProductViewHolder(val binding: FavouriteItemRowBinding) :
         RecyclerView.ViewHolder(binding.root), FavouriteCartListener {
         fun bind(product: ProductFavourite) {
-            Glide.with(binding.root.context).load(product.images.firstOrNull()).into(binding.imgProduct)
+            Glide.with(binding.root.context).load(product.images.firstOrNull())
+                .error(R.drawable.product).into(binding.imgProduct)
             binding.product = product
-            // binding.tvProductName.text=product.name
-            // binding.tvPrice.text=product.newPrice.toString()
-            // binding.tvReview.text=product.rate.toString()
 
             repo.searchCartByID.observe(context as AppCompatActivity, {
                 if (it == null) {
@@ -66,21 +64,7 @@ class FavouriteAdapter :
             onSearchForFavouriteCart(product.productID)
 
             binding.imgDelete.setOnClickListener {
-                // val user:User= User()
-                // favourites.remove(product)
-
-//                FirebaseReferences.usersRef.document(UserInfo.userID.toString()).update(
-//                    "favouriteList", FieldValue.arrayRemove(product.productID)
-//                )
-//                deleteFavourite = deleteFavClick
-//                if (deleteFavourite != null) {
-//                    deleteFavourite!!.onDeleteFromFavourite(product.productID)
-//
-//                }
-                // UserInfo.favouriteList.remove(product.productID)
-
                 onDeleteFromFavourite(product.productID)
-
                 notifyDataSetChanged()
             }
 

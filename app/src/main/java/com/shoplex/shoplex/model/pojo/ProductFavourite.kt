@@ -13,13 +13,13 @@ data class ProductFavourite(
     @Exclude
     @get:Exclude
     @Ignore
-    val product: Product= Product(),
+    val product: Product = Product(),
     @Exclude
     @set:Exclude
     @get:Exclude
     @PrimaryKey
     var id: String = ""
-) : Product(),Parcelable {
+) : Product(), Parcelable {
     init {
         this.id = product.productID
         this.productID = product.productID

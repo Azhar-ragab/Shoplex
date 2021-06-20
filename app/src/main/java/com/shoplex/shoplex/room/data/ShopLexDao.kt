@@ -36,25 +36,28 @@ interface ShopLexDao {
     suspend fun addMessage(message: Message)
 
     @Query("SELECT * FROM messages where chatID = :chatID order by messageID")
-    fun readAllMessage(chatID : String):LiveData<List<Message>>
+    fun readAllMessage(chatID: String): LiveData<List<Message>>
 
     @Query("UPDATE messages SET isSent = 1 where messageID = :messageID")
-    fun setSent(messageID : String)
+    fun setSent(messageID: String)
 
     @Query("UPDATE messages SET isRead = 1 where messageID = :messageID")
-    fun setReadMessage(messageID : String)
+    fun setReadMessage(messageID: String)
 
     @Query("SELECT * FROM Favourite WHERE productID = :productId LIMIT 1")
-    fun searchFav(productId:String): Flow<ProductFavourite>
+    fun searchFav(productId: String): Flow<ProductFavourite>
 
     @Query("SELECT * FROM Cart WHERE productID = :productId LIMIT 1")
-    fun searchCart(productId:String): Flow<ProductCart>
+    fun searchCart(productId: String): Flow<ProductCart>
 
     // Store Location
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addLocation(location: StoreLocationInfo)
 
     @Query("SELECT * FROM StoresLocation WHERE storeID = :storeID AND location = :location LIMIT 1")
-    fun getLocation(storeID:String, location: Location): Flow<StoreLocationInfo>
+    fun getLocation(storeID: String, location: Location): Flow<StoreLocationInfo>
+
+    @Query("SELECT * FROM StoresLocation WHERE storeID IN (:storeIDs)")
+    fun getLocations(storeIDs: ArrayList<String>): Flow<Array<StoreLocationInfo>>
 }
 

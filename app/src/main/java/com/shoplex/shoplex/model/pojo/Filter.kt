@@ -3,12 +3,14 @@ package com.shoplex.shoplex.model.pojo
 import android.os.Parcel
 import android.os.Parcelable
 
-class Filter(val lowPrice: Int? = null,
-             val highPrice: Int? = null,
-             val subCategory: ArrayList<String>? = null,
-             val rate: Float? = null,
-             val discount: Int? = null,
-             val shops: ArrayList<String>? = null) : Parcelable {
+class Filter(
+    val lowPrice: Int? = null,
+    val highPrice: Int? = null,
+    val subCategory: ArrayList<String>? = null,
+    val rate: Float? = null,
+    val discount: Int? = null,
+    val shops: ArrayList<String>? = null
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Int::class.java.classLoader) as? Int,
@@ -16,8 +18,7 @@ class Filter(val lowPrice: Int? = null,
         parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readArrayList(String::class.java.classLoader) as? ArrayList<String>
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(lowPrice)

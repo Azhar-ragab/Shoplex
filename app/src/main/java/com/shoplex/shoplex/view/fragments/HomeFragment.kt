@@ -38,7 +38,6 @@ class HomeFragment : Fragment(), FavouriteCartListener {
     private var selectedCategory: String = Category.Fashion.name
     private lateinit var cartVM: CartViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         startActivityLaunch =
@@ -55,12 +54,13 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.btnFilter.setOnClickListener {
 
             startActivityLaunch.launch(Intent(context, FilterActivity::class.java).apply {
-                this.putExtra(FilterActivity.CATEGORY, selectedCategory)
+                this.putExtra(FilterActivity.FILTER, productsVM.filter.value)
+                this.putExtra(FilterActivity.SORT, productsVM.sort.value)
+                this.putExtra(FilterActivity.SELECTED_ITEM, selectedCategory)
             })
         }
 
@@ -77,31 +77,19 @@ class HomeFragment : Fragment(), FavouriteCartListener {
             val category =
                 Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
 
-            /*
-            homeProductAdapter = HomeProductsAdapter(arrayListOf())
-            homeProductAdapter.productsHome.clear()
-            homeProductAdapter.notifyDataSetChanged()
-*/
-            /*
-            val shops = arrayListOf("b4a2643b-7dba-4c29-9bf1-e53dd73acc3b", "b31eafa4-8167-4ee0-92de-6fb5d3b1c0ef")
-            val filter = Filter(lowPrice = 50, highPrice = 250, subCategory = null, rate = null, discount = null, shops = null)
-            val sort = Sort(price = null, rate = false, discount = true, nearestShop = false)
-*/
             productsVM.getAllProducts(category, Filter(), null)
         }
 
         binding.chipGroup.findViewById<Chip>(binding.chipGroup.children.first().id).isChecked = true
 
         productsVM.getAllPremiums()
-        productsVM.advertisments.observe(viewLifecycleOwner, { advertisements ->
+        productsVM.advertisements.observe(viewLifecycleOwner, { advertisements ->
             advertisementsAdapter = AdvertisementsAdapter(advertisements)
             binding.rvAdvertisement.adapter = advertisementsAdapter
         })
 
         // Products
-
         cartVM = ViewModelProvider(this).get(CartViewModel::class.java)
-        //favouriteViewModel = ViewModelProvider(this, FavouriteFactoryModel(requireContext())).get(FavouriteViewModel::class.java)
         binding.rvHomeproducts.layoutManager =
             GridLayoutManager(this.context, getGridColumnsCount())
 
@@ -110,32 +98,22 @@ class HomeFragment : Fragment(), FavouriteCartListener {
             binding.rvHomeproducts.adapter = homeProductAdapter
         })
 
-
-
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String): Boolean {
-                if(newText.isEmpty()){
+                if (newText.isEmpty() && this@HomeFragment::homeProductAdapter.isInitialized) {
                     homeProductAdapter.search("")
                 }
                 return false
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                homeProductAdapter.search(binding.searchView.query.toString())
+                if (this@HomeFragment::homeProductAdapter.isInitialized)
+                    homeProductAdapter.search(binding.searchView.query.toString())
                 return false
             }
         })
 
         binding.btnLocation.setOnClickListener {
-            // Toast.makeText(requireContext(), "Location", Toast.LENGTH_SHORT).show()
-
-            /*
-            for (location in locations){
-                Toast.makeText(requireContext(), "Lat: ${location.latitude}, Lon: ${location.longitude}", Toast.LENGTH_SHORT).show()
-            }
-
-             */
-
             startActivity(
                 Intent(requireContext(), MapsActivity::class.java)
                     .apply {
@@ -156,9 +134,9 @@ class HomeFragment : Fragment(), FavouriteCartListener {
     private fun getGridColumnsCount(): Int {
         val displayMetrics = requireContext().resources.displayMetrics
         val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-        val scalingFactor = 200 // You can vary the value held by the scalingFactor
+        val scalingFactor = 200
         val columnCount = (dpWidth / scalingFactor).toInt()
-        return if (columnCount >= 2) columnCount else 2 // if column no. is less than 2, we still display 2 columns
+        return if (columnCount >= 2) columnCount else 2
     }
 
     private fun startFilter(data: Intent) {
@@ -169,18 +147,11 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         val userSort = sort as? Sort
         val category =
             Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
+
         productsVM.getAllProducts(category, userFilter, userSort)
     }
 
     override fun onAddToCart(productCart: ProductCart) {
         cartVM.addCart(productCart)
-    }
-
-    override fun onSearchForFavouriteCart(productId: String) {
-        //favouriteViewModel.searchFavourite(productId)
-    }
-
-    override fun onAddToFavourite(productFavourite: ProductFavourite) {
-        //favouriteViewModel.addFavourite(productFavourite)
     }
 }

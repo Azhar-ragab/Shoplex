@@ -13,14 +13,14 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.model.enumurations.AuthType
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.firebase.AuthDBModel
-import com.shoplex.shoplex.model.interfaces.UserActionListener
+import com.shoplex.shoplex.model.interfaces.AuthListener
 import com.shoplex.shoplex.model.pojo.User
 import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.view.activities.auth.AuthActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class AuthVM(val context: Context): ViewModel(), UserActionListener {
+class AuthVM(val context: Context) : ViewModel(), AuthListener {
     var user: MutableLiveData<User> = MutableLiveData()
     var email: MutableLiveData<String> = MutableLiveData()
     var password: MutableLiveData<String> = MutableLiveData()
@@ -50,7 +50,6 @@ class AuthVM(val context: Context): ViewModel(), UserActionListener {
     }
 
     fun createAccount() {
-        //Toast.makeText(context, password.value.toString(), Toast.LENGTH_SHORT).show()
         Firebase.auth.fetchSignInMethodsForEmail(user.value!!.email).addOnCompleteListener {
             if (it.isSuccessful && it.result?.signInMethods?.size == 0) {
                 userDBModel.createEmailAccount(user.value!!, password.value!!)
@@ -60,15 +59,9 @@ class AuthVM(val context: Context): ViewModel(), UserActionListener {
         }
     }
 
-    /*
-    fun addUser() {
-        userDBModel.addNewUser(user.value!!)
-    }
-    */
-
     override fun onAddNewUser(context: Context, user: User?) {
         super.onAddNewUser(context, user)
-        if(user != null){
+        if (user != null) {
             UserInfo.saveUserInfo(context)
             (context as AppCompatActivity).finish()
         }
@@ -76,8 +69,8 @@ class AuthVM(val context: Context): ViewModel(), UserActionListener {
 
     override fun onLoginSuccess(context: Context, user: User) {
         super.onLoginSuccess(context, user)
-        // context.startActivity(Intent(context, HomeActivity::class.java))
-        Toast.makeText(context, context.getString(R.string.login_success), Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.login_success), Toast.LENGTH_SHORT)
+            .show()
         (context as AuthActivity).finish()
     }
 
@@ -87,12 +80,12 @@ class AuthVM(val context: Context): ViewModel(), UserActionListener {
         UserInfo.clear()
     }
 
-    fun onUserExists(){
+    fun onUserExists() {
         Toast.makeText(context, "This Registration Email Exist", Toast.LENGTH_SHORT).show()
     }
 
-    companion object{
-        fun logout(context: Context){
+    companion object {
+        fun logout(context: Context) {
             UserInfo.saveNotification(context, false)
             Firebase.auth.signOut()
             FirebaseAuth.getInstance().signOut()

@@ -13,5 +13,5 @@ data class Message(
     var message: String = "",
     @field:JvmField var isSent: Boolean = false,
     @field:JvmField val isRead: Boolean = false,
-    @Exclude @set:Exclude @get:Exclude var chatID:String = ""
+    @Exclude @set:Exclude @get:Exclude var chatID: String = ""
 )

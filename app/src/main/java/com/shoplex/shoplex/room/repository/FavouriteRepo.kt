@@ -24,7 +24,7 @@ class FavouriteRepo(private val shopLexDao: ShopLexDao) {
         shopLexDao.deleteFavourite(productId)
     }
 
-    suspend fun searchFavourite(productId:String){
+    fun searchFavourite(productId: String) {
         shopLexDao.searchFav(productId)
     }
 }

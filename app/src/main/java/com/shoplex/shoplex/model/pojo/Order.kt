@@ -1,6 +1,5 @@
 package com.shoplex.shoplex.model.pojo
 
-import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.OrderStatus
@@ -24,7 +23,9 @@ class Order {
     var shipping: Float = 0F
     var totalPrice: Float = 0F
 
-    @Exclude @set:Exclude @get:Exclude
+    @Exclude
+    @set:Exclude
+    @get:Exclude
     var product: Product? = null
 
     var deliveryMethod: String = DeliveryMethod.Door.name
@@ -32,13 +33,14 @@ class Order {
     var deliveryLoc: Location? = null
     var deliveryAddress: String = ""
 
-    constructor(product: ProductCart)
-    {
+    constructor()
+
+    constructor(product: ProductCart) {
         this.productID = product.productID
         this.userID = UserInfo.userID!!
         this.storeID = product.storeID
         this.storeName = product.storeName
-        this.orderStatus = orderStatus
+        this.orderStatus = OrderStatus.Current
         this.quantity = product.cartQuantity
         this.specialDiscount = product.specialDiscount
 
@@ -47,20 +49,5 @@ class Order {
         this.totalDiscount = "%.2f".format(product.discount * product.cartQuantity).toFloat()
         this.shipping = product.shipping
         this.totalPrice = this.subTotalPrice + this.shipping - this.totalDiscount
-
-        /*
-        this.subTotalPrice = (product.price * product.quantity)
-        this.totalDiscount = if (this.specialDiscount != null) {
-            this.specialDiscount!!.discount
-        }
-        else {
-            this.specialDiscount = SpecialDiscount(product.discount.toFloat(), DiscountType.Percentage)
-            product.price - product.newPrice
-        }
-        this.totalPrice.value = this.subTotalPrice.value!! + this.shipping.value!! - this.totalDiscount.value!!
-        */
-        // this.deliveryAddress = checkout.deliveryAddress
-        //this.deliveryLoc = checkout.deliveryLoc
     }
-    constructor()
 }
