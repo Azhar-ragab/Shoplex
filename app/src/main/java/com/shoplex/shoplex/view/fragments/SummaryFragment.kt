@@ -128,4 +128,12 @@ class SummaryFragment : Fragment(), PaymentListener {
             Toast.LENGTH_SHORT
         ).show()
     }
+
+    override fun onMinimumPrice() {
+        Toast.makeText(
+            requireContext(),
+            "Minimum Charge With Credit/Debit Card 10 L.E.",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 }

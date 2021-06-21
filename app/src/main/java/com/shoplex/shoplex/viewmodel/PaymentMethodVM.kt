@@ -37,6 +37,11 @@ class PaymentMethodVM(val context: Context, val fragment: Fragment, val listener
     internal fun pay(price: Float) {
         val amount: Double = String.format("%.2f", price * 100).toDouble()
 
+        if(amount < 10){
+            listener.onMinimumPrice()
+            return
+        }
+
         val payMap: MutableMap<String, Any> = HashMap()
         val itemMap: MutableMap<String, Any> = HashMap()
         val itemList: MutableList<Map<String, Any>> = ArrayList()
