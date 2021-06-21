@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.model.LatLng
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDeliveryBinding
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.LocationAction
@@ -53,20 +54,20 @@ class DeliveryFragment : Fragment() {
         }
 
         checkoutVM.subTotalPrice.observe(viewLifecycleOwner, {
-            binding.tvSubtotalPrice.text = "$it EGP"
+            binding.tvSubtotalPrice.text = getString(R.string.EGP).format(it)
         })
 
         checkoutVM.totalDiscount.observe(viewLifecycleOwner, {
-            binding.tvDiscountPrice.text = "$it EGP"
+            binding.tvDiscountPrice.text = getString(R.string.EGP).format(it)
         })
 
         checkoutVM.shipping.observe(viewLifecycleOwner, {
-            binding.tvShippingPrice.text = "$it EGP"
+            binding.tvShippingPrice.text = getString(R.string.EGP).format(it)
         })
 
 
         checkoutVM.totalPrice.observe(viewLifecycleOwner, {
-            binding.tvTotalPrice.text = "$it EGP"
+            binding.tvTotalPrice.text = getString(R.string.EGP).format(it)
         })
 
         checkoutVM.deliveryAddress.observe(viewLifecycleOwner, {
@@ -89,12 +90,12 @@ class DeliveryFragment : Fragment() {
 
     private fun onMapResult(data: Intent) {
 
-        val location: LatLng? = data.getParcelableExtra(MapsActivity.LOCATION)
+        val location: Location? = data.getParcelableExtra(MapsActivity.LOCATION)
         val address: String? = data.getStringExtra(MapsActivity.ADDRESS)
         if (location != null && (checkoutVM.deliveryLocation.value!!.latitude != location.latitude || checkoutVM.deliveryLocation.value!!.longitude != location.longitude)) {
             binding.tvAddress.text = address
             checkoutVM.deliveryAddress.value = address
-            checkoutVM.deliveryLocation.value = Location(location.latitude, location.longitude)
+            checkoutVM.deliveryLocation.value = location
             checkoutVM.reAddShipping()
         }
     }

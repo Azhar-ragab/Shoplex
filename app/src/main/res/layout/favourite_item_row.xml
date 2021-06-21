@@ -81,7 +81,7 @@
                     android:paddingLeft="6dp"
                     android:paddingTop="2dp"
                     android:paddingRight="6dp"
-                    android:text="@{String.valueOf(product.rate)}"
+                    android:text="@{product.rate == 0F? @string/NA: `` + product.rate}"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:drawableStartCompat="@drawable/star_24"

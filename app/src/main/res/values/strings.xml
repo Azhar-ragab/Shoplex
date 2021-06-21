@@ -13,6 +13,7 @@
     <string name="currentProduct">Current Product</string>
     <string name="product">Products</string>
     <string name="reviews">Reviews</string>
+    <string name="NoReviews">No Reviews Yet!</string>
     <string name="product_name">Name</string>
     <string name="_4_5_5">4.5/5</string>
     <string name="longtext">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,as opposed to using Content here, content here, making it look like readable English.</string>
@@ -81,12 +82,15 @@
     <string name="Payment">Payment</string>
     <string name="Summary">Summary</string>
     <string name="DeliveryMethod">Delivery Method</string>
+    <string name="Cost">Products Cost</string>
+    <string name="SpecialCoupons">Special Coupons</string>
+    <string name="DontHaveSpecialCoupons">You Don\'t Have Any Special</string>
     <string name="DoorDelivery">Door Delivery</string>
     <string name="NearestPostStation">Nearest Post Station</string>
-    <string name="SubTotal">SubTotal :</string>
-    <string name="Discount">Discount :</string>
-    <string name="Shipping">Shipping :</string>
-    <string name="Total">Total :</string>
+    <string name="SubTotal">SubTotal</string>
+    <string name="Discount">Discount</string>
+    <string name="Shipping">Shipping</string>
+    <string name="Total">Total Amount</string>
     <string name="subTotalPrice">112 $</string>
     <string name="discountPrice">150 $</string>
     <string name="shippingPrice">116 $</string>
@@ -114,6 +118,7 @@
     <string name="nearest_shop">Nearest Shop</string>
     <string name="outOfStock">Out Of Stock</string>
     <string name="NA">N/A</string>
+    <string name="LE">%s L.E.</string>
 
     <string-array name="initial_slider_values">
         <item>10</item>
@@ -191,7 +196,7 @@
     <string name="android">android.resource://</string>
     <string name="splash">/</string>
     <string name="Position">Position</string>
-    <string name="EGP">EGP</string>
+    <string name="EGP">%s EGP</string>
     <string name="LowPriceSelected">Low Price Selected</string>
     <string name="HighPriceSelected">High Price Selected</string>
     <string name="LoginFailed">Login Failed</string>
@@ -222,7 +227,7 @@
     <string name="deliveryMethod">Choose Delivery Method</string>
     <string name="favoriteproducts">Please Login to get all favorite products</string>
     <string name="underscore">_</string>
-    <string name="DiscountBy">Discount By</string>
+    <string name="DiscountBy">Discount By %s</string>
     <string name="PaymentMethod">Choose Payment Method</string>
     <string name="telephone">tel:</string>
     <string name="ERROR">ERROR</string>
@@ -235,7 +240,7 @@
     <string name="fb_login_protocol_scheme">fb562190761433964</string>
     <string name="phone_hint">+201204876123</string>
     <string name="visaORMaster">Visa/ Master Card</string>
-    <string name="items">Items</string>
+    <string name="items">%s Items</string>
 
     <string name="Login">Login</string>
     <string name="Signup">Signup</string>
@@ -243,4 +248,7 @@
     <string name="orLoginvia">Or Login Via</string>
     <string name="orSignUpvia">Or Sign Up Via</string>
     <string name="Delivered">Delivered</string>
+    <string name="UpdateAccount">Account Updated Successfully</string>
+    <string name="error">Error</string>
+    <string name="processtosummary">Process To Summary</string>
 </resources>

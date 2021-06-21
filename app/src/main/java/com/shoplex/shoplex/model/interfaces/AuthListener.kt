@@ -41,6 +41,7 @@ interface AuthListener {
         UserInfo.location = user.location
         UserInfo.address = user.address
         UserInfo.phone = user.phone
+        UserInfo.authType = user.authType
         (context as AppCompatActivity).lifecycleScope.launch {
             FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shopLexDao()).syncProducts(context)
         }

@@ -2,12 +2,14 @@ package com.shoplex.shoplex.view.fragments
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -19,10 +21,12 @@ import com.shoplex.shoplex.databinding.FragmentAccountBinding
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Report
+import com.shoplex.shoplex.view.activities.HomeActivity
 import com.shoplex.shoplex.view.activities.OrderActivity
 import com.shoplex.shoplex.view.activities.ProfileActivity
 import com.shoplex.shoplex.view.activities.auth.AuthActivity
 import com.shoplex.shoplex.viewmodel.AuthVM
+import java.util.*
 
 class AccountFragment : Fragment() {
     lateinit var binding: FragmentAccountBinding
@@ -36,22 +40,9 @@ class AccountFragment : Fragment() {
         if (UserInfo.userID == null)
             binding.btnLogout.text = getString(R.string.login)
 
-        binding.cardProfile.setOnClickListener {
-            val intent = Intent(context, ProfileActivity::class.java)
-            startActivity(intent)
-        }
-        binding.cardShare.setOnClickListener {
-            shareSuccess()
+        binding.switchNotification.isChecked = UserInfo.readNotification(requireContext())
 
-        }
-        binding.cardRate.setOnClickListener {
-            rateSuccess()
-        }
-
-        binding.cardOrder.setOnClickListener {
-            val intent = Intent(context, OrderActivity::class.java)
-            startActivity(intent)
-        }
+        binding.tvUserName.text = UserInfo.name
 
         binding.btnLogout.setOnClickListener {
             if (UserInfo.userID == null) {
@@ -60,19 +51,47 @@ class AccountFragment : Fragment() {
                 showDialog()
             }
         }
-        binding.switchNotification.setOnClickListener {
-            if (binding.switchNotification.isChecked) {
-                FirebaseReferences.notificationTokensRef.document(UserInfo.userID!!)
-                    .update("notification", true)
-            } else {
-                FirebaseReferences.notificationTokensRef.document(UserInfo.userID!!)
-                    .update("notification", false)
+
+        binding.cardProfile.setOnClickListener {
+            val intent = Intent(context, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardOrder.setOnClickListener {
+            val intent = Intent(context, OrderActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardShare.setOnClickListener {
+            shareSuccess()
+        }
+
+        binding.cardLanguage.setOnClickListener {
+            if(binding.tvLanguage.text.toString().contains("Ar", true)){
+                requireContext().getSharedPreferences("LANG", AppCompatActivity.MODE_PRIVATE).edit().putString("Language", "ar").apply()
+                setLocale("ar")
+            }else{
+                requireContext().getSharedPreferences("LANG", AppCompatActivity.MODE_PRIVATE).edit().putString("Language", "en").apply()
+                setLocale("en")
             }
         }
+
+        binding.switchNotification.setOnClickListener {
+            UserInfo.saveNotification(requireContext(), binding.switchNotification.isChecked)
+        }
+
+        binding.cardRate.setOnClickListener {
+            rateSuccess()
+        }
+
         binding.cardReport.setOnClickListener {
             showAddReportDialog()
+        }
+
+        binding.cardRemoveAccount.setOnClickListener {
 
         }
+
         return binding.root
     }
 
@@ -144,5 +163,20 @@ class AccountFragment : Fragment() {
                 )
             )
         }
+    }
+
+    private fun setLocale(lang: String) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.setLocale(locale)
+        requireContext().createConfigurationContext(config)
+        requireContext().resources.updateConfiguration(
+            config,
+            requireContext().resources.displayMetrics
+        )
+        val refresh = Intent(requireActivity(), HomeActivity::class.java)
+        requireActivity().finish()
+        startActivity(refresh)
     }
 }

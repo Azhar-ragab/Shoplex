@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.shoplex.shoplex.model.enumurations.DiscountType
 
-class SpecialDiscount : Parcelable {
+open class SpecialDiscount : Parcelable {
     var discount: Float = 0F
     var discountType: DiscountType = DiscountType.Fixed
 

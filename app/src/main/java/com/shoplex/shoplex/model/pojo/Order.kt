@@ -6,6 +6,7 @@ import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.UserInfo
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Order {
     val orderID: String = UUID.randomUUID().toString()
@@ -33,9 +34,11 @@ class Order {
     var deliveryLoc: Location? = null
     var deliveryAddress: String = ""
 
+    var orderProperties: ArrayList<String>? = null
+
     constructor()
 
-    constructor(product: ProductCart) {
+    constructor(product: ProductCart, orderProperties: ArrayList<String>? = null) {
         this.productID = product.productID
         this.userID = UserInfo.userID!!
         this.storeID = product.storeID
@@ -49,5 +52,7 @@ class Order {
         this.totalDiscount = "%.2f".format(product.discount * product.cartQuantity).toFloat()
         this.shipping = product.shipping
         this.totalPrice = this.subTotalPrice + this.shipping - this.totalDiscount
+
+        this.orderProperties = orderProperties
     }
 }

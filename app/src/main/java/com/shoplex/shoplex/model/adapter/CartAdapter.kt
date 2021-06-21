@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvCartHomeBinding
 import com.shoplex.shoplex.model.pojo.ProductCart
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
@@ -33,8 +34,7 @@ class CartAdapter(
     inner class ProductViewHolder(val binding: RvCartHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductCart) {
-            Glide.with(binding.root.context).load(product.images.firstOrNull())
-                .into(binding.imgCart)
+            Glide.with(binding.root.context).load(product.images.firstOrNull()).error(R.drawable.product).into(binding.imgCart)
 
             binding.product = product
             binding.imgDelete.setOnClickListener {

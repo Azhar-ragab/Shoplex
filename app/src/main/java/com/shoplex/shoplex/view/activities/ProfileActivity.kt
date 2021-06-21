@@ -1,34 +1,75 @@
 package com.shoplex.shoplex.view.activities
 
+import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
-import android.provider.MediaStore
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityProfileBinding
+import com.shoplex.shoplex.model.enumurations.LocationAction
 import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
-import java.io.IOException
+import com.shoplex.shoplex.viewmodel.AuthVM
+import com.shoplex.shoplex.viewmodel.AuthVMFactory
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
-    private val MAPS_CODE = 202
-    private val OPEN_GALLERY_CODE = 200
-    private var filePath: Uri? = null
-    private var name: String = ""
-    private var email: String = ""
-    private var phone: String = ""
+
+    private lateinit var authVM: AuthVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        authVM = ViewModelProvider(this, AuthVMFactory(this)).get(AuthVM::class.java).apply {
+            this.user.value = User(
+                UserInfo.userID!!,
+                UserInfo.name,
+                UserInfo.email,
+                UserInfo.location,
+                UserInfo.address,
+                UserInfo.phone ?: "",
+                UserInfo.image ?: ""
+            )
+        }
+
+        val startImageChooser =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val data: Intent? = it.data
+                    if (data != null || data?.data != null) {
+                        val uri = data.data
+                        authVM.user.value!!.image = uri.toString()
+                        binding.imgUser.setImageURI(uri)
+                    }
+                }
+            }
+
+        val startMaps =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val data: Intent? = it.data
+                    if (data != null || data?.data != null) {
+                        val location: Location? = data.getParcelableExtra(MapsActivity.LOCATION)
+                        val address: String? = data.getStringExtra(MapsActivity.ADDRESS)
+                        if (location != null && address != null) {
+                            binding.tvLocation.text = address
+                            authVM.user.value!!.address = address
+                            authVM.user.value!!.location = location
+                        }
+                    }
+                }
+            }
 
         setSupportActionBar(binding.toolbarProfile)
         supportActionBar?.apply {
@@ -39,75 +80,96 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        binding.userInfo = UserInfo
+        Glide.with(this).load(UserInfo.image).error(R.drawable.product).into(binding.imgUser)
+
+        binding.userInfo = authVM
 
         binding.btnSave.setOnClickListener {
-            name = binding.edName.text.toString()
-            email = binding.edEmail.text.toString()
-            phone = binding.edPhone.text.toString()
-            val user = User(
-                UserInfo.userID!!, name, email, UserInfo.location, UserInfo.address,
-                phone, UserInfo.image!!
-            )
-
-            addUser(user)
+            if (checkEditText())
+                authVM.updateCurrentAccount()
         }
 
         binding.btnLocation.setOnClickListener {
-            val intent: Intent = Intent(binding.root.context, MapsActivity::class.java)
-            intent.putExtra(getString(R.string.locationLat), 13.621085324664428)
-            intent.putExtra(getString(R.string.locationLang), 123.21271363645793)
-            startActivityForResult(intent, MAPS_CODE)
+            startMaps.launch(Intent(this, MapsActivity::class.java).apply {
+                this.putExtra(MapsActivity.LOCATION_ACTION, LocationAction.Add.name)
+            })
         }
 
         binding.imgUser.setOnClickListener {
-            openGallery()
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+            intent.type = "image/*"
+
+            startImageChooser.launch(intent)
+        }
+
+        onEditTextChanged()
+    }
+
+    private fun onEditTextChanged() {
+        binding.edName.addTextChangedListener {
+            binding.tiName.error = null
+        }
+        binding.edEmail.addTextChangedListener {
+            binding.tiEmail.error = null
+        }
+        binding.edPhone.addTextChangedListener {
+            binding.tiPhone.error = null
+        }
+        binding.tvLocation.addTextChangedListener {
+            binding.tvLocation.error = null
         }
     }
 
-    fun addUser(user: User) {
-        Firebase.firestore.collection("Users").document(UserInfo.userID!!).set(user)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
-            }
+    private fun checkEditText(): Boolean {
+        when {
+            binding.edName.length() == 0 -> binding.edName.error = getString(R.string.Required)
+            binding.edName.length() < 5 -> binding.edName.error =
+                getString(R.string.min_client_name_err)
+            binding.edEmail.length() == 0 -> binding.edEmail.error = getString(R.string.Required)
+            !(isEmailValid(binding.edEmail.text.toString())) -> binding.edEmail.error =
+                getString(
+                    R.string.require_email
+                )
+
+            binding.edPhone.text.toString().isEmpty() -> binding.tiPhone.error =
+                getString(R.string.Required)
+
+            !isValidMobile(binding.edPhone.text.toString()) -> binding.tiPhone.error =
+                "Please Enter Valid Mobile"
+
+            authVM.user.value?.address.isNullOrEmpty() || (authVM.user.value?.location?.latitude == 0.0 && authVM.user.value?.location?.longitude == 0.0) -> Toast.makeText(
+                this,
+                "Choose Your Location",
+                Toast.LENGTH_LONG
+            ).show()
+
+            authVM.user.value?.image.isNullOrEmpty() -> Toast.makeText(
+                this,
+                "Please, Choose Image",
+                Toast.LENGTH_SHORT
+            ).show()
+            else -> return true
+        }
+        return false
+    }
+
+    private fun isEmailValid(email: String?): Boolean {
+        val expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
+        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = pattern.matcher(email)
+        return matcher.matches()
+    }
+
+    private fun isValidMobile(phone: String): Boolean {
+        return if (!Pattern.matches("[a-zA-Z]+", phone)) {
+            phone.length in 12..13
+        } else false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) finish()
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == MAPS_CODE) {
-            if (resultCode == RESULT_OK) {
-                val location: Parcelable? = data?.getParcelableExtra(getString(R.string.Loc))
-                if (location != null) {
-                    // binding.tvLocation.text = getAddress(location as LatLng)
-                }
-            }
-        } else if (requestCode == OPEN_GALLERY_CODE) {
-            if (resultCode == RESULT_OK) {
-                if (data == null || data.data == null) {
-                    return
-                }
-
-                filePath = data.data
-                try {
-                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
-                    binding.imgUser.setImageBitmap(bitmap)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
-
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.type = getString(R.string.image)
-        startActivityForResult(intent, OPEN_GALLERY_CODE)
     }
 }

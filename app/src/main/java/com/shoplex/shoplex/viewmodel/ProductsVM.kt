@@ -17,10 +17,7 @@ class ProductsVM : ViewModel(), ProductsListener {
     var filter: MutableLiveData<Filter> = MutableLiveData()
     var sort: MutableLiveData<Sort?> = MutableLiveData()
 
-    init {
-        products.value = arrayListOf()
-        reviewStatistics.value = ReviewStatistics()
-    }
+    var productID: MutableLiveData<String> = MutableLiveData()
 
     fun getAllProducts(category: Category, filter: Filter, sort: Sort? = null) {
         this.filter.value = filter
@@ -28,8 +25,9 @@ class ProductsVM : ViewModel(), ProductsListener {
         productsDBModel.getAllProducts(category, filter, sort)
     }
 
-    fun getProductById(productId: String) {
-        productsDBModel.getProductById(productId)
+    fun getProduct() {
+        if (productID.value != null)
+            productsDBModel.getProductById(productID.value!!)
     }
 
     fun getCategories(): Array<String> {
@@ -42,9 +40,11 @@ class ProductsVM : ViewModel(), ProductsListener {
         productsDBModel.getAllPremiums()
     }
 
-    fun getReviewByProductId(productId: String) {
-        productsDBModel.getReviewsStatistics(productId)
-        productsDBModel.getReviewByProductId(productId)
+    fun getReviews() {
+        if (productID.value != null) {
+            productsDBModel.getReviewsStatistics(productID.value!!)
+            productsDBModel.getReviewByProductId(productID.value!!)
+        }
     }
 
     override fun onAllProductsReady(products: ArrayList<Product>) {

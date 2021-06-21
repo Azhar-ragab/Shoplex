@@ -13,9 +13,10 @@ import com.shoplex.shoplex.model.adapter.ReviewAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Review
+import com.shoplex.shoplex.view.activities.DetailsActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
-class ReviewFragment(private val productId: String) : Fragment() {
+class ReviewFragment : Fragment() {
 
     lateinit var binding: FragmentReviewBinding
     private lateinit var reviewAdapter: ReviewAdapter
@@ -27,8 +28,10 @@ class ReviewFragment(private val productId: String) : Fragment() {
     ): View {
 
         binding = FragmentReviewBinding.inflate(inflater, container, false)
-        this.productsVM = ProductsVM()
-        productsVM.getReviewByProductId(productId)
+        productsVM = (requireActivity() as DetailsActivity).productsVM
+
+        if(productsVM.reviews.value == null)
+            productsVM.getReviews()
 
         productsVM.reviews.observe(viewLifecycleOwner, { reviews ->
             reviewAdapter = ReviewAdapter(reviews)
@@ -46,28 +49,6 @@ class ReviewFragment(private val productId: String) : Fragment() {
             }
         })
 
-        binding.btnSheetAddReview.setOnClickListener {
-            showAddReviewDialog()
-        }
         return binding.root
-    }
-
-    private fun showAddReviewDialog() {
-        val binding = DialogAddReviewBinding.inflate(layoutInflater)
-        val reviewBtnSheetDialog = BottomSheetDialog(binding.root.context)
-
-        binding.btnSendReview.setOnClickListener {
-            val rate: Float = binding.rbAddReview.rating
-            val reviewMsg = binding.edReview.text.toString()
-            val review = Review(
-                productId, UserInfo.name,
-                UserInfo.image, reviewMsg, rate
-            )
-            FirebaseReferences.productsRef.document(productId)
-                .collection(getString(R.string.Reviews)).add(review)
-            reviewBtnSheetDialog.dismiss()
-        }
-        reviewBtnSheetDialog.setContentView(binding.root)
-        reviewBtnSheetDialog.show()
     }
 }

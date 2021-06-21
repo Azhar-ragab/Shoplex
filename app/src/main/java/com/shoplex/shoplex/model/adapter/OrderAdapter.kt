@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.DialogAddReviewBinding

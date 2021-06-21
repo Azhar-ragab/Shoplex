@@ -6,7 +6,7 @@
     <data>
         <variable
             name="userInfo"
-            type="com.shoplex.shoplex.model.extra.UserInfo" />
+            type="com.shoplex.shoplex.viewmodel.AuthVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,9 +47,9 @@
 
                 <ImageView
                     android:id="@+id/imgUser"
-                    android:layout_width="@dimen/width_120"
-                    android:layout_height="@dimen/width_120"
-                    android:layout_marginTop="@dimen/margin_16"
+                    android:layout_width="@dimen/width_150"
+                    android:layout_height="@dimen/width_150"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:scaleType="fitXY"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name"
-                        android:text="@{userInfo.name}"
+                        android:text="@={userInfo.user.name}"
                         android:maxLength="100" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -92,6 +92,7 @@
                     android:layout_marginStart="@dimen/margin_16"
                     android:layout_marginTop="@dimen/margin_16"
                     android:layout_marginEnd="@dimen/margin_16"
+                    android:enabled="false"
                     android:inputType="textWebEmailAddress"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
@@ -105,10 +106,11 @@
                         android:id="@+id/edEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:editable="false"
                         android:hint="@string/email"
                         android:inputType="textEmailAddress"
-                        android:text="@{userInfo.email}"
-                        android:maxLength="100" />
+                        android:maxLength="100"
+                        android:text="@={userInfo.user.email}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,46 +137,22 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/phone"
                         android:inputType="phone"
-                        android:text="@{userInfo.phone}"
-                        android:maxLength="100" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tiPassword"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_16"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:layout_marginEnd="@dimen/margin_16"
-                    android:inputType="textPassword"
-                    app:endIconMode="password_toggle"
-                    app:errorEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tiPhone"
-                    app:startIconDrawable="@drawable/ic_password">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edConfirmPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/password"
-                        android:inputType="textPassword"
+                        android:text="@={userInfo.user.phone}"
                         android:maxLength="100" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/tvLocation"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16"
-                    android:text="@{userInfo.address}"
+                    android:layout_marginEnd="8dp"
+                    android:text="@={userInfo.user.address}"
                     android:textSize="@dimen/text_size_16"
-                    app:layout_constraintStart_toStartOf="@+id/tiPassword"
-                    app:layout_constraintTop_toBottomOf="@+id/tiPassword" />
+                    app:layout_constraintEnd_toStartOf="@+id/btnLocation"
+                    app:layout_constraintStart_toStartOf="@+id/tiPhone"
+                    app:layout_constraintTop_toBottomOf="@+id/tiPhone" />
 
                 <ImageButton
                     android:id="@+id/btnLocation"

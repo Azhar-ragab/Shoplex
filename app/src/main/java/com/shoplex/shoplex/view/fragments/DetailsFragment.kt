@@ -3,14 +3,13 @@ package com.shoplex.shoplex.view.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
@@ -23,26 +22,25 @@ import com.shoplex.shoplex.model.adapter.PropertyAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
+import com.shoplex.shoplex.model.maps.LocationManager
 import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import com.shoplex.shoplex.view.activities.CheckOutActivity
-import com.shoplex.shoplex.view.activities.MapsActivity
+import com.shoplex.shoplex.view.activities.DetailsActivity
 import com.shoplex.shoplex.view.activities.MessageActivity
 import com.shoplex.shoplex.viewmodel.DetailsVM
 import com.shoplex.shoplex.viewmodel.ProductsVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class DetailsFragment(private val productId: String) : Fragment(), FavouriteCartListener {
+class DetailsFragment : Fragment(), FavouriteCartListener {
     private lateinit var binding: FragmentDetailsBinding
-    private lateinit var propertyAdapter: PropertyAdapter
-    private lateinit var productsVM: ProductsVM
     private var product: Product = Product()
-    private lateinit var detailsVM: DetailsVM
-    private var storeInfo: Store = Store()
     private val imageList = ArrayList<SlideModel>()
-    private val MAPS_CODE = 202
+
+    private lateinit var productsVM: ProductsVM
+    private lateinit var detailsVM: DetailsVM
 
     private lateinit var repo: FavoriteCartRepo
     private lateinit var lifecycleScope: CoroutineScope
@@ -52,30 +50,32 @@ class DetailsFragment(private val productId: String) : Fragment(), FavouriteCart
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
-        lifecycleScope = (context as AppCompatActivity).lifecycleScope
+        lifecycleScope = requireActivity().lifecycleScope
         repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(binding.root.context).shopLexDao())
 
-        this.productsVM = ViewModelProvider(this).get(ProductsVM::class.java)
-        this.detailsVM = ViewModelProvider(this).get(DetailsVM::class.java)
+        productsVM = (requireActivity() as DetailsActivity).productsVM
+        detailsVM = (requireActivity() as DetailsActivity).detailsVM
 
-        productsVM.getProductById(productId)
-        productsVM.products.observe(this.viewLifecycleOwner,  {
-            if (it.count() > 0) {
-                this.product = it[0]
+        if (productsVM.products.value == null)
+            productsVM.getProduct()
+        else if(productsVM.products.value!!.isNotEmpty())
+            product = productsVM.products.value!!.first()
+
+        productsVM.products.observe(this.viewLifecycleOwner, { products ->
+            if (products.isNotEmpty()) {
+                this.product = products.first()
                 detailsVM.getStoreData(product.storeID)
                 binding.product = product
+                imageList.clear()
                 for (img in product.images)
                     imageList.add(SlideModel(img))
+                if (product.images.isEmpty())
+                    imageList.add(SlideModel(R.drawable.product))
                 binding.imgSliderDetails.setImageList(imageList, ScaleTypes.CENTER_CROP)
-                propertyAdapter = context?.let { PropertyAdapter(product.properties, it) }!!
-                binding.rvProperty.adapter = propertyAdapter
+                binding.rvProperty.adapter = PropertyAdapter(product.properties, requireContext())
                 onSearchForFavouriteCart(product.productID)
+                productsVM.products.removeObservers(this)
             }
-
-        })
-
-        detailsVM.store.observe(this.viewLifecycleOwner, {
-            this.storeInfo = it
         })
 
         repo.searchFavouriteByID.observe(context as AppCompatActivity, {
@@ -90,17 +90,27 @@ class DetailsFragment(private val productId: String) : Fragment(), FavouriteCart
 
         repo.searchCartByID.observe(context as AppCompatActivity, {
             if (it == null) {
-                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_cart), null)
+                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_cart),
+                    null
+                )
                 product.isCart = false
             } else {
-                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_done), null)
+                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_done),
+                    null
+                )
                 product.isCart = true
             }
         })
 
         binding.btnCall.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL);
-            intent.data = Uri.parse(getString(R.string.telephone) + storeInfo.phone)
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse(getString(R.string.telephone) + detailsVM.store.value!!.phone)
             startActivity(intent)
         }
 
@@ -128,10 +138,10 @@ class DetailsFragment(private val productId: String) : Fragment(), FavouriteCart
                                 product.storeID,
                                 UserInfo.name,
                                 product.storeName,
-                                storeInfo.phone,
+                                detailsVM.store.value!!.phone,
                                 true,
-                                productIDs = arrayListOf(productId),
-                                storeImage = storeInfo.image
+                                productIDs = arrayListOf(productsVM.productID.value!!),
+                                storeImage = detailsVM.store.value!!.image
                             )
                             newChatRef.set(chat).addOnSuccessListener {
                                 initMessage(chat.chatID)
@@ -140,10 +150,13 @@ class DetailsFragment(private val productId: String) : Fragment(), FavouriteCart
                         }
                         values.count() == 1 -> {
                             val chat: Chat = values.first().toObject()
-                            if (chat.productIDs.last() != productId)
+                            if (chat.productIDs.last() != productsVM.productID.value!!)
                                 initMessage(chat.chatID)
                             FirebaseReferences.chatRef.document(chat.chatID)
-                                .update("productIDs", FieldValue.arrayUnion(productId))
+                                .update(
+                                    "productIDs",
+                                    FieldValue.arrayUnion(productsVM.productID.value!!)
+                                )
                             openMessagesActivity(chat.chatID)
                         }
                         else -> {
@@ -156,23 +169,32 @@ class DetailsFragment(private val productId: String) : Fragment(), FavouriteCart
         }
 
         binding.imgLocation.setOnClickListener {
-            val location: Location = storeInfo.locations!![0]
-            val intent = Intent(binding.root.context, MapsActivity::class.java)
-            intent.putExtra(getString(R.string.locationLat), location.latitude)
-            intent.putExtra(getString(R.string.locationLang), location.longitude)
-            intent.putExtra(getString(R.string.storeName), product.storeName)
-            startActivityForResult(intent, MAPS_CODE)
+            LocationManager.getInstance(requireContext()).launchGoogleMaps(product.storeLocation)
         }
 
         binding.btnBuyProduct.setOnClickListener {
             if (UserInfo.userID != null) {
+
+                val selectedProperties: ArrayList<String> = arrayListOf()
+                for (property in product.properties){
+                    if(property.selectedProperty != null)
+                        selectedProperties.add(property.selectedProperty!!)
+                }
+
                 startActivity(Intent(context, CheckOutActivity::class.java).apply {
-                    this.putParcelableArrayListExtra("PRODUCTS_QUANTITY", arrayListOf<ProductQuantity>().apply {
-                        this.add(ProductQuantity(product.productID, 1))
-                    })
+                    this.putParcelableArrayListExtra(
+                        CheckOutActivity.PRODUCTS_QUANTITY,
+                        arrayListOf<ProductQuantity>().apply {
+                            this.add(ProductQuantity(product.productID, 1))
+                        })
+
+                    if(selectedProperties.isNotEmpty())
+                        this.putStringArrayListExtra(CheckOutActivity.PRODUCT_PROPERTIES, selectedProperties)
 
                     this.putExtra("isBuyNow", true)
+
                 })
+
             } else {
                 Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT).show()
             }
@@ -181,11 +203,21 @@ class DetailsFragment(private val productId: String) : Fragment(), FavouriteCart
         binding.btnAddToCart.setOnClickListener {
             if (product.isCart) {
                 onDeleteFromCart(product.productID)
-                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_cart), null)
+                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_cart),
+                    null
+                )
                 product.isCart = false
             } else {
                 onAddToCart(ProductCart(product = product))
-                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(null, null, requireContext().getDrawable(R.drawable.ic_done), null)
+                binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    null,
+                    AppCompatResources.getDrawable(requireContext(), R.drawable.ic_done),
+                    null
+                )
                 product.isCart = true
             }
         }
@@ -193,15 +225,19 @@ class DetailsFragment(private val productId: String) : Fragment(), FavouriteCart
         return binding.root
     }
 
-    private fun openMessagesActivity(chatID: String){
-        binding.root.context.startActivity(Intent(binding.root.context, MessageActivity::class.java).apply {
-            this.putExtra(ChatHeadAdapter.CHAT_TITLE_KEY, product.storeName)
-            this.putExtra(ChatHeadAdapter.CHAT_IMG_KEY, product.images.firstOrNull())
-            this.putExtra(ChatHeadAdapter.CHAT_ID_KEY, chatID)
-            this.putExtra(ChatHeadAdapter.PRODUCT_ID, product.productID)
-            this.putExtra(ChatHeadAdapter.STORE_ID_KEY, product.storeID)
-            this.putExtra(ChatHeadAdapter.STORE_PHONE, storeInfo.phone)
-        })
+    private fun openMessagesActivity(chatID: String) {
+        binding.root.context.startActivity(
+            Intent(
+                binding.root.context,
+                MessageActivity::class.java
+            ).apply {
+                this.putExtra(ChatHeadAdapter.CHAT_TITLE_KEY, product.storeName)
+                this.putExtra(ChatHeadAdapter.CHAT_IMG_KEY, product.images.firstOrNull())
+                this.putExtra(ChatHeadAdapter.CHAT_ID_KEY, chatID)
+                this.putExtra(ChatHeadAdapter.PRODUCT_ID, product.productID)
+                this.putExtra(ChatHeadAdapter.STORE_ID_KEY, product.storeID)
+                this.putExtra(ChatHeadAdapter.STORE_PHONE, detailsVM.store.value!!.phone)
+            })
     }
 
     private fun initMessage(chatID: String) {
@@ -211,18 +247,6 @@ class DetailsFragment(private val productId: String) : Fragment(), FavouriteCart
         FirebaseReferences.chatRef.document(chatID).collection(getString(R.string.messages))
             .document(message.messageID)
             .set(message)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == MAPS_CODE) {
-            if (resultCode == AppCompatActivity.RESULT_OK) {
-                val location: Parcelable? = data?.getParcelableExtra(getString(R.string.Loc))
-                if (location != null) {
-
-                }
-            }
-        }
     }
 
     override fun onAddToCart(productCart: ProductCart) {

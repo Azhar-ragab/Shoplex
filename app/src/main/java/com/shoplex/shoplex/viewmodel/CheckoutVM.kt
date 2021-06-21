@@ -34,6 +34,7 @@ class CheckoutVM(val context: Context) : ViewModel(), FavouriteCartListener {
     var totalPrice: MutableLiveData<Float> = MutableLiveData()
     var coupons: MutableLiveData<Float> = MutableLiveData()
     val isAllProductsReady: MutableLiveData<Boolean> = MutableLiveData()
+    var productProperties: ArrayList<String>? = null
 
     private var repo: FavoriteCartRepo
     private var lifecycleScope: CoroutineScope

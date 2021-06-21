@@ -20,60 +20,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_overall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/all_review"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_24" />
-
             <RatingBar
                 android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
+                android:layout_marginTop="8dp"
                 android:numStars="5"
-                android:rating="@{reviewStat.rate}"
-                android:progressTint="@color/yellow"
                 android:progressBackgroundTint="@color/grey_font"
+                android:progressTint="@color/yellow"
+                android:rating="@{reviewStat.rate}"
                 android:saveEnabled="true"
                 android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_overall">
+                app:layout_constraintTop_toTopOf="parent">
 
             </RatingBar>
-
-            <TextView
-                android:id="@+id/tv_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                app:layout_constraintTop_toBottomOf="@id/ratingBar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="rating"
-                android:gravity="center"
-                android:textColor="@color/gray"
-                android:textSize="20sp"/>
 
             <LinearLayout
                 android:id="@+id/linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                app:layout_constraintTop_toBottomOf="@id/tv_rating"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:baselineAligned="false"
                 android:orientation="horizontal"
                 android:weightSum="3"
-                android:baselineAligned="false">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ratingBar">
 
                 <LinearLayout
                     android:id="@+id/lay1"
@@ -98,17 +73,17 @@
 
                     <RatingBar
                         android:id="@+id/ratingBar2"
+                        style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_16"
                         android:layout_marginStart="@dimen/margin_16"
-                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="@dimen/margin_16"
                         android:numStars="5"
-                        android:stepSize="12"
                         android:progressTint="@color/yellow"
                         android:rating="4"
                         android:saveEnabled="true"
-                        android:layout_marginLeft="16dp"/>
+                        android:stepSize="12" />
 
                     <RatingBar
                         android:id="@+id/ratingBar3"
@@ -213,51 +188,51 @@
                         android:id="@+id/tvFive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_12"
                         android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/margin_12"
                         android:layout_marginEnd="@dimen/margin_8"
-                        android:text="@{`` + reviewStat.fiveStars}"
-                        android:layout_marginRight="@dimen/margin_8" />
+                        android:layout_marginRight="@dimen/margin_8"
+                        android:text="@{`` + reviewStat.fiveStars}" />
 
                     <TextView
                         android:id="@+id/tvFour"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
                         android:layout_gravity="end"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="@dimen/margin_8"
-                        android:text="@{`` + reviewStat.fourStars}"
-                        android:layout_marginRight="@dimen/margin_8" />
+                        android:layout_marginRight="@dimen/margin_8"
+                        android:text="@{`` + reviewStat.fourStars}" />
 
                     <TextView
                         android:id="@+id/tvThree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_12"
                         android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/margin_12"
                         android:layout_marginEnd="@dimen/margin_8"
-                        android:text="@{`` + reviewStat.threeStars}"
-                        android:layout_marginRight="@dimen/margin_8" />
+                        android:layout_marginRight="@dimen/margin_8"
+                        android:text="@{`` + reviewStat.threeStars}" />
 
                     <TextView
                         android:id="@+id/tvTwo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_12"
                         android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/margin_12"
                         android:layout_marginEnd="@dimen/margin_8"
-                        android:text="@{`` + reviewStat.twoStars}"
-                        android:layout_marginRight="@dimen/margin_8" />
+                        android:layout_marginRight="@dimen/margin_8"
+                        android:text="@{`` + reviewStat.twoStars}" />
 
                     <TextView
                         android:id="@+id/tvOne"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_12"
                         android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/margin_12"
                         android:layout_marginEnd="@dimen/margin_8"
-                        android:text="@{`` + reviewStat.oneStar}"
-                        android:layout_marginRight="@dimen/margin_8" />
+                        android:layout_marginRight="@dimen/margin_8"
+                        android:text="@{`` + reviewStat.oneStar}" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -265,23 +240,11 @@
                 android:id="@+id/tv_all_reviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_8"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_8"
                 android:gravity="center"
-                android:text="@string/reviews"
+                android:text="@{(reviewStat.rate == 0? @string/NoReviews: @string/reviews)}"
                 android:textColor="@color/gray"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnSheetAddReview" />
-
-            <Button
-                android:id="@+id/btnSheetAddReview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:text="@string/reviews"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linear_layout" />

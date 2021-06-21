@@ -153,7 +153,7 @@ class LocationManager: RoutingListener {
         return null
     }
 
-    fun launchGoogleMaps(location: LatLng) {
+    fun launchGoogleMaps(location: com.shoplex.shoplex.model.pojo.Location) {
         val gmmIntentUri =
             Uri.parse("google.navigation:q=" + location.latitude + "," + location.longitude)
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)

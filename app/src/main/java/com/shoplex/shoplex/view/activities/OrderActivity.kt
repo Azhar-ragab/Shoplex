@@ -20,36 +20,35 @@ import com.shoplex.shoplex.viewmodel.OrdersVM
 
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
-    private lateinit var orderAdapter: OrderAdapter
-    private lateinit var lastOrderAdapter: OrderAdapter
     private lateinit var ordersVM: OrdersVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (UserInfo.userID == null)
+            UserInfo.readUserInfo(this)
+
         binding = ActivityOrderBinding.inflate(layoutInflater)
-        this.ordersVM = ViewModelProvider(this).get(OrdersVM::class.java)
         setContentView(binding.root)
+
+        ordersVM = ViewModelProvider(this).get(OrdersVM::class.java)
         setSupportActionBar(binding.toolbarorder)
         supportActionBar?.apply {
             title = getString(R.string.orders)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
         }
 
-        if (supportActionBar != null) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-            supportActionBar!!.setDisplayShowHomeEnabled(true)
-        }
-
-        ordersVM.getCurrentOrders()
-        ordersVM.orders.observe(this, { orders ->
-            orderAdapter = OrderAdapter(orders)
-            binding.rvCurrentOrders.adapter = orderAdapter
+        if (ordersVM.currentOrders.value == null)
+            ordersVM.getCurrentOrders()
+        ordersVM.currentOrders.observe(this, { orders ->
+            binding.rvCurrentOrders.adapter = OrderAdapter(orders)
         })
 
-        ordersVM.getLastOrders()
+        if (ordersVM.lastOrders.value == null)
+            ordersVM.getLastOrders()
         ordersVM.lastOrders.observe(this, { lastOrders ->
-            lastOrderAdapter = OrderAdapter(lastOrders)
-            binding.rvLastOrders.adapter = lastOrderAdapter
+            binding.rvLastOrders.adapter = OrderAdapter(lastOrders)
         })
 
         val notificationManager = this.getSystemService(
@@ -65,7 +64,6 @@ class OrderActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         if (item.itemId == android.R.id.home) finish()
 
         return super.onOptionsItemSelected(item)

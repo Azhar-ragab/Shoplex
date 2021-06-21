@@ -1,6 +1,5 @@
 package com.shoplex.shoplex.model.firebase
 
-
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
@@ -16,7 +15,6 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.interfaces.AuthListener
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
-
 
 class AuthDBModel(val listener: AuthListener, val context: Context) {
     fun loginWithEmail(email: String, password: String) {
@@ -142,7 +140,7 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
         FirebaseReferences.usersRef.whereEqualTo("email", userEmail)
             .whereEqualTo("authType", authType).get()
             .addOnSuccessListener {
-                var user: User?
+                val user: User?
                 when {
                     it.documents.count() > 0 -> {
                         user = it.documents[0].toObject()!!

@@ -30,47 +30,53 @@
 
             android:scaleType="fitXY"
             android:src="@drawable/product"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_product_name"
-            android:layout_width="136dp"
-            android:layout_height="41dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
 
 
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_8"
 
+            android:layout_marginEnd="@dimen/margin_8"
             android:text="@string/productName"
             android:textColor="@color/black"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_product_summary"
             app:layout_constraintTop_toTopOf="@+id/img_product_summary" />
 
         <TextView
             android:id="@+id/tv_Quantity"
-            android:layout_width="138dp"
-            android:layout_height="53dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
 
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_8"
             android:text="@string/Quantity"
             android:textColor="@color/gray"
             android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_product_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_name" />
 
         <TextView
             android:id="@+id/tv_price_simmary"
-            android:layout_width="30dp"
-            android:layout_height="28dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end"
-android:layout_marginRight="@dimen/margin_8"
 
-            android:layout_marginBottom="@dimen/margin_8dp"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:layout_marginBottom="@dimen/margin_8"
             android:text="@string/Price"
             android:textColor="@color/red"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/img_product_summary"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

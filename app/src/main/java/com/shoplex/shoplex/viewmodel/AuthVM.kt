@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.model.enumurations.AuthType
@@ -56,6 +57,25 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
             } else {
                 onUserExists()
             }
+        }
+    }
+
+    fun updateCurrentAccount(){
+        if(!user.value?.userID.isNullOrEmpty()) {
+            Firebase.firestore.collection("Users").document(user.value!!.userID).set(user)
+                .addOnSuccessListener {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.UpdateAccount),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        } else {
+            Toast.makeText(
+                context,
+                context.getString(R.string.error),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

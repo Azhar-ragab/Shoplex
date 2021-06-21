@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.shoplex.shoplex.model.enumurations.AuthType
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.NotificationToken
 import com.shoplex.shoplex.model.pojo.RecentVisit
@@ -22,6 +23,7 @@ object UserInfo {
     var address: String = ""
     var phone: String? = null
     var lang: String = "en"
+    var authType: AuthType = AuthType.Email
 
     fun updateTokenID() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->

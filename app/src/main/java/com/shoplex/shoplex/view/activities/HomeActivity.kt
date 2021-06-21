@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityHomeBinding
+import com.shoplex.shoplex.model.extra.UserInfo
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -18,8 +19,9 @@ class HomeActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+        if(UserInfo.userID == null)
+            UserInfo.readUserInfo(this)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
