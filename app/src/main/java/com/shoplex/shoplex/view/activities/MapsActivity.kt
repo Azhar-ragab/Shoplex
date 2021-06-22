@@ -23,7 +23,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         private const val REQUEST_CODE = 101
-        const val MAPS_CODE = 202
         const val LOCATION_ACTION = "LOCATION_ACTION"
         const val ADDRESS = "ADDRESS"
         const val LOCATION = "LOCATION"
@@ -70,15 +69,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.btnOK.setOnClickListener {
             when (locationAction) {
                 LocationAction.Add, LocationAction.Change -> addNewLocation()
-                LocationAction.ShowRoute -> TODO()
-                LocationAction.ShowStores -> TODO()
             }
             finish()
 
         }
     }
 
-    fun addNewLocation() {
+    private fun addNewLocation() {
         setResult(RESULT_OK, Intent().apply {
             val selectedLocation = com.shoplex.shoplex.model.pojo.Location(
                 locationManager.selectedLocation.latitude,

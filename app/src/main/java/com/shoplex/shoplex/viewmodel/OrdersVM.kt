@@ -12,10 +12,6 @@ class OrdersVM : ViewModel(), ProductsListener {
     var currentOrders: MutableLiveData<ArrayList<Order>> = MutableLiveData()
     var lastOrders: MutableLiveData<ArrayList<Order>> = MutableLiveData()
 
-    fun addOrder(order: Order) {
-        ordersDBModel.addOrder(order)
-    }
-
     override fun onOrderSuccess() {
 
     }

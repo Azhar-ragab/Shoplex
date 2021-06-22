@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -37,13 +38,6 @@ class AccountFragment : Fragment() {
 
         binding = FragmentAccountBinding.inflate(inflater, container, false)
 
-        if (UserInfo.userID == null)
-            binding.btnLogout.text = getString(R.string.login)
-
-        binding.switchNotification.isChecked = UserInfo.readNotification(requireContext())
-
-        binding.tvUserName.text = UserInfo.name
-
         binding.btnLogout.setOnClickListener {
             if (UserInfo.userID == null) {
                 startActivity(Intent(this.context, AuthActivity::class.java))
@@ -53,13 +47,19 @@ class AccountFragment : Fragment() {
         }
 
         binding.cardProfile.setOnClickListener {
-            val intent = Intent(context, ProfileActivity::class.java)
-            startActivity(intent)
+            if(UserInfo.userID != null) {
+                startActivity(Intent(context, ProfileActivity::class.java))
+            } else{
+                Toast.makeText(requireContext(), getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.cardOrder.setOnClickListener {
-            val intent = Intent(context, OrderActivity::class.java)
-            startActivity(intent)
+            if(UserInfo.userID != null) {
+                startActivity(Intent(context, OrderActivity::class.java))
+            } else{
+                Toast.makeText(requireContext(), getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.cardShare.setOnClickListener {
@@ -89,10 +89,31 @@ class AccountFragment : Fragment() {
         }
 
         binding.cardRemoveAccount.setOnClickListener {
-
         }
 
         return binding.root
+    }
+
+    private fun checkLogin() {
+        if (UserInfo.userID == null) {
+            binding.btnLogout.text = getString(R.string.login)
+            binding.tvUserName.text = getText(R.string.fullAccess)
+            binding.switchNotification.isEnabled = false
+            binding.cardReport.visibility = View.INVISIBLE
+            binding.cardRemoveAccount.visibility = View.INVISIBLE
+        } else {
+            binding.btnLogout.text = getString(R.string.logOut)
+            binding.tvUserName.text = UserInfo.name
+            binding.switchNotification.isEnabled = true
+            binding.switchNotification.isChecked = UserInfo.readNotification(requireContext())
+            binding.cardReport.visibility = View.VISIBLE
+            binding.cardRemoveAccount.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkLogin()
     }
 
     fun showDialog() {
@@ -102,6 +123,7 @@ class AccountFragment : Fragment() {
 
         builder?.setPositiveButton(getString(R.string.yes)) { _, _ ->
             AuthVM.logout(requireContext())
+            checkLogin()
         }
 
         builder?.setNegativeButton(getString(R.string.no)) { dialog, _ ->

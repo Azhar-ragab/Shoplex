@@ -26,6 +26,7 @@ import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.LoginTabFragmentBinding
 import com.shoplex.shoplex.model.enumurations.AuthType
+import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.viewmodel.AuthVM
 import org.json.JSONException
 import java.util.regex.Matcher
@@ -90,16 +91,34 @@ class LoginTabFragment : Fragment() {
         })
 
         binding.btnGoogle.setOnClickListener {
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-            val signInIntent = GoogleSignIn.getClient(requireContext(), gso).signInIntent
-            startGoogleLogin.launch(signInIntent)
+            if (ArchLifecycleApp.isInternetConnected) {
+                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build()
+                val signInIntent = GoogleSignIn.getClient(requireActivity(), gso).signInIntent
+
+
+                startGoogleLogin.launch(signInIntent)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getText(R.string.NoInternetConnection),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         binding.btnFace.setOnClickListener {
-            loginWithFacebook()
+            if (ArchLifecycleApp.isInternetConnected) {
+                loginWithFacebook()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getText(R.string.NoInternetConnection),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         onEditTextChanged()

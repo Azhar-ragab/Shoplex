@@ -10,16 +10,19 @@
     android:layout_width="match_parent"
     android:background="@color/lightgray"
     android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/tvUserName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_8"
         android:layout_marginTop="@dimen/margin_32"
         android:textAlignment="center"
         android:textColor="@color/darkblue"
         android:textSize="@dimen/text_size_24"
         android:textStyle="bold"
+        android:layout_marginEnd="@dimen/margin_8"
+        app:layout_constraintEnd_toStartOf="@+id/btnLogout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -31,27 +34,30 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_16"
         android:text="@string/logOut"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="@id/tvUserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvUserName">
 
     </Button>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUserName"
         android:layout_marginTop="@dimen/margin_32"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
         app:cardElevation="@dimen/width_0"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvUserName">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/card"
-            android:layout_height="@dimen/width_50">
+            android:layout_height="@dimen/width_50"
+            android:background="@drawable/card">
 
 
             <ImageView
@@ -59,9 +65,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_account"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -72,20 +78,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/padding_2"
                 android:text="@string/profile"
                 android:textColor="@color/darkblue"
                 android:textSize="@dimen/text_size_18"
-                android:layout_marginBottom="@dimen/padding_2"
+                app:layout_constraintBottom_toBottomOf="@id/imgProfile"
                 app:layout_constraintStart_toEndOf="@+id/imgProfile"
-                app:layout_constraintTop_toTopOf="@id/imgProfile"
-                app:layout_constraintBottom_toBottomOf="@id/imgProfile"/>
+                app:layout_constraintTop_toTopOf="@id/imgProfile" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_arrow_right"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -94,22 +101,24 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
         app:cardElevation="@dimen/width_0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardProfile"
-        android:layout_marginTop="@dimen/margin_8"
-        >
+        app:layout_constraintTop_toBottomOf="@id/cardProfile">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/card"
-            android:layout_height="@dimen/width_50">
+            android:layout_height="@dimen/width_50"
+            android:background="@drawable/card">
 
 
             <ImageView
@@ -117,9 +126,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_order"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -130,20 +139,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/padding_2"
                 android:text="@string/orders"
                 android:textColor="@color/darkblue"
                 android:textSize="@dimen/text_size_18"
-                android:layout_marginBottom="@dimen/padding_2"
+                app:layout_constraintBottom_toBottomOf="@id/imgOrders"
                 app:layout_constraintStart_toEndOf="@+id/imgOrders"
-                app:layout_constraintTop_toTopOf="@id/imgOrders"
-                app:layout_constraintBottom_toBottomOf="@id/imgOrders"/>
+                app:layout_constraintTop_toTopOf="@id/imgOrders" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_arrow_right"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -152,22 +162,24 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardShare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardOrder"
         android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
         app:cardElevation="@dimen/width_0"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardOrder">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/card"
-            android:layout_height="@dimen/width_50">
+            android:layout_height="@dimen/width_50"
+            android:background="@drawable/card">
 
 
             <ImageView
@@ -175,9 +187,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_share"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -188,20 +200,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/padding_2"
                 android:text="@string/share"
                 android:textColor="@color/darkblue"
                 android:textSize="@dimen/text_size_18"
-                android:layout_marginBottom="@dimen/padding_2"
+                app:layout_constraintBottom_toBottomOf="@id/imgShare"
                 app:layout_constraintStart_toEndOf="@+id/imgShare"
-                app:layout_constraintTop_toTopOf="@id/imgShare"
-                app:layout_constraintBottom_toBottomOf="@id/imgShare"/>
+                app:layout_constraintTop_toTopOf="@id/imgShare" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_arrow_right"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -241,9 +254,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
         app:cardElevation="@dimen/width_0"
-        android:layout_marginTop="@dimen/margin_8"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSetting">
 
@@ -300,9 +315,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
         app:cardElevation="@dimen/width_0"
-        android:layout_marginTop="@dimen/margin_8"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardLanguage">
 
@@ -355,20 +372,21 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardRate"
-        app:cardElevation="@dimen/width_0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardNotification"
         android:layout_marginTop="@dimen/margin_8"
-        >
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        app:cardElevation="@dimen/width_0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardNotification">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/card"
-            android:layout_height="@dimen/width_50">
+            android:layout_height="@dimen/width_50"
+            android:background="@drawable/card">
 
 
             <ImageView
@@ -376,9 +394,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_rate"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -389,20 +407,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/padding_2"
                 android:text="@string/rateUs"
                 android:textColor="@color/darkblue"
                 android:textSize="@dimen/text_size_18"
-                android:layout_marginBottom="@dimen/padding_2"
+                app:layout_constraintBottom_toBottomOf="@id/imgRate"
                 app:layout_constraintStart_toEndOf="@+id/imgRate"
-                app:layout_constraintTop_toTopOf="@id/imgRate"
-                app:layout_constraintBottom_toBottomOf="@id/imgRate"/>
+                app:layout_constraintTop_toTopOf="@id/imgRate" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_arrow_right"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -414,20 +433,21 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardReport"
-        app:cardElevation="@dimen/width_0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardRate"
         android:layout_marginTop="@dimen/margin_8"
-        >
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        app:cardElevation="@dimen/width_0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardRate">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/card"
-            android:layout_height="@dimen/width_50">
+            android:layout_height="@dimen/width_50"
+            android:background="@drawable/card">
 
 
             <ImageView
@@ -435,9 +455,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_report"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -448,21 +468,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/padding_2"
                 android:text="@string/report"
                 android:textColor="@color/darkblue"
                 android:textSize="@dimen/text_size_18"
-                android:layout_marginBottom="@dimen/padding_2"
+                app:layout_constraintBottom_toBottomOf="@id/imgReport"
                 app:layout_constraintStart_toEndOf="@+id/imgReport"
-                app:layout_constraintTop_toTopOf="@id/imgReport"
-                app:layout_constraintBottom_toBottomOf="@id/imgReport"/>
+                app:layout_constraintTop_toTopOf="@id/imgReport" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_arrow_right"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -472,20 +492,21 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardRemoveAccount"
-        app:cardElevation="@dimen/width_0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardReport"
         android:layout_marginTop="@dimen/margin_8"
-        >
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        app:cardElevation="@dimen/width_0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardReport">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/card"
-            android:layout_height="@dimen/width_50">
+            android:layout_height="@dimen/width_50"
+            android:background="@drawable/card">
 
 
             <ImageView
@@ -493,9 +514,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_delete"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -506,20 +527,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/padding_2"
                 android:text="@string/removeAccount"
                 android:textColor="@color/darkblue"
                 android:textSize="@dimen/text_size_18"
-                android:layout_marginBottom="@dimen/padding_2"
+                app:layout_constraintBottom_toBottomOf="@id/imgRemoveAccount"
                 app:layout_constraintStart_toEndOf="@+id/imgRemoveAccount"
-                app:layout_constraintTop_toTopOf="@id/imgRemoveAccount"
-                app:layout_constraintBottom_toBottomOf="@id/imgRemoveAccount"/>
+                app:layout_constraintTop_toTopOf="@id/imgRemoveAccount" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_arrow_right"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -19,6 +19,7 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDetailsBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.PropertyAdapter
+import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
@@ -58,7 +59,7 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
 
         if (productsVM.products.value == null)
             productsVM.getProduct()
-        else if(productsVM.products.value!!.isNotEmpty())
+        else if (productsVM.products.value!!.isNotEmpty())
             product = productsVM.products.value!!.first()
 
         productsVM.products.observe(this.viewLifecycleOwner, { products ->
@@ -74,6 +75,11 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                 binding.imgSliderDetails.setImageList(imageList, ScaleTypes.CENTER_CROP)
                 binding.rvProperty.adapter = PropertyAdapter(product.properties, requireContext())
                 onSearchForFavouriteCart(product.productID)
+                if (product.quantity == 0) {
+                    binding.linearLayout.isEnabled = false
+                    binding.linearLayout.visibility = View.INVISIBLE
+                    onDeleteFromCart(product.productID)
+                }
                 productsVM.products.removeObservers(this)
             }
         })
@@ -109,9 +115,14 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
         })
 
         binding.btnCall.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse(getString(R.string.telephone) + detailsVM.store.value!!.phone)
-            startActivity(intent)
+            if(detailsVM.store.value != null) {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data =
+                    Uri.parse(getString(R.string.telephone) + detailsVM.store.value!!.phone)
+                startActivity(intent)
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.Telephone), Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnFavourite.setOnClickListener {
@@ -127,6 +138,10 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
         }
 
         binding.btnMessage.setOnClickListener {
+            if(!ArchLifecycleApp.isInternetConnected) {
+                Toast.makeText(requireContext(), getString(R.string.NoInternetConnection), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             FirebaseReferences.chatRef.whereEqualTo("storeID", product.storeID)
                 .whereEqualTo("userID", UserInfo.userID).get().addOnSuccessListener { values ->
                     when {
@@ -176,8 +191,8 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
             if (UserInfo.userID != null) {
 
                 val selectedProperties: ArrayList<String> = arrayListOf()
-                for (property in product.properties){
-                    if(property.selectedProperty != null)
+                for (property in product.properties) {
+                    if (property.selectedProperty != null)
                         selectedProperties.add(property.selectedProperty!!)
                 }
 
@@ -188,8 +203,11 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                             this.add(ProductQuantity(product.productID, 1))
                         })
 
-                    if(selectedProperties.isNotEmpty())
-                        this.putStringArrayListExtra(CheckOutActivity.PRODUCT_PROPERTIES, selectedProperties)
+                    if (selectedProperties.isNotEmpty())
+                        this.putStringArrayListExtra(
+                            CheckOutActivity.PRODUCT_PROPERTIES,
+                            selectedProperties
+                        )
 
                     this.putExtra("isBuyNow", true)
 

@@ -19,6 +19,7 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.lang.reflect.InvocationTargetException
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
@@ -174,10 +175,14 @@ class LocationManager: RoutingListener {
 
     fun getAddress(location: com.shoplex.shoplex.model.pojo.Location): String? {
 
-        val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses: List<Address>? =
-            geocoder.getFromLocation(location.latitude, location.longitude, 1)
-        return addresses?.get(0)?.getAddressLine(0)
+        return try {
+            val geocoder = Geocoder(context, Locale.getDefault())
+            val addresses: List<Address>? =
+                geocoder.getFromLocation(location.latitude, location.longitude, 1)
+            addresses?.get(0)?.getAddressLine(0)
+        } catch (ex: IOException){
+            null
+        }
     }
 
     override fun onRoutingFailure(p0: RouteException?) {
