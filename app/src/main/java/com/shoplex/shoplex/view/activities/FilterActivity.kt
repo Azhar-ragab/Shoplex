@@ -86,7 +86,7 @@ class FilterActivity : AppCompatActivity() {
 
         supportActionBar?.apply {
             title = getString(R.string.filter)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+           // setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
         if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)

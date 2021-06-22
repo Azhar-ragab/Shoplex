@@ -22,8 +22,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_16"
             android:layout_marginEnd="@dimen/margin_8"
-
-
             android:background="@drawable/radius"
             android:iconifiedByDefault="false"
             android:queryBackground="@android:color/transparent"
@@ -87,41 +85,35 @@
         </HorizontalScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-<ScrollView
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    <ScrollView
 
-    <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_advertisement"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_4"
-            android:scrollbars="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/rv_home_adcardview" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_advertisement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_4"
+                android:scrollbars="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/rv_home_adcardview" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_Homeproducts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_8"
-            android:background="@color/white"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_Homeproducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8"
+                android:gravity="center"
+                tools:listitem="@layout/rv_home_product_cardview" />
 
-            android:gravity="center"
-
-
-            tools:listitem="@layout/rv_home_product_cardview" />
-
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

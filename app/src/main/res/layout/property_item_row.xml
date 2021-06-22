@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/property"
-        android:textColor="@color/black"
+        style="@style/TitleColor"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

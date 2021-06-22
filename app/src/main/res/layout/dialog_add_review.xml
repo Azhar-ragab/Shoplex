@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/browser_actions_bg_grey">
+    android:layout_height="match_parent">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -14,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/what_is_your_rate"
-        android:textColor="@color/gray"
+        style="@style/TitleColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -44,7 +43,7 @@
         android:padding="@dimen/padding_16"
         android:text="@string/please_share_your_oponion_about_the_product"
         android:textAlignment="center"
-        android:textColor="@color/gray"
+        style="@style/WhiteColorText"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -72,14 +71,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/white"
             android:ems="10"
             android:gravity="start"
             android:hint="@string/your_review"
             android:inputType="textMultiLine"
             android:maxLength="200"
-            android:minLines="5"
-            android:textColor="@color/black" />
+            android:minLines="5" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

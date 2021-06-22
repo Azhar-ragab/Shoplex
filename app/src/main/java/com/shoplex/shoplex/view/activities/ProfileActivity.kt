@@ -76,11 +76,12 @@ class ProfileActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarProfile)
         supportActionBar?.apply {
             title = getString(R.string.profile)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+           // setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        if (supportActionBar != null) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+        }
 
         Glide.with(this).load(UserInfo.image).error(R.drawable.product).into(binding.imgUser)
 

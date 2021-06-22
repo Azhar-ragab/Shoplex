@@ -17,8 +17,6 @@
 
     </style>
 
-
-
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/white</item>
@@ -41,6 +39,32 @@
     </style>
 
     <style name="Theme.Shoplex.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="Theme.Shoplex.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomCardCorners" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance_custom_corners</item>
+    </style>
+
+    <style name="ShapeAppearance_custom_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">25dp</item>
+        <item name="cornerSizeTopRight">25dp</item>
+    </style>
+
+    <style name="TitleColor" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/purple_700</item>
+    </style>
+
+    <style name="WhiteColorText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/grayShopex</item>
+    </style>
+
+    <style name="CustomCardview" parent="Base.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">7dp</item>
+    </style>
+    <style name="chipsBg">
+        <item name="chipBackgroundColor">@color/white</item>
+    </style>
+
 </resources>
