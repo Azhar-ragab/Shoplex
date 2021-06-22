@@ -1,5 +1,6 @@
 package com.shoplex.shoplex.model.pojo
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Exclude
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
 import com.shoplex.shoplex.model.enumurations.OrderStatus
@@ -9,7 +10,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class Order {
-    val orderID: String = UUID.randomUUID().toString()
+    val orderID: String = Timestamp.now().toDate().time.toString()
     var productID: String = ""
     var userID: String = ""
     var storeID: String = ""

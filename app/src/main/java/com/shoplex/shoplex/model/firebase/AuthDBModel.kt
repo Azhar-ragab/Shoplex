@@ -54,10 +54,10 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
             }
     }
 
-    fun createEmailAccount(user: User, password: String) {
-        val ref: DocumentReference = FirebaseReferences.usersRef.document()
+    fun createEmailAccount(user: User, password: String, ref: DocumentReference) {
+
         user.userID = ref.id
-        addImage(Uri.parse(user.image), user.userID)
+        //addImage(Uri.parse(user.image), user.userID)
         user.image = ""
         Firebase.auth.createUserWithEmailAndPassword(user.email, password)
             .addOnCompleteListener { task ->
@@ -72,43 +72,10 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
 
     private fun addNewUser(ref: DocumentReference, user: User) {
         ref.set(user).addOnSuccessListener {
-           // (context as AppCompatActivity).lifecycleScope.launch {
-           // }
-
             listener.onAddNewUser(context, user)
 
         }.addOnFailureListener {
             listener.onAddNewUser(context, null)
-        }
-
-        /*
-        FirebaseReferences.usersRef.document(user.userID)
-            .collection("Lists")
-            .document("Favorite").set({"FavoriteList" to arrayListOf<String>()})
-        FirebaseReferences.usersRef.document(user.userID)
-            .collection("Lists")
-            .document("Cart").set({"CartList" to arrayListOf<String>()})
-        */
-    }
-
-    private fun addImage(uri: Uri, userId: String) {
-
-        val imgRef: StorageReference = FirebaseReferences.imagesUserRef.child(userId)
-
-        imgRef.putFile(uri).addOnSuccessListener { _ ->
-            imgRef.downloadUrl.addOnSuccessListener { uri ->
-                //add Image to FireStorage
-                FirebaseReferences.usersRef.document(userId).get().addOnSuccessListener {
-                    if(it.exists()){
-                        FirebaseReferences.usersRef.document(userId).update("image", uri.toString())
-                        //update profile
-                        val profileUpdates = userProfileChangeRequest {
-                            photoUri = uri
-                        }
-                        Firebase.auth.currentUser.updateProfile(profileUpdates)
-                    }
-                }
-            }
         }
     }
 

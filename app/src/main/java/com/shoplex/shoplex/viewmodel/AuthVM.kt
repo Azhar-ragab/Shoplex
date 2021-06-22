@@ -1,6 +1,7 @@
 package com.shoplex.shoplex.viewmodel
 
 import android.content.Context
+import android.net.Uri
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -8,10 +9,16 @@ import androidx.lifecycle.ViewModel
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.model.enumurations.AuthType
+import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.firebase.AuthDBModel
 import com.shoplex.shoplex.model.interfaces.AuthListener
@@ -23,7 +30,8 @@ import kotlinx.coroutines.launch
 
 class AuthVM(val context: Context) : ViewModel(), AuthListener {
     var user: MutableLiveData<User> = MutableLiveData()
-    var email: MutableLiveData<String> = MutableLiveData()
+
+    //var email: MutableLiveData<String> = MutableLiveData()
     var password: MutableLiveData<String> = MutableLiveData()
 
     var isLoginBtnPressed: MutableLiveData<Boolean> = MutableLiveData()
@@ -34,9 +42,10 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
 
     private var userDBModel: AuthDBModel
 
+    private lateinit var imgTask: StorageTask<UploadTask.TaskSnapshot>
+
     init {
         this.user.value = User()
-        this.email.value = ""
         this.password.value = ""
         this.userDBModel = AuthDBModel(this, context)
     }
@@ -44,24 +53,46 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
     fun login(authType: AuthType, accessToken: String? = null) {
 
         when (authType) {
-            AuthType.Email -> userDBModel.loginWithEmail(email.value!!, password.value!!)
+            AuthType.Email -> userDBModel.loginWithEmail(user.value!!.email, password.value!!)
             AuthType.Facebook -> userDBModel.loginWithFacebook(accessToken!!)
             AuthType.Google -> userDBModel.loginWithGoogle(accessToken!!)
         }
     }
 
     fun createAccount() {
+        val ref: DocumentReference = FirebaseReferences.usersRef.document()
+        addImage(Uri.parse(user.value!!.image), ref.id)
         Firebase.auth.fetchSignInMethodsForEmail(user.value!!.email).addOnCompleteListener {
             if (it.isSuccessful && it.result?.signInMethods?.size == 0) {
-                userDBModel.createEmailAccount(user.value!!, password.value!!)
+                userDBModel.createEmailAccount(user.value!!, password.value!!, ref)
             } else {
+                imgTask.cancel()
+                FirebaseReferences.imagesUserRef.child(ref.id).delete()
                 onUserExists()
             }
         }
     }
 
-    fun updateCurrentAccount(){
-        if(!user.value?.userID.isNullOrEmpty()) {
+    private fun addImage(uri: Uri, userId: String) {
+        val imgRef: StorageReference = FirebaseReferences.imagesUserRef.child(userId)
+        imgTask = imgRef.putFile(uri).addOnSuccessListener { _ ->
+            imgRef.downloadUrl.addOnSuccessListener { uri ->
+                FirebaseReferences.usersRef.document(userId).get().addOnSuccessListener {
+                    if (it.exists()) {
+                        FirebaseReferences.usersRef.document(userId).update("image", uri.toString())
+                        val profileUpdates = userProfileChangeRequest {
+                            photoUri = uri
+                        }
+                        Firebase.auth.currentUser.updateProfile(profileUpdates)
+                    }
+                }
+            }
+        }
+
+    }
+
+    fun updateCurrentAccount() {
+        if (!user.value?.userID.isNullOrEmpty()) {
             Firebase.firestore.collection("Users").document(user.value!!.userID).set(user)
                 .addOnSuccessListener {
                     Toast.makeText(
