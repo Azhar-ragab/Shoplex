@@ -49,8 +49,10 @@ class ProfileActivity : AppCompatActivity() {
                     val data: Intent? = it.data
                     if (data != null || data?.data != null) {
                         val uri = data.data
-                        authVM.user.value!!.image = uri.toString()
-                        binding.imgUser.setImageURI(uri)
+                        if (uri != null) {
+                            authVM.userImgUri = uri
+                            binding.imgUser.setImageURI(uri)
+                        }
                     }
                 }
             }
@@ -85,8 +87,9 @@ class ProfileActivity : AppCompatActivity() {
         binding.userInfo = authVM
 
         binding.btnSave.setOnClickListener {
-            if (checkEditText())
+            if (checkEditText()) {
                 authVM.updateCurrentAccount()
+            }
         }
 
         binding.btnLocation.setOnClickListener {

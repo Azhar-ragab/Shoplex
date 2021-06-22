@@ -30,8 +30,6 @@ import kotlinx.coroutines.launch
 
 class AuthVM(val context: Context) : ViewModel(), AuthListener {
     var user: MutableLiveData<User> = MutableLiveData()
-
-    //var email: MutableLiveData<String> = MutableLiveData()
     var password: MutableLiveData<String> = MutableLiveData()
 
     var isLoginBtnPressed: MutableLiveData<Boolean> = MutableLiveData()
@@ -43,6 +41,7 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
     private var userDBModel: AuthDBModel
 
     private lateinit var imgTask: StorageTask<UploadTask.TaskSnapshot>
+    var userImgUri: Uri? = null
 
     init {
         this.user.value = User()
@@ -51,7 +50,6 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
     }
 
     fun login(authType: AuthType, accessToken: String? = null) {
-
         when (authType) {
             AuthType.Email -> userDBModel.loginWithEmail(user.value!!.email, password.value!!)
             AuthType.Facebook -> userDBModel.loginWithFacebook(accessToken!!)
@@ -83,23 +81,38 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
                         val profileUpdates = userProfileChangeRequest {
                             photoUri = uri
                         }
+                        if(userImgUri != null){
+                            UserInfo.image = uri.toString()
+                            UserInfo.saveUserInfo(context)
+                        }
                         Firebase.auth.currentUser.updateProfile(profileUpdates)
                     }
                 }
             }
         }
-
     }
 
     fun updateCurrentAccount() {
         if (!user.value?.userID.isNullOrEmpty()) {
-            Firebase.firestore.collection("Users").document(user.value!!.userID).set(user)
+
+            if(userImgUri != null)
+                addImage(userImgUri!!, user.value!!.userID)
+
+            Firebase.firestore.collection("Users").document(user.value!!.userID).set(user.value!!)
                 .addOnSuccessListener {
                     Toast.makeText(
                         context,
                         context.getString(R.string.UpdateAccount),
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    UserInfo.name = user.value!!.name
+                    UserInfo.location = user.value!!.location
+                    UserInfo.address = user.value!!.address
+                    UserInfo.phone = user.value!!.phone
+                    UserInfo.saveUserInfo(context)
+
+                    (context as AppCompatActivity).finish()
                 }
         } else {
             Toast.makeText(

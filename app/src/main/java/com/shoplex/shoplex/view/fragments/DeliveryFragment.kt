@@ -92,7 +92,7 @@ class DeliveryFragment : Fragment() {
 
         val location: Location? = data.getParcelableExtra(MapsActivity.LOCATION)
         val address: String? = data.getStringExtra(MapsActivity.ADDRESS)
-        if (location != null && (checkoutVM.deliveryLocation.value!!.latitude != location.latitude || checkoutVM.deliveryLocation.value!!.longitude != location.longitude)) {
+        if (location != null && address != null && (checkoutVM.deliveryLocation.value!!.latitude != location.latitude || checkoutVM.deliveryLocation.value!!.longitude != location.longitude)) {
             binding.tvAddress.text = address
             checkoutVM.deliveryAddress.value = address
             checkoutVM.deliveryLocation.value = location

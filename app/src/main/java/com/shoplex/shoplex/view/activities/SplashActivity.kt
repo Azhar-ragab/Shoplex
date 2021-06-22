@@ -15,6 +15,7 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivitySplashBinding
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.interfaces.ProductsListener
+import com.shoplex.shoplex.viewmodel.AuthVM
 import java.util.*
 
 class SplashActivity : AppCompatActivity(), ProductsListener {
@@ -50,7 +51,7 @@ class SplashActivity : AppCompatActivity(), ProductsListener {
             currentUser = Firebase.auth.currentUser
 
             if (currentUser == null) {
-                UserInfo.clear()
+                AuthVM.logout(this)
             } else if(!UserInfo.userID.isNullOrEmpty()){
                 UserInfo.saveToRecentVisits()
             }

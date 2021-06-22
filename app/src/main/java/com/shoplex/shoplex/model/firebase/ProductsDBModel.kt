@@ -9,7 +9,7 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.interfaces.ProductsListener
 import com.shoplex.shoplex.model.pojo.*
 
-class ProductsDBModel(val notifier: ProductsListener?) {
+class ProductsDBModel(private val notifier: ProductsListener?) {
 
     fun getAllProducts(category: Category, filter: Filter, sort: Sort?) {
         var query: Query = FirebaseReferences.productsRef
@@ -18,11 +18,6 @@ class ProductsDBModel(val notifier: ProductsListener?) {
         if(filter.lowPrice != null && filter.highPrice != null)
             query = query.whereGreaterThanOrEqualTo("newPrice", filter.lowPrice)
                 .whereLessThanOrEqualTo("newPrice", filter.highPrice)
-                //.orderBy("newPrice", Query.Direction.ASCENDING)
-/*
-        if(filter.subCategory != null)
-            query = query.whereIn("subCategory", filter.subCategory)
-        */
 
         if (filter.shops != null)
             query = query.whereIn("storeID", filter.shops)
@@ -42,15 +37,13 @@ class ProductsDBModel(val notifier: ProductsListener?) {
         }
 
         query.addSnapshotListener { values, error ->
-
-
             if(error != null){
                 Log.i("FIREBASEINDEXES", error.toString())
             }
 
-            var products = arrayListOf<Product>()
+            val products = arrayListOf<Product>()
             for (document: DocumentSnapshot in values?.documents!!) {
-                var product: Product? = document.toObject<Product>()
+                val product: Product? = document.toObject<Product>()
                 if (product != null) {
                     var pass = true
 
@@ -75,9 +68,9 @@ class ProductsDBModel(val notifier: ProductsListener?) {
 
         FirebaseReferences.productsRef.whereEqualTo("productID", productId)
             .addSnapshotListener { values, _ ->
-                var products = arrayListOf<Product>()
+                val products = arrayListOf<Product>()
                 for (document: DocumentSnapshot in values?.documents!!) {
-                    var product: Product? = document.toObject<Product>()
+                    val product: Product? = document.toObject<Product>()
                     if (product != null) {
                         products.add(product)
                     }
@@ -90,9 +83,9 @@ class ProductsDBModel(val notifier: ProductsListener?) {
 
         FirebaseReferences.productsRef.whereGreaterThan("premium.premiumDays", 0)
             .addSnapshotListener { values, _ ->
-                var products = arrayListOf<Product>()
+                val products = arrayListOf<Product>()
                 for (document: DocumentSnapshot in values?.documents!!) {
-                    var product: Product? = document.toObject<Product>()
+                    val product: Product? = document.toObject<Product>()
                     if (product != null) {
                         products.add(product)
                     }
@@ -104,9 +97,9 @@ class ProductsDBModel(val notifier: ProductsListener?) {
     fun getReviewByProductId(productId: String) {
         FirebaseReferences.productsRef.document(productId).collection("Reviews")
             .addSnapshotListener  { values,_ ->
-                var reviews = arrayListOf<Review>()
+                val reviews = arrayListOf<Review>()
                 for (document in values?.documents!!) {
-                    var review: Review? = document.toObject<Review>()
+                    val review: Review? = document.toObject<Review>()
                     if (review != null) {
                         reviews.add(review)
                     }

@@ -1,11 +1,14 @@
 package com.shoplex.shoplex.view.activities.auth
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityAuthBinding
 import com.shoplex.shoplex.model.enumurations.AuthType
+import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.viewmodel.AuthVM
 import com.shoplex.shoplex.viewmodel.AuthVMFactory
 import kotlinx.android.synthetic.main.activity_auth.*
@@ -34,25 +37,29 @@ class AuthActivity : AppCompatActivity() {
         })
 
         binding.btnLogin.setOnClickListener {
-            authVM.isLoginValid.value = false
-            authVM.isSignupValid.value = false
-            if (binding.viewPager.currentItem == 0) {
-                authVM.isLoginBtnPressed.value = true
-                authVM.isLoginValid.observe(this, {
-                    if (it) {
-                        authVM.login(AuthType.Email)
-                        authVM.isLoginValid.value = false
-                    }
-                })
-            } else {
-                authVM.isSignupBtnPressed.value = true
-                authVM.isSignupValid.observe(this, {
-                    if (it) {
-                        authVM.createAccount()
-                        finish()
-                        authVM.isSignupValid.value = false
-                    }
-                })
+            if (ArchLifecycleApp.isInternetConnected) {
+                authVM.isLoginValid.value = false
+                authVM.isSignupValid.value = false
+                if (binding.viewPager.currentItem == 0) {
+                    authVM.isLoginBtnPressed.value = true
+                    authVM.isLoginValid.observe(this, {
+                        if (it) {
+                            authVM.login(AuthType.Email)
+                            authVM.isLoginValid.value = false
+                        }
+                    })
+                } else {
+                    authVM.isSignupBtnPressed.value = true
+                    authVM.isSignupValid.observe(this, {
+                        if (it) {
+                            authVM.createAccount()
+                            finish()
+                            authVM.isSignupValid.value = false
+                        }
+                    })
+                }
+            } else{
+                Toast.makeText(this, getText(R.string.NoInternetConnection), Toast.LENGTH_SHORT).show()
             }
         }
     }

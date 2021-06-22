@@ -16,7 +16,7 @@ class DetailsVM : ViewModel(), StoresListener {
 
     override fun onStoreInfoReady(stores: ArrayList<Store>) {
         if (stores.count() > 0) {
-            this.store.value = stores[0]
+            this.store.value = stores.first()
         }
     }
 }

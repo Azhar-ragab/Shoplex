@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentCartBinding
 import com.shoplex.shoplex.model.adapter.CartAdapter
+import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.model.pojo.ProductQuantity
@@ -31,26 +32,32 @@ class CartFragment : Fragment(), FavouriteCartListener {
 
         binding.btnCheckout.setOnClickListener {
             if (UserInfo.userID != null) {
-                startActivity(Intent(context, CheckOutActivity::class.java).apply {
-                    this.putParcelableArrayListExtra("PRODUCTS_QUANTITY", productsQuantity)
-                })
+                if (ArchLifecycleApp.isInternetConnected) {
+                    startActivity(Intent(context, CheckOutActivity::class.java).apply {
+                        this.putParcelableArrayListExtra("PRODUCTS_QUANTITY", productsQuantity)
+                    })
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Sorry but checkout require internet connection",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             } else {
-                Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT)
+                    .show()
             }
+
         }
 
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
 
-        if (UserInfo.userID != null) {
-            getAllCartProducts()
-        } else {
-            Toast.makeText(context, getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
-        }
+        getAllCartProducts()
 
         return binding.root
     }
 
-    fun getAllCartProducts() {
+    private fun getAllCartProducts() {
         val cartAdapter = CartAdapter(this)
         binding.rvCart.adapter = cartAdapter
         cartViewModel.readAllCart.observe(viewLifecycleOwner, {

@@ -67,6 +67,7 @@ object UserInfo {
 
     fun clearSharedPref(context: Context) {
         context.getSharedPreferences(SHARED_USER_INFO, Context.MODE_PRIVATE).edit()
+            .remove("userID")
             .remove("name")
             .remove("email")
             .remove("image")
@@ -77,10 +78,12 @@ object UserInfo {
     }
 
     fun saveNotification(context: Context, value: Boolean) {
-        FirebaseReferences.notificationTokensRef.document(userID!!)
-            .update("notification", value)
-        context.getSharedPreferences(SHARED_USER_INFO, Context.MODE_PRIVATE).edit()
-            .putBoolean("notification", value).apply()
+        if(userID != null) {
+            FirebaseReferences.notificationTokensRef.document(userID!!)
+                .update("notification", value)
+            context.getSharedPreferences(SHARED_USER_INFO, Context.MODE_PRIVATE).edit()
+                .putBoolean("notification", value).apply()
+        }
     }
 
     fun readNotification(context: Context): Boolean {

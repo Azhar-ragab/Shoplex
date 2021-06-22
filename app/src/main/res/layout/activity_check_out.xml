@@ -7,6 +7,20 @@
     android:background="@color/lightgray"
     tools:context=".view.activities.CheckOutActivity">
 
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin_kit"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:SpinKit_Color="@color/pink"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/viewPagerCheckout"
+        app:layout_constraintTop_toTopOf="@+id/toolbarcheckout" />
+
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarcheckout"
         android:layout_width="match_parent"
