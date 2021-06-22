@@ -2,44 +2,32 @@ package com.shoplex.shoplex.view.activities
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.google.firebase.firestore.FieldValue
-import com.google.gson.Gson
+import com.droidnet.DroidListener
+import com.droidnet.DroidNet
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityCheckOutBinding
 import com.shoplex.shoplex.model.adapter.CheckoutAdapter
-import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.pojo.Order
 import com.shoplex.shoplex.model.pojo.ProductQuantity
-import com.shoplex.shoplex.room.data.ShopLexDataBase
-import com.shoplex.shoplex.room.repository.FavoriteCartRepo
-import com.shoplex.shoplex.view.fragments.SummaryFragment
 import com.shoplex.shoplex.viewmodel.CheckoutFactory
 import com.shoplex.shoplex.viewmodel.CheckoutVM
-import com.stripe.android.PaymentConfiguration
-import com.stripe.android.paymentsheet.PaymentSheet
-import com.stripe.android.paymentsheet.PaymentSheetResult
-import kotlinx.coroutines.launch
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
-import java.io.IOException
 
-class CheckOutActivity : AppCompatActivity() {
+class CheckOutActivity : AppCompatActivity(), DroidListener {
     lateinit var binding: ActivityCheckOutBinding
     lateinit var checkoutVM: CheckoutVM
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityCheckOutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        DroidNet.getInstance().addInternetConnectivityListener(this)
+
         setSupportActionBar(binding.toolbarcheckout)
         checkoutVM = ViewModelProvider(this, CheckoutFactory(this)).get(CheckoutVM::class.java)
         checkoutVM.productQuantities =
@@ -85,5 +73,19 @@ class CheckOutActivity : AppCompatActivity() {
     companion object{
         const val PRODUCTS_QUANTITY = "PRODUCTS_QUANTITY"
         const val PRODUCT_PROPERTIES = "PRODUCT_PROPERTIES"
+    }
+
+    override fun onInternetConnectivityChanged(isConnected: Boolean) {
+        if (isConnected) {
+            binding.spinKit.visibility = View.INVISIBLE
+            //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        } else {
+//            Toast.makeText(this, "Sorry but this activity require network connectivity please connect and try again", Toast.LENGTH_SHORT).show()
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            binding.spinKit.visibility = View.VISIBLE
+        }
     }
 }

@@ -5,12 +5,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.droidnet.DroidListener
+import com.droidnet.DroidNet
 
-class ArchLifecycleApp : Application(), LifecycleObserver {
+class ArchLifecycleApp : Application(), LifecycleObserver, DroidListener {
 
     override fun onCreate() {
         super.onCreate()
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        DroidNet.init(this)
+        DroidNet.getInstance().addInternetConnectivityListener(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -41,5 +45,18 @@ class ArchLifecycleApp : Application(), LifecycleObserver {
                     ref.reference.update("isClientOnline", false)
             }
         }
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        DroidNet.getInstance().removeAllInternetConnectivityChangeListeners()
+    }
+
+    override fun onInternetConnectivityChanged(isConnected: Boolean) {
+        isInternetConnected = isConnected
+    }
+
+    companion object{
+        var isInternetConnected: Boolean = true
     }
 }

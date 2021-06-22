@@ -1,18 +1,20 @@
 package com.shoplex.shoplex.view.activities
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.droidnet.DroidListener
+import com.droidnet.DroidNet
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityHomeBinding
 import com.shoplex.shoplex.model.extra.UserInfo
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), DroidListener {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
@@ -20,15 +22,16 @@ class HomeActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(UserInfo.userID == null)
+        if(UserInfo.userID.isNullOrEmpty())
             UserInfo.readUserInfo(this)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        DroidNet.getInstance().addInternetConnectivityListener(this)
+
         bottomNavigationView = binding.bottomNavigation
         navController = findNavController(R.id.nav_host_fragment)
         bottomNavigationView.setupWithNavController(navController)
-
     }
 
     override fun onBackPressed() {
@@ -37,6 +40,14 @@ class HomeActivity : AppCompatActivity() {
             finishAffinity()
         } else {
             findNavController(R.id.nav_host_fragment).popBackStack()
+        }
+    }
+
+    override fun onInternetConnectivityChanged(isConnected: Boolean) {
+        if (isConnected) {
+            //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+        } else {
+            //Toast.makeText(this, "Disconnected", Toast.LENGTH_SHORT).show()
         }
     }
 }

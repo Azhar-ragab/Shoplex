@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.children
@@ -22,6 +23,7 @@ import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
 import com.shoplex.shoplex.model.adapter.HomeAdapter
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.enumurations.LocationAction
+import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
@@ -114,18 +116,23 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         })
 
         binding.btnLocation.setOnClickListener {
-            startActivity(
-                Intent(requireContext(), MapsActivity::class.java)
-                    .apply {
-                        putExtra(MapsActivity.LOCATION_ACTION, LocationAction.ShowStores.name)
-                        val locations: ArrayList<LatLng> = homeProductAdapter.productsHome.groupBy {
-                            it.storeLocation
-                        }.map {
-                            LatLng(it.key.latitude, it.key.longitude)
-                        } as ArrayList<LatLng>
-                        putParcelableArrayListExtra(MapsActivity.STORE_LOCATIONS, locations)
-                    }
-            )
+            if(ArchLifecycleApp.isInternetConnected) {
+                startActivity(
+                    Intent(requireContext(), MapsActivity::class.java)
+                        .apply {
+                            putExtra(MapsActivity.LOCATION_ACTION, LocationAction.ShowStores.name)
+                            val locations: ArrayList<LatLng> =
+                                homeProductAdapter.productsHome.groupBy {
+                                    it.storeLocation
+                                }.map {
+                                    LatLng(it.key.latitude, it.key.longitude)
+                                } as ArrayList<LatLng>
+                            putParcelableArrayListExtra(MapsActivity.STORE_LOCATIONS, locations)
+                        }
+                )
+            } else{
+                Toast.makeText(requireContext(), getString(R.string.NoInternetConnection), Toast.LENGTH_SHORT).show()
+            }
         }
 
         return binding.root

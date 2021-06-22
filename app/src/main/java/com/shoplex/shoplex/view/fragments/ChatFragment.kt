@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentChatBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.StoreHeadAdapter
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.viewmodel.ChatHeadVM
 
 class ChatFragment : Fragment() {
@@ -25,6 +27,12 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentChatBinding.inflate(inflater, container, false)
+
+        if(UserInfo.userID == null){
+            Toast.makeText(requireContext(), getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
+            return binding.root
+        }
+
         chatsVm = ViewModelProvider(requireActivity()).get(ChatHeadVM::class.java)
 
         if (chatsVm.chatHeads.value == null)
