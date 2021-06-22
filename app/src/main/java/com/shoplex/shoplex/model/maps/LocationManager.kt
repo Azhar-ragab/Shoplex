@@ -1,33 +1,33 @@
 package com.shoplex.shoplex.model.maps
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.directions.route.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.PolyUtil
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.MalformedURLException
+import java.net.URL
 import java.util.*
-import kotlin.collections.ArrayList
+import javax.net.ssl.HttpsURLConnection
 
 class LocationManager: RoutingListener {
     val alexandria: Alexandria = Alexandria()
     private lateinit var marker: Marker
-
-    //private lateinit var currentLocation: Location
     lateinit var selectedLocation: LatLng
-    private val REQUEST_CODE = 101
 
     private lateinit var mMap: GoogleMap
     private val API_KEY = "AIzaSyAyj2_BzoXGMR432LsT4dpv6TV6SdNbtDg"
@@ -59,8 +59,7 @@ class LocationManager: RoutingListener {
         }
     }
 
-    fun addMarker(current: Location?) {
-        // Add a marker in Sydney and move the camera
+    fun addMarker(current: Location?, isAdd: Boolean) {
         var currentLocation = if (current == null) LatLng(
             alexandria.capital.latitude,
             alexandria.capital.longitude
@@ -72,9 +71,8 @@ class LocationManager: RoutingListener {
 
         mMap.animateCamera(CameraUpdateFactory.newLatLng(currentLocation))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16F))
-        marker = mMap.addMarker(
-            MarkerOptions().position(currentLocation).title(getAddress(currentLocation, context))
-        )
+        val loc = com.shoplex.shoplex.model.pojo.Location(currentLocation.latitude, currentLocation.longitude)
+        marker = mMap.addMarker(MarkerOptions().position(currentLocation).title(getAddress(loc)))
         selectedLocation = currentLocation
 
         val polygon = mMap.addPolygon(
@@ -86,14 +84,16 @@ class LocationManager: RoutingListener {
         polygon.strokeWidth = 4f
 
 
-        mMap.setOnMapClickListener {
-            if (PolyUtil.containsLocation(it, alexandria.coordinates, false)) {
-                marker.remove()
-                marker = mMap.addMarker(MarkerOptions().position(it).title("Your Location"))
+        if(isAdd) {
+            mMap.setOnMapClickListener {
+                if (PolyUtil.containsLocation(it, alexandria.coordinates, false)) {
+                    marker.remove()
+                    marker = mMap.addMarker(MarkerOptions().position(it).title("Your Location"))
 
-                selectedLocation = it
-            } else {
-                Toast.makeText(context, "OutSide", Toast.LENGTH_SHORT).show()
+                    selectedLocation = it
+                } else {
+                    Toast.makeText(context, "OutSide", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -104,10 +104,58 @@ class LocationManager: RoutingListener {
         }
     }
 
-    fun launchGoogleMaps(location: LatLng) {
+
+    fun getRouteInfo(source: com.shoplex.shoplex.model.pojo.Location, destination: com.shoplex.shoplex.model.pojo.Location): RouteInfo? {
+        var response = ""
+        var inputStream: InputStream? = null
+        var urlConnection: HttpsURLConnection? = null
+        val strSource = "origin=" + source.latitude + "," + source.longitude
+        val strDest = "destination=" + destination.latitude + "," + destination.longitude
+        val parameters = "$strSource&$strDest&key=$API_KEY"
+        val strUrl = "https://maps.googleapis.com/maps/api/directions/json?$parameters"
+        try {
+            val url = URL(strUrl)
+            urlConnection = url.openConnection() as HttpsURLConnection
+            urlConnection.connect()
+            if (urlConnection.responseCode == HttpsURLConnection.HTTP_OK) {
+                inputStream = urlConnection.inputStream
+                val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+                val stringBuffer = StringBuffer()
+                var line: String? = ""
+                while (bufferedReader.readLine().also { line = it } != null) {
+                    stringBuffer.append(line)
+                }
+                response = stringBuffer.toString()
+                val jsonObject = JSONObject(response)
+                val distance =
+                    jsonObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs")
+                        .getJSONObject(0).getJSONObject("distance").getString("text")
+                val duration =
+                    jsonObject.getJSONArray("routes").getJSONObject(0).getJSONArray("legs")
+                        .getJSONObject(0).getJSONObject("duration").getString("text")
+                bufferedReader.close()
+                return RouteInfo(distance, duration)
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        } catch (e: MalformedURLException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            try {
+                inputStream?.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            urlConnection?.disconnect()
+        }
+        return null
+    }
+
+    fun launchGoogleMaps(location: com.shoplex.shoplex.model.pojo.Location) {
         val gmmIntentUri =
             Uri.parse("google.navigation:q=" + location.latitude + "," + location.longitude)
-        //Uri gmmIntentUri = Uri.parse("google.navigation:q=" + destination);
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         context.startActivity(mapIntent)
@@ -124,10 +172,10 @@ class LocationManager: RoutingListener {
         routing.execute()
     }
 
-    fun getAddress(location: LatLng, context: Context): String? {
+    fun getAddress(location: com.shoplex.shoplex.model.pojo.Location): String? {
 
         val geocoder = Geocoder(context, Locale.getDefault())
-        var addresses: List<Address>? =
+        val addresses: List<Address>? =
             geocoder.getFromLocation(location.latitude, location.longitude, 1)
         return addresses?.get(0)?.getAddressLine(0)
     }
@@ -151,7 +199,7 @@ class LocationManager: RoutingListener {
                 val color = Color.rgb(random.nextInt(256), random.nextInt(128), random.nextInt(256))
                 polyOptions.color(color)
                 polyOptions.width(10f)
-                polyOptions.addAll(routes.get(shortestRouteIndex).getPoints())
+                polyOptions.addAll(routes[shortestRouteIndex].points)
                 val polyline: Polyline = mMap.addPolyline(polyOptions)
                 polylineStartLatLng = polyline.points[0]
                 polylineEndLatLng = polyline.points[polyline.points.size - 1]

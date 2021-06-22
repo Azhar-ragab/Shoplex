@@ -1,23 +1,22 @@
 package com.shoplex.shoplex.view.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import androidx.lifecycle.Observer
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.Timestamp
 import com.shoplex.shoplex.R
-import com.shoplex.shoplex.Review
-import com.shoplex.shoplex.ReviewAdapter
 import com.shoplex.shoplex.databinding.DialogAddReviewBinding
 import com.shoplex.shoplex.databinding.FragmentReviewBinding
+import com.shoplex.shoplex.model.adapter.ReviewAdapter
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
+import com.shoplex.shoplex.model.pojo.Review
+import com.shoplex.shoplex.view.activities.DetailsActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
-class ReviewFragment(val productId: String) : Fragment() {
+class ReviewFragment : Fragment() {
 
     lateinit var binding: FragmentReviewBinding
     private lateinit var reviewAdapter: ReviewAdapter
@@ -26,80 +25,30 @@ class ReviewFragment(val productId: String) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentReviewBinding.inflate(inflater, container, false)
-        this.productsVM = ProductsVM()
+    ): View {
 
-//        val review = ArrayList<Review>()
-//
-//        review.add(
-//            Review(
-//                "azhar",
-//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-//
-//                Date(15), 5F
-//            )
-//        )
-//        review.add(
-//            Review(
-//                "azhar",
-//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-//
-//                Date(15), 5F
-//            )
-//        )
-//        review.add(
-//            Review(
-//                "azhar",
-//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-//
-//                Date(15), 5F
-//            )
-//        )
-//        review.add(
-//            Review(
-//                "azhar",
-//                "https://i.pinimg.com/236x/35/11/21/351121d0c57db7df186885dc077f7323.jpg",
-//                "Which review is likely to influence someone with an intense pizza craving? A five-star rating and “good pizza” is not bad, but it doesn’t have the same impact. A review doesn’t have to be the length of War and Peace, but an honest, detailed, and specific recollection goes a long way to building credibility.",
-//
-//                Date(15), 5F
-//            )
-//        )
-//
-//        reviewAdapter = ReviewAdapter(review)
-//        binding.rvReview.adapter = reviewAdapter
-        productsVM.getReviewByProductId(productId)
-        productsVM.reviews.observe(viewLifecycleOwner, Observer{ reviews ->
+        binding = FragmentReviewBinding.inflate(inflater, container, false)
+        productsVM = (requireActivity() as DetailsActivity).productsVM
+
+        if(productsVM.reviews.value == null)
+            productsVM.getReviews()
+
+        productsVM.reviews.observe(viewLifecycleOwner, { reviews ->
             reviewAdapter = ReviewAdapter(reviews)
             binding.rvReview.adapter = reviewAdapter
         })
 
-        binding.btnSheetAddReview.setOnClickListener {
-            showAddReviewRialog()
-        }
+        productsVM.reviewStatistics.observe(viewLifecycleOwner, {
+            binding.reviewStat = it
+            if (it.total != 0) {
+                binding.fiveStars.progress = ((it.fiveStars.toFloat() / it.total) * 100).toInt()
+                binding.fourStars.progress = ((it.fourStars.toFloat() / it.total) * 100).toInt()
+                binding.threeStars.progress = ((it.threeStars.toFloat() / it.total) * 100).toInt()
+                binding.twoStars.progress = ((it.twoStars.toFloat() / it.total) * 100).toInt()
+                binding.oneStar.progress = ((it.oneStar.toFloat() / it.total) * 100).toInt()
+            }
+        })
+
         return binding.root
     }
-
-    private fun showAddReviewRialog() {
-        val binding = DialogAddReviewBinding.inflate(layoutInflater)
-        val reviewBtnSheetDialog = BottomSheetDialog(binding.root.context)
-
-        binding.btnSendReview.setOnClickListener {
-            val numStats = binding.rbAddReview.numStars
-            val rate: Float = binding.rbAddReview.rating
-            val reviewMsg = binding.edReview.text.toString()
-            val review = Review(UserInfo.name,
-                UserInfo.image,productId ,reviewMsg, Timestamp.now().toDate(), rate)
-            FirebaseReferences.productsRef.document(productId).collection(getString(R.string.Reviews)).add(review)
-            reviewBtnSheetDialog.dismiss()
-        }
-        reviewBtnSheetDialog.setContentView(binding.root)
-        reviewBtnSheetDialog.show()
-
-    }
-
 }

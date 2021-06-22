@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS "/>
 
     <application
         android:allowBackup="true"
@@ -15,42 +16,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Shoplex">
+        android:theme="@style/Theme.Shoplex"
+        android:name=".model.extra.ArchLifecycleApp">
 
+        <activity android:name=".view.activities.FilterActivity"/>
+        <activity android:name=".view.activities.DescriptionActivity"/>
 
-        <activity android:name=".view.activities.LoginActivity">
-
-        </activity>
-        <activity
-            android:name=".view.activities.FilterActivity"
-            android:theme="@style/AppTheme.Home">
-
-        </activity>
-        <activity
-            android:name=".view.activities.DescriptionActivity"
-            android:theme="@style/AppTheme.Home">
-
-        </activity>
-        <activity android:name=".view.activities.SignupActivity">
-
-        </activity>
         <activity
             android:name=".view.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".view.activities.ProfileActivity" />
-        <activity
-            android:name=".view.activities.OrderActivity"
-            android:theme="@style/AppTheme.Home" />
+        <activity android:name=".view.activities.OrderActivity"/>
         <activity android:name=".view.activities.MessageActivity" />
-        <activity
-            android:name=".view.activities.HomeActivity"
-            android:theme="@style/AppTheme.Home"
-            android:windowSoftInputMode="adjustNothing">
-
-        </activity>
+        <activity android:name=".view.activities.HomeActivity"/>
         <activity
             android:name=".view.activities.SplashActivity"
-            android:label="@string/title_activity_splash"
+            android:label="@string/app_name"
             android:theme="@style/Theme.Shoplex.NoActionBar"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
@@ -58,33 +39,26 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".view.activities.CheckOutActivity"
-            android:theme="@style/AppTheme.Home"/>
-        <activity android:name=".view.activities.ProductDetails" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/maps_key" />
+        </activity>
+        <activity android:name=".view.activities.CheckOutActivity"/>
+        <activity android:name=".view.activities.DetailsActivity" />
+        <activity android:name=".view.activities.auth.AuthActivity"/>
 
         <service
             android:name=".model.services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                <action android:name="com.shoplex.cancel" />
             </intent-filter>
         </service>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_key" />
-
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
     </application>
 
 </manifest>

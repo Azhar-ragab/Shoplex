@@ -13,6 +13,7 @@
     <string name="currentProduct">Current Product</string>
     <string name="product">Products</string>
     <string name="reviews">Reviews</string>
+    <string name="NoReviews">No Reviews Yet!</string>
     <string name="product_name">Name</string>
     <string name="_4_5_5">4.5/5</string>
     <string name="longtext">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,as opposed to using Content here, content here, making it look like readable English.</string>
@@ -37,7 +38,7 @@
     <string name="old_price">old_price</string>
     <string name="new_price">new_price</string>
     <string name="rating_value">rating_value</string>
-    <string name="sold">sold</string>
+    <string name="sold">%s/%s Sold</string>
     <string name="name">name</string>
     <string name="storeName">storeName</string>
     <string name="space">space</string>
@@ -71,6 +72,9 @@
     <string name="filter">Filter</string>
     <string name="login">Login</string>
     <string name="forgotPassword">Forget Password?</string>
+    <string name="reset">Reset</string>
+    <string name="close_dialog">Close</string>
+    <string name="email_send">Email Send</string>
     <string name="or">OR</string>
     <string name="new_user">New User?</string>
     <string name="create_an_account">Create An Account</string>
@@ -78,12 +82,15 @@
     <string name="Payment">Payment</string>
     <string name="Summary">Summary</string>
     <string name="DeliveryMethod">Delivery Method</string>
+    <string name="Cost">Products Cost</string>
+    <string name="SpecialCoupons">Special Coupons</string>
+    <string name="DontHaveSpecialCoupons">You Don\'t Have Any Special</string>
     <string name="DoorDelivery">Door Delivery</string>
     <string name="NearestPostStation">Nearest Post Station</string>
-    <string name="SubTotal">SubTotal :</string>
-    <string name="Discount">Discount :</string>
-    <string name="Shipping">Shipping :</string>
-    <string name="Total">Total :</string>
+    <string name="SubTotal">SubTotal</string>
+    <string name="Discount">Discount</string>
+    <string name="Shipping">Shipping</string>
+    <string name="Total">Total Amount</string>
     <string name="subTotalPrice">112 $</string>
     <string name="discountPrice">150 $</string>
     <string name="shippingPrice">116 $</string>
@@ -104,6 +111,19 @@
     <string name="Quantity">Quantity</string>
     <string name="Price">Price</string>
     <string name="confirmorder">Confirm Order</string>
+    <string name="shopes">Shopes</string>
+    <string name="rate">Rating</string>
+    <string name="discountFilter">Discount</string>
+    <string name="sort">Sorting</string>
+    <string name="nearest_shop">Nearest Shop</string>
+    <string name="outOfStock">Out Of Stock</string>
+    <string name="NA">N/A</string>
+    <string name="LE">%s L.E.</string>
+
+    <string-array name="initial_slider_values">
+        <item>10</item>
+        <item>1000</item>
+    </string-array>
     <string name="title_activity_splash">SplashActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -122,21 +142,11 @@
     <string name="min_password_err">"Week Password "</string>
     <string name="not_match">Invalid Password</string>
     <string name="min_client_name_err">Invalid Name</string>
-    <string name="shopes">Shopes</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
-    <string name="rate">Rating</string>
-    <string name="discountFilter">Discount</string>
-    <string name="sort">Sorting</string>
-    <string name="nearest_shop">Nearest Shop</string>
-
-    <string-array name="initial_slider_values">
-        <item>2000</item>
-        <item>6000</item>
-    </string-array>
     <string name="login_success">Login Success</string>
     <string name="login_fail">Login Failed</string>
-    <string name="logoutMessage">Are You Sure You Want To Lpgout?</string>
+    <string name="logoutMessage">Are You Sure You Want To Logout?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="Category">Category</string>
@@ -181,11 +191,12 @@
     <string name="actionstring">actionstring</string>
     <string name="canceled">com.example.cancel</string>
     <string name="Cancel">Cancel</string>
+    <string name="UpdateReview">Update Review</string>
     <string name="Review">Review</string>
     <string name="android">android.resource://</string>
     <string name="splash">/</string>
     <string name="Position">Position</string>
-    <string name="EGP">EGP</string>
+    <string name="EGP">%s EGP</string>
     <string name="LowPriceSelected">Low Price Selected</string>
     <string name="HighPriceSelected">High Price Selected</string>
     <string name="LoginFailed">Login Failed</string>
@@ -216,7 +227,7 @@
     <string name="deliveryMethod">Choose Delivery Method</string>
     <string name="favoriteproducts">Please Login to get all favorite products</string>
     <string name="underscore">_</string>
-    <string name="DiscountBy">Discount By</string>
+    <string name="DiscountBy">Discount By %s</string>
     <string name="PaymentMethod">Choose Payment Method</string>
     <string name="telephone">tel:</string>
     <string name="ERROR">ERROR</string>
@@ -225,8 +236,19 @@
     <string name="proplem">Please Share Us What Is Your Proplem!!</string>
     <string name="your_report">Your Report</string>
     <string name="send_report">Send Report</string>
-
-    <string name="facebook_app_id">562190761433964</string> <string name="fb_login_protocol_scheme">fb562190761433964</string>
+    <string name="facebook_app_id">562190761433964</string>
+    <string name="fb_login_protocol_scheme">fb562190761433964</string>
     <string name="phone_hint">+201204876123</string>
+    <string name="visaORMaster">Visa/ Master Card</string>
+    <string name="items">%s Items</string>
 
+    <string name="Login">Login</string>
+    <string name="Signup">Signup</string>
+    <string name="Confirmpassword">Confirm password</string>
+    <string name="orLoginvia">Or Login Via</string>
+    <string name="orSignUpvia">Or Sign Up Via</string>
+    <string name="Delivered">Delivered</string>
+    <string name="UpdateAccount">Account Updated Successfully</string>
+    <string name="error">Error</string>
+    <string name="processtosummary">Process To Summary</string>
 </resources>

@@ -7,13 +7,14 @@ class Location : Parcelable {
     var latitude: Double = 0.0
     var longitude: Double = 0.0
 
-    constructor(parcel: Parcel) : this() {
+    constructor()
+
+    constructor(parcel: Parcel) {
         latitude = parcel.readDouble()
         longitude = parcel.readDouble()
     }
 
-    constructor(){}
-    constructor(latitude:Double, longitude:Double){
+    constructor(latitude: Double, longitude: Double) {
         this.latitude = latitude
         this.longitude = longitude
     }

@@ -1,14 +1,9 @@
 package com.shoplex.shoplex.model.firebase
 
-
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
-import com.facebook.AccessToken
-
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.DocumentReference
@@ -17,11 +12,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.shoplex.shoplex.model.enumurations.AuthType
 import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.interfaces.UserActionListener
+import com.shoplex.shoplex.model.interfaces.AuthListener
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
 
-class AuthDBModel(val listener: UserActionListener, val context: Context) {
+class AuthDBModel(val listener: AuthListener, val context: Context) {
     fun loginWithEmail(email: String, password: String) {
         Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -32,24 +27,42 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
                 }
             }
     }
-    fun loginWithFacebook(accessToken: AccessToken) {
-        val authCredential: AuthCredential = FacebookAuthProvider.getCredential(accessToken.token)
+
+    fun loginWithFacebook(accessToken: String) {
+        val authCredential: AuthCredential = FacebookAuthProvider.getCredential(accessToken)
         Firebase.auth.signInWithCredential(authCredential).addOnCompleteListener { task ->
             if (task.isSuccessful) run {
                 val user: FirebaseUser = Firebase.auth.currentUser
                 getUserByMail(user.email, AuthType.Facebook)
             } else {
-                Toast.makeText(context, "couldn`t register to firebase", Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(context, "couldn't register to firebase", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    fun createEmailAccount(user: User, password: String) {
+    fun loginWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        FirebaseAuth.getInstance().signInWithCredential(credential)
+            .addOnCompleteListener() { task ->
+                if (task.isSuccessful) {
+                    val user: FirebaseUser = Firebase.auth.currentUser
+                    getUserByMail(user.email, AuthType.Google)
+                } else {
+                    Toast.makeText(context, "couldn't register to firebase", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+    }
+
+    fun createEmailAccount(user: User, password: String, ref: DocumentReference) {
+
+        user.userID = ref.id
+        //addImage(Uri.parse(user.image), user.userID)
+        user.image = ""
         Firebase.auth.createUserWithEmailAndPassword(user.email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    addNewUser(user)
+                    addNewUser(ref, user)
                 } else {
                     listener.onAddNewUser(context, null)
                     Toast.makeText(context, "Auth Failed!", Toast.LENGTH_SHORT).show()
@@ -57,37 +70,12 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
             }
     }
 
-    private fun addNewUser(user: User) {
-        val ref: DocumentReference = FirebaseReferences.usersRef.document()
-        user.userID = ref.id
-        val img = user.image
-        user.image = ""
+    private fun addNewUser(ref: DocumentReference, user: User) {
         ref.set(user).addOnSuccessListener {
             listener.onAddNewUser(context, user)
-            addImage(Uri.parse(img),user.userID)
-            Toast.makeText(context, "Success to create your account!", Toast.LENGTH_SHORT).show()
+
         }.addOnFailureListener {
             listener.onAddNewUser(context, null)
-            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
-    private fun addImage(uri: Uri,userId : String) {
-        val imgRef: StorageReference =
-            FirebaseReferences.imagesUserRef.child(userId)
-
-        imgRef.putFile(uri).addOnSuccessListener { _ ->
-            imgRef.downloadUrl.addOnSuccessListener {
-                //add Image to firestorage
-                FirebaseReferences.usersRef.document(userId).update("image",it.toString())
-                //update profile
-                val profileUpdates = userProfileChangeRequest {
-                    photoUri = it
-                }
-                Firebase.auth.currentUser.updateProfile(profileUpdates)
-
-            }
         }
     }
 
@@ -103,8 +91,6 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
             "Address",
             currentUser.phoneNumber ?: "",
             currentUser.photoUrl.toString(),
-            arrayListOf(),
-            arrayListOf(),
             authType
         )
 
@@ -121,15 +107,18 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
         FirebaseReferences.usersRef.whereEqualTo("email", userEmail)
             .whereEqualTo("authType", authType).get()
             .addOnSuccessListener {
-                var user: User?
+                val user: User?
                 when {
                     it.documents.count() > 0 -> {
                         user = it.documents[0].toObject()!!
                         listener.onLoginSuccess(context, user)
                     }
                     authType != AuthType.Email -> {
+
                         addSocialUser(authType)
+
                     }
+
                     else -> {
                         listener.onLoginFailed()
                     }

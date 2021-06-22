@@ -2,50 +2,64 @@ package com.shoplex.shoplex.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.shoplex.shoplex.Product
-import com.shoplex.shoplex.Review
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.firebase.ProductsDBModel
-import com.shoplex.shoplex.model.interfaces.INotifyMVP
+import com.shoplex.shoplex.model.interfaces.ProductsListener
+import com.shoplex.shoplex.model.pojo.*
 
-class ProductsVM: ViewModel, INotifyMVP {
+class ProductsVM : ViewModel(), ProductsListener {
     var products: MutableLiveData<ArrayList<Product>> = MutableLiveData()
-    var advertisments:MutableLiveData<ArrayList<Product>> = MutableLiveData()
+    var advertisements: MutableLiveData<ArrayList<Product>> = MutableLiveData()
     private var productsDBModel = ProductsDBModel(this)
-    var reviews:MutableLiveData<ArrayList<Review>> = MutableLiveData()
+    var reviews: MutableLiveData<ArrayList<Review>> = MutableLiveData()
+    val reviewStatistics: MutableLiveData<ReviewStatistics> = MutableLiveData()
 
-    constructor(){
-        products.value = arrayListOf()
+    var filter: MutableLiveData<Filter> = MutableLiveData()
+    var sort: MutableLiveData<Sort?> = MutableLiveData()
+
+    var productID: MutableLiveData<String> = MutableLiveData()
+
+    fun getAllProducts(category: Category, filter: Filter, sort: Sort? = null) {
+        this.filter.value = filter
+        this.sort.value = sort
+        productsDBModel.getAllProducts(category, filter, sort)
     }
 
-    fun getAllProducts(category: Category) {
-        productsDBModel.getAllProducts(category)
+    fun getProduct() {
+        if (productID.value != null)
+            productsDBModel.getProductById(productID.value!!)
+    }
+
+    fun getCategories(): Array<String> {
+        return Category.values().map {
+            it.toString().split("_").joinToString(" ")
+        }.toTypedArray()
+    }
+
+    fun getAllPremiums() {
+        productsDBModel.getAllPremiums()
+    }
+
+    fun getReviews() {
+        if (productID.value != null) {
+            productsDBModel.getReviewsStatistics(productID.value!!)
+            productsDBModel.getReviewByProductId(productID.value!!)
+        }
     }
 
     override fun onAllProductsReady(products: ArrayList<Product>) {
         this.products.value = products
     }
 
-    override fun onAllAdvertismentsReady(products: ArrayList<Product>) {
-        this.advertisments.value = products
+    override fun onAllAdvertisementsReady(products: ArrayList<Product>) {
+        this.advertisements.value = products
     }
 
-    override fun onAllReviwsReady(reviews: ArrayList<Review>) {
-       this.reviews.value=reviews
-    }
-    fun getProductById(productId: String){
-        productsDBModel.getProductById(productId)
+    override fun onAllReviewsReady(reviews: ArrayList<Review>) {
+        this.reviews.value = reviews
     }
 
-    fun getCategories(): Array<String>{
-        return Category.values().map {
-            it.toString().split("_").joinToString(" ")
-        }.toTypedArray()
-    }
-    fun getAllPremiums(){
-        productsDBModel.getAllPremiums()
-    }
-    fun getReviewByProductId(productId: String){
-        productsDBModel.getReviewByProductId(productId)
+    override fun onReviewStatisticsReady(reviewStatistics: ReviewStatistics) {
+        this.reviewStatistics.value = reviewStatistics
     }
 }

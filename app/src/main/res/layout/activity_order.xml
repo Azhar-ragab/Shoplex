@@ -25,30 +25,28 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/tv_current_orders"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_8"
             android:text="@string/currentOrder"
             android:textColor="@color/gray"
-            android:layout_marginTop="@dimen/margin_8"
-            android:layout_marginStart="@dimen/margin_8"
             android:textSize="@dimen/text_size_20"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_current_orders"
             android:layout_width="match_parent"
             android:layout_height="@dimen/width_300"
-            android:layout_marginStart="@dimen/margin_8"
-            android:layout_marginEnd="@dimen/margin_8"
-            android:layout_marginTop="@dimen/margin_8"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_current_orders"
-            tools:listitem="@layout/order_item_row"
-            >
+            tools:listitem="@layout/order_item_row">
 
         </androidx.recyclerview.widget.RecyclerView>
     <TextView
@@ -62,22 +60,20 @@
         android:textSize="@dimen/text_size_20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_current_orders"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_last_orders"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/width_300"
-        android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
-        android:layout_marginTop="@dimen/margin_8"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_last_orders"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/order_item_row"
-        >
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_last_orders"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/width_300"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_last_orders"
+            tools:listitem="@layout/order_item_row">
+
+        </androidx.recyclerview.widget.RecyclerView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 

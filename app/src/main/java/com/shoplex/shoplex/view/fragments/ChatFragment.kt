@@ -4,74 +4,63 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import com.google.firebase.firestore.ktx.toObject
-import com.shoplex.shoplex.Product
+import androidx.lifecycle.ViewModelProvider
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentChatBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.StoreHeadAdapter
-import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.pojo.Chat
-import com.shoplex.shoplex.model.pojo.ChatHead
+import com.shoplex.shoplex.viewmodel.ChatHeadVM
 
 class ChatFragment : Fragment() {
-    private lateinit var chatHeadAdapter: ChatHeadAdapter
-    private lateinit var storeHeadAdapter: StoreHeadAdapter
-    private lateinit var  binding : FragmentChatBinding
-    private var chatHeadList = arrayListOf<ChatHead>()
-    private var storeHeadList = arrayListOf<ChatHead>()
+    private lateinit var binding: FragmentChatBinding
+    private lateinit var chatsVm: ChatHeadVM
+    private lateinit var chatsAdapter: ChatHeadAdapter
+    private lateinit var storeHeadsAdapter: StoreHeadAdapter
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?): View? {
-      binding = FragmentChatBinding.inflate(inflater,container,false)
-        // Inflate the layout for this fragment
-        setHasOptionsMenu(true)
-        getChatHeadsInfo()
-        return binding.root
-    }
-    private fun getChatHeadsInfo() {
-        FirebaseReferences.chatRef.whereEqualTo("userID", UserInfo.userID).get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    if (document.exists()) {
-                        var chat: Chat = document.toObject()
-                        var product = Product()
-                        FirebaseReferences.productsRef
-                            .document(chat.productIDs.last()).get()
-                            .addOnSuccessListener { productDocument ->
-                                if (productDocument.exists()) {
-                                    product = productDocument.toObject<Product>()!!
-                                    //Toast.makeText(context, product.category, Toast.LENGTH_LONG).show()
-                                }
-                                chatHeadList.add(
-                                    ChatHead(
-                                        chat.productIDs,
-                                        product.storeID,
-                                        chat.chatID,
-                                        product.name,
-                                        product.price,
-                                        product.images[0],
-                                        chat.userID,
-                                        product.storeName,
-                                        chat.unreadCustomerMessages
-                                    )
-                                )
-                                if (document.equals(result.last())) {
-                                    chatHeadAdapter = ChatHeadAdapter(chatHeadList)
-                                    binding.rvChat.adapter = chatHeadAdapter
-                                    storeHeadAdapter = StoreHeadAdapter(chatHeadList)
-                                    binding.rvStore.adapter = storeHeadAdapter
-                                }
-                            }
-                    }
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentChatBinding.inflate(inflater, container, false)
+        chatsVm = ViewModelProvider(requireActivity()).get(ChatHeadVM::class.java)
+
+        if (chatsVm.chatHeads.value == null)
+            chatsVm.getChatHeads()
+
+        requireActivity().title = getString(R.string.chat)
+
+        chatsVm.chatHeads.observe(viewLifecycleOwner, { chatHeads ->
+            chatsAdapter = ChatHeadAdapter(chatHeads)
+            storeHeadsAdapter = StoreHeadAdapter(chatHeads)
+            binding.rvChat.adapter = chatsAdapter
+            binding.rvStore.adapter = storeHeadsAdapter
+        })
+
+        chatsVm.changedPosition.observe(viewLifecycleOwner, {
+            binding.rvChat.adapter?.notifyItemChanged(it)
+            binding.rvStore.adapter?.notifyItemChanged(it)
+        })
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isEmpty()) {
+                    chatsAdapter.search("")
+                    storeHeadsAdapter.search("")
                 }
+                return false
             }
-            .addOnFailureListener {
-                Toast.makeText(context, getString(R.string.Error), Toast.LENGTH_LONG).show()
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                val search = binding.searchView.query.toString()
+                chatsAdapter.search(search)
+                storeHeadsAdapter.search(search)
+                return false
             }
+        })
+
+        return binding.root
     }
 }

@@ -4,7 +4,7 @@ class Properties {
     var title: String = ""
     var property: ArrayList<String> = arrayListOf()
 
-    constructor(){}
+    constructor()
 
     constructor(title: String, property: ArrayList<String>) {
         this.title = title

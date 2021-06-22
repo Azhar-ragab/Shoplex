@@ -1,83 +1,139 @@
 package com.shoplex.shoplex.view.fragments
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.maps.model.LatLng
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.firestore.FieldValue
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentSummaryBinding
-
-import com.shoplex.shoplex.model.adapter.HomeProductsAdapter
 import com.shoplex.shoplex.model.adapter.SummaryAdapter
-import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.pojo.Checkout
+import com.shoplex.shoplex.model.interfaces.PaymentListener
 import com.shoplex.shoplex.model.pojo.Order
-import com.shoplex.shoplex.model.pojo.Summary_Checkout
-import com.shoplex.shoplex.model.pojo.User
+import com.shoplex.shoplex.room.data.ShopLexDataBase
+import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import com.shoplex.shoplex.view.activities.CheckOutActivity
-import com.shoplex.shoplex.view.activities.HomeActivity
 import com.shoplex.shoplex.viewmodel.CheckoutVM
-import java.util.ArrayList
+import com.shoplex.shoplex.viewmodel.PaymentMethodFactory
+import com.shoplex.shoplex.viewmodel.PaymentMethodVM
+import kotlinx.coroutines.launch
 
-
-class SummaryFragment : Fragment() {
+class SummaryFragment : Fragment(), PaymentListener {
     private lateinit var binding: FragmentSummaryBinding
     private lateinit var summaryAdapter: SummaryAdapter
-    lateinit var checkout: Checkout
-
     private lateinit var checkoutVM: CheckoutVM
+    private lateinit var paymentMethodVM: PaymentMethodVM
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        paymentMethodVM =
+            ViewModelProvider(requireActivity(), PaymentMethodFactory(requireActivity(), this, this)).get(
+                PaymentMethodVM::class.java
+            )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentSummaryBinding.inflate(inflater, container, false)
-        checkout = (activity as CheckOutActivity).checkout
-
         checkoutVM = (activity as CheckOutActivity).checkoutVM
 
-        summaryAdapter = SummaryAdapter(checkout.getAllProducts())
+        summaryAdapter = SummaryAdapter(checkoutVM.getAllProducts())
         binding.rvSummary.adapter = summaryAdapter
 
-        binding.tvItemNum.text = "${checkout.getAllProducts().size} Items"
-        binding.tvSubtotalPrice.text = "${checkout.subTotalPrice} EGP"
-        binding.tvDiscountPrice.text = "${checkout.totalDiscount} EGP"
-        binding.tvShippingPrice.text = "${checkout.shipping} EGP"
-        binding.tvTotalPrice.text = "${checkout.totalPrice} EGP"
+        checkoutVM.totalPrice.observe(viewLifecycleOwner, {
+            binding.tvTotalPrice.text = getString(R.string.EGP).format(it)
+        })
+
+        binding.tvItemNum.text = getString(R.string.items).format(checkoutVM.getAllProducts().size)
+
+        checkoutVM.deliveryMethod.observe(viewLifecycleOwner, {
+            binding.tvDeliveryStatue.text = it.name.replace("_", " ")
+        })
+
+        checkoutVM.paymentMethod.observe(viewLifecycleOwner, {
+            binding.tvPaymentStatue.text = it.name.replace("_", "/")
+        })
+
+        checkoutVM.isAllProductsReady.observe(viewLifecycleOwner, {
+            if (it) {
+                binding.btnSummary.isEnabled = true
+            }
+        })
 
         binding.btnSummary.setOnClickListener {
-            for (product in checkout.getAllProducts()){
-                val order = Order(product,checkout,OrderStatus.Current)
-                FirebaseReferences.ordersRef.document(order.orderID).set(order).addOnSuccessListener {
-                    Toast.makeText(context,getString(R.string.Success), Toast.LENGTH_SHORT).show()
-                }
+            if (checkoutVM.paymentMethod.value == PaymentMethod.Visa_Master) {
+                paymentMethodVM.pay(checkoutVM.totalPrice.value!!)
+            } else {
+                execOrders()
             }
-            startActivity(Intent(context,HomeActivity::class.java))
         }
+
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private fun execOrders() {
+        val products = checkoutVM.getAllProducts()
+        for (product in products) {
+            val order = Order(product, checkoutVM.productProperties)
+            order.deliveryLoc = checkoutVM.deliveryLocation.value
+            order.deliveryAddress = checkoutVM.deliveryAddress.value!!
+            order.deliveryMethod = checkoutVM.deliveryMethod.value!!.name.replace("_", " ")
+            order.paymentMethod = checkoutVM.paymentMethod.value!!.name.replace("_", "/")
+            FirebaseReferences.ordersRef.document(order.orderID).set(order)
+                .addOnSuccessListener {
+                    deleteFromCart(product.productID)
+                    if (product == products.last()) {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.Success),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        requireActivity().finish()
+                    }
+                }
+        }
+    }
 
-        checkoutVM.deliveryMethod.observe(viewLifecycleOwner, Observer{
-            binding.tvDeliveryStatue.text = it.toString()
-            checkout.deliveryMethod = it
-        })
+    private fun deleteFromCart(productID: String) {
+        if (UserInfo.userID != null) {
+            val repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(requireContext()).shopLexDao())
+            lifecycleScope.launch {
+                repo.deleteCart(productID)
+                FirebaseReferences.usersRef.document(UserInfo.userID!!)
+                    .collection("Lists")
+                    .document("Cart")
+                    .update("cartList", FieldValue.arrayRemove(productID))
+            }
+        }
+    }
 
-        checkoutVM.paymentMethod.observe(viewLifecycleOwner, Observer{
-            binding.tvPaymentStatue.text = it.toString()
-            checkout.paymentMethod = it
-        })
+    override fun onPaymentComplete() {
+        execOrders()
+    }
+
+    override fun onPaymentFailedToLoad() {
+        Toast.makeText(
+            requireContext(),
+            "Failed to load payment method",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onMinimumPrice() {
+        Toast.makeText(
+            requireContext(),
+            "Minimum Charge With Credit/Debit Card 10 L.E.",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }

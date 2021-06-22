@@ -1,13 +1,14 @@
-package com.shoplex.shoplex
+package com.shoplex.shoplex.model.pojo
+
+import androidx.room.Ignore
+import com.google.firebase.firestore.Exclude
 
 class Property {
-
     var propertyID : Int = 0
     var name : String = ""
     var values: ArrayList<String> = arrayListOf()
-    constructor()
-    constructor(name: String, values: ArrayList<String>) {
-        this.name = name
-        this.values = values
-    }
+
+    @Exclude @get:Exclude @set:Exclude
+    @Ignore
+    var selectedProperty: String? = null
 }

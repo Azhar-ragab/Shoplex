@@ -132,8 +132,8 @@
     <string name="nearest_shop">أقرب متجر</string>
 
     <string-array name="initial_slider_values">
-        <item>2000</item>
-        <item>6000</item>
+        <item>10</item>
+        <item>1000</item>
     </string-array>
     <string name="login_success">النجاح في تسجيل الدخول</string>
     <string name="login_fail">فشل عملية الدخول</string>

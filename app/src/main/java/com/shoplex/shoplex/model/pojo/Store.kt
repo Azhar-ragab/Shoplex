@@ -1,9 +1,13 @@
 package com.shoplex.shoplex.model.pojo
 
-import com.google.android.gms.maps.model.LatLng
+import java.util.*
 
-
-data class Store (val storeID:String="", val name:String="", val email:String="", val locations: ArrayList<Location>? = ArrayList(), val phone:String="", val addresses:ArrayList<String> = ArrayList()){
-
-
-}
+data class Store(
+    var storeID : String = UUID.randomUUID().toString(),
+    var name : String = "",
+    var email : String = "",
+    var image : String = "",
+    var locations : ArrayList<Location> = arrayListOf(),
+    var addresses : ArrayList<String> = arrayListOf(),
+    var phone : String = ""
+)

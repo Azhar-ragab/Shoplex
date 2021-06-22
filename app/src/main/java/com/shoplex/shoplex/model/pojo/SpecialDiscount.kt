@@ -4,26 +4,28 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.shoplex.shoplex.model.enumurations.DiscountType
 
- class SpecialDiscount : Parcelable {
+open class SpecialDiscount : Parcelable {
     var discount: Float = 0F
     var discountType: DiscountType = DiscountType.Fixed
 
     constructor(parcel: Parcel) : this() {
         discount = parcel.readFloat()
+        discountType = DiscountType.valueOf(parcel.readString()!!)
     }
 
-     constructor()
-    constructor(discount: Float, discountType: DiscountType){
+    constructor()
+    constructor(discount: Float, discountType: DiscountType) {
         this.discount = discount
         this.discountType = discountType
     }
 
     override fun describeContents(): Int {
-        TODO("Not yet implemented")
+        return 0
     }
 
-    override fun writeToParcel(p0: Parcel?, p1: Int) {
-        TODO("Not yet implemented")
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeFloat(discount)
+        parcel.writeString(discountType.name)
     }
 
     companion object CREATOR : Parcelable.Creator<SpecialDiscount> {

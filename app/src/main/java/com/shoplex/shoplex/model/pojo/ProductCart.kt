@@ -1,36 +1,42 @@
 package com.shoplex.shoplex.model.pojo
 
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.Nullable
 import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
-import com.shoplex.shoplex.Product
-import com.shoplex.shoplex.Property
-import com.shoplex.shoplex.model.enumurations.Premium
-import kotlinx.android.parcel.Parcelize
-import java.util.*
-import kotlin.collections.ArrayList
-
 
 @Entity(tableName = "Cart")
 data class ProductCart(
-    var quantity: Int = 1,
-    var specialDiscount: SpecialDiscount? = SpecialDiscount(),
-    var shipping: Int = 0, var product: Product? = Product(),
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-) : Product(),Parcelable {
+    @Nullable
+    @Ignore
+    var specialDiscount: SpecialDiscount? = null,
+    @Exclude
+    var cartQuantity: Int = 1,
+    @Ignore
+    var shipping: Float = 0F,
+    @Exclude
+    @get:Exclude
+    @Ignore
+    var product: Product = Product(),
+    @Exclude
+    @set:Exclude
+    @get:Exclude
+    @PrimaryKey
+    var id: String = ""
+): Product(), Parcelable {
 
-    constructor(
-        product: Product,
-        quantity: Int,
-        specialDiscount: SpecialDiscount,
-        shipping: Int
-    ) : this() {
+    constructor(product: Product, cartQuantity: Int, specialDiscount: SpecialDiscount?) :
+            this(
+                specialDiscount,
+                cartQuantity,
+                product = product
+            )
+
+    init {
+        this.id = product.productID
         this.productID = product.productID
         this.storeID = product.storeID
         this.storeName = product.storeName
@@ -43,13 +49,11 @@ data class ProductCart(
         this.subCategory = product.subCategory
         this.rate = product.rate
         this.premium = product.premium
-        this.premiumDays = product.premiumDays
         this.properties = product.properties
         this.date = product.date
         this.images = product.images
-        this.quantity = quantity
-        this.specialDiscount = specialDiscount
-        this.shipping = shipping
+        this.quantity = product.quantity
+        this.storeLocation = product.storeLocation
     }
 
     constructor(parcel: Parcel) : this() {
@@ -77,5 +81,4 @@ data class ProductCart(
             return arrayOfNulls(size)
         }
     }
-
 }

@@ -13,15 +13,27 @@
         <item name="android:statusBarColor" >@color/darkblue</item>
         <!-- Customize your theme here. -->
         <item name="titleTextColor">@color/darkblue</item>
+        <item name="bottomSheetStyle">@style/BottomSheetDialogTheme</item>
 
     </style>
 
-    <style name="AppTheme.Home" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="titleTextColor">@color/darkblue</item>
-        <item name="colorSecondary">@color/purple_500</item>
 
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/white</item>
     </style>
+
+
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/card_shoplex</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    </style>
+
 
     <style name="Theme.Shoplex.NoActionBar">
         <item name="windowActionBar">false</item>

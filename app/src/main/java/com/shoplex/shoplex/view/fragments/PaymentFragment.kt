@@ -4,82 +4,85 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentPaymentBinding
+import com.shoplex.shoplex.model.adapter.SpecialCouponAdapter
 import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
-import com.shoplex.shoplex.model.pojo.Checkout
+import com.shoplex.shoplex.model.pojo.SpecialCoupon
 import com.shoplex.shoplex.view.activities.CheckOutActivity
 import com.shoplex.shoplex.viewmodel.CheckoutVM
 
 class PaymentFragment : Fragment() {
 
-    lateinit var binding: FragmentPaymentBinding
-    lateinit var checkout: Checkout
-    var ischecked = false
-
+    private lateinit var binding: FragmentPaymentBinding
     private lateinit var checkoutVM: CheckoutVM
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPaymentBinding.inflate(inflater, container, false)
-        checkout = (activity as CheckOutActivity).checkout
         checkoutVM = (activity as CheckOutActivity).checkoutVM
 
         binding.rgPayment.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                binding.rbCash.id -> {
-                    checkoutVM.paymentMethod.value = PaymentMethod.Cash
-                    ischecked = true
-                    //Toast.makeText(context, binding.rbCash.text.toString(), Toast.LENGTH_SHORT).show()
-                }
-                binding.rbFawry.id -> {
-                    checkoutVM.paymentMethod.value = PaymentMethod.Fawry
-                    ischecked = true
-                    //Toast.makeText(context, binding.rbFawry.text.toString(), Toast.LENGTH_SHORT).show()
-                }
-                binding.rbVodafone.id -> {
-                    checkoutVM.paymentMethod.value = PaymentMethod.Vodafone_Cash
-                    ischecked = true
-                    //Toast.makeText(context, binding.rbVodafone.text.toString(), Toast.LENGTH_SHORT).show()
-                }
-                else -> ischecked = false
+                binding.rbCash.id -> checkoutVM.paymentMethod.value = PaymentMethod.Cash
+                binding.rbVisaMaster.id -> checkoutVM.paymentMethod.value =
+                    PaymentMethod.Visa_Master
             }
         }
 
-        var copoun = 0.0F
-        for (discount in checkout.getAllProducts()) {
-            var discountValue = discount.specialDiscount?.discount
-            when (discount.specialDiscount?.discountType) {
-                DiscountType.Fixed -> copoun += discountValue!!
-                DiscountType.Percentage -> copoun += discountValue!!
-            }
-        }
+        checkoutVM.isAllProductsReady.observe(viewLifecycleOwner, {
+            if(it){
+                //var coupon = 0.0F
+                    val specialCoupons: ArrayList<SpecialCoupon> = arrayListOf()
+                for (product in checkoutVM.getAllProducts()) {
+                    if(product.specialDiscount != null){
+                        specialCoupons.add(SpecialCoupon(product.name, product.specialDiscount!!.discount, product.specialDiscount!!.discountType))
+                    }
+                    /*
+                    val discountValue = product.specialDiscount?.discount
 
-        binding.tvSubtotalPrice.text = "${checkout.subTotalPrice} EGP"
-        binding.tvDiscountPrice.text = "${checkout.totalDiscount} EGP"
-        binding.tvShippingPrice.text = "${checkout.shipping} EGP"
-        binding.tvTotalPrice.text = "${checkout.totalPrice} EGP"
-        binding.tvCopoun.text =getString(R.string.DiscountBy) + checkout.totalDiscount
+                    when (discount.specialDiscount?.discountType) {
+                        DiscountType.Fixed -> coupon += discountValue!!
+                        DiscountType.Percentage -> coupon += discountValue!!
+                    }
+                    */
+                }
+                //binding.tvCopoun.text = coupon.toString()
+                if(specialCoupons.isNotEmpty()){
+                    binding.rvSpecialCoupons.adapter = SpecialCouponAdapter(specialCoupons)
+                }else{
+                    binding.tvSpecialCoupon.text = getString(R.string.DontHaveSpecialCoupons)
+                }
+            }
+        })
+
+        checkoutVM.subTotalPrice.observe(viewLifecycleOwner, {
+            binding.tvSubtotalPrice.text = getString(R.string.EGP).format(it)
+        })
+
+        checkoutVM.totalDiscount.observe(viewLifecycleOwner, {
+            binding.tvDiscountPrice.text = getString(R.string.EGP).format(it)
+        })
+
+        checkoutVM.shipping.observe(viewLifecycleOwner, {
+            binding.tvShippingPrice.text = getString(R.string.EGP).format(it)
+        })
+
+        checkoutVM.totalPrice.observe(viewLifecycleOwner, {
+            binding.tvTotalPrice.text = getString(R.string.EGP).format(it)
+        })
+
+        //binding.tvCopoun.text = getString(R.string.DiscountBy).format(checkoutVM.coupons.value)
         binding.btnPayment.setOnClickListener {
-            if (ischecked) {
-                var pager = (activity as CheckOutActivity).binding.viewPagerCheckout
-                pager.currentItem = pager.currentItem + 1
-            } else {
-                Toast.makeText(context, getString(R.string.PaymentMethod), Toast.LENGTH_SHORT).show()
-            }
+
+            val pager = (activity as CheckOutActivity).binding.viewPagerCheckout
+            pager.currentItem = pager.currentItem + 1
         }
 
-        // Inflate the layout for this fragment
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 }

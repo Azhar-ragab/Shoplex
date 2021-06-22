@@ -1,7 +1,6 @@
 package com.shoplex.shoplex.model.pojo
 
 import com.shoplex.shoplex.model.enumurations.AuthType
-import kotlin.collections.ArrayList
 
 data class User(
     var userID: String = "",
@@ -11,10 +10,7 @@ data class User(
     var address: String = "",
     var phone: String = "",
     var image: String = "",
-    val favouriteList: ArrayList<String> = ArrayList(),
-    val cartList: ArrayList<String> = ArrayList(),
     val authType: AuthType = AuthType.Email
-) {
-}
+)
 
 
