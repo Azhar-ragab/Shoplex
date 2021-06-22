@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_32"
-        android:text="@string/user_name"
         android:textAlignment="center"
         android:textColor="@color/darkblue"
         android:textSize="@dimen/text_size_24"
@@ -235,132 +234,82 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/imgSetting"
         app:layout_constraintTop_toTopOf="@id/imgSetting"
-        app:layout_constraintBottom_toBottomOf="@id/imgSetting">
+        app:layout_constraintBottom_toBottomOf="@id/imgSetting"/>
 
-    </TextView>
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardSetting"
-        app:cardElevation="@dimen/width_0"
+        android:id="@+id/cardLanguage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
         android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgSetting"
+        app:cardElevation="@dimen/width_0"
         android:layout_marginTop="@dimen/margin_8"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSetting">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/card"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/width_50"
+            android:background="@drawable/card">
+
+            <ImageView
+                android:id="@+id/imgLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_language"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <TextView
                 android:id="@+id/tvLanguage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_8"
-                android:text="@string/language"
-                android:textAlignment="center"
+                android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/padding_2"
+                android:text="@string/arabic"
                 android:textColor="@color/darkblue"
-                android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                >
-            </TextView>
+                android:textSize="@dimen/text_size_18"
+                app:layout_constraintBottom_toBottomOf="@id/imgLanguage"
+                app:layout_constraintStart_toEndOf="@+id/imgLanguage"
+                app:layout_constraintTop_toTopOf="@id/imgLanguage" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardLanguage"
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginEnd="@dimen/margin_16"
-                android:backgroundTint="@color/lightgray"
-                app:cardElevation="@dimen/width_0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvLanguage"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_8"
-                >
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:background="@drawable/card_setting"
-                    android:layout_height="@dimen/width_50">
-
-                    <TextView
-                        android:id="@+id/tvEnglish"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                       android:layout_margin="@dimen/margin_32"
-                        android:text="@string/english"
-                        android:textAlignment="center"
-                        android:textColor="@color/darkblue"
-                        android:textSize="@dimen/text_size_16"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        >
-                    </TextView>
-                    <TextView
-                        android:id="@+id/tvArabic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_32"
-                        android:text="@string/arabic"
-                        android:textAlignment="center"
-                        android:textColor="@color/darkblue"
-                        android:textSize="@dimen/text_size_16"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        >
-                    </TextView>
-                    <TextView
-                        android:id="@+id/tvFranko"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_32"
-                        android:text="@string/franko"
-                        android:textAlignment="center"
-                        android:textColor="@color/darkblue"
-                        android:textSize="@dimen/text_size_16"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        >
-                    </TextView>
-
-
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardNotification"
-        app:cardElevation="@dimen/width_0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_8"
         android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardSetting"
+        app:cardElevation="@dimen/width_0"
         android:layout_marginTop="@dimen/margin_8"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardLanguage">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/card"
-            android:layout_height="@dimen/width_50">
+            android:layout_height="@dimen/width_50"
+            android:background="@drawable/card">
 
 
             <ImageView
@@ -368,9 +317,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_8"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_notifications"
-                android:layout_marginStart="@dimen/margin_8"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -381,13 +330,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/padding_2"
                 android:text="@string/notification"
                 android:textColor="@color/darkblue"
                 android:textSize="@dimen/text_size_18"
-                android:layout_marginBottom="@dimen/padding_2"
+                app:layout_constraintBottom_toBottomOf="@id/imgNotification"
                 app:layout_constraintStart_toEndOf="@+id/imgNotification"
-                app:layout_constraintTop_toTopOf="@id/imgNotification"
-                app:layout_constraintBottom_toBottomOf="@id/imgNotification"/>
+                app:layout_constraintTop_toTopOf="@id/imgNotification" />
+
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchNotification"
                 android:layout_width="wrap_content"
@@ -413,7 +363,7 @@
         android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardNotification"
-        android:layout_marginTop="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_8"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

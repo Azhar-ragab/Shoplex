@@ -1,11 +1,10 @@
 package com.shoplex.shoplex.model.firebase
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.toObject
-import com.shoplex.shoplex.Product
+import com.shoplex.shoplex.model.pojo.Product
 import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.interfaces.INotifyMVP
 import com.shoplex.shoplex.model.interfaces.StoresListener
 import com.shoplex.shoplex.model.pojo.Store
 import com.shoplex.shoplex.model.pojo.StoreLocationInfo
@@ -28,21 +27,20 @@ class StoresDBModel(val notifier:StoresListener) {
     fun getStores(category: String){
         FirebaseReferences.productsRef.whereEqualTo("category", category)
             .addSnapshotListener { values, _ ->
-                var products = arrayListOf<Product>()
-                var storesInfo = arrayListOf<StoreLocationInfo>()
+                val products = arrayListOf<Product>()
                 for (document: DocumentSnapshot in values?.documents!!) {
-                    var product: Product? = document.toObject<Product>()
+                    val product: Product? = document.toObject<Product>()
                     if (product != null) {
                         products.add(product)
                     }
                 }
 
-                products.groupBy { it.storeID }.forEach {
-                    val item = it.value[0]
-                    storesInfo.add(StoreLocationInfo(item.storeID, item.storeName))
-                }
+                val list = products.groupBy { it.storeID }.map { it.key }
 
-                this.notifier.onStoresReady(storesInfo)
+                if(list.size == 1)
+                    this.notifier.onStoresIDsReady(arrayListOf(list.first()))
+                else if(products.size > 1)
+                    this.notifier.onStoresIDsReady(list.toList() as ArrayList<String>)
             }
     }
 }

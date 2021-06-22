@@ -1,6 +1,7 @@
 package com.shoplex.shoplex.view.activities
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
@@ -13,10 +14,11 @@ import com.google.firebase.ktx.Firebase
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivitySplashBinding
 import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.interfaces.INotifyMVP
+import com.shoplex.shoplex.model.interfaces.ProductsListener
+import java.util.*
 
-class SplashActivity : AppCompatActivity(), INotifyMVP {
-    private val Splash_Screen = 4000
+class SplashActivity : AppCompatActivity(), ProductsListener {
+    private val splashDuration = 4000L
     private lateinit var binding: ActivitySplashBinding
     private lateinit var topAnimation: Animation
     private lateinit var bottomAnimation: Animation
@@ -26,6 +28,8 @@ class SplashActivity : AppCompatActivity(), INotifyMVP {
         super.onCreate(savedInstanceState)
 
         UserInfo.readUserInfo(applicationContext)
+        if(UserInfo.lang != "en")
+            setLocale(UserInfo.lang)
         currentUser = Firebase.auth.currentUser
         if(currentUser != null){
             currentUser!!.reload()
@@ -47,22 +51,28 @@ class SplashActivity : AppCompatActivity(), INotifyMVP {
 
             if (currentUser == null) {
                 UserInfo.clear()
+            } else if(!UserInfo.userID.isNullOrEmpty()){
+                UserInfo.saveToRecentVisits()
             }
 
-            var intent = if (isFirstTime())Intent(this, DescriptionActivity::class.java)
+            val intent = if (UserInfo.isFirstTime(applicationContext))Intent(this, DescriptionActivity::class.java)
             else Intent(this, HomeActivity::class.java)
 
             startActivity(intent)
             finish()
 
-        }, Splash_Screen.toLong())
+        }, splashDuration)
     }
 
-    private fun isFirstTime(): Boolean {
-        if (getSharedPreferences(packageName, MODE_PRIVATE).getBoolean("firstrun", true)) {
-            getSharedPreferences(packageName, MODE_PRIVATE).edit().putBoolean("firstrun", false).apply()
-            return true
-        }
-        return false
+    fun setLocale(lang: String) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.setLocale(locale)
+        baseContext.createConfigurationContext(config)
+        baseContext.resources.updateConfiguration(
+            config,
+            baseContext.resources.displayMetrics
+        )
     }
 }

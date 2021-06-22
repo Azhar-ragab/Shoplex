@@ -2,54 +2,18 @@ package com.shoplex.shoplex.model.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shoplex.shoplex.R
-import com.shoplex.shoplex.databinding.ChatHeadItemRowBinding
 import com.shoplex.shoplex.databinding.StoreItemRowBinding
 import com.shoplex.shoplex.model.pojo.ChatHead
 import com.shoplex.shoplex.view.activities.MessageActivity
 
-//class StoreHeadAdapter (private val storeHead: ArrayList<ChatHead>) :
-//        RecyclerView.Adapter<StoreHeadAdapter.ViewHolder>() {
-//
-//    // var chatHead = listOf<ChatHead>()
-//    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-//        val image : ImageView = view.findViewById(R.id.imgStoreHead)
-//
-//
-//    }
-//
-//    // Create new views (invoked by the layout manager)
-//    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-//        // Create a new view, which defines the UI of the list item
-//        val view = LayoutInflater.from(viewGroup.context)
-//                .inflate(R.layout.store_item_row, viewGroup, false)
-//
-//        return ViewHolder(view)
-//    }
-//
-//    // Replace the contents of a view (invoked by the layout manager)
-//    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-//        val item = storeHead[position]
-//        Glide.with(viewHolder.itemView.context).load(item.productImageURL).into(viewHolder.image)
-//
-//        //viewHolder.image.setImageResource(item.productImageUrl.toInt())
-//
-//    }
-//
-//    override fun getItemCount() = storeHead.size
-//
-//
-//}
-class StoreHeadAdapter(private val storeHead: ArrayList<ChatHead>) :
+class StoreHeadAdapter(private var storeHeads: ArrayList<ChatHead>) :
     RecyclerView.Adapter<StoreHeadAdapter.StoreHeadViewHolder>() {
 
-
+    private var originalChats: ArrayList<ChatHead> = arrayListOf()
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): StoreHeadViewHolder {
         return StoreHeadViewHolder(
@@ -58,18 +22,43 @@ class StoreHeadAdapter(private val storeHead: ArrayList<ChatHead>) :
     }
 
     override fun onBindViewHolder(viewHolder: StoreHeadViewHolder, position: Int) {
-        viewHolder.bind(storeHead[position])
+        viewHolder.bind(storeHeads[position])
     }
 
-    override fun getItemCount() = storeHead.size
+    override fun getItemCount() = storeHeads.size
+
+    fun search(searchText: String){
+        if (searchText.isNotEmpty()) {
+            if (originalChats.isEmpty())
+                originalChats = storeHeads
+            storeHeads = originalChats.filter {
+                it.productName.contains(
+                    searchText,
+                    true
+                ) || it.storeName.contains(searchText, true)
+            } as ArrayList<ChatHead>
+        } else {
+            storeHeads = originalChats
+        }
+        notifyDataSetChanged()
+    }
 
     inner class StoreHeadViewHolder(val binding: StoreItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(storeHead: ChatHead) {
-                 Glide.with(itemView.context).load(storeHead.productImageURL).into(binding.imgStoreHead)
+            Glide.with(itemView.context).load(storeHead.storeImage).error(R.drawable.product).into(binding.imgStoreHead)
 
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, MessageActivity::class.java)
+                intent.putExtra(ChatHeadAdapter.CHAT_TITLE_KEY, storeHead.storeName)
+                intent.putExtra(ChatHeadAdapter.CHAT_IMG_KEY, storeHead.productImageURL)
+                intent.putExtra(ChatHeadAdapter.CHAT_ID_KEY, storeHead.chatId)
+                intent.putExtra(ChatHeadAdapter.PRODUCT_ID, storeHead.productID)
+                intent.putExtra(ChatHeadAdapter.STORE_ID_KEY, storeHead.storeId)
+                intent.putExtra(ChatHeadAdapter.STORE_PHONE, storeHead.storePhone)
+                itemView.context.startActivity(intent)
             }
         }
     }
-
+}

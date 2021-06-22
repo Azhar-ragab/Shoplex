@@ -1,82 +1,58 @@
 package com.shoplex.shoplex.model.pojo
 
-
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Exclude
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.enumurations.DeliveryMethod
-import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.enumurations.PaymentMethod
 import com.shoplex.shoplex.model.extra.UserInfo
 import java.util.*
+import kotlin.collections.ArrayList
 
-class Order : Checkout {
-    var orderID: String = UUID.randomUUID().toString()
+class Order {
+    val orderID: String = UUID.randomUUID().toString()
     var productID: String = ""
     var userID: String = ""
     var storeID: String = ""
     var storeName: String = ""
-    var productPrice: Float = 0.0F
     var orderStatus: OrderStatus = OrderStatus.Current
     var quantity: Int = 1
     var specialDiscount: SpecialDiscount? = null
 
-    @Exclude @set:Exclude @get:Exclude
+    var productPrice: Float = 0.0F
+    var subTotalPrice: Float = 0F
+    var totalDiscount: Float = 0F
+    var shipping: Float = 0F
+    var totalPrice: Float = 0F
+
+    @Exclude
+    @set:Exclude
+    @get:Exclude
     var product: Product? = null
 
-    private constructor (
-        deliveryMethod: DeliveryMethod,
-        paymentMethod: PaymentMethod,
-        deliveryLoc: Location?,
-        deliveryAddress: String,
-        subTotalPrice: Float,
-        shipping: Int,
-        itemNum: Int = 1
-    ) :
-            super(
-                deliveryMethod,
-                paymentMethod,
-                deliveryLoc,
-                deliveryAddress,
-                subTotalPrice,
-                shipping,
-                itemNum
-            ) {
-    }
+    var deliveryMethod: String = DeliveryMethod.Door.name
+    var paymentMethod: String = PaymentMethod.Cash.name
+    var deliveryLoc: Location? = null
+    var deliveryAddress: String = ""
 
-    constructor(product: ProductCart, checkout: Checkout, orderStatus: OrderStatus) :
-            this(
-                checkout.deliveryMethod,
-                checkout.paymentMethod,
-                checkout.deliveryLoc,
-                checkout.deliveryAddress,
-                checkout.subTotalPrice,
-                checkout.shipping,
-                checkout.itemNum
-            ) {
+    var orderProperties: ArrayList<String>? = null
+
+    constructor()
+
+    constructor(product: ProductCart, orderProperties: ArrayList<String>? = null) {
         this.productID = product.productID
         this.userID = UserInfo.userID!!
         this.storeID = product.storeID
         this.storeName = product.storeName
-        this.orderStatus = orderStatus
-        this.quantity = product.quantity
+        this.orderStatus = OrderStatus.Current
+        this.quantity = product.cartQuantity
         this.specialDiscount = product.specialDiscount
-        this.shipping = product.shipping
+
         this.productPrice = product.price
-        this.subTotalPrice = (product.price * product.quantity)
-        this.totalDiscount = if (this.specialDiscount != null) {
-            this.specialDiscount!!.discount
-        }
-        else {
-            this.specialDiscount = SpecialDiscount(product.discount.toFloat(), DiscountType.Percentage)
-            product.price - product.newPrice
-        }
+        this.subTotalPrice = "%.2f".format(product.price * product.cartQuantity).toFloat()
+        this.totalDiscount = "%.2f".format(product.discount * product.cartQuantity).toFloat()
+        this.shipping = product.shipping
         this.totalPrice = this.subTotalPrice + this.shipping - this.totalDiscount
-        // this.deliveryAddress = checkout.deliveryAddress
-        //this.deliveryLoc = checkout.deliveryLoc
+
+        this.orderProperties = orderProperties
     }
-
-    constructor() : super()
-
 }

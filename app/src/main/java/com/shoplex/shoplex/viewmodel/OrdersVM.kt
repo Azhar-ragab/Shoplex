@@ -2,21 +2,17 @@ package com.shoplex.shoplex.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.shoplex.shoplex.Product
 import com.shoplex.shoplex.model.firebase.OrdersDBModel
-import com.shoplex.shoplex.model.interfaces.INotifyMVP
+import com.shoplex.shoplex.model.interfaces.ProductsListener
 import com.shoplex.shoplex.model.pojo.Order
 
-class OrdersVM: ViewModel , INotifyMVP {
+class OrdersVM : ViewModel(), ProductsListener {
 
     private val ordersDBModel = OrdersDBModel(this)
-    var orders: MutableLiveData<ArrayList<Order>> = MutableLiveData()
-    var lastOrders:MutableLiveData<ArrayList<Order>> = MutableLiveData()
-    constructor(){
+    var currentOrders: MutableLiveData<ArrayList<Order>> = MutableLiveData()
+    var lastOrders: MutableLiveData<ArrayList<Order>> = MutableLiveData()
 
-    }
-
-    fun addOrder(order: Order){
+    fun addOrder(order: Order) {
         ordersDBModel.addOrder(order)
     }
 
@@ -29,16 +25,19 @@ class OrdersVM: ViewModel , INotifyMVP {
     }
 
     override fun onCurrentOrdersReady(orders: ArrayList<Order>) {
-       this.orders.value=orders
+        this.currentOrders.value = orders
 
     }
+
     override fun onLastOrdersReady(lastOrders: ArrayList<Order>) {
-        this.lastOrders.value=lastOrders
+        this.lastOrders.value = lastOrders
     }
-    fun getCurrentOrders(){
+
+    fun getCurrentOrders() {
         ordersDBModel.getCurrentOrders()
     }
-    fun getLastOrders(){
+
+    fun getLastOrders() {
         ordersDBModel.getLastOrders()
     }
 }

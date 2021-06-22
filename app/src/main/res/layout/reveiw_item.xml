@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.shoplex.shoplex.model.extra.DateUtils"/>
         <variable
             name="review"
-            type="com.shoplex.shoplex.Review" />
+            type="com.shoplex.shoplex.model.pojo.Review" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,23 +17,22 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardImg"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16"
-            android:layout_marginStart="@dimen/margin_22"
+            android:layout_alignTop="@id/cv_home"
             app:cardCornerRadius="@dimen/height_50"
             app:cardElevation="@dimen/margin_6"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_alignTop="@id/cv_home"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="@dimen/margin_22">
+            app:layout_constraintBottom_toTopOf="@+id/cv_home"
+            app:layout_constraintEnd_toStartOf="@+id/cv_home"
+            app:layout_constraintStart_toStartOf="@+id/cv_home"
+            app:layout_constraintTop_toTopOf="@+id/cv_home">
 
             <ImageView
                 android:id="@+id/imgHead"
-                android:layout_width="@dimen/width_32"
-                android:layout_height="@dimen/width_32"
-                android:contentDescription="@string/todo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignTop="@id/cv_home"
+                android:contentDescription="@string/todo"
                 android:scaleType="fitXY"
                 tools:srcCompat="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
@@ -41,20 +41,19 @@
             android:id="@+id/cv_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/cardImg"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:cardElevation="5dp"
-            app:cardCornerRadius="15dp"
-            android:layout_marginTop="@dimen/width_32"
-            android:layout_marginStart="@dimen/width_32"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:layout_marginEnd="@dimen/margin_16"
             app:layout_constraintVertical_bias="0.0"
-            android:layout_below="@+id/cardImg"
-            tools:ignore="NotSibling"
-            android:layout_marginLeft="@dimen/width_32"
-            android:layout_marginRight="@dimen/margin_16">
+            tools:ignore="NotSibling">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -64,28 +63,28 @@
                     android:id="@+id/tv_customer_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16"
                     android:layout_marginStart="@dimen/margin_8"
+                    android:layout_marginTop="20dp"
                     android:text="@{review.customerName}"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
 
-                    android:layout_marginLeft="@dimen/margin_8" />
+                    />
 
 
                 <RatingBar
                     android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
-                    style="?android:attr/ratingBarStyleSmall"
                     android:numStars="5"
-                    android:stepSize="12"
                     android:progressTint="@color/yellow"
-                    android:rating="4"
+                    android:rating="0"
                     android:saveEnabled="true"
+                    android:stepSize="12"
                     app:layout_constraintStart_toStartOf="@id/tv_customer_name"
                     app:layout_constraintTop_toBottomOf="@id/tv_customer_name">
 
@@ -96,31 +95,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:layout_marginEnd="@dimen/margin_8"
-                    android:text="@{String.valueOf(review.date)}"
+                    android:text="@{DateUtils.getDate(review.date)}"
                     android:textColor="@color/gray"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ratingBar"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="@dimen/margin_8" />
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/ratingBar"
+                    app:layout_constraintTop_toBottomOf="@id/ratingBar" />
 
                 <TextView
                     android:id="@+id/tv_comment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:layout_marginEnd="@dimen/margin_8"
                     android:layout_marginStart="@dimen/margin_8"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="@dimen/margin_8"
                     android:padding="@dimen/margin_8"
                     android:text="@{review.comment}"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="@id/tv_date"
-                    app:layout_constraintStart_toStartOf="@id/ratingBar"
-                    app:layout_constraintTop_toBottomOf="@id/tv_date"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="@dimen/margin_8" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

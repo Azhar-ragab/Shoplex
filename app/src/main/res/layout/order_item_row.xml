@@ -15,11 +15,12 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="15dp"
+            android:layout_height="130dp"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="8dp"
             app:cardElevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
@@ -31,8 +32,8 @@
 
                 <ImageView
                     android:id="@+id/img_product"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="130dp"
+                    android:layout_height="0dp"
                     android:layout_gravity="end"
                     android:scaleType="fitXY"
                     android:src="@drawable/product"
@@ -94,23 +95,23 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <Button
                     android:id="@+id/tvbutton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="34dp"
                     android:layout_marginEnd="@dimen/margin_8"
-                    android:layout_marginRight="@dimen/margin_8"
+                    android:layout_marginBottom="8dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     android:text="@string/cancel"
                     android:textAlignment="center"
-                    android:textColor="@color/purple_500"
+                    android:textAllCaps="false"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvPrice"
+                    app:layout_constraintTop_toBottomOf="@id/tvPrice">
 
-
-                    >
-
-                </TextView>
+                </Button>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 

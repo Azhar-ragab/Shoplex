@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityFilterBinding
-import java.text.NumberFormat
-import java.util.*
 import com.shoplex.shoplex.databinding.BottomSheetShopsBinding
 import com.shoplex.shoplex.model.adapter.StoresLocationsAdapter
 import com.shoplex.shoplex.model.adapter.SubCategoryAdapter
@@ -19,20 +17,20 @@ import com.shoplex.shoplex.model.pojo.Filter
 import com.shoplex.shoplex.model.pojo.Sort
 import com.shoplex.shoplex.model.pojo.StoreLocationInfo
 import com.shoplex.shoplex.viewmodel.StoresVM
-import kotlin.collections.ArrayList
-
+import com.shoplex.shoplex.viewmodel.StoresVMFactory
+import java.text.NumberFormat
+import java.util.*
 
 class FilterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFilterBinding
-    //private var subCatCheckList: ArrayList<String> = arrayListOf()
-    //private var selectedItem = Category.Fashion.name
-
     private lateinit var storesVM: StoresVM
+    private var filter: Filter? = null
+    private var sort: Sort? = null
 
-    companion object{
-        val CATEGORY = "CATEGORY"
-        val FILTER = "FILTER"
-        val SORT = "SORT"
+    companion object {
+        const val SELECTED_ITEM = "SELECTED_ITEM"
+        const val FILTER = "FILTER"
+        const val SORT = "SORT"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,20 +39,60 @@ class FilterActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolBarFilter)
 
-        storesVM = ViewModelProvider(this).get(StoresVM::class.java)
+        val category = intent.getStringExtra(SELECTED_ITEM) ?: Category.Fashion.name
+        filter = intent.getParcelableExtra(FILTER)
+        sort = intent.getParcelableExtra(SORT)
 
-        storesVM.selectedItem.value = intent.getStringExtra(CATEGORY).toString()
+        storesVM =
+            ViewModelProvider(this, StoresVMFactory(this, category)).get(StoresVM::class.java)
+
+        if (filter?.subCategory != null)
+            storesVM.subCatCheckList.value = filter?.subCategory!!
+
+        if (filter?.shops != null)
+            storesVM.storesList.value = filter?.shops!!
+
+        if (filter?.rate != null) {
+            binding.cbRateFilter.isChecked = true
+            binding.ratingBarFilter.rating = filter?.rate!!
+        }
+
+        if (filter?.lowPrice != null) {
+            binding.cbPriceFilter.isChecked = true
+            binding.rsPrice.values =
+                listOf(filter?.lowPrice!!.toFloat(), filter?.highPrice!!.toFloat())
+        }
+
+        if (filter?.discount != null) {
+            binding.cbDiscountFilter.isChecked = true
+            binding.sliderDiscount.value = filter?.discount!!.toFloat()
+        }
+
+        binding.btnLowPrice.isCheckable = true
+
+        if (sort != null) {
+            if (sort?.price == true) {
+                binding.cbPrice.isChecked = true
+                binding.btnHighPrice.isChecked = true
+            } else if (sort?.price == false) {
+                binding.cbPrice.isChecked = true
+                binding.btnLowPrice.isChecked = true
+            }
+
+            binding.cbRating.isChecked = sort!!.rate
+            binding.cbDiscount.isChecked = sort!!.discount
+            binding.cbNersedtShop.isChecked = sort!!.nearestShop
+        }
 
         supportActionBar?.apply {
             title = getString(R.string.filter)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
-        if (supportActionBar != null){
-            supportActionBar?.setDisplayHomeAsUpEnabled(true);
-            supportActionBar?.setDisplayShowHomeEnabled(true);
+        if (supportActionBar != null) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
         }
 
-        //format range slider Label
         binding.rsPrice.setLabelFormatter { value: Float ->
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
@@ -62,43 +100,62 @@ class FilterActivity : AppCompatActivity() {
             format.format(value.toDouble())
         }
 
-
         binding.cardCategoryFilter.setOnClickListener {
             subCategoryBottomSheetDialog()
         }
 
         binding.cardShopesFilter.setOnClickListener {
-            shopsBottomSheetDialog()
+            if (!storesVM.storesLocationInfo.value.isNullOrEmpty()) {
+                shopsBottomSheetDialog(storesVM.storesLocationInfo.value!!)
+            } else {
+                Toast.makeText(this, "No stores Found", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnFilterOK.setOnClickListener {
-            var filter = Filter()
-            var sort: Sort? = null
-            if(true) {
-                var stores: ArrayList<String>? = storesVM.storesList.value
-                var subCategory: ArrayList<String>? = storesVM.subCatCheckList.value
-                val minPrice = binding.rsPrice.valueFrom.toInt()
-                val maxPrice = binding.rsPrice.valueTo.toInt()
-                val rate = binding.ratingBarFilter.rating
-                val discount = binding.sliderDiscount.value.toInt()
+            var stores: ArrayList<String>? = storesVM.storesList.value
+            var subCategory: ArrayList<String>? = storesVM.subCatCheckList.value
+            var minPrice: Int? = null
+            var maxPrice: Int? = null
+            var rateFilter: Float? = null
+            var discountFilter: Int? = null
 
-                if (stores.isNullOrEmpty())
-                    stores = null
+            if (stores.isNullOrEmpty())
+                stores = null
 
-                if (subCategory.isNullOrEmpty())
-                    subCategory = null
+            if (subCategory.isNullOrEmpty())
+                subCategory = null
 
-                filter = Filter(lowPrice = minPrice, highPrice = maxPrice, subCategory = subCategory, rate = rate, discount = discount, shops = stores)
+            if (binding.cbPriceFilter.isChecked) {
+                minPrice = binding.rsPrice.values[0].toInt()
+                maxPrice = binding.rsPrice.values[1].toInt()
             }
+
+            if (binding.cbRateFilter.isChecked)
+                rateFilter = binding.ratingBarFilter.rating
+
+            if (binding.cbDiscountFilter.isChecked)
+                discountFilter = binding.sliderDiscount.value.toInt()
+
+            filter = Filter(
+                lowPrice = minPrice,
+                highPrice = maxPrice,
+                subCategory = subCategory,
+                rate = rateFilter,
+                discount = discountFilter,
+                shops = stores
+            )
 
             var price = binding.cbPrice.isChecked
             val rate = binding.cbRating.isChecked
             val discount = binding.cbDiscount.isChecked
             val nearestShop = binding.cbNersedtShop.isChecked
 
-            if(price || rate || discount || nearestShop){
+            if (price || rate || discount || nearestShop) {
                 price = (binding.toggleBtnPrice.checkedButtonId != binding.btnLowPrice.id)
                 sort = Sort(price, rate, discount, nearestShop)
+            } else {
+                sort = null
             }
 
             setResult(RESULT_OK, Intent().apply {
@@ -109,36 +166,31 @@ class FilterActivity : AppCompatActivity() {
             finish()
         }
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // handle arrow click here
-        if (item.itemId == android.R.id.home) {
-            finish() // close this activity and return to preview activity (if there is any)
-        }
+        if (item.itemId == android.R.id.home) finish()
+
         return super.onOptionsItemSelected(item)
     }
 
-    private fun shopsBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this,R.style.BottomSheetDialogTheme)
+    private fun shopsBottomSheetDialog(storesLocations: ArrayList<StoreLocationInfo>) {
+        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
 
         val bottomSheetShopsBinding = BottomSheetShopsBinding.inflate(layoutInflater)
-        var storesLocations: ArrayList<StoreLocationInfo> = arrayListOf()
-
-        storesVM.getStoresInfo()
-
-        storesVM.storesLocationInfo.observe(this, {
-            val adapter: StoresLocationsAdapter = StoresLocationsAdapter(it, storesVM.storesList.value!!)
-            bottomSheetShopsBinding.rvShops.adapter = adapter
-        })
+        bottomSheetShopsBinding.rvShops.adapter =
+            StoresLocationsAdapter(storesLocations, storesVM.storesList.value!!)
 
         bottomSheetDialog.setContentView(bottomSheetShopsBinding.root)
-
         bottomSheetDialog.show()
     }
 
     private fun subCategoryBottomSheetDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this,R.style.BottomSheetDialogTheme)
+        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val bottomSheetShopsBinding = BottomSheetShopsBinding.inflate(layoutInflater)
-        val adapter: SubCategoryAdapter = SubCategoryAdapter(getSubCategory(storesVM.selectedItem.value!!), storesVM.subCatCheckList.value!!)
+        val adapter = SubCategoryAdapter(
+            getSubCategory(storesVM.selectedItem.value!!),
+            storesVM.subCatCheckList.value!!
+        )
         bottomSheetShopsBinding.rvShops.adapter = adapter
 
         bottomSheetDialog.setContentView(bottomSheetShopsBinding.root)
@@ -146,9 +198,9 @@ class FilterActivity : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
-    fun getSubCategory(selectedItem: String): Array<String>{
+    fun getSubCategory(selectedItem: String): Array<String> {
         val listSubCat =
-            when(Category.valueOf(selectedItem.replace(" ", "_"))) {
+            when (Category.valueOf(selectedItem.replace(" ", "_"))) {
                 Category.Fashion -> SubFashion.values()
                 Category.Health_Care -> SubHealth.values()
                 Category.Phone_and_Tablets -> SubPhone.values()
@@ -161,6 +213,4 @@ class FilterActivity : AppCompatActivity() {
             it.toString().split("_").joinToString(" ")
         }.toTypedArray())
     }
-
-
 }

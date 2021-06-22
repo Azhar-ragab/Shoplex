@@ -3,17 +3,18 @@ package com.shoplex.shoplex.model.pojo
 import android.os.Parcel
 import android.os.Parcelable
 
-class Sort(val price: Boolean? = false,
-           val rate: Boolean = false,
-           val discount: Boolean = false,
-           val nearestShop: Boolean = false) : Parcelable {
+class Sort(
+    val price: Boolean? = false,
+    val rate: Boolean = false,
+    val discount: Boolean = false,
+    val nearestShop: Boolean = false
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(price)

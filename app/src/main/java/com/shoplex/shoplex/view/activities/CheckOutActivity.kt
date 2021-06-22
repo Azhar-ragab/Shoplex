@@ -2,107 +2,88 @@ package com.shoplex.shoplex.view.activities
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.tabs.TabLayout
-import com.google.firebase.firestore.ktx.toObject
-import com.shoplex.shoplex.Product
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.firestore.FieldValue
+import com.google.gson.Gson
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityCheckOutBinding
-import com.shoplex.shoplex.model.adapter.CartAdapter
 import com.shoplex.shoplex.model.adapter.CheckoutAdapter
-import com.shoplex.shoplex.model.enumurations.DiscountType
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
-import com.shoplex.shoplex.model.maps.LocationManager
-import com.shoplex.shoplex.model.pojo.Checkout
-import com.shoplex.shoplex.model.pojo.ProductCart
-import com.shoplex.shoplex.model.pojo.SpecialDiscount
+import com.shoplex.shoplex.model.pojo.Order
+import com.shoplex.shoplex.model.pojo.ProductQuantity
+import com.shoplex.shoplex.room.data.ShopLexDataBase
+import com.shoplex.shoplex.room.repository.FavoriteCartRepo
+import com.shoplex.shoplex.view.fragments.SummaryFragment
+import com.shoplex.shoplex.viewmodel.CheckoutFactory
 import com.shoplex.shoplex.viewmodel.CheckoutVM
-import kotlin.random.Random
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.paymentsheet.PaymentSheet
+import com.stripe.android.paymentsheet.PaymentSheetResult
+import kotlinx.coroutines.launch
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.io.IOException
 
 class CheckOutActivity : AppCompatActivity() {
     lateinit var binding: ActivityCheckOutBinding
-    var productCart : ArrayList<ProductCart> = arrayListOf()
-    var checkout: Checkout = Checkout()
     lateinit var checkoutVM: CheckoutVM
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityCheckOutBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarcheckout)
-        checkoutVM = ViewModelProvider(this).get(CheckoutVM::class.java)
+        checkoutVM = ViewModelProvider(this, CheckoutFactory(this)).get(CheckoutVM::class.java)
+        checkoutVM.productQuantities =
+            intent.getParcelableArrayListExtra<ProductQuantity>(PRODUCTS_QUANTITY) as ArrayList<ProductQuantity>
+
+        if(intent.hasExtra(PRODUCT_PROPERTIES))
+            checkoutVM.productProperties = intent.getStringArrayListExtra(PRODUCT_PROPERTIES)
 
         supportActionBar?.apply {
             title = getString(R.string.Checkout)
             setHomeAsUpIndicator(R.drawable.ic_arrow_back)
-
         }
         if (supportActionBar != null) {
-            supportActionBar?.setDisplayHomeAsUpEnabled(true);
-            supportActionBar?.setDisplayShowHomeEnabled(true);
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
         }
 
-        getAllCartProducts()
+        if(checkoutVM.getAllProducts().isNullOrEmpty()) {
+            if (!intent.hasExtra("isBuyNow")) {
+                checkoutVM.getAllCartProducts()
+            } else {
+                val product = checkoutVM.productQuantities.firstOrNull()
+                if (product != null)
+                    checkoutVM.getProductByID(product.productID)
+                else
+                    Toast.makeText(this, "Product Not Found!", Toast.LENGTH_SHORT).show()
+            }
+        }
 
-        var checkoutAdapter: CheckoutAdapter = CheckoutAdapter(supportFragmentManager)
+        val checkoutAdapter = CheckoutAdapter(this, supportFragmentManager)
         binding.tabLayoutCheckout.setupWithViewPager(binding.viewPagerCheckout)
 
         binding.viewPagerCheckout.adapter = checkoutAdapter
-        binding.tabLayoutCheckout.addOnTabSelectedListener(object :
-            TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-               // binding.viewPagerCheckout.currentItem = tab.position
-                //title = tab.text
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
-    }
-
-    fun getAllCartProducts() {
-
-        // var cartProducts = ArrayList<ProductCart>()
-        FirebaseReferences.usersRef.document(UserInfo.userID!!).get().addOnSuccessListener { result ->
-            val cartList: java.util.ArrayList<String> = result.get("cartList") as java.util.ArrayList<String>
-            for (productID in cartList){
-                FirebaseReferences.productsRef.document(productID).get()
-                    .addOnSuccessListener { productResult ->
-                        if (productResult != null) {
-                            val prod = productResult.toObject<ProductCart>()
-                            FirebaseReferences.productsRef.document(productID)
-                                .collection("Special Discounts")
-                                .document(UserInfo.userID!!).get().addOnSuccessListener {
-                                    var specialDiscount: SpecialDiscount? = null
-                                    if(it.exists()){
-                                        specialDiscount = it.toObject()
-                                    }
-                                    // LocationManager.getInstance(this).getRouteInfo(UserInfo.location, prod.deliveryLoc)
-                                    if (prod!=null) {
-                                        val productCart = ProductCart(
-                                            prod,
-                                            Random.nextInt(1, 5),
-                                            specialDiscount,
-                                            10
-                                        )
-                                        // cartProducts.add()
-
-                                        checkout.addProduct(productCart)
-                                    }
-                                }
-                        }
-                    }
-            }
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // handle arrow click here
         if (item.itemId == android.R.id.home) {
-            finish() // close this activity and return to preview activity (if there is any)
+            finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object{
+        const val PRODUCTS_QUANTITY = "PRODUCTS_QUANTITY"
+        const val PRODUCT_PROPERTIES = "PRODUCT_PROPERTIES"
     }
 }

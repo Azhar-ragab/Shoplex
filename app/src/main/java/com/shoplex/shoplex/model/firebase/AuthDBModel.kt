@@ -1,10 +1,8 @@
 package com.shoplex.shoplex.model.firebase
 
-
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
-import com.facebook.AccessToken
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -14,11 +12,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.shoplex.shoplex.model.enumurations.AuthType
 import com.shoplex.shoplex.model.extra.FirebaseReferences
-import com.shoplex.shoplex.model.interfaces.UserActionListener
+import com.shoplex.shoplex.model.interfaces.AuthListener
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
 
-class AuthDBModel(val listener: UserActionListener, val context: Context) {
+class AuthDBModel(val listener: AuthListener, val context: Context) {
     fun loginWithEmail(email: String, password: String) {
         Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -50,16 +48,21 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
                     val user: FirebaseUser = Firebase.auth.currentUser
                     getUserByMail(user.email, AuthType.Google)
                 } else {
-                    Toast.makeText(context, "couldn't register to firebase", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "couldn't register to firebase", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
     }
 
     fun createEmailAccount(user: User, password: String) {
+        val ref: DocumentReference = FirebaseReferences.usersRef.document()
+        user.userID = ref.id
+        addImage(Uri.parse(user.image), user.userID)
+        user.image = ""
         Firebase.auth.createUserWithEmailAndPassword(user.email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    addNewUser(user)
+                    addNewUser(ref, user)
                 } else {
                     listener.onAddNewUser(context, null)
                     Toast.makeText(context, "Auth Failed!", Toast.LENGTH_SHORT).show()
@@ -67,36 +70,44 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
             }
     }
 
-    private fun addNewUser(user: User) {
-        val ref: DocumentReference = FirebaseReferences.usersRef.document()
-        user.userID = ref.id
-        val img = user.image
-        user.image = ""
+    private fun addNewUser(ref: DocumentReference, user: User) {
         ref.set(user).addOnSuccessListener {
+           // (context as AppCompatActivity).lifecycleScope.launch {
+           // }
+
             listener.onAddNewUser(context, user)
-            addImage(Uri.parse(img),user.userID)
-            Toast.makeText(context, "Success to create your account!", Toast.LENGTH_SHORT).show()
+
         }.addOnFailureListener {
             listener.onAddNewUser(context, null)
-            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
         }
+
+        /*
+        FirebaseReferences.usersRef.document(user.userID)
+            .collection("Lists")
+            .document("Favorite").set({"FavoriteList" to arrayListOf<String>()})
+        FirebaseReferences.usersRef.document(user.userID)
+            .collection("Lists")
+            .document("Cart").set({"CartList" to arrayListOf<String>()})
+        */
     }
 
+    private fun addImage(uri: Uri, userId: String) {
 
-    private fun addImage(uri: Uri,userId : String) {
-        val imgRef: StorageReference =
-            FirebaseReferences.imagesUserRef.child(userId)
+        val imgRef: StorageReference = FirebaseReferences.imagesUserRef.child(userId)
 
         imgRef.putFile(uri).addOnSuccessListener { _ ->
-            imgRef.downloadUrl.addOnSuccessListener {
+            imgRef.downloadUrl.addOnSuccessListener { uri ->
                 //add Image to FireStorage
-                FirebaseReferences.usersRef.document(userId).update("image",it.toString())
-                //update profile
-                val profileUpdates = userProfileChangeRequest {
-                    photoUri = it
+                FirebaseReferences.usersRef.document(userId).get().addOnSuccessListener {
+                    if(it.exists()){
+                        FirebaseReferences.usersRef.document(userId).update("image", uri.toString())
+                        //update profile
+                        val profileUpdates = userProfileChangeRequest {
+                            photoUri = uri
+                        }
+                        Firebase.auth.currentUser.updateProfile(profileUpdates)
+                    }
                 }
-                Firebase.auth.currentUser.updateProfile(profileUpdates)
-
             }
         }
     }
@@ -113,8 +124,6 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
             "Address",
             currentUser.phoneNumber ?: "",
             currentUser.photoUrl.toString(),
-            arrayListOf(),
-            arrayListOf(),
             authType
         )
 
@@ -131,7 +140,7 @@ class AuthDBModel(val listener: UserActionListener, val context: Context) {
         FirebaseReferences.usersRef.whereEqualTo("email", userEmail)
             .whereEqualTo("authType", authType).get()
             .addOnSuccessListener {
-                var user: User?
+                val user: User?
                 when {
                     it.documents.count() > 0 -> {
                         user = it.documents[0].toObject()!!
