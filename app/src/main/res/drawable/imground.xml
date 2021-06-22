@@ -9,6 +9,5 @@
         android:width="@dimen/width_1"
         android:color="@color/grey_font"
         >
-
     </stroke>
 </shape>
