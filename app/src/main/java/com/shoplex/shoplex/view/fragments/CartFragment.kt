@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,9 @@ import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.model.pojo.ProductQuantity
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.CheckOutActivity
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter
+
 
 class CartFragment : Fragment(), FavouriteCartListener {
 
@@ -59,7 +63,11 @@ class CartFragment : Fragment(), FavouriteCartListener {
 
     private fun getAllCartProducts() {
         val cartAdapter = CartAdapter(this)
-        binding.rvCart.adapter = cartAdapter
+          binding.rvCart.adapter = ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(cartAdapter)).apply {
+              setDuration(700)
+              setInterpolator(OvershootInterpolator(2f))
+          }
+        //binding.rvCart.adapter = cartAdapter
         cartViewModel.readAllCart.observe(viewLifecycleOwner, {
             cartAdapter.setData(it)
             binding.tvPrice.text = it.map { product ->

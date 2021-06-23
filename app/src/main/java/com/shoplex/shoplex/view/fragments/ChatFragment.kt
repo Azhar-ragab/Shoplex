@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -14,6 +15,8 @@ import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.StoreHeadAdapter
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.viewmodel.ChatHeadVM
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
@@ -44,7 +47,12 @@ class ChatFragment : Fragment() {
             chatsAdapter = ChatHeadAdapter(chatHeads)
             storeHeadsAdapter = StoreHeadAdapter(chatHeads)
             binding.rvChat.adapter = chatsAdapter
-            binding.rvStore.adapter = storeHeadsAdapter
+           // binding.rvStore.adapter = storeHeadsAdapter
+            binding.rvStore.adapter = ScaleInAnimationAdapter(SlideInLeftAnimationAdapter(storeHeadsAdapter)).apply {
+                setDuration(1000)
+                setInterpolator(OvershootInterpolator(2f))
+                setFirstOnly(false)
+            }
         })
 
         chatsVm.changedPosition.observe(viewLifecycleOwner, {
