@@ -17,7 +17,6 @@
             android:layout_marginStart="@dimen/margin_8"
             android:layout_marginTop="@dimen/margin_32"
             android:layout_marginEnd="@dimen/margin_8"
-            android:textAlignment="center"
             style="@style/TitleColor"
             android:textSize="@dimen/text_size_24"
             android:textStyle="bold"
