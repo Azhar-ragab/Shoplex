@@ -54,7 +54,7 @@
             android:layout_marginStart="@dimen/margin_16"
             android:layout_marginTop="@dimen/margin_8"
             android:text="@{chatHead.storeName}"
-            android:textColor="@color/purple_500"
+            style="@style/TitleColor"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/cardImgChatHead"

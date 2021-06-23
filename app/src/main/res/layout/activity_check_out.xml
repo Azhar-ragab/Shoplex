@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightgray"
     tools:context=".view.activities.CheckOutActivity">
 
     <com.github.ybq.android.spinkit.SpinKitView
@@ -13,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:SpinKit_Color="@color/pink"
         android:visibility="invisible"
+        app:SpinKit_Color="@color/pink"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/viewPagerCheckout"
@@ -25,10 +24,7 @@
         android:id="@+id/toolbarcheckout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/darkBlue">
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.appcompat.widget.Toolbar>
 

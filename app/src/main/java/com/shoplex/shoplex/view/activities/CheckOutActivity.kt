@@ -38,7 +38,7 @@ class CheckOutActivity : AppCompatActivity(), DroidListener {
 
         supportActionBar?.apply {
             title = getString(R.string.Checkout)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+            //setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
         if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)

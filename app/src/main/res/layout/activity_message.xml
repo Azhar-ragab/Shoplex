@@ -4,26 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightgray"
     tools:context=".view.activities.MessageActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:paddingTop="@dimen/margin_8"
+        android:paddingEnd="@dimen/margin_8"
+        android:paddingBottom="@dimen/margin_8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:elevation="@dimen/padding_4">
-            <ImageView
+          <ImageView
                 android:id="@+id/imgToolbarback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/user_name"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -96,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chatdiscount"
-            android:textColor="@color/gray"
+            style="@style/WhiteColorText"
             android:textSize="@dimen/text_size_12"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="@id/imginfo"

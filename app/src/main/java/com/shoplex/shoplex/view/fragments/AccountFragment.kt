@@ -135,7 +135,7 @@ class AccountFragment : Fragment() {
 
     private fun showAddReportDialog() {
         val dialogBinding = DialogAddReportBinding.inflate(layoutInflater)
-        val reportBtnSheetDialog = BottomSheetDialog(dialogBinding.root.context)
+        val reportBtnSheetDialog = BottomSheetDialog(dialogBinding.root.context,R.style.BottomSheetDialogTheme)
 
         dialogBinding.btnSendReport.setOnClickListener {
             val reportMsg = dialogBinding.edReport.text.toString()

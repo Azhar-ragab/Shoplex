@@ -12,7 +12,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lightgray"
         tools:context="com.shoplex.shoplex.view.fragments.ReviewFragment">
 
         <!-- TODO: Update blank fragment layout -->

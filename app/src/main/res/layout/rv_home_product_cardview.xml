@@ -19,17 +19,16 @@
             android:layout_margin="8dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
+            style="@style/CustomCardview"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
                 <ImageView
                     android:id="@+id/img_product"
@@ -38,7 +37,6 @@
                     android:layout_gravity="end"
                     android:scaleType="fitXY"
                     android:src="@drawable/product"
-
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -60,14 +58,10 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="4dp"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/white"
                     android:visibility="@{(product.quantity != 0? View.VISIBLE: View.INVISIBLE)}"
                     app:fabCustomSize="40dp"
-
                     app:layout_constraintBottom_toBottomOf="@+id/img_product"
                     app:layout_constraintEnd_toEndOf="parent"
-
                     app:layout_constraintTop_toBottomOf="@+id/img_product"
                     app:layout_constraintVertical_bias="0.4"
                     app:srcCompat="@drawable/ic_shopping_cart" />
@@ -79,7 +73,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:text="@{`` + product.price}"
-                    android:textColor="@color/gray"
+                    style="@style/TitleColor"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fabAddProduct" />
@@ -89,7 +83,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_32"
-
                     android:layout_marginTop="2dp"
                     android:text="@{`` + product.newPrice}"
                     android:textColor="@color/red"
@@ -105,7 +98,7 @@
                     android:layout_marginTop="@dimen/margin_8"
                     android:layout_marginEnd="@dimen/margin_8"
                     android:text="@{product.name}"
-                    android:textColor="@color/black"
+                    style="@style/WhiteColorText"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_old_price"
@@ -143,12 +136,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/space"
-                    android:textColor="@color/gray"
+                    style="@style/WhiteColorText"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_storename"
                     app:layout_constraintEnd_toEndOf="@+id/tv_sold"
-
-
                     app:layout_constraintTop_toTopOf="@+id/tv_storename" />
 
                 <TextView
@@ -156,12 +147,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
-
                     android:layout_marginBottom="@dimen/margin_8"
                     android:text="@{product.storeName}"
-                    android:textColor="@color/gray"
                     android:textSize="14sp"
-
+                    style="@style/WhiteColorText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

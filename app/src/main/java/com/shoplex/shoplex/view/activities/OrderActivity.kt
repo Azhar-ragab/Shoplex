@@ -34,7 +34,7 @@ class OrderActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarorder)
         supportActionBar?.apply {
             title = getString(R.string.orders)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+           // setHomeAsUpIndicator(R.drawable.ic_arrow_back)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
@@ -71,7 +71,7 @@ class OrderActivity : AppCompatActivity() {
 
     private fun showAddReviewDialog(productId: String) {
         val binding = DialogAddReviewBinding.inflate(LayoutInflater.from(binding.root.context))
-        val reviewBtnSheetDialog = BottomSheetDialog(binding.root.context)
+        val reviewBtnSheetDialog = BottomSheetDialog(binding.root.context,R.style.BottomSheetDialogTheme)
         reviewBtnSheetDialog.setContentView(binding.root)
 
         FirebaseReferences.productsRef.document(productId).collection("Reviews")

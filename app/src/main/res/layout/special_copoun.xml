@@ -55,7 +55,7 @@
                     android:padding="@dimen/padding_6"
                     android:textAlignment="viewEnd"
                     android:text="@{specialCoupon.discountType == DiscountType.Fixed? @string/LE(specialCoupon.discount): specialCoupon.discount + ` %`}"
-                    android:textColor="@color/darkBlue"
+                    style="@style/TitleColor"
                     android:textSize="14sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-               name="product"
-               type="com.shoplex.shoplex.model.pojo.Product"
-            />
+            name="product"
+            type="com.shoplex.shoplex.model.pojo.Product" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +15,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_home"
+            style="@style/CustomCardview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -29,7 +30,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
                 <ImageView
                     android:id="@+id/img_product"
@@ -51,7 +51,7 @@
                     android:layout_marginTop="@dimen/margin_8"
                     android:layout_marginEnd="8dp"
                     android:text="@{product.name}"
-                    android:textColor="@color/black"
+                    style="@style/TitleColor"
                     android:textSize="@dimen/text_size_16"
                     app:layout_constraintEnd_toStartOf="@+id/img_delete"
                     app:layout_constraintStart_toEndOf="@+id/img_product"
@@ -65,7 +65,7 @@
                     android:layout_marginStart="@dimen/margin_8"
                     android:layout_marginTop="8dp"
                     android:text="@{String.valueOf(product.newPrice)}"
-                    android:textColor="@color/black"
+                    style="@style/WhiteColorText"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@+id/img_product"
                     app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
@@ -108,8 +108,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="8dp"
-            android:background="@color/white"
-            android:backgroundTint="@color/white"
             android:clickable="false"
             app:fabCustomSize="40dp"
             app:layout_constraintBottom_toBottomOf="@+id/cv_home"
