@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:checkable="true"
     android:text="@string/category"
-    app:chipIcon="@drawable/ic_mobile_24"
     app:chipIconEnabled="true"
     app:chipEndPadding="@dimen/margin_8"
     app:chipStartPadding="@dimen/margin_8" />

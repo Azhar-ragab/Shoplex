@@ -12,6 +12,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -72,10 +73,18 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         }
 
         this.productsVM = ProductsVM()
-        for ((index, cat) in productsVM.getCategories().withIndex()) {
+        for ((index, _) in productsVM.getCategories().withIndex()) {
             val chip = inflater.inflate(R.layout.chip_choice_item, null, false) as Chip
             chip.text = resources.getStringArray(R.array.categories)[index]
             chip.id = index
+            chip.chipIcon = when(index) {
+                    0 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
+                1 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
+                2 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
+                3 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
+                4 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
+                else -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
+            }
             binding.chipGroup.addView(chip)
         }
 
