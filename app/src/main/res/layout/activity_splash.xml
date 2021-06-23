@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splashbackground"
     tools:context=".view.activities.SplashActivity">
 
 
@@ -30,15 +29,15 @@
         android:layout_height="111dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:fontFamily="serif"
+        android:fontFamily="@font/cookie"
         android:gravity="center|center_horizontal|center_vertical"
         android:text="@string/app_name"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/darkBlue"
+        android:textColor="@color/logo_color"
         android:textColorHighlight="@color/purple_500"
         android:textColorHint="@color/purple_500"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/img_Splash"
