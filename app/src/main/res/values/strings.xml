@@ -222,7 +222,7 @@
     <string name="checked">checked</string>
     <string name="notchecked">not checked</string>
     <string name="validation">Please Login before checkout</string>
-    <string name="pleaseLogin">Please Login to get all cart products</string>
+    <string name="pleaseLogin">Please Login to Access All Features</string>
     <string name="userID">userID</string>
     <string name="Error">Error</string>
     <string name="deliveryMethod">Choose Delivery Method</string>
