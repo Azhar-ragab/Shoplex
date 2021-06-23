@@ -31,30 +31,23 @@
         <TextView
             android:id="@+id/tv_product_name"
             style="@style/TitleColor"
-            android:layout_width="0dp"
-
-
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_8"
-
             android:layout_marginTop="@dimen/margin_8"
-            android:layout_marginEnd="@dimen/margin_8"
             android:text="@string/productName"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/img_product_summary"
             app:layout_constraintTop_toTopOf="@+id/img_product_summary" />
 
         <TextView
             android:id="@+id/tv_Quantity"
             style="@style/WhiteColorText"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_8"
-            android:layout_marginEnd="@dimen/margin_8"
             android:text="@string/Quantity"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_product_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_name" />
 

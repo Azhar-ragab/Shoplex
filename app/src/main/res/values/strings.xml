@@ -255,4 +255,10 @@
 
     <string name="NoInternetConnection">Your are currently offline please go online back and try again!</string>
     <string name="Telephone">Telephone not supported</string>
+    <string name="cart">Cart</string>
+    <string name="home">Home</string>
+    <string name="account">Account</string>
+    <string name="search">Search</string>
+    <string name="high_price">High Price</string>
+    <string name="low_price">Low Price</string>
 </resources>
