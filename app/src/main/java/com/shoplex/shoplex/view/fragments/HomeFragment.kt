@@ -7,6 +7,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -30,6 +31,10 @@ import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter
+
 
 class HomeFragment : Fragment(), FavouriteCartListener {
     private lateinit var binding: FragmentHomeBinding
@@ -87,7 +92,12 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         productsVM.getAllPremiums()
         productsVM.advertisements.observe(viewLifecycleOwner, { advertisements ->
             advertisementsAdapter = AdvertisementsAdapter(advertisements)
-            binding.rvAdvertisement.adapter = advertisementsAdapter
+            binding.rvAdvertisement.adapter = ScaleInAnimationAdapter(SlideInLeftAnimationAdapter(advertisementsAdapter)).apply {
+                setDuration(1000)
+                setInterpolator(OvershootInterpolator(2f))
+                setFirstOnly(false)
+            }
+            //binding.rvAdvertisement.adapter = advertisementsAdapter
         })
 
         // Products
@@ -97,7 +107,12 @@ class HomeFragment : Fragment(), FavouriteCartListener {
 
         productsVM.products.observe(viewLifecycleOwner, { products ->
             homeProductAdapter = HomeAdapter(products)
-            binding.rvHomeproducts.adapter = homeProductAdapter
+            binding.rvHomeproducts.adapter =  ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(homeProductAdapter)).apply {
+                setDuration(1000)
+                setInterpolator(OvershootInterpolator(2f))
+                setFirstOnly(false)
+            }
+           // binding.rvHomeproducts.adapter = homeProductAdapter
         })
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

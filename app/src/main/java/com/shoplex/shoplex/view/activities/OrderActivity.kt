@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.animation.OvershootInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -17,6 +18,8 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Review
 import com.shoplex.shoplex.viewmodel.OrdersVM
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter
 
 class OrderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOrderBinding
@@ -34,7 +37,7 @@ class OrderActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarorder)
         supportActionBar?.apply {
             title = getString(R.string.orders)
-           // setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+            // setHomeAsUpIndicator(R.drawable.ic_arrow_back)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
@@ -42,13 +45,23 @@ class OrderActivity : AppCompatActivity() {
         if (ordersVM.currentOrders.value == null)
             ordersVM.getCurrentOrders()
         ordersVM.currentOrders.observe(this, { orders ->
-            binding.rvCurrentOrders.adapter = OrderAdapter(orders)
+            // binding.rvCurrentOrders.adapter = OrderAdapter(orders)
+            binding.rvCurrentOrders.adapter =
+                ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(OrderAdapter(orders))).apply {
+                    setDuration(700)
+                    setInterpolator(OvershootInterpolator(2f))
+                }
         })
 
         if (ordersVM.lastOrders.value == null)
             ordersVM.getLastOrders()
         ordersVM.lastOrders.observe(this, { lastOrders ->
-            binding.rvLastOrders.adapter = OrderAdapter(lastOrders)
+            //  binding.rvLastOrders.adapter = OrderAdapter(lastOrders)
+            binding.rvLastOrders.adapter =
+                ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(OrderAdapter(lastOrders))).apply {
+                    setDuration(700)
+                    setInterpolator(OvershootInterpolator(2f))
+                }
         })
 
         val notificationManager = this.getSystemService(
@@ -71,7 +84,8 @@ class OrderActivity : AppCompatActivity() {
 
     private fun showAddReviewDialog(productId: String) {
         val binding = DialogAddReviewBinding.inflate(LayoutInflater.from(binding.root.context))
-        val reviewBtnSheetDialog = BottomSheetDialog(binding.root.context,R.style.BottomSheetDialogTheme)
+        val reviewBtnSheetDialog =
+            BottomSheetDialog(binding.root.context, R.style.BottomSheetDialogTheme)
         reviewBtnSheetDialog.setContentView(binding.root)
 
         FirebaseReferences.productsRef.document(productId).collection("Reviews")
