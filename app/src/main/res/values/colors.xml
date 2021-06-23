@@ -24,4 +24,5 @@
     <color name="facebook">#3b5998 </color>
     <color name="google">#db4a39</color>
     <color name="quantum_googblue900">#1c3aa9</color>
+    <color name="logo_color">#ff8d00</color>
 </resources>

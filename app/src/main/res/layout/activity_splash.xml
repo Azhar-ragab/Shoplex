@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splashbackground"
     tools:context=".view.activities.SplashActivity">
 
 
@@ -18,22 +17,22 @@
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/buynow" />
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/tv_shoplex_splash"
         android:layout_width="0dp"
         android:layout_height="111dp"
         android:layout_marginBottom="124dp"
-        android:fontFamily="serif"
+        android:fontFamily="@font/cookie"
         android:gravity="center|center_horizontal|center_vertical"
         android:text="@string/shoplex"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/darkBlue"
+        android:textColor="@color/logo_color"
         android:textColorHighlight="@color/purple_500"
         android:textColorHint="@color/purple_500"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
