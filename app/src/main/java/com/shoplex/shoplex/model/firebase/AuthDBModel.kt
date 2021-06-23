@@ -55,9 +55,7 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
     }
 
     fun createEmailAccount(user: User, password: String, ref: DocumentReference) {
-
         user.userID = ref.id
-        //addImage(Uri.parse(user.image), user.userID)
         user.image = ""
         Firebase.auth.createUserWithEmailAndPassword(user.email, password)
             .addOnCompleteListener { task ->
@@ -65,6 +63,7 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
                     addNewUser(ref, user)
                 } else {
                     listener.onAddNewUser(context, null)
+                    FirebaseReferences.imagesUserRef.child(ref.id).delete()
                     Toast.makeText(context, "Auth Failed!", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -75,6 +74,7 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
             listener.onAddNewUser(context, user)
 
         }.addOnFailureListener {
+            FirebaseReferences.imagesUserRef.child(ref.id).delete()
             listener.onAddNewUser(context, null)
         }
     }

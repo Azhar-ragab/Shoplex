@@ -85,7 +85,7 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
                             UserInfo.image = uri.toString()
                             UserInfo.saveUserInfo(context)
                         }
-                        Firebase.auth.currentUser.updateProfile(profileUpdates)
+                        Firebase.auth.currentUser?.updateProfile(profileUpdates)
                     }
                 }
             }
@@ -144,7 +144,7 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
         UserInfo.clear()
     }
 
-    fun onUserExists() {
+    private fun onUserExists() {
         Toast.makeText(context, "This Registration Email Exist", Toast.LENGTH_SHORT).show()
     }
 

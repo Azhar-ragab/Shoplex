@@ -133,7 +133,7 @@ class LoginTabFragment : Fragment() {
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult?) {
                     loginResult?.let {
-                        Log.d("facebook", it.accessToken.token)
+                        Log.d("facebookTOKEN", it.accessToken.token)
                         val request =
                             GraphRequest.newMeRequest(loginResult.accessToken) { _, response ->
                                 val json = response.jsonObject
