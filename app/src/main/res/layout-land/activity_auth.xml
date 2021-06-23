@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_logo"
+    android:background="@drawable/background_login"
 
     tools:context=".view.activities.auth.AuthActivity">
     <com.google.android.material.card.MaterialCardView
@@ -14,7 +14,7 @@
         android:layout_marginLeft="16dp"
 
 
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/margin_8"
 
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
@@ -95,14 +95,14 @@
         android:layout_height="wrap_content"
 
         android:layout_marginStart="16dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="16dp"
 
 
         android:gravity="center"
         android:text="Welcome to ShopLex"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/logo_color"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
