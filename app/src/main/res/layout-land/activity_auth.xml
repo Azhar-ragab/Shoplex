@@ -7,16 +7,17 @@
     android:background="@drawable/activitybg"
 
     tools:context=".view.activities.auth.AuthActivity">
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView2"
         android:layout_width="400dp"
-        android:layout_height="230dp"
+        android:layout_height="270dp"
         android:layout_marginLeft="16dp"
 
 
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
 
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="6dp"
         app:cardCornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,28 +93,31 @@
         android:id="@+id/TV_Welcom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+
+
         android:gravity="center"
         android:text="Welcome to ShopLex"
         android:textAlignment="center"
         android:textColor="@color/white"
-
-
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/materialCardView2"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="@dimen/margin_16"
-        android:layout_margin="@dimen/margin_16"
-        app:layout_constraintBottom_toBottomOf="@+id/TV_Welcom"
-        app:layout_constraintStart_toStartOf="@+id/materialCardView2"
-        app:layout_constraintTop_toTopOf="@+id/TV_Welcom"
-        app:srcCompat="@drawable/buynow" />
+
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
