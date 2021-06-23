@@ -43,6 +43,11 @@ class MessageActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarMessage)
         supportActionBar?.title = ""
 
+        if (supportActionBar != null) {
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar!!.setDisplayShowHomeEnabled(true)
+        }
+
         val userName = intent.getStringExtra(ChatHeadAdapter.CHAT_TITLE_KEY)
         val productImg = intent.getStringExtra(ChatHeadAdapter.CHAT_IMG_KEY).toString()
         chatID = intent.getStringExtra(ChatHeadAdapter.CHAT_ID_KEY).toString()
@@ -63,7 +68,7 @@ class MessageActivity : AppCompatActivity() {
             }
         })
 
-        binding.imgToolbarback.setOnClickListener { finish() }
+       // binding.imgToolbarback.setOnClickListener { finish() }
 
         binding.imgToolbarChat.setImageResource(R.drawable.placeholder)
         binding.tvToolbarUserChat.text = userName
@@ -169,7 +174,10 @@ class MessageActivity : AppCompatActivity() {
                     Toast.makeText(this, "Phone Number is not specified", Toast.LENGTH_SHORT).show()
                 }
             }
+            android.R.id.home -> finish()
         }
-        return false
+        return super.onOptionsItemSelected(item)
     }
+
+
 }

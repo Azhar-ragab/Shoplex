@@ -23,7 +23,7 @@
             android:background="@drawable/radius"
             android:iconifiedByDefault="false"
             android:queryBackground="@android:color/transparent"
-            android:queryHint="Search"
+            android:queryHint="@string/search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_location"
             app:layout_constraintStart_toStartOf="parent"

@@ -45,15 +45,13 @@
 
                 <TextView
                     android:id="@+id/tvProductName"
-                    android:layout_width="0dp"
+                    style="@style/TitleColor"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_8"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:layout_marginEnd="8dp"
                     android:text="@{product.name}"
-                    style="@style/TitleColor"
                     android:textSize="@dimen/text_size_16"
-                    app:layout_constraintEnd_toStartOf="@+id/img_delete"
                     app:layout_constraintStart_toEndOf="@+id/img_product"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -95,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
                     android:layout_marginEnd="16dp"
-                    android:src="@drawable/favourite_delete"
+                    android:src="@drawable/ic_baseline_delete_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

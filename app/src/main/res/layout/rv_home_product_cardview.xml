@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
@@ -68,12 +69,12 @@
 
                 <TextView
                     android:id="@+id/tv_old_price"
+                    style="@style/TitleColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:text="@{`` + product.price}"
-                    style="@style/TitleColor"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fabAddProduct" />
@@ -93,14 +94,12 @@
 
                 <TextView
                     android:id="@+id/tv_product_name"
-                    android:layout_width="0dp"
+                    style="@style/WhiteColorText"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="@{product.name}"
-                    style="@style/WhiteColorText"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_old_price"
                     app:layout_constraintTop_toBottomOf="@+id/tv_old_price" />
 
@@ -117,26 +116,28 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:drawableStartCompat="@drawable/star_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_sold"
                     app:layout_constraintStart_toStartOf="@+id/tv_product_name"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_product_name" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_sold" />
 
                 <TextView
                     android:id="@+id/tv_sold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@{(product.quantity != 0? @string/sold(product.sold, product.quantity): @string/outOfStock)}"
                     android:textColor="@{(product.quantity != 0?@color/gray: @color/red)}"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_review"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_product_name"
-                    app:layout_constraintTop_toTopOf="@+id/tv_review" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_product_name" />
 
                 <TextView
                     android:id="@+id/tv_space"
+                    style="@style/WhiteColorText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/space"
-                    style="@style/WhiteColorText"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_storename"
                     app:layout_constraintEnd_toEndOf="@+id/tv_sold"
@@ -144,16 +145,14 @@
 
                 <TextView
                     android:id="@+id/tv_storename"
+                    style="@style/WhiteColorText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
                     android:layout_marginBottom="@dimen/margin_8"
                     android:text="@{product.storeName}"
                     android:textSize="14sp"
-                    style="@style/WhiteColorText"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/tv_review"
                     app:layout_constraintTop_toBottomOf="@+id/tv_review" />
 
@@ -163,8 +162,8 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="4dp"
-                    android:visibility="@{(product.quantity != 0? View.VISIBLE: View.INVISIBLE)}"
                     android:background="@drawable/ic_favorite"
+                    android:visibility="@{(product.quantity != 0? View.VISIBLE: View.INVISIBLE)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
