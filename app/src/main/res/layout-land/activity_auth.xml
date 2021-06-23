@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/activitybg"
+    android:background="@drawable/background_logo"
 
     tools:context=".view.activities.auth.AuthActivity">
     <com.google.android.material.card.MaterialCardView
@@ -17,7 +17,7 @@
         android:layout_marginTop="16dp"
 
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,13 +111,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
 
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/shoplex_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

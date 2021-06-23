@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/activitybg"
+    android:background="@drawable/background_logo"
 
     tools:context=".view.activities.auth.AuthActivity">
 
@@ -107,8 +107,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:layout_marginStart="8dp"
 
         android:layout_marginTop="@dimen/margin_16"
@@ -117,7 +117,7 @@
         app:layout_constraintEnd_toStartOf="@+id/TV_Welcom"
         app:layout_constraintStart_toStartOf="@+id/materialCardView2"
         app:layout_constraintTop_toTopOf="@+id/TV_Welcom"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/shoplex_logo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
