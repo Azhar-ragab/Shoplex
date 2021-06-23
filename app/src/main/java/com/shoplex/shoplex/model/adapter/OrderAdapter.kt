@@ -1,6 +1,7 @@
 package com.shoplex.shoplex.model.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -37,22 +38,25 @@ class OrderAdapter(var ordersInfo: ArrayList<Order>) :
                 binding.order = order
                 Glide.with(itemView.context).load(order.product!!.images.firstOrNull())
                     .error(R.drawable.product).into(binding.imgProduct)
-                if (order.orderStatus == OrderStatus.Current) {
-                    binding.tvbutton.text = itemView.context.resources.getString(R.string.cancel)
-                    binding.tvbutton.setOnClickListener {
+
+                when (order.orderStatus) {
+                    OrderStatus.Current -> binding.tvbutton.text = itemView.context.resources.getString(R.string.cancel)
+                    OrderStatus.Delivered -> binding.tvbutton.text = binding.root.context.getString(R.string.Review)
+                    else -> binding.tvbutton.visibility = View.INVISIBLE
+                }
+
+                binding.tvbutton.setOnClickListener {
+                    if (order.orderStatus == OrderStatus.Current) {
                         FirebaseReferences.ordersRef.document(order.orderID)
                             .update("orderStatus", OrderStatus.Canceled).addOnSuccessListener {
                                 Toast.makeText(binding.root.context, "success", Toast.LENGTH_SHORT)
                                     .show()
+                                ordersInfo.removeAt(bindingAdapterPosition)
+                                notifyItemRemoved(bindingAdapterPosition)
                             }
+                    } else if (order.orderStatus == OrderStatus.Delivered) {
+                        showAddReviewDialog(order.productID)
                     }
-
-                } else {
-                    binding.tvbutton.text = binding.root.context.getString(R.string.Review)
-                }
-
-                binding.tvbutton.setOnClickListener {
-                    showAddReviewDialog(order.productID)
                 }
             }
         }

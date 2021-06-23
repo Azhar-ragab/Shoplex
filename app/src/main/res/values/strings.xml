@@ -262,4 +262,13 @@
     <string name="search">Search</string>
     <string name="high_price">High Price</string>
     <string name="low_price">Low Price</string>
+
+    <string-array name="categories">
+        <item>Fashion</item>
+        <item>Health Care</item>
+        <item>Phone and Tablets</item>
+        <item>Electronics</item>
+        <item>Accessories</item>
+        <item>Books</item>
+    </string-array>
 </resources>

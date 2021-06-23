@@ -261,4 +261,13 @@
     <string name="high_price">أعلى سعر</string>
     <string name="low_price">أقل سعر</string>
 
+    <string-array name="categories">
+        <item>آزياء وموضه</item>
+        <item>العنايه المركزه</item>
+        <item>Phone and Tablets</item>
+        <item>Electronics</item>
+        <item>Accessories</item>
+        <item>Books</item>
+    </string-array>
+
 </resources>

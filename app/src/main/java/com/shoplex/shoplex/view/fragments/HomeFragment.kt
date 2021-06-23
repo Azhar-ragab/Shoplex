@@ -74,17 +74,18 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         this.productsVM = ProductsVM()
         for ((index, cat) in productsVM.getCategories().withIndex()) {
             val chip = inflater.inflate(R.layout.chip_choice_item, null, false) as Chip
-            chip.text = cat
+            chip.text = resources.getStringArray(R.array.categories)[index]
             chip.id = index
             binding.chipGroup.addView(chip)
         }
 
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
             selectedCategory = group.findViewById<Chip>(checkedId).text.toString()
-            val category =
-                Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
+            val category = Category.values()[checkedId].name.replace(" ", getString(R.string.underscore))
+                //Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
+            //Toast.makeText(requireContext(), checkedId.toString(), Toast.LENGTH_SHORT).show()
 
-            productsVM.getAllProducts(category, Filter(), null)
+            productsVM.getAllProducts(Category.valueOf(category), Filter(), null)
         }
 
         binding.chipGroup.findViewById<Chip>(binding.chipGroup.children.first().id).isChecked = true
