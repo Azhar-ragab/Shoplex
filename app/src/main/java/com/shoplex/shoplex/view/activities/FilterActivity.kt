@@ -96,9 +96,10 @@ class FilterActivity : AppCompatActivity() {
         binding.rsPrice.setLabelFormatter { value: Float ->
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
-            format.currency = Currency.getInstance(getString(R.string.EGP))
+            format.currency = Currency.getInstance(getString(R.string.StrEGP))
             format.format(value.toDouble())
         }
+
 
         binding.cardCategoryFilter.setOnClickListener {
             subCategoryBottomSheetDialog()

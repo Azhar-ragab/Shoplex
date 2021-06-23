@@ -198,6 +198,7 @@
     <string name="splash">/</string>
     <string name="Position">Position</string>
     <string name="EGP">%s EGP</string>
+    <string name="StrEGP">EGP</string>
     <string name="LowPriceSelected">Low Price Selected</string>
     <string name="HighPriceSelected">High Price Selected</string>
     <string name="LoginFailed">Login Failed</string>
