@@ -7,9 +7,7 @@
     android:orientation="vertical"
     tools:context=".fragments.HomeFragment"
     tools:layout_editor_absoluteX="16dp"
-    tools:layout_editor_absoluteY="205dp"
-
-    >
+    tools:layout_editor_absoluteY="205dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,31 +29,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_location"
             android:layout_width="40dp"
-
-
             android:layout_height="40dp"
-
-
             android:layout_marginEnd="@dimen/margin_8"
-            android:background="@drawable/location_on"
-
+            android:src="@drawable/location_on"
+            android:scaleType="centerCrop"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="@+id/btn_filter"
             app:layout_constraintEnd_toStartOf="@+id/btn_filter"
             app:layout_constraintTop_toTopOf="@+id/btn_filter" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_filter"
             android:layout_width="40dp"
-
-
             android:layout_height="40dp"
-
-
             android:layout_marginEnd="@dimen/margin_16"
-            android:background="@drawable/ic_baseline_filter_list_24"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_filter_list_24"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

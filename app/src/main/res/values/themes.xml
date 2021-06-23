@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="titleTextColor">@color/darkblue</item>
         <item name="bottomSheetStyle">@style/BottomSheetDialogTheme</item>
-
+        <item name="iconTint">@color/purple_700</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
