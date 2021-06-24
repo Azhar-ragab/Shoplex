@@ -208,7 +208,6 @@
     <string name="Authenticationfailed">المصادقه باءت بالفشل.</string>
     <string name="checked">التحقق</string>
     <string name="notchecked">غير مدقق</string>
-    <string name="validation">الرجاء تسجيل الدخول قبل الخروج</string>
     <string name="pleaseLogin">الرجاء تسجيل الدخول للحصول على جميع منتجات فى  سلة التسوق</string>
     <string name="userID">userID</string>
     <string name="Error">خطأ</string>
@@ -261,7 +260,29 @@
     <string name="low_price">أقل سعر</string>
     <string name="not_connection">غير متصل</string>
     <string name="orLoginwith">أو التسجيل بواسطة</string>
-
+    <string name="StrEGP">جـ.م.</string>
+    <string name="confirm">موافق</string>
+    <string name="noitem">لا يوجد عنصر حتي الان!</string>
+    <string name="choose_image">من فضلك أختار صورة</string>
+    <string name="enter_mobile">من فضلك ادخل رقم هاتف صحيح(+2)</string>
+    <string name="Product_not_found">المنتج لا يوجد!</string>
+    <string name="no_store">لا توجد متاجر</string>
+    <string name="phone_not_specified">رقم الهاتف غير صحيح</string>
+    <string name="delete">مسح</string>
+    <string name="deleteMessage">هل أنت متأكد من ازالة هذا العنصر؟</string>
+    <string name="deleteSuccess">تم المسح بنجاح</string>
+    <string name="errorRegister">لا تستطيع التسجيل الأن</string>
+    <string name="createAccount">تم إنشاء الحساب بنجاح</string>
+    <string name="errorAuth" >فشل في المصادقة</string>
+    <string name="failed">فشل</string>
+    <string name="cancelOrder">الغاء!</string>
+    <string name="cancelMessage">هل أنت متاكد من الغاء هذا الطلب ?!!</string>
+    <string name="max">الحد الأقصي</string>
+    <string name="sendreport">تم ارسال بلاغكو شكراً لك</string>
+    <string name="emailExist">هذا الايميل موجود مسبقاً</string>
+    <string name="fail_payment">فشل في تحميل طريقة الدفع</string>
+    <string name="minimum_charge">أقل نسبة شحن باستخدام الكردت كارد عشرة جنيهات </string>
+    <string name="emptyCart">عربة التسوق فارغة</string>
     <string-array name="categories">
         <item>موضه</item>
         <item>العنايةالشخصية </item>

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -39,20 +38,55 @@ class CartFragment : Fragment(), FavouriteCartListener {
         binding.btnCheckout.setOnClickListener {
             if (UserInfo.userID != null) {
                 if (ArchLifecycleApp.isInternetConnected) {
-                    startActivity(Intent(context, CheckOutActivity::class.java).apply {
-                        this.putParcelableArrayListExtra("PRODUCTS_QUANTITY", productsQuantity)
-                    })
+                    if (productsQuantity.isEmpty()) {
+                        val snackbar = Snackbar.make(
+                            binding.root,
+                            binding.root.context.getString(R.string.emptyCart),
+                            Snackbar.LENGTH_LONG
+                        )
+                        val sbView: View = snackbar.view
+                        sbView.setBackgroundColor(
+                            ContextCompat.getColor(
+                                binding.root.context,
+                                R.color.blueshop
+                            )
+                        )
+                        snackbar.show()
+                    }
+                    else {
+                        startActivity(Intent(context, CheckOutActivity::class.java).apply {
+                            this.putParcelableArrayListExtra("PRODUCTS_QUANTITY", productsQuantity)
+                        })
+                    }
                 } else {
-                    val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.NoInternetConnection), Snackbar.LENGTH_LONG)
+                    val snackbar = Snackbar.make(
+                        binding.root,
+                        binding.root.context.getString(R.string.NoInternetConnection),
+                        Snackbar.LENGTH_LONG
+                    )
                     val sbView: View = snackbar.view
-                    sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                    sbView.setBackgroundColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.blueshop
+                        )
+                    )
                     snackbar.show()
 
                 }
             } else {
-                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.pleaseLogin), Snackbar.LENGTH_LONG)
+                val snackbar = Snackbar.make(
+                    binding.root,
+                    binding.root.context.getString(R.string.pleaseLogin),
+                    Snackbar.LENGTH_LONG
+                )
                 val sbView: View = snackbar.view
-                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                sbView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.blueshop
+                    )
+                )
                 snackbar.show()
 
             }
@@ -68,17 +102,17 @@ class CartFragment : Fragment(), FavouriteCartListener {
 
     private fun getAllCartProducts() {
         val cartAdapter = CartAdapter(this)
-          binding.rvCart.adapter = ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(cartAdapter)).apply {
-              setDuration(700)
-              setInterpolator(OvershootInterpolator(2f))
-          }
+        binding.rvCart.adapter =
+            ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(cartAdapter)).apply {
+                setDuration(700)
+                setInterpolator(OvershootInterpolator(2f))
+            }
         //binding.rvCart.adapter = cartAdapter
         cartViewModel.readAllCart.observe(viewLifecycleOwner, {
-            if (it.count()>0) {
-                binding.noItem.visibility=View.INVISIBLE
-            }
-            else{
-                binding.noItem.visibility=View.VISIBLE
+            if (it.count() > 0) {
+                binding.noItem.visibility = View.INVISIBLE
+            } else {
+                binding.noItem.visibility = View.VISIBLE
             }
 
             cartAdapter.setData(it)

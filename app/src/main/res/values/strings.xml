@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <string name="maps_key">AIzaSyAyj2_BzoXGMR432LsT4dpv6TV6SdNbtDg</string>
     <string name="app_name">ShopLex</string>
     <string name="chat">Chat</string>
@@ -284,6 +285,7 @@
     <string name="low_price">Low Price</string>
     <string name="not_connection">No Connection</string>
     <string name="orLoginwith">Or Login With</string>
+    <string name="emptyCart">Empty Cart</string>
 
     <string-array name="categories">
         <item>Fashion</item>
