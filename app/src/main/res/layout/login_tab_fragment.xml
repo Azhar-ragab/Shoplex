@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Or Login With"
+                android:text="@string/orLoginwith"
                 android:textColor="@color/cardview_dark_background"
                 app:layout_constraintEnd_toEndOf="parent"
 

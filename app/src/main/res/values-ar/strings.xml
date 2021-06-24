@@ -260,6 +260,7 @@
     <string name="high_price">أعلى سعر</string>
     <string name="low_price">أقل سعر</string>
     <string name="not_connection">غير متصل</string>
+    <string name="orLoginwith">أو التسجيل بواسطة</string>
 
     <string-array name="categories">
         <item>موضه</item>

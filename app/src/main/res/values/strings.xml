@@ -263,6 +263,7 @@
     <string name="high_price">High Price</string>
     <string name="low_price">Low Price</string>
     <string name="not_connection">No Connection</string>
+    <string name="orLoginwith">Or Login With</string>
 
     <string-array name="categories">
         <item>Fashion</item>
