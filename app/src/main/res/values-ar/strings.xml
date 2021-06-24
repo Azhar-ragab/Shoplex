@@ -260,14 +260,15 @@
     <string name="search">بحث</string>
     <string name="high_price">أعلى سعر</string>
     <string name="low_price">أقل سعر</string>
+    <string name="not_connection">غير متصل</string>
 
     <string-array name="categories">
-        <item>آزياء وموضه</item>
-        <item>العنايه المركزه</item>
-        <item>Phone and Tablets</item>
-        <item>Electronics</item>
-        <item>Accessories</item>
-        <item>Books</item>
+        <item>موضه</item>
+        <item>العنايةالشخصية </item>
+        <item>موبيل وتابلت</item>
+        <item>الكترونيات</item>
+        <item>اكسسوارات</item>
+        <item>كتب</item>
     </string-array>
 
 </resources>

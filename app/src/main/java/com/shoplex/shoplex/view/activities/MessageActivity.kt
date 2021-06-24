@@ -6,10 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.droidnet.DroidListener
+import com.droidnet.DroidNet
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
@@ -24,8 +27,9 @@ import com.shoplex.shoplex.room.viewmodel.MessageFactoryModel
 import com.shoplex.shoplex.room.viewmodel.MessageViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.dialog_add_report.view.*
 
-class MessageActivity : AppCompatActivity() {
+class MessageActivity : AppCompatActivity(), DroidListener {
     private lateinit var binding: ActivityMessageBinding
     private val messageAdapter = GroupAdapter<GroupieViewHolder>()
     private lateinit var chatID: String
@@ -47,6 +51,8 @@ class MessageActivity : AppCompatActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             supportActionBar!!.setDisplayShowHomeEnabled(true)
         }
+
+        DroidNet.getInstance().addInternetConnectivityListener(this)
 
         val userName = intent.getStringExtra(ChatHeadAdapter.CHAT_TITLE_KEY)
         val productImg = intent.getStringExtra(ChatHeadAdapter.CHAT_IMG_KEY).toString()
@@ -177,6 +183,20 @@ class MessageActivity : AppCompatActivity() {
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onInternetConnectivityChanged(isConnected: Boolean) {
+        if (isConnected) {
+            binding.spinKitMsg.visibility = View.INVISIBLE
+            binding.tvLoad.visibility = View.INVISIBLE
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            binding.spinKitMsg.visibility = View.VISIBLE
+            binding.tvLoad.visibility = View.VISIBLE
+        }
     }
 
 

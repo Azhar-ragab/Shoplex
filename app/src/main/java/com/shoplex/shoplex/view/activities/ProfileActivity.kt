@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityProfileBinding
 import com.shoplex.shoplex.model.enumurations.LocationAction
+import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
@@ -89,7 +91,11 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             if (checkEditText()) {
-                authVM.updateCurrentAccount()
+                if(ArchLifecycleApp.isInternetConnected){
+                    authVM.updateCurrentAccount()
+                }else{
+                    Snackbar.make(binding.root.rootView,R.string.NoInternetConnection,Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
 

@@ -7,6 +7,9 @@
         <variable
             name="product"
             type="com.shoplex.shoplex.model.pojo.Product" />
+        <variable
+            name="location"
+            type="com.shoplex.shoplex.model.pojo.StoreLocationInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -137,7 +140,7 @@
                     style="@style/WhiteColorText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/space"
+                    android:text="@{`` + (location.distance == null? @string/NA : location.distance)}"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_storename"
                     app:layout_constraintEnd_toEndOf="@+id/tv_sold"

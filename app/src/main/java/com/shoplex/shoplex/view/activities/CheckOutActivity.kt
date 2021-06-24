@@ -78,6 +78,7 @@ class CheckOutActivity : AppCompatActivity(), DroidListener {
     override fun onInternetConnectivityChanged(isConnected: Boolean) {
         if (isConnected) {
             binding.spinKit.visibility = View.INVISIBLE
+            binding.tvLoadCheck.visibility = View.INVISIBLE
             //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
             window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         } else {
@@ -86,6 +87,7 @@ class CheckOutActivity : AppCompatActivity(), DroidListener {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             binding.spinKit.visibility = View.VISIBLE
+            binding.tvLoadCheck.visibility = View.VISIBLE
         }
     }
 }

@@ -262,6 +262,7 @@
     <string name="search">Search</string>
     <string name="high_price">High Price</string>
     <string name="low_price">Low Price</string>
+    <string name="not_connection">No Connection</string>
 
     <string-array name="categories">
         <item>Fashion</item>

@@ -42,7 +42,7 @@ class OrdersDBModel(val notifier: ProductsListener) {
                     val order: Order? = document.toObject<Order>()
                     if (order != null) {
                         orders.add(order)
-                        FirebaseReferences.productsRef.document(order.productID).get(Source.SERVER)
+                        FirebaseReferences.productsRef.document(order.productID).get()
                             .addOnSuccessListener {
                                 order.product = it.toObject<Product>()
                                 if (document == values.last()) {
