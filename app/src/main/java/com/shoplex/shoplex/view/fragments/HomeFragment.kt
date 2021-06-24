@@ -92,8 +92,6 @@ class HomeFragment : Fragment(), FavouriteCartListener {
             selectedCategory = group.findViewById<Chip>(checkedId).text.toString()
             val category =
                 Category.values()[checkedId].name.replace(" ", getString(R.string.underscore))
-            //Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
-            //Toast.makeText(requireContext(), checkedId.toString(), Toast.LENGTH_SHORT).show()
 
             productsVM.getAllProducts(Category.valueOf(category), Filter(), null)
         }
