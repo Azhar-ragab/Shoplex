@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="userInfo"
             type="com.shoplex.shoplex.viewmodel.AuthVM" />
@@ -12,34 +13,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lightgray"
         tools:context=".view.activities.ProfileActivity">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarProfile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_height="?attr/actionBarSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarProfile"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:titleTextColor="@color/darkBlue">
-
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="@dimen/width_0"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+            app:layout_constraintTop_toBottomOf="@id/toolbarProfile">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -50,11 +39,11 @@
                     android:layout_width="@dimen/width_150"
                     android:layout_height="@dimen/width_150"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="@android:color/transparent"
                     app:srcCompat="@drawable/ic_account" />
 
 
@@ -79,8 +68,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name"
-                        android:text="@={userInfo.user.name}"
-                        android:maxLength="100" />
+                        android:maxLength="100"
+                        android:text="@={userInfo.user.name}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -137,8 +126,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/phone"
                         android:inputType="phone"
-                        android:text="@={userInfo.user.phone}"
-                        android:maxLength="100" />
+                        android:maxLength="100"
+                        android:text="@={userInfo.user.phone}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

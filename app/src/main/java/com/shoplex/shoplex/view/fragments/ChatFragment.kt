@@ -4,16 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentChatBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.StoreHeadAdapter
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.viewmodel.ChatHeadVM
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
@@ -29,7 +34,8 @@ class ChatFragment : Fragment() {
         binding = FragmentChatBinding.inflate(inflater, container, false)
 
         if(UserInfo.userID == null){
-            Toast.makeText(requireContext(), getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.pleaseLogin),Toast.LENGTH_SHORT
+            ).show()
             return binding.root
         }
 
@@ -41,10 +47,21 @@ class ChatFragment : Fragment() {
         requireActivity().title = getString(R.string.chat)
 
         chatsVm.chatHeads.observe(viewLifecycleOwner, { chatHeads ->
+            if (chatHeads.count()>0) {
+                binding.noItem.visibility=View.INVISIBLE
+            }
+            else{
+                binding.noItem.visibility=View.VISIBLE
+            }
             chatsAdapter = ChatHeadAdapter(chatHeads)
             storeHeadsAdapter = StoreHeadAdapter(chatHeads)
             binding.rvChat.adapter = chatsAdapter
-            binding.rvStore.adapter = storeHeadsAdapter
+           // binding.rvStore.adapter = storeHeadsAdapter
+            binding.rvStore.adapter = ScaleInAnimationAdapter(SlideInLeftAnimationAdapter(storeHeadsAdapter)).apply {
+                setDuration(1000)
+                setInterpolator(OvershootInterpolator(2f))
+                setFirstOnly(false)
+            }
         })
 
         chatsVm.changedPosition.observe(viewLifecycleOwner, {

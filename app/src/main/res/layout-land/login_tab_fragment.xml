@@ -12,11 +12,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            style="@style/loginBg"
             android:paddingBottom="32dp">
 
 
@@ -180,7 +181,7 @@
                     android:id="@+id/btnFace"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/imground"
+                    android:background="@drawable/imground_face"
                     android:clickable="true"
                     android:drawableStart="@drawable/face"
                     android:drawablePadding="8dp"

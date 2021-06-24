@@ -16,10 +16,15 @@
     <color name="pink">#F69EBC</color>
     <color name="browser_actions_bg_grey">#F5F5F5</color>
     <color name="darkBlue">#1C2D7A</color>
-
+    <color name="PrimaryShoplex">#F7A010</color>
+    <color name="primaryDarker">#faa00c</color>
+    <color name="SecondaryShoplex">#00376b</color>
     <color name="blueshop">#65AFE4</color>
+    <color name="grayShopex">#a6a6a6</color>
+    <color name="light_blue">#F4F6FF</color>
     <!--    <color name="google">#DB4437</color>-->
     <color name="facebook">#3b5998 </color>
     <color name="google">#db4a39</color>
     <color name="quantum_googblue900">#1c3aa9</color>
+    <color name="logo_color">#ff8d00</color>
 </resources>

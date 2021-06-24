@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.SignupTabFragmentBinding
 import com.shoplex.shoplex.model.enumurations.LocationAction
@@ -138,17 +140,23 @@ class SignupTabFragment : Fragment() {
                 getString(R.string.Required)
 
             !isValidMobile(binding.edPhone.text.toString()) -> binding.tiPhone.error =
-                "Please Enter Valid Mobile"
+                getString(R.string.enter_mobile)
 
-            authVM.user.value?.address.isNullOrEmpty() || (authVM.user.value?.location?.latitude == 0.0 && authVM.user.value?.location?.longitude == 0.0) -> Toast.makeText(
+
+            authVM.user.value?.address.isNullOrEmpty() || (authVM.user.value?.location?.latitude == 0.0 && authVM.user.value?.location?.longitude == 0.0) ->
+
+
+
+
+                Toast.makeText(
                 requireContext(),
-                "Choose Your Location",
+                getString(R.string.choose_location),
                 Toast.LENGTH_LONG
             ).show()
 
             authVM.user.value?.image.isNullOrEmpty() -> Toast.makeText(
                 requireContext(),
-                "Please, Choose Image",
+                getString(R.string.choose_image),
                 Toast.LENGTH_SHORT
             ).show()
             else -> return true

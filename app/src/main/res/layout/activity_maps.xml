@@ -17,15 +17,18 @@ tools:context=".view.activities.MapsActivity">
     map:layout_constraintStart_toStartOf="parent"
     map:layout_constraintTop_toTopOf="parent" />
 
-<Button
-    android:id="@+id/btnOK"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="40dp"
-    android:text="OK"
-    map:layout_constraintBottom_toBottomOf="parent"
-    map:layout_constraintEnd_toEndOf="parent"
-    map:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/btnOK"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:insetBottom="0dp"
+        android:text="@string/confirm"
+        android:textAllCaps="false"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

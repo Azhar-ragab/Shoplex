@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-   >
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="com.shoplex.shoplex.model.extra.DateUtils"/>
         <variable
@@ -20,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_8"
         android:background="@drawable/replay_bg"
+        android:textColor="@color/black"
         android:padding="@dimen/margin_8"
         android:text="@{message.message}"
         android:textSize="18sp"

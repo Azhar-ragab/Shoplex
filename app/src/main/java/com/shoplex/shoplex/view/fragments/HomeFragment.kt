@@ -7,16 +7,19 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
@@ -24,12 +27,16 @@ import com.shoplex.shoplex.model.adapter.HomeAdapter
 import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.enumurations.LocationAction
 import com.shoplex.shoplex.model.extra.ArchLifecycleApp
-import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
+import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.FilterActivity
 import com.shoplex.shoplex.view.activities.MapsActivity
 import com.shoplex.shoplex.viewmodel.ProductsVM
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter
+
 
 class HomeFragment : Fragment(), FavouriteCartListener {
     private lateinit var binding: FragmentHomeBinding
@@ -67,19 +74,27 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         }
 
         this.productsVM = ProductsVM()
-        for ((index, cat) in productsVM.getCategories().withIndex()) {
+        for ((index, _) in productsVM.getCategories().withIndex()) {
             val chip = inflater.inflate(R.layout.chip_choice_item, null, false) as Chip
-            chip.text = cat
+            chip.text = resources.getStringArray(R.array.categories)[index]
             chip.id = index
+            chip.chipIcon = when (index) {
+                0 -> ContextCompat.getDrawable(requireActivity(), R.drawable.fashion_chip)
+                1 -> ContextCompat.getDrawable(requireActivity(), R.drawable.beauty)
+                2 -> ContextCompat.getDrawable(requireActivity(), R.drawable.smartphone)
+                3 -> ContextCompat.getDrawable(requireActivity(), R.drawable.electronics)
+                4 -> ContextCompat.getDrawable(requireActivity(), R.drawable.accessories)
+                else -> ContextCompat.getDrawable(requireActivity(), R.drawable.book)
+            }
             binding.chipGroup.addView(chip)
         }
 
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
             selectedCategory = group.findViewById<Chip>(checkedId).text.toString()
             val category =
-                Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
+                Category.values()[checkedId].name.replace(" ", getString(R.string.underscore))
 
-            productsVM.getAllProducts(category, Filter(), null)
+            productsVM.getAllProducts(Category.valueOf(category), Filter(), null)
         }
 
         binding.chipGroup.findViewById<Chip>(binding.chipGroup.children.first().id).isChecked = true
@@ -87,7 +102,13 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         productsVM.getAllPremiums()
         productsVM.advertisements.observe(viewLifecycleOwner, { advertisements ->
             advertisementsAdapter = AdvertisementsAdapter(advertisements)
-            binding.rvAdvertisement.adapter = advertisementsAdapter
+            binding.rvAdvertisement.adapter =
+                ScaleInAnimationAdapter(SlideInLeftAnimationAdapter(advertisementsAdapter)).apply {
+                    setDuration(1000)
+                    setInterpolator(OvershootInterpolator(2f))
+                    setFirstOnly(false)
+                }
+            //binding.rvAdvertisement.adapter = advertisementsAdapter
         })
 
         // Products
@@ -97,7 +118,13 @@ class HomeFragment : Fragment(), FavouriteCartListener {
 
         productsVM.products.observe(viewLifecycleOwner, { products ->
             homeProductAdapter = HomeAdapter(products)
-            binding.rvHomeproducts.adapter = homeProductAdapter
+            binding.rvHomeproducts.adapter =
+                ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(homeProductAdapter)).apply {
+                    setDuration(1000)
+                    setInterpolator(OvershootInterpolator(2f))
+                    setFirstOnly(false)
+                }
+            // binding.rvHomeproducts.adapter = homeProductAdapter
         })
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -131,7 +158,10 @@ class HomeFragment : Fragment(), FavouriteCartListener {
                         }
                 )
             } else{
-                Toast.makeText(requireContext(), getString(R.string.NoInternetConnection), Toast.LENGTH_SHORT).show()
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.NoInternetConnection), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
             }
         }
 

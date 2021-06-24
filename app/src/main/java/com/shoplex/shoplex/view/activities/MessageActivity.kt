@@ -6,10 +6,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
+import com.droidnet.DroidListener
+import com.droidnet.DroidNet
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
@@ -24,8 +29,9 @@ import com.shoplex.shoplex.room.viewmodel.MessageFactoryModel
 import com.shoplex.shoplex.room.viewmodel.MessageViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.dialog_add_report.view.*
 
-class MessageActivity : AppCompatActivity() {
+class MessageActivity : AppCompatActivity(), DroidListener {
     private lateinit var binding: ActivityMessageBinding
     private val messageAdapter = GroupAdapter<GroupieViewHolder>()
     private lateinit var chatID: String
@@ -42,6 +48,13 @@ class MessageActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbarMessage)
         supportActionBar?.title = ""
+
+        if (supportActionBar != null) {
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar!!.setDisplayShowHomeEnabled(true)
+        }
+
+        DroidNet.getInstance().addInternetConnectivityListener(this)
 
         val userName = intent.getStringExtra(ChatHeadAdapter.CHAT_TITLE_KEY)
         val productImg = intent.getStringExtra(ChatHeadAdapter.CHAT_IMG_KEY).toString()
@@ -63,7 +76,7 @@ class MessageActivity : AppCompatActivity() {
             }
         })
 
-        binding.imgToolbarback.setOnClickListener { finish() }
+       // binding.imgToolbarback.setOnClickListener { finish() }
 
         binding.imgToolbarChat.setImageResource(R.drawable.placeholder)
         binding.tvToolbarUserChat.text = userName
@@ -166,10 +179,30 @@ class MessageActivity : AppCompatActivity() {
                     intent.data = Uri.parse(getString(R.string.tel) + phoneNumber)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this, "Phone Number is not specified", Toast.LENGTH_SHORT).show()
+                    val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.phone_not_specified), Snackbar.LENGTH_LONG)
+                    val sbView: View = snackbar.view
+                    sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                    snackbar.show()
                 }
             }
+            android.R.id.home -> finish()
         }
-        return false
+        return super.onOptionsItemSelected(item)
     }
+
+    override fun onInternetConnectivityChanged(isConnected: Boolean) {
+        if (isConnected) {
+            binding.spinKitMsg.visibility = View.INVISIBLE
+            binding.tvLoad.visibility = View.INVISIBLE
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            binding.spinKitMsg.visibility = View.VISIBLE
+            binding.tvLoad.visibility = View.VISIBLE
+        }
+    }
+
+
 }

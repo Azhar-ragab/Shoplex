@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.facebook.*
@@ -57,7 +58,7 @@ class LoginTabFragment : Fragment() {
                                 } else {
                                     Toast.makeText(
                                         requireContext(),
-                                        "Email Registered before!",
+                                        getText(R.string.emailExist),
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
@@ -65,7 +66,7 @@ class LoginTabFragment : Fragment() {
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            "Google sign in failed",
+                            getText(R.string.failed),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -133,7 +134,7 @@ class LoginTabFragment : Fragment() {
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult?) {
                     loginResult?.let {
-                        Log.d("facebook", it.accessToken.token)
+                        Log.d("facebookTOKEN", it.accessToken.token)
                         val request =
                             GraphRequest.newMeRequest(loginResult.accessToken) { _, response ->
                                 val json = response.jsonObject
@@ -242,12 +243,17 @@ class LoginTabFragment : Fragment() {
     private fun forgetPassword(email: String) {
         Firebase.auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Snackbar.make(binding.root, getString(R.string.email_send), Snackbar.LENGTH_LONG)
-                    .show()
+                val snackbar = Snackbar.make(binding.root, getString(R.string.email_send), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
+
 
             } else {
-                Snackbar.make(binding.root, getString(R.string.require_email), Snackbar.LENGTH_LONG)
-                    .show()
+                val snackbar = Snackbar.make(binding.root, getString(R.string.require_email), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
 
             }
         }

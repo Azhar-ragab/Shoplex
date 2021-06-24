@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FieldValue
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentSummaryBinding
@@ -92,13 +94,15 @@ class SummaryFragment : Fragment(), PaymentListener {
                 .addOnSuccessListener {
                     deleteFromCart(product.productID)
                     if (product == products.last()) {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.Success),
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.Success), Snackbar.LENGTH_LONG)
+                        val sbView: View = snackbar.view
+                        sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                        snackbar.show()
                         requireActivity().finish()
+                    }
+
+                    if(product.specialDiscount != null){
+                        FirebaseReferences.productsRef.document(product.productID).collection("Special Discounts").document(order.userID).delete()
                     }
                 }
         }
@@ -122,18 +126,17 @@ class SummaryFragment : Fragment(), PaymentListener {
     }
 
     override fun onPaymentFailedToLoad() {
-        Toast.makeText(
-            requireContext(),
-            "Failed to load payment method",
-            Toast.LENGTH_SHORT
-        ).show()
+        val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.fail_payment), Snackbar.LENGTH_LONG)
+        val sbView: View = snackbar.view
+        sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+        snackbar.show()
+
     }
 
     override fun onMinimumPrice() {
-        Toast.makeText(
-            requireContext(),
-            "Minimum Charge With Credit/Debit Card 10 L.E.",
-            Toast.LENGTH_SHORT
-        ).show()
+        val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.minimum_charge), Snackbar.LENGTH_LONG)
+        val sbView: View = snackbar.view
+        sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+        snackbar.show()
     }
 }

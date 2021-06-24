@@ -2,13 +2,19 @@ package com.shoplex.shoplex.model.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FavouriteItemRowBinding
+import com.shoplex.shoplex.model.enumurations.OrderStatus
+import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.model.pojo.ProductCart
@@ -64,8 +70,27 @@ class FavouriteAdapter :
             onSearchForFavouriteCart(product.productID)
 
             binding.imgDelete.setOnClickListener {
-                onDeleteFromFavourite(product.productID)
-                notifyDataSetChanged()
+                val builder = binding.root.context?.let { AlertDialog.Builder(it) }
+                builder?.setTitle(binding.root.context.getString(R.string.delete))
+                builder?.setMessage(binding.root.context.getString(R.string.deleteMessage))
+
+                builder?.setPositiveButton(binding.root.context.getString(R.string.yes)) { _, _ ->
+                            onDeleteFromFavourite(product.productID)
+                            notifyDataSetChanged()
+                            val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.Success), Snackbar.LENGTH_LONG)
+                            val sbView: View = snackbar.view
+                            sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                            snackbar.show()
+
+                        }
+                builder?.setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
+                    dialog.cancel()
+                }
+
+                builder?.show()
+
+
+
             }
 
             binding.fabAddProduct.setOnClickListener {

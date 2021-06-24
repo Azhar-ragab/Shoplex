@@ -22,6 +22,7 @@
             android:layout_alignTop="@id/cv_home"
             app:cardCornerRadius="@dimen/height_50"
             app:cardElevation="@dimen/margin_6"
+            style="@style/CustomCardview"
             app:layout_constraintBottom_toTopOf="@+id/cv_home"
             app:layout_constraintEnd_toStartOf="@+id/cv_home"
             app:layout_constraintStart_toStartOf="@+id/cv_home"
@@ -48,6 +49,7 @@
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="15dp"
             app:cardElevation="5dp"
+            style="@style/CustomCardview"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,12 +68,10 @@
                     android:layout_marginStart="@dimen/margin_8"
                     android:layout_marginTop="20dp"
                     android:text="@{review.customerName}"
-                    android:textColor="@color/black"
+                    style="@style/TitleColor"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <RatingBar
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
                     android:text="@{DateUtils.getDate(review.date)}"
-                    android:textColor="@color/gray"
+                    style="@style/WhiteColorText"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="@+id/ratingBar"
                     app:layout_constraintTop_toBottomOf="@id/ratingBar" />
@@ -111,7 +111,7 @@
                     android:layout_marginBottom="@dimen/margin_8"
                     android:padding="@dimen/margin_8"
                     android:text="@{review.comment}"
-                    android:textColor="@color/black"
+                    style="@style/WhiteColorText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

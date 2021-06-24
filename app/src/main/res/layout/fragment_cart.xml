@@ -62,17 +62,27 @@
         android:id="@+id/btn_checkout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:backgroundTint="@color/darkBlue"
         android:clickable="false"
         android:insetTop="6dp"
         android:insetBottom="0dp"
         android:text="@string/Checkout"
         android:textAllCaps="false"
-        android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/total_cart"
         app:layout_constraintStart_toStartOf="@+id/total_cart" />
+    <TextView
+        android:id="@+id/noItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/noitem"
+        android:textStyle="bold"
+        android:textSize="@dimen/margin_16"
+        >
 
+    </TextView>
 </androidx.constraintlayout.widget.ConstraintLayout>

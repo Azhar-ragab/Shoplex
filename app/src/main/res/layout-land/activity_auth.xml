@@ -4,20 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/activitybg"
+    android:background="@drawable/background_login"
 
     tools:context=".view.activities.auth.AuthActivity">
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView2"
         android:layout_width="400dp"
         android:layout_height="270dp"
         android:layout_marginLeft="16dp"
-
-
-        android:layout_marginTop="16dp"
-
+        android:layout_marginTop="@dimen/margin_8"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +25,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp">
+            android:padding="8dp"
+            style="@style/loginBg">
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager"
@@ -37,14 +36,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent=".7"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tab_latout"
-
-                />
+                app:layout_constraintTop_toBottomOf="@+id/tab_latout" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_latout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/loginBg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -86,8 +84,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/materialCardView2"
         app:layout_constraintEnd_toEndOf="@+id/materialCardView2"
         app:layout_constraintStart_toStartOf="@+id/materialCardView2"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView2"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView2" />
 
     <TextView
         android:id="@+id/TV_Welcom"
@@ -95,14 +92,14 @@
         android:layout_height="wrap_content"
 
         android:layout_marginStart="16dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="@dimen/margin_8"
         android:layout_marginEnd="16dp"
 
 
         android:gravity="center"
         android:text="Welcome to ShopLex"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/logo_color"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,13 +108,13 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
 
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/shoplex_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

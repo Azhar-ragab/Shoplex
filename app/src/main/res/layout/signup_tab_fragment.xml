@@ -12,13 +12,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        style="@style/loginBg">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingBottom="32dp"
-            android:paddingTop="8dp">
+            android:paddingTop="8dp"
+            style="@style/loginBg">
 
             <ImageView
                 android:id="@+id/imgSignup"
@@ -28,7 +30,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/buynow" />
+                app:srcCompat="@drawable/avatar_person" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiName"

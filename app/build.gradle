@@ -126,4 +126,7 @@ dependencies {
     // Internet Connection
     implementation 'com.github.JobGetabu:DroidNet:v2.0.0'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    //animation recyclerview
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
 }

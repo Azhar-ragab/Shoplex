@@ -140,12 +140,12 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
 
     override fun onLoginFailed() {
         super.onLoginFailed()
-        Toast.makeText(context, "Login Failed!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.login_fail), Toast.LENGTH_SHORT).show()
         UserInfo.clear()
     }
 
     fun onUserExists() {
-        Toast.makeText(context, "This Registration Email Exist", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.emailExist), Toast.LENGTH_SHORT).show()
     }
 
     companion object {

@@ -3,10 +3,13 @@ package com.shoplex.shoplex.view.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityFilterBinding
 import com.shoplex.shoplex.databinding.BottomSheetShopsBinding
@@ -86,7 +89,7 @@ class FilterActivity : AppCompatActivity() {
 
         supportActionBar?.apply {
             title = getString(R.string.filter)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+           // setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
         if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -100,6 +103,7 @@ class FilterActivity : AppCompatActivity() {
             format.format(value.toDouble())
         }
 
+
         binding.cardCategoryFilter.setOnClickListener {
             subCategoryBottomSheetDialog()
         }
@@ -108,16 +112,18 @@ class FilterActivity : AppCompatActivity() {
             if (!storesVM.storesLocationInfo.value.isNullOrEmpty()) {
                 shopsBottomSheetDialog(storesVM.storesLocationInfo.value!!)
             } else {
-                Toast.makeText(this, "No stores Found", Toast.LENGTH_SHORT).show()
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.no_store), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
             }
         }
 
-        binding.cbPriceFilter.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked){
+        binding.cbPriceFilter.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked) {
                 binding.cbPrice.isChecked = true
                 binding.cbPrice.isClickable = false
-
-            } else{
+            } else {
                 binding.cbPrice.isChecked = false
                 binding.cbPrice.isClickable = true
             }
@@ -161,15 +167,16 @@ class FilterActivity : AppCompatActivity() {
             val rate = binding.cbRating.isChecked
             val discount = binding.cbDiscount.isChecked
             val nearestShop = binding.cbNersedtShop.isChecked
+
             if(price != true)
                 price = null
+
             if (price == true || rate || discount || nearestShop) {
                 price = if(price == true)
                     (binding.toggleBtnPrice.checkedButtonId != binding.btnLowPrice.id)
                 else
                     null
                 sort = Sort(price, rate, discount, nearestShop)
-
             } else {
                 sort = null
             }
@@ -214,7 +221,7 @@ class FilterActivity : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
-    fun getSubCategory(selectedItem: String): Array<String> {
+    private fun getSubCategory(selectedItem: String): Array<String> {
         val listSubCat =
             when (Category.valueOf(selectedItem.replace(" ", "_"))) {
                 Category.Fashion -> SubFashion.values()

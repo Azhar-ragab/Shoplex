@@ -30,7 +30,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/DeliveryMethod"
-                android:textColor="@color/darkBlue"
+                style="@style/TitleColor"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -57,7 +57,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/paymentmethod"
-                android:textColor="@color/darkBlue"
+                style="@style/TitleColor"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -86,7 +86,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="@string/Total"
-                android:textColor="@color/darkBlue"
+                style="@style/TitleColor"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -144,7 +144,6 @@
         android:id="@+id/btn_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/darkBlue"
         android:clickable="false"
         android:enabled="false"
         android:insetBottom="0dp"

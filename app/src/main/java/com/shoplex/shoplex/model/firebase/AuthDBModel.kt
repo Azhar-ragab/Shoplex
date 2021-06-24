@@ -2,7 +2,11 @@ package com.shoplex.shoplex.model.firebase
 
 import android.content.Context
 import android.net.Uri
+import android.provider.Settings.Global.getString
+import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -10,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.model.enumurations.AuthType
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.interfaces.AuthListener
@@ -35,7 +40,7 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
                 val user: FirebaseUser = Firebase.auth.currentUser
                 getUserByMail(user.email, AuthType.Facebook)
             } else {
-                Toast.makeText(context, "couldn't register to firebase", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.errorRegister), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -48,16 +53,14 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
                     val user: FirebaseUser = Firebase.auth.currentUser
                     getUserByMail(user.email, AuthType.Google)
                 } else {
-                    Toast.makeText(context, "couldn't register to firebase", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, context.getString(R.string.errorRegister), Toast.LENGTH_SHORT)
                         .show()
                 }
             }
     }
 
     fun createEmailAccount(user: User, password: String, ref: DocumentReference) {
-
         user.userID = ref.id
-        //addImage(Uri.parse(user.image), user.userID)
         user.image = ""
         Firebase.auth.createUserWithEmailAndPassword(user.email, password)
             .addOnCompleteListener { task ->
@@ -65,7 +68,8 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
                     addNewUser(ref, user)
                 } else {
                     listener.onAddNewUser(context, null)
-                    Toast.makeText(context, "Auth Failed!", Toast.LENGTH_SHORT).show()
+                    FirebaseReferences.imagesUserRef.child(ref.id).delete()
+                    Toast.makeText(context, context.getString(R.string.errorAuth), Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -75,6 +79,7 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
             listener.onAddNewUser(context, user)
 
         }.addOnFailureListener {
+            FirebaseReferences.imagesUserRef.child(ref.id).delete()
             listener.onAddNewUser(context, null)
         }
     }
@@ -96,10 +101,11 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
 
         ref.set(user).addOnSuccessListener {
             listener.onAddNewUser(context, user)
-            Toast.makeText(context, "Success!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.Success), Toast.LENGTH_SHORT).show()
+
         }.addOnFailureListener {
             listener.onAddNewUser(context, null)
-            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.failed), Toast.LENGTH_SHORT).show()
         }
     }
 

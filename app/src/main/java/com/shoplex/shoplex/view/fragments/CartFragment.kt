@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.animation.OvershootInterpolator
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentCartBinding
 import com.shoplex.shoplex.model.adapter.CartAdapter
@@ -17,6 +19,9 @@ import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.model.pojo.ProductQuantity
 import com.shoplex.shoplex.room.viewmodel.CartViewModel
 import com.shoplex.shoplex.view.activities.CheckOutActivity
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter
+
 
 class CartFragment : Fragment(), FavouriteCartListener {
 
@@ -33,19 +38,57 @@ class CartFragment : Fragment(), FavouriteCartListener {
         binding.btnCheckout.setOnClickListener {
             if (UserInfo.userID != null) {
                 if (ArchLifecycleApp.isInternetConnected) {
-                    startActivity(Intent(context, CheckOutActivity::class.java).apply {
-                        this.putParcelableArrayListExtra("PRODUCTS_QUANTITY", productsQuantity)
-                    })
+                    if (productsQuantity.isEmpty()) {
+                        val snackbar = Snackbar.make(
+                            binding.root,
+                            binding.root.context.getString(R.string.emptyCart),
+                            Snackbar.LENGTH_LONG
+                        )
+                        val sbView: View = snackbar.view
+                        sbView.setBackgroundColor(
+                            ContextCompat.getColor(
+                                binding.root.context,
+                                R.color.blueshop
+                            )
+                        )
+                        snackbar.show()
+                    }
+                    else {
+                        startActivity(Intent(context, CheckOutActivity::class.java).apply {
+                            this.putParcelableArrayListExtra("PRODUCTS_QUANTITY", productsQuantity)
+                        })
+                    }
                 } else {
-                    Toast.makeText(
-                        context,
-                        "Sorry but checkout require internet connection",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val snackbar = Snackbar.make(
+                        binding.root,
+                        binding.root.context.getString(R.string.NoInternetConnection),
+                        Snackbar.LENGTH_LONG
+                    )
+                    val sbView: View = snackbar.view
+                    sbView.setBackgroundColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.blueshop
+                        )
+                    )
+                    snackbar.show()
+
                 }
             } else {
-                Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT)
-                    .show()
+                val snackbar = Snackbar.make(
+                    binding.root,
+                    binding.root.context.getString(R.string.pleaseLogin),
+                    Snackbar.LENGTH_LONG
+                )
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.blueshop
+                    )
+                )
+                snackbar.show()
+
             }
 
         }
@@ -59,8 +102,19 @@ class CartFragment : Fragment(), FavouriteCartListener {
 
     private fun getAllCartProducts() {
         val cartAdapter = CartAdapter(this)
-        binding.rvCart.adapter = cartAdapter
+        binding.rvCart.adapter =
+            ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(cartAdapter)).apply {
+                setDuration(700)
+                setInterpolator(OvershootInterpolator(2f))
+            }
+        //binding.rvCart.adapter = cartAdapter
         cartViewModel.readAllCart.observe(viewLifecycleOwner, {
+            if (it.count() > 0) {
+                binding.noItem.visibility = View.INVISIBLE
+            } else {
+                binding.noItem.visibility = View.VISIBLE
+            }
+
             cartAdapter.setData(it)
             binding.tvPrice.text = it.map { product ->
                 product.cartQuantity * product.newPrice

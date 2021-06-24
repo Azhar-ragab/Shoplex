@@ -8,7 +8,6 @@
     android:checkable="true"
     app:closeIconEnabled="false"
     app:chipCornerRadius="@dimen/width_0"
-    app:chipBackgroundColor="@color/white"
     android:text="@string/category"
     android:textAlignment="center"
     app:checkedIcon="@drawable/ic_check"

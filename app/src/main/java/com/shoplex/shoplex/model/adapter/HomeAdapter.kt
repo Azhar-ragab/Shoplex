@@ -94,7 +94,7 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
 
             repo.storeLocationInfo.observe(context as AppCompatActivity, {
                 if (it != null) {
-                    binding.tvSpace.text = it.distance
+                    binding.location = it
                 } else if(!UserInfo.userID.isNullOrEmpty()){
                     findRoute(product.storeID, product.storeName, product.storeLocation)
                 } 

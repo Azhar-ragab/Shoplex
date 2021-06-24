@@ -4,33 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightgray"
     tools:context=".view.activities.MessageActivity">
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin_kit_msg"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        app:SpinKit_Color="@color/pink"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="@string/not_connection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spin_kit_msg" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:paddingTop="@dimen/margin_8"
+        android:paddingEnd="@dimen/margin_8"
+        android:paddingBottom="@dimen/margin_8"
+        android:background="@color/PrimaryShoplex"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/PrimaryShoplex"
             android:elevation="@dimen/padding_4">
-            <ImageView
-                android:id="@+id/imgToolbarback"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/todo"
-                android:scaleType="centerCrop"
-                android:layout_marginEnd="@dimen/padding_4"
-                android:src="@drawable/ic_arrow_back" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -43,7 +59,6 @@
                     android:layout_height="50dp"
                     app:cardCornerRadius="@dimen/height_50"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -54,7 +69,6 @@
                         android:contentDescription="@string/todo"
                         android:scaleType="centerCrop"
                         tools:src="@tools:sample/avatars" />
-
 
                 </androidx.cardview.widget.CardView>
 
@@ -68,15 +82,21 @@
                     app:cardElevation="@dimen/margin_6"
                     app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toEndOf="@+id/cardView" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/tvToolbarUserChat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_name"
-                android:textColor="@color/purple_500"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvToolbarUserChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_name"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="@dimen/margin_8"
+                    android:paddingRight="@dimen/margin_8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -96,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chatdiscount"
-            android:textColor="@color/gray"
+            style="@style/WhiteColorText"
             android:textSize="@dimen/text_size_12"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="@id/imginfo"

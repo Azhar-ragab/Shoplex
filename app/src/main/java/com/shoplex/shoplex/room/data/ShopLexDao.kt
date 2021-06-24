@@ -1,5 +1,6 @@
 package com.shoplex.shoplex.room.data
 
+
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.shoplex.shoplex.model.pojo.*
@@ -60,4 +61,3 @@ interface ShopLexDao {
     @Query("SELECT * FROM StoresLocation WHERE storeID IN (:storeIDs)")
     fun getLocations(storeIDs: ArrayList<String>): Flow<Array<StoreLocationInfo>>
 }
-

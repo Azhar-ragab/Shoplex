@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityProfileBinding
 import com.shoplex.shoplex.model.enumurations.LocationAction
+import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Location
 import com.shoplex.shoplex.model.pojo.User
@@ -76,11 +78,12 @@ class ProfileActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarProfile)
         supportActionBar?.apply {
             title = getString(R.string.profile)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+           // setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+        if (supportActionBar != null) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+        }
 
         Glide.with(this).load(UserInfo.image).error(R.drawable.product).into(binding.imgUser)
 
@@ -88,7 +91,11 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             if (checkEditText()) {
-                authVM.updateCurrentAccount()
+                if(ArchLifecycleApp.isInternetConnected){
+                    authVM.updateCurrentAccount()
+                }else{
+                    Snackbar.make(binding.root.rootView,R.string.NoInternetConnection,Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -139,17 +146,17 @@ class ProfileActivity : AppCompatActivity() {
                 getString(R.string.Required)
 
             !isValidMobile(binding.edPhone.text.toString()) -> binding.tiPhone.error =
-                "Please Enter Valid Mobile"
+              getString(R.string.enter_mobile)
 
             authVM.user.value?.address.isNullOrEmpty() || (authVM.user.value?.location?.latitude == 0.0 && authVM.user.value?.location?.longitude == 0.0) -> Toast.makeText(
                 this,
-                "Choose Your Location",
+                getString(R.string.choose_location),
                 Toast.LENGTH_LONG
             ).show()
 
             authVM.user.value?.image.isNullOrEmpty() -> Toast.makeText(
                 this,
-                "Please, Choose Image",
+                getString(R.string.choose_image),
                 Toast.LENGTH_SHORT
             ).show()
             else -> return true

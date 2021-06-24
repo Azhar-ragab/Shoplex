@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -50,7 +51,10 @@ class AccountFragment : Fragment() {
             if(UserInfo.userID != null) {
                 startActivity(Intent(context, ProfileActivity::class.java))
             } else{
-                Toast.makeText(requireContext(), getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.pleaseLogin), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
             }
         }
 
@@ -58,7 +62,10 @@ class AccountFragment : Fragment() {
             if(UserInfo.userID != null) {
                 startActivity(Intent(context, OrderActivity::class.java))
             } else{
-                Toast.makeText(requireContext(), getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.pleaseLogin), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
             }
         }
 
@@ -135,7 +142,7 @@ class AccountFragment : Fragment() {
 
     private fun showAddReportDialog() {
         val dialogBinding = DialogAddReportBinding.inflate(layoutInflater)
-        val reportBtnSheetDialog = BottomSheetDialog(dialogBinding.root.context)
+        val reportBtnSheetDialog = BottomSheetDialog(dialogBinding.root.context,R.style.BottomSheetDialogTheme)
 
         dialogBinding.btnSendReport.setOnClickListener {
             val reportMsg = dialogBinding.edReport.text.toString()
@@ -145,8 +152,11 @@ class AccountFragment : Fragment() {
             )
             FirebaseReferences.ReportRef.add(report)
             reportBtnSheetDialog.dismiss()
-            Snackbar.make(requireView(), "Your Report has sent Thank You", Snackbar.LENGTH_LONG)
-                .show()
+            val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.report), Snackbar.LENGTH_LONG)
+            val sbView: View = snackbar.view
+            sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+            snackbar.show()
+
         }
         reportBtnSheetDialog.setContentView(dialogBinding.root)
         reportBtnSheetDialog.show()
