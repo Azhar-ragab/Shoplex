@@ -1,9 +1,12 @@
 package com.shoplex.shoplex.view.activities.auth
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityAuthBinding
@@ -59,7 +62,10 @@ class AuthActivity : AppCompatActivity() {
                     })
                 }
             } else{
-                Toast.makeText(this, getText(R.string.NoInternetConnection), Toast.LENGTH_SHORT).show()
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.NoInternetConnection), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
             }
         }
     }

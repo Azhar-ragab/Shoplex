@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.shoplex.shoplex.databinding.FragmentFavoritesBinding
@@ -25,6 +26,7 @@ class FavoritesFragment : Fragment(), FavouriteCartListener {
             FavouriteFactoryModel(requireContext())
         ).get(FavouriteViewModel::class.java)
 
+
         getAllFavoriteProducts()
 
         return binding.root
@@ -34,7 +36,14 @@ class FavoritesFragment : Fragment(), FavouriteCartListener {
         val favouriteAdapter = FavouriteAdapter()
         binding.rvFavourite.adapter = favouriteAdapter
         favouriteViewModel.readAllFavourite.observe(viewLifecycleOwner, {
+            if (it.count()>0) {
+                binding.noItem.visibility=View.INVISIBLE
+            }
+            else{
+                binding.noItem.visibility=View.VISIBLE
+            }
             favouriteAdapter.setData(it)
+
         })
     }
 

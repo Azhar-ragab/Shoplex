@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -42,12 +43,24 @@ class OrderActivity : AppCompatActivity() {
         if (ordersVM.currentOrders.value == null)
             ordersVM.getCurrentOrders()
         ordersVM.currentOrders.observe(this, { orders ->
+            if (orders.count()>0) {
+                binding.noItemCurrent.visibility= View.INVISIBLE
+            }
+            else{
+                binding.noItemCurrent.visibility= View.VISIBLE
+            }
             binding.rvCurrentOrders.adapter = OrderAdapter(orders)
         })
 
         if (ordersVM.lastOrders.value == null)
             ordersVM.getLastOrders()
         ordersVM.lastOrders.observe(this, { lastOrders ->
+            if (lastOrders.count()>0) {
+                binding.noItemLast.visibility= View.INVISIBLE
+            }
+            else{
+                binding.noItemLast.visibility= View.VISIBLE
+            }
             binding.rvLastOrders.adapter = OrderAdapter(lastOrders)
         })
 

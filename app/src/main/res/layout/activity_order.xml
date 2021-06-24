@@ -47,6 +47,20 @@
                 tools:listitem="@layout/order_item_row">
 
             </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/noItemCurrent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/width_200"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/noitem"
+                android:textStyle="bold"
+                android:textSize="@dimen/margin_16"
+                >
+
+            </TextView>
 
             <TextView
                 android:id="@+id/tv_last_orders"
@@ -73,6 +87,20 @@
                 tools:listitem="@layout/order_item_row">
 
             </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/noItemLast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/width_200"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/noitem"
+                android:textStyle="bold"
+                android:textSize="@dimen/margin_16"
+                >
+
+            </TextView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

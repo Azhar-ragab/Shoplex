@@ -8,8 +8,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
@@ -166,7 +168,10 @@ class MessageActivity : AppCompatActivity() {
                     intent.data = Uri.parse(getString(R.string.tel) + phoneNumber)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this, "Phone Number is not specified", Toast.LENGTH_SHORT).show()
+                    val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.phone_not_specified), Snackbar.LENGTH_LONG)
+                    val sbView: View = snackbar.view
+                    sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                    snackbar.show()
                 }
             }
         }
