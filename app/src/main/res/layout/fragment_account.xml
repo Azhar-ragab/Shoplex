@@ -12,15 +12,13 @@
 
         <TextView
             android:id="@+id/tvUserName"
+            style="@style/TitleColor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_8"
             android:layout_marginTop="@dimen/margin_32"
-            android:layout_marginEnd="@dimen/margin_8"
-            style="@style/TitleColor"
             android:textSize="@dimen/text_size_24"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/btnLogout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
