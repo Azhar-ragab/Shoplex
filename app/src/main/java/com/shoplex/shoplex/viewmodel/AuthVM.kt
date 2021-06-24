@@ -85,7 +85,7 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
                             UserInfo.image = uri.toString()
                             UserInfo.saveUserInfo(context)
                         }
-                        Firebase.auth.currentUser?.updateProfile(profileUpdates)
+                        Firebase.auth.currentUser.updateProfile(profileUpdates)
                     }
                 }
             }
@@ -140,12 +140,12 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
 
     override fun onLoginFailed() {
         super.onLoginFailed()
-        Toast.makeText(context, "Login Failed!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.login_fail), Toast.LENGTH_SHORT).show()
         UserInfo.clear()
     }
 
-    private fun onUserExists() {
-        Toast.makeText(context, "This Registration Email Exist", Toast.LENGTH_SHORT).show()
+    fun onUserExists() {
+        Toast.makeText(context, context.getString(R.string.emailExist), Toast.LENGTH_SHORT).show()
     }
 
     companion object {

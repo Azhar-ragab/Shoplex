@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentHomeBinding
 import com.shoplex.shoplex.model.adapter.AdvertisementsAdapter
@@ -142,7 +143,7 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         })
 
         binding.btnLocation.setOnClickListener {
-            if (ArchLifecycleApp.isInternetConnected) {
+            if(ArchLifecycleApp.isInternetConnected) {
                 startActivity(
                     Intent(requireContext(), MapsActivity::class.java)
                         .apply {
@@ -156,12 +157,11 @@ class HomeFragment : Fragment(), FavouriteCartListener {
                             putParcelableArrayListExtra(MapsActivity.STORE_LOCATIONS, locations)
                         }
                 )
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.NoInternetConnection),
-                    Toast.LENGTH_SHORT
-                ).show()
+            } else{
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.NoInternetConnection), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
             }
         }
 

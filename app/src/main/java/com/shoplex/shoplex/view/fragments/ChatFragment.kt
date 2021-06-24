@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentChatBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
@@ -32,7 +34,8 @@ class ChatFragment : Fragment() {
         binding = FragmentChatBinding.inflate(inflater, container, false)
 
         if(UserInfo.userID == null){
-            Toast.makeText(requireContext(), getString(R.string.pleaseLogin), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.pleaseLogin),Toast.LENGTH_SHORT
+            ).show()
             return binding.root
         }
 
@@ -44,6 +47,12 @@ class ChatFragment : Fragment() {
         requireActivity().title = getString(R.string.chat)
 
         chatsVm.chatHeads.observe(viewLifecycleOwner, { chatHeads ->
+            if (chatHeads.count()>0) {
+                binding.noItem.visibility=View.INVISIBLE
+            }
+            else{
+                binding.noItem.visibility=View.VISIBLE
+            }
             chatsAdapter = ChatHeadAdapter(chatHeads)
             storeHeadsAdapter = StoreHeadAdapter(chatHeads)
             binding.rvChat.adapter = chatsAdapter

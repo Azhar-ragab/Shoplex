@@ -103,15 +103,15 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAddProduct"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_marginEnd="8dp"
             android:clickable="false"
-            app:fabCustomSize="40dp"
+            app:fabCustomSize="36dp"
             app:layout_constraintBottom_toBottomOf="@+id/cv_home"
             app:layout_constraintEnd_toEndOf="@+id/cv_home"
             app:layout_constraintTop_toBottomOf="@+id/cv_home"
-            app:srcCompat="@drawable/ic_cart" />
+            app:srcCompat="@drawable/ic_shopping_cart" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

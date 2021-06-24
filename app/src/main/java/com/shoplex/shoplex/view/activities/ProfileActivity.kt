@@ -146,17 +146,17 @@ class ProfileActivity : AppCompatActivity() {
                 getString(R.string.Required)
 
             !isValidMobile(binding.edPhone.text.toString()) -> binding.tiPhone.error =
-                "Please Enter Valid Mobile"
+              getString(R.string.enter_mobile)
 
             authVM.user.value?.address.isNullOrEmpty() || (authVM.user.value?.location?.latitude == 0.0 && authVM.user.value?.location?.longitude == 0.0) -> Toast.makeText(
                 this,
-                "Choose Your Location",
+                getString(R.string.choose_location),
                 Toast.LENGTH_LONG
             ).show()
 
             authVM.user.value?.image.isNullOrEmpty() -> Toast.makeText(
                 this,
-                "Please, Choose Image",
+                getString(R.string.choose_image),
                 Toast.LENGTH_SHORT
             ).show()
             else -> return true

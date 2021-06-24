@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="maps_key">AIzaSyAyj2_BzoXGMR432LsT4dpv6TV6SdNbtDg</string>
     <string name="app_name">ShopLex</string>
     <string name="chat">Chat</string>
@@ -138,11 +138,12 @@
     <string name="signup">Signup</string>
     <string name="Name">Name</string>
     <string name="choose_location">Choose Your Location</string>
+
     <string name="Required">Required</string>
     <string name="require_email">Required E-mail</string>
     <string name="min_password_err">"Week Password "</string>
     <string name="not_match">Invalid Password</string>
-    <string name="min_client_name_err">Invalid Name</string>
+    <string name="min_client_name_err">Invalid Short Name</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
     <string name="login_success">Login Success</string>
@@ -209,6 +210,7 @@
     <string name="LocationPermissionNeeded">Location Permission Needed</string>
     <string name="message">This app needs the Location permission, please accept to use location functionality</string>
     <string name="OK">OK</string>
+    <string name="confirm">Confirm</string>
     <string name="permissiondenied">permission denied</string>
     <string name="storeID">storeID</string>
     <string name="phones">phoneNumber</string>
@@ -222,7 +224,6 @@
     <string name="Authenticationfailed">Authentication failed.</string>
     <string name="checked">checked</string>
     <string name="notchecked">not checked</string>
-    <string name="validation">Please Login before checkout</string>
     <string name="pleaseLogin">Please Login to Access All Features</string>
     <string name="userID">userID</string>
     <string name="Error">Error</string>
@@ -234,7 +235,24 @@
     <string name="telephone">tel:</string>
     <string name="ERROR">ERROR</string>
     <string name="call">call</string>
+    <string name="noitem">There Is No Item Yet!!!</string>
+    <string name="choose_image">Please Choose Image</string>
+    <string name="enter_mobile">Please Enter Valid Mobile(+2)</string>
+    <string name="Product_not_found">Product Not Found!</string>
+    <string name="no_store">No stores Found</string>
+    <string name="phone_not_specified">Phone Number is not specified</string>
+    <string name="delete">Delete</string>
+    <string name="deleteMessage">Are You Sure You Want To Delete This Item?</string>
+    <string name="deleteSuccess">Delete Success</string>
+    <string name="errorRegister">couldn"'"t register</string>
+    <string name="createAccount">Success to create your account</string>
+    <string name="errorAuth" >Auth Failed!</string>
+    <string name="failed">Failed</string>
+    <string name="cancelOrder">Cancel!!</string>
+    <string name="cancelMessage">Are You Sure To Cancel Your Order?!!</string>
+    <string name="max">Max Quantity</string>
     <string name="report">Report</string>
+    <string name="sendreport">Your Report has sent Thank You</string>
     <string name="proplem">Please Share Us What Is Your Proplem!!</string>
     <string name="your_report">Your Report</string>
     <string name="send_report">Send Report</string>
@@ -243,7 +261,7 @@
     <string name="phone_hint">+201204876123</string>
     <string name="visaORMaster">Visa/ Master Card</string>
     <string name="items">%s Items</string>
-
+    <string name="emailExist">This Registration Email Exist</string>
     <string name="Login">Login</string>
     <string name="Signup">Signup</string>
     <string name="Confirmpassword">Confirm password</string>
@@ -253,6 +271,8 @@
     <string name="UpdateAccount">Account Updated Successfully</string>
     <string name="error">Error</string>
     <string name="processtosummary">Process To Summary</string>
+   <string name="fail_payment">Failed to load payment method</string>
+    <string name="minimum_charge">Minimum Charge With Credit/Debit Card 10 L.E.</string>
 
     <string name="NoInternetConnection">Your are currently offline please go online back and try again!</string>
     <string name="Telephone">Telephone not supported</string>

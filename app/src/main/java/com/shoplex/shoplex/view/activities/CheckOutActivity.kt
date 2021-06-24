@@ -6,9 +6,11 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.droidnet.DroidListener
 import com.droidnet.DroidNet
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityCheckOutBinding
 import com.shoplex.shoplex.model.adapter.CheckoutAdapter
@@ -53,7 +55,13 @@ class CheckOutActivity : AppCompatActivity(), DroidListener {
                 if (product != null)
                     checkoutVM.getProductByID(product.productID)
                 else
-                    Toast.makeText(this, "Product Not Found!", Toast.LENGTH_SHORT).show()
+                {
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.Product_not_found), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
+
+            }
             }
         }
 

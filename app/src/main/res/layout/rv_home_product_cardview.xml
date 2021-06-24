@@ -59,15 +59,13 @@
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fabAddProduct"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="4dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:visibility="@{(product.quantity != 0? View.VISIBLE: View.INVISIBLE)}"
-                    app:fabCustomSize="40dp"
+                    app:fabCustomSize="36dp"
                     app:layout_constraintBottom_toBottomOf="@+id/img_product"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/img_product"
-                    app:layout_constraintVertical_bias="0.4"
                     app:srcCompat="@drawable/ic_shopping_cart" />
 
                 <TextView
@@ -76,7 +74,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
                     android:text="@{`` + product.price}"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +84,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_32"
-                    android:layout_marginTop="2dp"
                     android:text="@{`` + product.newPrice}"
                     android:textColor="@color/red"
                     android:textSize="14sp"
@@ -117,7 +113,6 @@
                     android:paddingEnd="@dimen/padding_8"
                     android:text="@{`` + (product.rate == null? @string/NA : product.rate)}"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
                     app:drawableStartCompat="@drawable/star_24"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_sold"
                     app:layout_constraintStart_toStartOf="@+id/tv_product_name"

@@ -1,21 +1,29 @@
 package com.shoplex.shoplex.model.adapter
 
+import android.content.Intent
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.DialogAddReviewBinding
 import com.shoplex.shoplex.databinding.OrderItemRowBinding
 import com.shoplex.shoplex.model.enumurations.OrderStatus
+import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Order
 import com.shoplex.shoplex.model.pojo.Review
+import com.shoplex.shoplex.view.activities.CheckOutActivity
+import com.shoplex.shoplex.viewmodel.AuthVM
 
 class OrderAdapter(var ordersInfo: ArrayList<Order>) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
@@ -38,7 +46,6 @@ class OrderAdapter(var ordersInfo: ArrayList<Order>) :
                 binding.order = order
                 Glide.with(itemView.context).load(order.product!!.images.firstOrNull())
                     .error(R.drawable.product).into(binding.imgProduct)
-
                 when (order.orderStatus) {
                     OrderStatus.Current -> binding.tvbutton.text = itemView.context.resources.getString(R.string.cancel)
                     OrderStatus.Delivered -> binding.tvbutton.text = binding.root.context.getString(R.string.Review)
@@ -46,17 +53,41 @@ class OrderAdapter(var ordersInfo: ArrayList<Order>) :
                 }
 
                 binding.tvbutton.setOnClickListener {
-                    if (order.orderStatus == OrderStatus.Current) {
-                        FirebaseReferences.ordersRef.document(order.orderID)
-                            .update("orderStatus", OrderStatus.Canceled).addOnSuccessListener {
-                                Toast.makeText(binding.root.context, "success", Toast.LENGTH_SHORT)
-                                    .show()
-                                ordersInfo.removeAt(bindingAdapterPosition)
-                                notifyItemRemoved(bindingAdapterPosition)
+                    if (ArchLifecycleApp.isInternetConnected) {
+                        if (order.orderStatus == OrderStatus.Current) {
+                            val builder = binding.root.context?.let { AlertDialog.Builder(it) }
+                            builder?.setTitle(binding.root.context.getString(R.string.cancelOrder))
+                            builder?.setMessage(binding.root.context.getString(R.string.cancelMessage))
+
+                            builder?.setPositiveButton(binding.root.context.getString(R.string.yes)) { _, _ ->
+                                FirebaseReferences.ordersRef.document(order.orderID)
+                                    .update("orderStatus", OrderStatus.Canceled).addOnSuccessListener {
+                                        val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.Success), Snackbar.LENGTH_LONG)
+                                        val sbView: View = snackbar.view
+                                        sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                                        snackbar.show()
+                                        ordersInfo.removeAt(bindingAdapterPosition)
+                                        notifyItemRemoved(bindingAdapterPosition)
+
+                                    }
                             }
-                    } else if (order.orderStatus == OrderStatus.Delivered) {
-                        showAddReviewDialog(order.productID)
+
+                            builder?.setNegativeButton(binding.root.context.getString(R.string.no)) { dialog, _ ->
+                                dialog.cancel()
+                            }
+
+                            builder?.show()
+
+                        } else if (order.orderStatus == OrderStatus.Delivered) {
+                            showAddReviewDialog(order.productID)
+                        }
+                    }else{
+                        val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.NoInternetConnection), Snackbar.LENGTH_LONG)
+                        val sbView: View = snackbar.view
+                        sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                        snackbar.show()
                     }
+
                 }
             }
         }

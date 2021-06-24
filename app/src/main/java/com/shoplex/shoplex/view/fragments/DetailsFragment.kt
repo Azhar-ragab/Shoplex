@@ -7,18 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDetailsBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.PropertyAdapter
+import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
@@ -121,7 +125,10 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                     Uri.parse(getString(R.string.telephone) + detailsVM.store.value!!.phone)
                 startActivity(intent)
             } else {
-                Toast.makeText(requireContext(), getString(R.string.Telephone), Toast.LENGTH_SHORT).show()
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.Telephone), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
             }
         }
 
@@ -139,7 +146,10 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
 
         binding.btnMessage.setOnClickListener {
             if(!ArchLifecycleApp.isInternetConnected) {
-                Toast.makeText(requireContext(), getString(R.string.NoInternetConnection), Toast.LENGTH_SHORT).show()
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.NoInternetConnection), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
                 return@setOnClickListener
             }
             FirebaseReferences.chatRef.whereEqualTo("storeID", product.storeID)
@@ -175,8 +185,11 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                             openMessagesActivity(chat.chatID)
                         }
                         else -> {
-                            Toast.makeText(context, getString(R.string.ERROR), Toast.LENGTH_SHORT)
-                                .show()
+                            val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.ERROR), Snackbar.LENGTH_LONG)
+                            val sbView: View = snackbar.view
+                            sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                            snackbar.show()
+
                         }
                     }
 
@@ -189,32 +202,42 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
 
         binding.btnBuyProduct.setOnClickListener {
             if (UserInfo.userID != null) {
+                if (ArchLifecycleApp.isInternetConnected) {
+                    val selectedProperties: ArrayList<String> = arrayListOf()
+                    for (property in product.properties) {
+                        if (property.selectedProperty != null)
+                            selectedProperties.add(property.selectedProperty!!)
+                    }
 
-                val selectedProperties: ArrayList<String> = arrayListOf()
-                for (property in product.properties) {
-                    if (property.selectedProperty != null)
-                        selectedProperties.add(property.selectedProperty!!)
+                    startActivity(Intent(context, CheckOutActivity::class.java).apply {
+                        this.putParcelableArrayListExtra(
+                            CheckOutActivity.PRODUCTS_QUANTITY,
+                            arrayListOf<ProductQuantity>().apply {
+                                this.add(ProductQuantity(product.productID, 1))
+                            })
+
+                        if (selectedProperties.isNotEmpty())
+                            this.putStringArrayListExtra(
+                                CheckOutActivity.PRODUCT_PROPERTIES,
+                                selectedProperties
+                            )
+
+                        this.putExtra("isBuyNow", true)
+
+                    })
+                }else {
+                    val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.NoInternetConnection), Snackbar.LENGTH_LONG)
+                    val sbView: View = snackbar.view
+                    sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                    snackbar.show()
                 }
 
-                startActivity(Intent(context, CheckOutActivity::class.java).apply {
-                    this.putParcelableArrayListExtra(
-                        CheckOutActivity.PRODUCTS_QUANTITY,
-                        arrayListOf<ProductQuantity>().apply {
-                            this.add(ProductQuantity(product.productID, 1))
-                        })
-
-                    if (selectedProperties.isNotEmpty())
-                        this.putStringArrayListExtra(
-                            CheckOutActivity.PRODUCT_PROPERTIES,
-                            selectedProperties
-                        )
-
-                    this.putExtra("isBuyNow", true)
-
-                })
 
             } else {
-                Toast.makeText(context, getString(R.string.validation), Toast.LENGTH_SHORT).show()
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.pleaseLogin), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
             }
         }
 

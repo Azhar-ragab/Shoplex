@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.animation.OvershootInterpolator
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -51,6 +52,13 @@ class OrderActivity : AppCompatActivity() {
                     setDuration(700)
                     setInterpolator(OvershootInterpolator(2f))
                 }
+            if (orders.count()>0) {
+                binding.noItemCurrent.visibility= View.INVISIBLE
+            }
+            else{
+                binding.noItemCurrent.visibility= View.VISIBLE
+            }
+            binding.rvCurrentOrders.adapter = OrderAdapter(orders)
         })
 
         if (ordersVM.lastOrders.value == null)
@@ -62,6 +70,13 @@ class OrderActivity : AppCompatActivity() {
                     setDuration(700)
                     setInterpolator(OvershootInterpolator(2f))
                 }
+            if (lastOrders.count()>0) {
+                binding.noItemLast.visibility= View.INVISIBLE
+            }
+            else{
+                binding.noItemLast.visibility= View.VISIBLE
+            }
+            binding.rvLastOrders.adapter = OrderAdapter(lastOrders)
         })
 
         val notificationManager = this.getSystemService(

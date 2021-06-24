@@ -3,10 +3,13 @@ package com.shoplex.shoplex.view.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityFilterBinding
 import com.shoplex.shoplex.databinding.BottomSheetShopsBinding
@@ -109,7 +112,10 @@ class FilterActivity : AppCompatActivity() {
             if (!storesVM.storesLocationInfo.value.isNullOrEmpty()) {
                 shopsBottomSheetDialog(storesVM.storesLocationInfo.value!!)
             } else {
-                Toast.makeText(this, "No stores Found", Toast.LENGTH_SHORT).show()
+                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.no_store), Snackbar.LENGTH_LONG)
+                val sbView: View = snackbar.view
+                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                snackbar.show()
             }
         }
 

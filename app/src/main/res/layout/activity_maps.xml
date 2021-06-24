@@ -19,10 +19,13 @@ tools:context=".view.activities.MapsActivity">
 
     <Button
         android:id="@+id/btnOK"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="@string/OK"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:insetBottom="0dp"
+        android:text="@string/confirm"
+        android:textAllCaps="false"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent" />
