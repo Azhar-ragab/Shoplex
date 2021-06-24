@@ -228,8 +228,6 @@
         android:id="@+id/btn_Payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:backgroundTint="@color/darkBlue"
         android:clickable="true"
         android:insetBottom="0dp"
         android:text="@string/processtosummary"

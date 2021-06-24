@@ -36,6 +36,7 @@
         android:paddingTop="@dimen/margin_8"
         android:paddingEnd="@dimen/margin_8"
         android:paddingBottom="@dimen/margin_8"
+        android:background="@color/PrimaryShoplex"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -44,6 +45,7 @@
             android:id="@+id/toolbarMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/PrimaryShoplex"
             android:elevation="@dimen/padding_4">
 
             <androidx.constraintlayout.widget.ConstraintLayout
