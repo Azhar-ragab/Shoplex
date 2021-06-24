@@ -95,8 +95,7 @@ class AccountFragment : Fragment() {
             showAddReportDialog()
         }
 
-        binding.cardRemoveAccount.setOnClickListener {
-        }
+
 
         return binding.root
     }
@@ -107,14 +106,12 @@ class AccountFragment : Fragment() {
             binding.tvUserName.text = getText(R.string.fullAccess)
             binding.switchNotification.isEnabled = false
             binding.cardReport.visibility = View.INVISIBLE
-            binding.cardRemoveAccount.visibility = View.INVISIBLE
         } else {
             binding.btnLogout.text = getString(R.string.logOut)
             binding.tvUserName.text = UserInfo.name
             binding.switchNotification.isEnabled = true
             binding.switchNotification.isChecked = UserInfo.readNotification(requireContext())
             binding.cardReport.visibility = View.VISIBLE
-            binding.cardRemoveAccount.visibility = View.VISIBLE
         }
     }
 
