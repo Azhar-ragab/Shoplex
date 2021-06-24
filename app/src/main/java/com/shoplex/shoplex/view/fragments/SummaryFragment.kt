@@ -100,6 +100,10 @@ class SummaryFragment : Fragment(), PaymentListener {
                         snackbar.show()
                         requireActivity().finish()
                     }
+
+                    if(product.specialDiscount != null){
+                        FirebaseReferences.productsRef.document(product.productID).collection("Special Discounts").document(order.userID).delete()
+                    }
                 }
         }
     }
