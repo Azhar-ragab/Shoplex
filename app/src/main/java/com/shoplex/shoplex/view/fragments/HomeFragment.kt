@@ -77,8 +77,8 @@ class HomeFragment : Fragment(), FavouriteCartListener {
             val chip = inflater.inflate(R.layout.chip_choice_item, null, false) as Chip
             chip.text = resources.getStringArray(R.array.categories)[index]
             chip.id = index
-            chip.chipIcon = when(index) {
-                    0 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
+            chip.chipIcon = when (index) {
+                0 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
                 1 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
                 2 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
                 3 -> ContextCompat.getDrawable(requireActivity(), R.drawable.ic_mobile_24)
@@ -90,9 +90,8 @@ class HomeFragment : Fragment(), FavouriteCartListener {
 
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
             selectedCategory = group.findViewById<Chip>(checkedId).text.toString()
-            val category = Category.values()[checkedId].name.replace(" ", getString(R.string.underscore))
-                //Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
-            //Toast.makeText(requireContext(), checkedId.toString(), Toast.LENGTH_SHORT).show()
+            val category =
+                Category.values()[checkedId].name.replace(" ", getString(R.string.underscore))
 
             productsVM.getAllProducts(Category.valueOf(category), Filter(), null)
         }
@@ -102,11 +101,12 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         productsVM.getAllPremiums()
         productsVM.advertisements.observe(viewLifecycleOwner, { advertisements ->
             advertisementsAdapter = AdvertisementsAdapter(advertisements)
-            binding.rvAdvertisement.adapter = ScaleInAnimationAdapter(SlideInLeftAnimationAdapter(advertisementsAdapter)).apply {
-                setDuration(1000)
-                setInterpolator(OvershootInterpolator(2f))
-                setFirstOnly(false)
-            }
+            binding.rvAdvertisement.adapter =
+                ScaleInAnimationAdapter(SlideInLeftAnimationAdapter(advertisementsAdapter)).apply {
+                    setDuration(1000)
+                    setInterpolator(OvershootInterpolator(2f))
+                    setFirstOnly(false)
+                }
             //binding.rvAdvertisement.adapter = advertisementsAdapter
         })
 
@@ -117,12 +117,13 @@ class HomeFragment : Fragment(), FavouriteCartListener {
 
         productsVM.products.observe(viewLifecycleOwner, { products ->
             homeProductAdapter = HomeAdapter(products)
-            binding.rvHomeproducts.adapter =  ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(homeProductAdapter)).apply {
-                setDuration(1000)
-                setInterpolator(OvershootInterpolator(2f))
-                setFirstOnly(false)
-            }
-           // binding.rvHomeproducts.adapter = homeProductAdapter
+            binding.rvHomeproducts.adapter =
+                ScaleInAnimationAdapter(SlideInBottomAnimationAdapter(homeProductAdapter)).apply {
+                    setDuration(1000)
+                    setInterpolator(OvershootInterpolator(2f))
+                    setFirstOnly(false)
+                }
+            // binding.rvHomeproducts.adapter = homeProductAdapter
         })
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -141,7 +142,7 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         })
 
         binding.btnLocation.setOnClickListener {
-            if(ArchLifecycleApp.isInternetConnected) {
+            if (ArchLifecycleApp.isInternetConnected) {
                 startActivity(
                     Intent(requireContext(), MapsActivity::class.java)
                         .apply {
@@ -155,8 +156,12 @@ class HomeFragment : Fragment(), FavouriteCartListener {
                             putParcelableArrayListExtra(MapsActivity.STORE_LOCATIONS, locations)
                         }
                 )
-            } else{
-                Toast.makeText(requireContext(), getString(R.string.NoInternetConnection), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.NoInternetConnection),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

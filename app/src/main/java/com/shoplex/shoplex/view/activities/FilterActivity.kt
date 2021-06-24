@@ -113,6 +113,16 @@ class FilterActivity : AppCompatActivity() {
             }
         }
 
+        binding.cbPriceFilter.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked) {
+                binding.cbPrice.isChecked = true
+                binding.cbPrice.isClickable = false
+            } else {
+                binding.cbPrice.isChecked = false
+                binding.cbPrice.isClickable = true
+            }
+        }
+
         binding.btnFilterOK.setOnClickListener {
             var stores: ArrayList<String>? = storesVM.storesList.value
             var subCategory: ArrayList<String>? = storesVM.subCatCheckList.value
@@ -147,13 +157,19 @@ class FilterActivity : AppCompatActivity() {
                 shops = stores
             )
 
-            var price = binding.cbPrice.isChecked
+            var price: Boolean? = binding.cbPrice.isChecked
             val rate = binding.cbRating.isChecked
             val discount = binding.cbDiscount.isChecked
             val nearestShop = binding.cbNersedtShop.isChecked
 
-            if (price || rate || discount || nearestShop) {
-                price = (binding.toggleBtnPrice.checkedButtonId != binding.btnLowPrice.id)
+            if(price != true)
+                price = null
+
+            if (price == true || rate || discount || nearestShop) {
+                price = if(price == true)
+                    (binding.toggleBtnPrice.checkedButtonId != binding.btnLowPrice.id)
+                else
+                    null
                 sort = Sort(price, rate, discount, nearestShop)
             } else {
                 sort = null
@@ -199,7 +215,7 @@ class FilterActivity : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
-    fun getSubCategory(selectedItem: String): Array<String> {
+    private fun getSubCategory(selectedItem: String): Array<String> {
         val listSubCat =
             when (Category.valueOf(selectedItem.replace(" ", "_"))) {
                 Category.Fashion -> SubFashion.values()
