@@ -36,7 +36,7 @@ class AdvertisementsAdapter(val advertisements: ArrayList<Product>) :
             val context: Context = binding.root.context
 
             Glide.with(binding.root.context).load(product.images.firstOrNull())
-                .error(R.drawable.product).into(binding.imgAdvertisement)
+                .error(R.drawable.init_img).into(binding.imgAdvertisement)
             binding.product = product
 
             binding.tvOffer.visibility = if(product.discount == 0F) View.INVISIBLE else View.VISIBLE

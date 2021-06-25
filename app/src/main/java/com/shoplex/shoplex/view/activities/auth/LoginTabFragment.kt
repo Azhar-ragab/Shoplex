@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import com.facebook.*
-import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -33,7 +34,6 @@ import com.shoplex.shoplex.viewmodel.AuthVM
 import org.json.JSONException
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-
 
 class LoginTabFragment : Fragment() {
 
@@ -151,7 +151,7 @@ class LoginTabFragment : Fragment() {
                                             } else {
                                                 Toast.makeText(
                                                     requireContext(),
-                                                    "Email Registered before!",
+                                                    getString(R.string.emailExist),
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
@@ -161,7 +161,7 @@ class LoginTabFragment : Fragment() {
                             } catch (e: JSONException) {
                                 Toast.makeText(
                                     requireContext(),
-                                    "Error Occurred!",
+                                    getString(R.string.errorAuth),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -177,7 +177,7 @@ class LoginTabFragment : Fragment() {
                 override fun onCancel() {
                     Toast.makeText(
                         requireActivity(),
-                        "Facebook login cancelled",
+                        getString(R.string.cancel),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -185,7 +185,7 @@ class LoginTabFragment : Fragment() {
                 override fun onError(error: FacebookException?) {
                     Toast.makeText(
                         requireActivity(),
-                        "Facebook login failed: ${error.toString()}",
+                        getString(R.string.errorAuth),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

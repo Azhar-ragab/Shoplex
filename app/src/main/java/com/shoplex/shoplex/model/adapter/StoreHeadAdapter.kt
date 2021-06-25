@@ -47,7 +47,7 @@ class StoreHeadAdapter(private var storeHeads: ArrayList<ChatHead>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(storeHead: ChatHead) {
-            Glide.with(itemView.context).load(storeHead.storeImage).error(R.drawable.product).into(binding.imgStoreHead)
+            Glide.with(itemView.context).load(storeHead.storeImage).error(R.drawable.init_img).into(binding.imgStoreHead)
 
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, MessageActivity::class.java)

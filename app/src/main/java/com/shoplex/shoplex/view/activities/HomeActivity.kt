@@ -21,6 +21,8 @@ class HomeActivity : AppCompatActivity(), DroidListener {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (UserInfo.lang != this.resources.configuration.locale.language)
+            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
         if(UserInfo.userID.isNullOrEmpty())
             UserInfo.readUserInfo(this)

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.RvSummaryCardviewBinding
 import com.shoplex.shoplex.model.pojo.ProductCart
 
@@ -26,11 +27,10 @@ class SummaryAdapter(private val summaryCheck: ArrayList<ProductCart>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(productCart: ProductCart) {
             if (productCart.images.count() > 0)
-                Glide.with(itemView.context).load(productCart.images[0].toString())
+                Glide.with(itemView.context).load(productCart.images.firstOrNull()).error(R.drawable.init_img)
                     .into(binding.imgProductSummary)
-            binding.tvProductName.text = productCart.name
-            binding.tvPriceSimmary.text = productCart.newPrice.toString()
-            binding.tvQuantity.text = productCart.cartQuantity.toString()
+            binding.summary = productCart
+
         }
     }
 

@@ -40,7 +40,7 @@
                     android:layout_height="120dp"
                     android:layout_gravity="end"
                     android:scaleType="fitXY"
-                    android:src="@drawable/product"
+                    android:src="@drawable/init_img"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_32"
                     android:text="@{`` + product.newPrice}"
-                    android:textColor="@color/red"
+                    android:textColor="@color/redShopex"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/tv_old_price"
                     app:layout_constraintTop_toBottomOf="@id/fabAddProduct" />

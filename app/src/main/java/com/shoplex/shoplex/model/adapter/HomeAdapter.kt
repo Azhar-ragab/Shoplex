@@ -130,7 +130,7 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
             binding.product = product
 
             Glide.with(binding.root.context).load(product.images.firstOrNull())
-                .error(R.drawable.product).into(binding.imgProduct)
+                .error(R.drawable.init_img).into(binding.imgProduct)
 
             itemView.setOnClickListener {
                 binding.root.context.startActivity(

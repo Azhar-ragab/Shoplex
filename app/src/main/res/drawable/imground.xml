@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:shape="rectangle">
-    <solid android:color="@color/PrimaryShoplex"
+    <solid android:color="?attr/colorPrimary"
         tools:targetApi="lollipop" />
     <corners
        android:radius="5dp"/>

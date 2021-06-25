@@ -20,7 +20,8 @@
         android:name=".model.extra.ArchLifecycleApp">
 
         <activity android:name=".view.activities.FilterActivity"/>
-        <activity android:name=".view.activities.DescriptionActivity"/>
+        <activity android:name=".view.activities.DescriptionActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".view.activities.MapsActivity"

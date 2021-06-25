@@ -74,12 +74,14 @@ class AccountFragment : Fragment() {
         }
 
         binding.cardLanguage.setOnClickListener {
-            if(binding.tvLanguage.text.toString().contains("Ar", true)){
-                requireContext().getSharedPreferences("LANG", AppCompatActivity.MODE_PRIVATE).edit().putString("Language", "ar").apply()
-                setLocale("ar")
-            }else{
+            if(binding.tvLanguage.text.toString().contains("En", true)){
                 requireContext().getSharedPreferences("LANG", AppCompatActivity.MODE_PRIVATE).edit().putString("Language", "en").apply()
-                setLocale("en")
+                UserInfo.lang = "en"
+                UserInfo.setLocale("en", requireActivity())
+            }else{
+                requireContext().getSharedPreferences("LANG", AppCompatActivity.MODE_PRIVATE).edit().putString("Language", "ar").apply()
+                UserInfo.lang = "ar"
+                UserInfo.setLocale("ar", requireActivity())
             }
         }
 
@@ -95,8 +97,7 @@ class AccountFragment : Fragment() {
             showAddReportDialog()
         }
 
-        binding.cardRemoveAccount.setOnClickListener {
-        }
+
 
         return binding.root
     }
@@ -107,14 +108,12 @@ class AccountFragment : Fragment() {
             binding.tvUserName.text = getText(R.string.fullAccess)
             binding.switchNotification.isEnabled = false
             binding.cardReport.visibility = View.INVISIBLE
-            binding.cardRemoveAccount.visibility = View.INVISIBLE
         } else {
             binding.btnLogout.text = getString(R.string.logOut)
             binding.tvUserName.text = UserInfo.name
             binding.switchNotification.isEnabled = true
             binding.switchNotification.isChecked = UserInfo.readNotification(requireContext())
             binding.cardReport.visibility = View.VISIBLE
-            binding.cardRemoveAccount.visibility = View.VISIBLE
         }
     }
 

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityCheckOutBinding
 import com.shoplex.shoplex.model.adapter.CheckoutAdapter
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.ProductQuantity
 import com.shoplex.shoplex.viewmodel.CheckoutFactory
 import com.shoplex.shoplex.viewmodel.CheckoutVM
@@ -23,6 +23,8 @@ class CheckOutActivity : AppCompatActivity(), DroidListener {
     lateinit var checkoutVM: CheckoutVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (UserInfo.lang != this.resources.configuration.locale.language)
+            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
 
         binding = ActivityCheckOutBinding.inflate(layoutInflater)
@@ -35,7 +37,7 @@ class CheckOutActivity : AppCompatActivity(), DroidListener {
         checkoutVM.productQuantities =
             intent.getParcelableArrayListExtra<ProductQuantity>(PRODUCTS_QUANTITY) as ArrayList<ProductQuantity>
 
-        if(intent.hasExtra(PRODUCT_PROPERTIES))
+        if (intent.hasExtra(PRODUCT_PROPERTIES))
             checkoutVM.productProperties = intent.getStringArrayListExtra(PRODUCT_PROPERTIES)
 
         supportActionBar?.apply {
@@ -47,21 +49,29 @@ class CheckOutActivity : AppCompatActivity(), DroidListener {
             supportActionBar?.setDisplayShowHomeEnabled(true)
         }
 
-        if(checkoutVM.getAllProducts().isNullOrEmpty()) {
+        if (checkoutVM.getAllProducts().isNullOrEmpty()) {
             if (!intent.hasExtra("isBuyNow")) {
                 checkoutVM.getAllCartProducts()
             } else {
                 val product = checkoutVM.productQuantities.firstOrNull()
                 if (product != null)
                     checkoutVM.getProductByID(product.productID)
-                else
-                {
-                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.Product_not_found), Snackbar.LENGTH_LONG)
-                val sbView: View = snackbar.view
-                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
-                snackbar.show()
+                else {
+                    val snackbar = Snackbar.make(
+                        binding.root,
+                        binding.root.context.getString(R.string.Product_not_found),
+                        Snackbar.LENGTH_LONG
+                    )
+                    val sbView: View = snackbar.view
+                    sbView.setBackgroundColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.blueshop
+                        )
+                    )
+                    snackbar.show()
 
-            }
+                }
             }
         }
 
@@ -78,7 +88,7 @@ class CheckOutActivity : AppCompatActivity(), DroidListener {
         return super.onOptionsItemSelected(item)
     }
 
-    companion object{
+    companion object {
         const val PRODUCTS_QUANTITY = "PRODUCTS_QUANTITY"
         const val PRODUCT_PROPERTIES = "PRODUCT_PROPERTIES"
     }
@@ -93,7 +103,8 @@ class CheckOutActivity : AppCompatActivity(), DroidListener {
 //            Toast.makeText(this, "Sorry but this activity require network connectivity please connect and try again", Toast.LENGTH_SHORT).show()
             window.setFlags(
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
             binding.spinKit.visibility = View.VISIBLE
             binding.tvLoadCheck.visibility = View.VISIBLE
         }

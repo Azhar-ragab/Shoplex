@@ -13,7 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        style="@style/CustomCardview">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -41,9 +42,8 @@
                     android:layout_margin="@dimen/margin_8"
                     android:layout_weight="1"
                     android:padding="@dimen/padding_6"
+                    style="@style/WhiteColorText"
                     android:text="@{specialCoupon.productName}"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/darkBlue"
                     android:textStyle="bold" />
 
                 <TextView

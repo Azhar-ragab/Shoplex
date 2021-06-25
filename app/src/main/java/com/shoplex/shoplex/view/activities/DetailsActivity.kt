@@ -7,6 +7,7 @@ import com.google.android.material.tabs.TabLayout
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityDetailsBinding
 import com.shoplex.shoplex.model.adapter.PagerAdapter
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.viewmodel.DetailsVM
 import com.shoplex.shoplex.viewmodel.ProductsVM
 
@@ -17,6 +18,8 @@ class DetailsActivity : AppCompatActivity() {
     lateinit var detailsVM: DetailsVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (UserInfo.lang != this.resources.configuration.locale.language)
+            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)

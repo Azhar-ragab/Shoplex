@@ -1,6 +1,8 @@
 package com.shoplex.shoplex.model.extra
 
 import android.content.Context
+import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -96,6 +98,22 @@ object UserInfo {
 
     fun saveToRecentVisits() {
         FirebaseReferences.recentVisits.add(RecentVisit())
+    }
+
+    fun setLocale(lang: String, context: Context) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.setLocale(locale)
+        context.createConfigurationContext(config)
+        context.resources.updateConfiguration(
+            config,
+            context.resources.displayMetrics
+        )
+        val activity: AppCompatActivity = context as AppCompatActivity
+        val refresh = Intent(activity, activity::class.java)
+        activity.finish()
+        activity.startActivity(refresh)
     }
 
     fun clear() {

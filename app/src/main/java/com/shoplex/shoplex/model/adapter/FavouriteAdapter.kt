@@ -13,8 +13,6 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FavouriteItemRowBinding
-import com.shoplex.shoplex.model.enumurations.OrderStatus
-import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.pojo.ProductFavourite
 import com.shoplex.shoplex.model.interfaces.FavouriteCartListener
 import com.shoplex.shoplex.model.pojo.ProductCart
@@ -54,7 +52,7 @@ class FavouriteAdapter :
         RecyclerView.ViewHolder(binding.root), FavouriteCartListener {
         fun bind(product: ProductFavourite) {
             Glide.with(binding.root.context).load(product.images.firstOrNull())
-                .error(R.drawable.product).into(binding.imgProduct)
+                .error(R.drawable.init_img).into(binding.imgProduct)
             binding.product = product
 
             repo.searchCartByID.observe(context as AppCompatActivity, {
