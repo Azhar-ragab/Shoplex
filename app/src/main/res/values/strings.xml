@@ -178,8 +178,8 @@
     <string name="not_connection">No Connection</string>
     <string name="orLoginwith">Or Login With</string>
     <string name="emptyCart">Empty Cart</string>
-    <string name="welcomeShoplex">Welcome To Shoplex</string>
     <string name="language">اللغه العربيه</string>
+    <string name="welcomeShoplex">Welcome To Shoplex</string>
     <string-array name="categories">
         <item>Fashion</item>
         <item>Health Care</item>

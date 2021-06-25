@@ -87,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Welcome to ShopLex"
+        android:text="@string/welcomeShoplex"
         android:textAlignment="center"
         android:textColor="@color/logo_color"
         android:textSize="20sp"

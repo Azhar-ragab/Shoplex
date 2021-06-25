@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:numStars="5"
-        android:progressBackgroundTint="@color/light_font"
+        android:progressBackgroundTint="@color/grey_font"
         android:progressTint="@color/yellow"
         android:rating="0"
         android:saveEnabled="true"
