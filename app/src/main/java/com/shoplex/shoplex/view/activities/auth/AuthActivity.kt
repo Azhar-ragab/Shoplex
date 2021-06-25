@@ -2,7 +2,6 @@ package com.shoplex.shoplex.view.activities.auth
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +11,7 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityAuthBinding
 import com.shoplex.shoplex.model.enumurations.AuthType
 import com.shoplex.shoplex.model.extra.ArchLifecycleApp
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.viewmodel.AuthVM
 import com.shoplex.shoplex.viewmodel.AuthVMFactory
 import kotlinx.android.synthetic.main.activity_auth.*
@@ -21,6 +21,8 @@ class AuthActivity : AppCompatActivity() {
     lateinit var authVM: AuthVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (UserInfo.lang != this.resources.configuration.locale.language)
+            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -61,10 +63,19 @@ class AuthActivity : AppCompatActivity() {
                         }
                     })
                 }
-            } else{
-                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.NoInternetConnection), Snackbar.LENGTH_LONG)
+            } else {
+                val snackbar = Snackbar.make(
+                    binding.root,
+                    binding.root.context.getString(R.string.NoInternetConnection),
+                    Snackbar.LENGTH_LONG
+                )
                 val sbView: View = snackbar.view
-                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                sbView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.blueshop
+                    )
+                )
                 snackbar.show()
             }
         }

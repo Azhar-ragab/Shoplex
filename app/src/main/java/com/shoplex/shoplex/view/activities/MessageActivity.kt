@@ -42,6 +42,8 @@ class MessageActivity : AppCompatActivity(), DroidListener {
     private lateinit var messageVM: MessageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (UserInfo.lang != this.resources.configuration.locale.language)
+            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
         binding = ActivityMessageBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -92,7 +94,8 @@ class MessageActivity : AppCompatActivity(), DroidListener {
     private fun performSendMessage() {
         //send Message to Firebase
         val messageText = binding.edSendMesssage.text
-
+        if(messageText.trim().isEmpty())
+            return
         val message = Message(toId = storeID, message = messageText.toString())
         message.chatID = chatID
         FirebaseReferences.chatRef.document(chatID).collection("messages")

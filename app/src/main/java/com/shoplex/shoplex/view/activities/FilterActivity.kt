@@ -16,6 +16,7 @@ import com.shoplex.shoplex.databinding.BottomSheetShopsBinding
 import com.shoplex.shoplex.model.adapter.StoresLocationsAdapter
 import com.shoplex.shoplex.model.adapter.SubCategoryAdapter
 import com.shoplex.shoplex.model.enumurations.*
+import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Filter
 import com.shoplex.shoplex.model.pojo.Sort
 import com.shoplex.shoplex.model.pojo.StoreLocationInfo
@@ -37,6 +38,8 @@ class FilterActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (UserInfo.lang != this.resources.configuration.locale.language)
+            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
         binding = ActivityFilterBinding.inflate(layoutInflater)
         setContentView(binding.root)

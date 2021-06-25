@@ -8,12 +8,15 @@ import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityDescriptionBinding
+import com.shoplex.shoplex.model.extra.UserInfo
 
 class DescriptionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDescriptionBinding
     private var position = 0
     private var mediaControls: MediaController? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (UserInfo.lang != this.resources.configuration.locale.language)
+            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
         binding = ActivityDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)

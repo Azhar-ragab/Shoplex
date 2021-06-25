@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import com.facebook.*
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -134,43 +136,48 @@ class LoginTabFragment : Fragment() {
             .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult?) {
                     loginResult?.let {
-                        Log.d("facebookTOKEN", it.accessToken.token)
-                        val request =
-                            GraphRequest.newMeRequest(loginResult.accessToken) { _, response ->
-                                val json = response.jsonObject
-                                try {
-                                    if (json != null) {
-                                        //val data = json.getJSONObject("picture").getJSONObject("data")
-                                        //val name = json.getString("name")
-                                        val email = json.getString("email")
-                                        //val picUrl = data.getString("url")
-
-                                        // authVM.login(AuthType.Facebook, loginResult.accessToken.token)
-
-                                        Firebase.auth.fetchSignInMethodsForEmail(email)
-                                            .addOnCompleteListener { signInResponse ->
-                                                if (signInResponse.isSuccessful && (signInResponse.result.signInMethods.isNullOrEmpty() || signInResponse.result.signInMethods?.first() == "facebook.com")) {
-                                                    // authVM.login(AuthType.Facebook, loginResult.accessToken.token)
-                                                } else {
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        "Email Registered before!",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
+                        GraphRequest.newMeRequest(it.accessToken) { _, response ->
+                            val json = response.jsonObject
+                            try {
+                                if (json != null) {
+                                    val email = json.getString("email")
+                                    Firebase.auth.fetchSignInMethodsForEmail(email)
+                                        .addOnCompleteListener { signInResponse ->
+                                            if (signInResponse.isSuccessful && (signInResponse.result.signInMethods.isNullOrEmpty() || signInResponse.result.signInMethods?.first() == "facebook.com")) {
+                                                authVM.login(
+                                                    AuthType.Facebook,
+                                                    loginResult.accessToken.token
+                                                )
+                                            } else {
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    getString(R.string.emailExist),
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
                                             }
+                                        }
 
-                                    }
-                                } catch (e: JSONException) {
                                 }
+                            } catch (e: JSONException) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.errorAuth),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
+                        }.apply {
+                            val parameters = Bundle()
+                            parameters.putString("fields", "id,name,email")
+                            this.parameters = parameters
+                            this.executeAsync()
+                        }
                     }
                 }
 
                 override fun onCancel() {
                     Toast.makeText(
                         requireActivity(),
-                        "Facebook login cancelled",
+                        getString(R.string.cancel),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -178,7 +185,7 @@ class LoginTabFragment : Fragment() {
                 override fun onError(error: FacebookException?) {
                     Toast.makeText(
                         requireActivity(),
-                        "Facebook login failed: ${error.toString()}",
+                        getString(R.string.errorAuth),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -243,16 +250,34 @@ class LoginTabFragment : Fragment() {
     private fun forgetPassword(email: String) {
         Firebase.auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val snackbar = Snackbar.make(binding.root, getString(R.string.email_send), Snackbar.LENGTH_LONG)
+                val snackbar = Snackbar.make(
+                    binding.root,
+                    getString(R.string.email_send),
+                    Snackbar.LENGTH_LONG
+                )
                 val sbView: View = snackbar.view
-                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                sbView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.blueshop
+                    )
+                )
                 snackbar.show()
 
 
             } else {
-                val snackbar = Snackbar.make(binding.root, getString(R.string.require_email), Snackbar.LENGTH_LONG)
+                val snackbar = Snackbar.make(
+                    binding.root,
+                    getString(R.string.require_email),
+                    Snackbar.LENGTH_LONG
+                )
                 val sbView: View = snackbar.view
-                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                sbView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.blueshop
+                    )
+                )
                 snackbar.show()
 
             }

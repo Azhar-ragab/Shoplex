@@ -82,7 +82,7 @@ class HomeFragment : Fragment(), FavouriteCartListener {
                 0 -> ContextCompat.getDrawable(requireActivity(), R.drawable.fashion_chip)
                 1 -> ContextCompat.getDrawable(requireActivity(), R.drawable.beauty)
                 2 -> ContextCompat.getDrawable(requireActivity(), R.drawable.smartphone)
-                3 -> ContextCompat.getDrawable(requireActivity(), R.drawable.electronics)
+                3 -> ContextCompat.getDrawable(requireActivity(), R.drawable.electroincs)
                 4 -> ContextCompat.getDrawable(requireActivity(), R.drawable.accessories)
                 else -> ContextCompat.getDrawable(requireActivity(), R.drawable.book)
             }

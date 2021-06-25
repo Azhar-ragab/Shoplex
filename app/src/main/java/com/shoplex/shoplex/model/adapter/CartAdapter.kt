@@ -3,9 +3,7 @@ package com.shoplex.shoplex.model.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -40,7 +38,7 @@ class CartAdapter(
     inner class ProductViewHolder(val binding: RvCartHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductCart) {
-            Glide.with(binding.root.context).load(product.images.firstOrNull()).error(R.drawable.product).into(binding.imgCart)
+            Glide.with(binding.root.context).load(product.images.firstOrNull()).error(R.drawable.init_img).into(binding.imgCart)
 
             binding.product = product
             binding.imgDelete.setOnClickListener {

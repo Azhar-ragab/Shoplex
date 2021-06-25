@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--    <data>-->
     <!--        <variable-->
@@ -15,9 +14,9 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/loginBg"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            style="@style/loginBg"
             android:paddingBottom="32dp">
 
 
@@ -88,9 +87,9 @@
                 android:id="@+id/start_view"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/gray"
-
                 android:layout_marginLeft="@dimen/margin_8"
+
+                android:background="@color/gray"
                 app:layout_constraintBottom_toBottomOf="@+id/tvNewUser"
                 app:layout_constraintEnd_toStartOf="@+id/tvNewUser"
                 app:layout_constraintStart_toStartOf="parent"
@@ -98,15 +97,13 @@
 
             <TextView
                 android:id="@+id/tvNewUser"
+                style="@style/WhiteColorText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textColor="@color/cardview_dark_background"
-                app:layout_constraintHorizontal_bias="0.5"
                 android:text="Or Login With"
-
                 app:layout_constraintEnd_toEndOf="parent"
-
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvForgetPass" />
 
@@ -163,6 +160,7 @@
                     android:id="@+id/btnGoogle"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_8"
                     android:background="@drawable/google"
                     android:clickable="true"
                     android:drawableStart="@drawable/googleplus"
@@ -170,7 +168,6 @@
                     android:focusable="true"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:layout_marginEnd="@dimen/margin_8"
                     android:text="Google"
                     android:textColor="@color/white"
                     android:textSize="14sp">
@@ -181,11 +178,11 @@
                     android:id="@+id/btnFace"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_8"
                     android:background="@drawable/imground_face"
                     android:clickable="true"
                     android:drawableStart="@drawable/face"
                     android:drawablePadding="8dp"
-                    android:layout_marginStart="@dimen/margin_8"
                     android:focusable="true"
                     android:gravity="center"
                     android:padding="8dp"

@@ -37,7 +37,7 @@
                     android:layout_height="0dp"
                     android:layout_gravity="end"
                     android:scaleType="fitXY"
-                    android:src="@drawable/product"
+                    android:src="@drawable/init_img"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -91,7 +91,7 @@
                     android:layout_marginEnd="@dimen/margin_8"
                     android:layout_marginRight="@dimen/margin_8"
                     android:text="@{String.valueOf(order.orderStatus)}"
-                    android:textColor="@color/red"
+                    android:textColor="@color/redShopex"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

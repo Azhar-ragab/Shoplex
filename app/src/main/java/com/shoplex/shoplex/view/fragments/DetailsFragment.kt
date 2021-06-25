@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -22,7 +20,6 @@ import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.FragmentDetailsBinding
 import com.shoplex.shoplex.model.adapter.ChatHeadAdapter
 import com.shoplex.shoplex.model.adapter.PropertyAdapter
-import com.shoplex.shoplex.model.enumurations.OrderStatus
 import com.shoplex.shoplex.model.extra.ArchLifecycleApp
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
@@ -75,7 +72,7 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                 for (img in product.images)
                     imageList.add(SlideModel(img))
                 if (product.images.isEmpty())
-                    imageList.add(SlideModel(R.drawable.product))
+                    imageList.add(SlideModel(R.drawable.init_img))
                 binding.imgSliderDetails.setImageList(imageList, ScaleTypes.CENTER_CROP)
                 binding.rvProperty.adapter = PropertyAdapter(product.properties, requireContext())
                 onSearchForFavouriteCart(product.productID)

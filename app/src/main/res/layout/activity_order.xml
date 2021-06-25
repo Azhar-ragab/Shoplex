@@ -10,6 +10,7 @@
         android:id="@+id/toolbarorder"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        style="@style/ToolbarTheme"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView

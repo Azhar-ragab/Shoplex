@@ -29,6 +29,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var authVM: AuthVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (UserInfo.lang != this.resources.configuration.locale.language)
+            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -78,14 +80,14 @@ class ProfileActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarProfile)
         supportActionBar?.apply {
             title = getString(R.string.profile)
-           // setHomeAsUpIndicator(R.drawable.ic_arrow_back)
+            // setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         }
         if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
         }
 
-        Glide.with(this).load(UserInfo.image).error(R.drawable.product).into(binding.imgUser)
+        Glide.with(this).load(UserInfo.image).error(R.drawable.init_img).into(binding.imgUser)
 
         binding.userInfo = authVM
 
@@ -146,7 +148,7 @@ class ProfileActivity : AppCompatActivity() {
                 getString(R.string.Required)
 
             !isValidMobile(binding.edPhone.text.toString()) -> binding.tiPhone.error =
-              getString(R.string.enter_mobile)
+                getString(R.string.enter_mobile)
 
             authVM.user.value?.address.isNullOrEmpty() || (authVM.user.value?.location?.latitude == 0.0 && authVM.user.value?.location?.longitude == 0.0) -> Toast.makeText(
                 this,

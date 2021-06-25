@@ -30,7 +30,7 @@
                 android:layout_height="0dp"
                 android:layout_gravity="start"
                 android:scaleType="fitXY"
-                android:src="@drawable/product"
+                android:src="@drawable/init_img"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -83,7 +83,7 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="8dp"
                 android:text="@{`` + product.newPrice}"
-                android:textColor="@color/red"
+                android:textColor="@color/redShopex"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/tv_Category"
                 app:layout_constraintTop_toBottomOf="@+id/tv_Category" />

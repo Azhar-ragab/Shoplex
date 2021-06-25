@@ -15,6 +15,7 @@
         <item name="titleTextColor">@color/secondaryShoplex</item>
         <item name="bottomSheetStyle">@style/BottomSheetDialogTheme</item>
         <item name="iconTint">@color/orangeShopex</item>
+        <item name="colorAccent">@color/orangeLight</item>
     </style>
 
     <style name="ToolbarTheme">

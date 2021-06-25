@@ -101,11 +101,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/orLoginwith"
-                android:textColor="@color/cardview_dark_background"
+                style="@style/WhiteColorText"
                 app:layout_constraintEnd_toEndOf="parent"
-
                 app:layout_constraintHorizontal_bias="0.5"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvForgetPass" />
 

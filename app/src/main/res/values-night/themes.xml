@@ -14,7 +14,8 @@
         <!-- Customize your theme here. -->
         <item name="titleTextColor">@color/secondaryShoplex</item>
         <item name="bottomSheetStyle">@style/BottomSheetDialogTheme</item>
-        <item name="iconTint">@color/secondaryShoplex</item>
+        <item name="iconTint">@color/yellow</item>
+        <item name="colorAccent">@color/yellowLight</item>
     </style>
 
     <style name="ToolbarTheme">

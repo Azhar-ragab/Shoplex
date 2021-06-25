@@ -18,6 +18,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarProfile"
             android:layout_width="match_parent"
+            style="@style/ToolbarTheme"
             android:layout_height="?attr/actionBarSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

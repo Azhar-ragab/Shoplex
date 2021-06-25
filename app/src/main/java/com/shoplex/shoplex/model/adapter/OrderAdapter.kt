@@ -1,11 +1,8 @@
 package com.shoplex.shoplex.model.adapter
 
-import android.content.Intent
-import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -22,8 +19,6 @@ import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.extra.UserInfo
 import com.shoplex.shoplex.model.pojo.Order
 import com.shoplex.shoplex.model.pojo.Review
-import com.shoplex.shoplex.view.activities.CheckOutActivity
-import com.shoplex.shoplex.viewmodel.AuthVM
 
 class OrderAdapter(var ordersInfo: ArrayList<Order>) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
@@ -45,7 +40,7 @@ class OrderAdapter(var ordersInfo: ArrayList<Order>) :
             if (order.product != null) {
                 binding.order = order
                 Glide.with(itemView.context).load(order.product!!.images.firstOrNull())
-                    .error(R.drawable.product).into(binding.imgProduct)
+                    .error(R.drawable.init_img).into(binding.imgProduct)
                 when (order.orderStatus) {
                     OrderStatus.Current -> binding.tvbutton.text = itemView.context.resources.getString(R.string.cancel)
                     OrderStatus.Delivered -> binding.tvbutton.text = binding.root.context.getString(R.string.Review)

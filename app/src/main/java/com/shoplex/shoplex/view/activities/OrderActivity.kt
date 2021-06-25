@@ -27,6 +27,8 @@ class OrderActivity : AppCompatActivity() {
     private lateinit var ordersVM: OrdersVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (UserInfo.lang != this.resources.configuration.locale.language)
+            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
         if (UserInfo.userID == null)
             UserInfo.readUserInfo(this)
