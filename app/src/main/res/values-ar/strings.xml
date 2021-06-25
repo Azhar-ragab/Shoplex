@@ -13,7 +13,7 @@
     <string name="Add">أضف إلى السلة</string>
     <string name="buy">اشتري الآن</string>
     <string name="TV">تلفزيون</string>
-    <string name="sold">تم البيع</string>
+    <string name="sold">%s/%s تم بيعه</string>
     <string name="name">الاسم</string>
     <string name="notification">الاشعارات</string>
     <string name="user_name">اسم المستخدم</string>
@@ -180,11 +180,53 @@
 
     <string-array name="categories">
         <item>موضه</item>
-        <item>العنايةالشخصية </item>
+        <item>العنايةالشخصية</item>
         <item>موبيل وتابلت</item>
         <item>الكترونيات</item>
         <item>اكسسوارات</item>
         <item>كتب</item>
+    </string-array>
+
+    <string-array name="arr_subFashion">
+        <item>رجالى</item>
+        <item>نسائى</item>
+        <item>اطفال</item>
+    </string-array>
+
+    <string-array name="arr_subHealthCare">
+        <item>العناية بالشعر</item>
+        <item>عطور</item>
+        <item>ميكاب</item>
+    </string-array>
+
+    <string-array name="arr_subPhoneAndTablet">
+        <item>هواتف</item>
+        <item>تابلت</item>
+        <item>آى باد</item>
+    </string-array>
+
+    <string-array name="arr_subElectronic">
+        <item>تلفزيونات</item>
+        <item>سماعات</item>
+        <item>ساعات ذكيه</item>
+        <item>كاميرات</item>
+        <item>أخري</item>
+    </string-array>
+    <string-array name="arr_subAccessories">
+        <item>مجوهرات</item>
+        <item>ساعات</item>
+        <item>احزمة</item>
+        <item>جرابات هواتف</item>
+        <item>كابلات</item>
+        <item>شواحن</item>
+        <item>عصي سيلفي</item>
+    </string-array>
+    <string-array name="arr_subBook">
+        <item>آداب</item>
+        <item>خيال علمي</item>
+        <item>ترفيه</item>
+        <item>علوم وتكنولوجيا</item>
+        <item>تعليمي</item>
     </string-array>
 
 </resources>

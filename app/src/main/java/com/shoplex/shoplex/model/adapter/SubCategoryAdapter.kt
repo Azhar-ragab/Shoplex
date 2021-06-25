@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.shoplex.shoplex.databinding.SubCategoryItemBinding
 
-class SubCategoryAdapter(val subCategories: Array<String>, val checkList: ArrayList<String>) :
+class SubCategoryAdapter(val subCategories: Array<String>, val realSubCategories: Array<String>, val checkList: ArrayList<String>) :
     RecyclerView.Adapter<SubCategoryAdapter.StringViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StringViewHolder {
@@ -25,12 +25,12 @@ class SubCategoryAdapter(val subCategories: Array<String>, val checkList: ArrayL
             binding.cbSubCategoryName.text = item
             binding.cbSubCategoryName.setOnClickListener {
                 if (binding.cbSubCategoryName.isChecked)
-                    checkList.add(item)
+                    checkList.add(realSubCategories[bindingAdapterPosition])
                 else
-                    checkList.remove(item)
+                    checkList.remove(realSubCategories[bindingAdapterPosition])
             }
 
-            if (checkList.contains(item))
+            if (checkList.contains(realSubCategories[bindingAdapterPosition]))
                 binding.cbSubCategoryName.isChecked = true
         }
     }

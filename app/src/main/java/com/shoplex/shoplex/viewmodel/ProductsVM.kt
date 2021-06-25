@@ -19,7 +19,7 @@ class ProductsVM : ViewModel(), ProductsListener {
 
     var productID: MutableLiveData<String> = MutableLiveData()
 
-    fun getAllProducts(category: Category, filter: Filter, sort: Sort? = null) {
+    fun getAllProducts(category: String, filter: Filter, sort: Sort? = null) {
         this.filter.value = filter
         this.sort.value = sort
         productsDBModel.getAllProducts(category, filter, sort)

@@ -58,8 +58,8 @@
                 android:text="@{(int)(product.discount) +`% Off`}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_12"
-                android:translationX="-22dp"
-                android:translationY="13dp"
+                android:translationX="-21dp"
+                android:translationY="11dp"
                 android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/img_advertisement" />

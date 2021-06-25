@@ -188,4 +188,49 @@
         <item>Accessories</item>
         <item>Books</item>
     </string-array>
+
+
+    <string-array name="arr_subFashion">
+        <item>Men</item>
+        <item>Women</item>
+        <item>Kids</item>
+    </string-array>
+
+    <string-array name="arr_subHealthCare">
+        <item>Haircare</item>
+        <item>Perfume</item>
+        <item>Makeup</item>
+    </string-array>
+
+    <string-array name="arr_subPhoneAndTablet">
+        <item>Phones</item>
+        <item>Tablets</item>
+        <item>I_Pad</item>
+    </string-array>
+
+    <string-array name="arr_subElectronic">
+        <item>TVS</item>
+        <item>Audio</item>
+        <item>Smart_Watches</item>
+        <item>Cameras</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="arr_subAccessories">
+        <item>Jewellery</item>
+        <item>Watches</item>
+        <item>Belts</item>
+        <item>Phone_Cases</item>
+        <item>Cables</item>
+        <item>Charges</item>
+        <item>Selfie_Stick</item>
+    </string-array>
+
+    <string-array name="arr_subBook">
+        <item> Art_and_Humanities</item>
+        <item>Fiction</item>
+        <item>Entertainment</item>
+        <item>Science_and_Technology</item>
+        <item>Education</item>
+    </string-array>
 </resources>

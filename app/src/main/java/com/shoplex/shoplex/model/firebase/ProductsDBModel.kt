@@ -11,9 +11,9 @@ import com.shoplex.shoplex.model.pojo.*
 
 class ProductsDBModel(private val notifier: ProductsListener?) {
 
-    fun getAllProducts(category: Category, filter: Filter, sort: Sort?) {
+    fun getAllProducts(category: String, filter: Filter, sort: Sort?) {
         var query: Query = FirebaseReferences.productsRef
-            .whereEqualTo("category", category.name.replace("_", " "))
+            .whereEqualTo("category", category)
 
         if(filter.lowPrice != null && filter.highPrice != null)
             query = query.whereGreaterThanOrEqualTo("newPrice", filter.lowPrice)
@@ -47,7 +47,7 @@ class ProductsDBModel(private val notifier: ProductsListener?) {
                 if (product != null) {
                     var pass = true
 
-                    if(filter.subCategory != null && filter.subCategory.contains(product.subCategory))
+                    if(filter.subCategory != null && !filter.subCategory.contains(product.subCategory))
                         pass = false
 
                     if(filter.rate != null && (product.rate == null || product.rate!! < filter.rate))

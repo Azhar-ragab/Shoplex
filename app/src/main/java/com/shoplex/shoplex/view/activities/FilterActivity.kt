@@ -213,8 +213,10 @@ class FilterActivity : AppCompatActivity() {
     private fun subCategoryBottomSheetDialog() {
         val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val bottomSheetShopsBinding = BottomSheetShopsBinding.inflate(layoutInflater)
+
         val adapter = SubCategoryAdapter(
-            getSubCategory(storesVM.selectedItem.value!!),
+            getSubCategory(Category.valueOf(storesVM.selectedItem.value!!.replace(" ", "_"))),
+            storesVM.arrSubCats,
             storesVM.subCatCheckList.value!!
         )
         bottomSheetShopsBinding.rvShops.adapter = adapter
@@ -224,6 +226,56 @@ class FilterActivity : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
+    private fun getSubCategory(selectedCategory: Category): Array<String> {
+        val listSubCat =
+            when(selectedCategory) {
+                Category.Fashion -> {
+                    storesVM.arrSubCats = SubFashion.values().map {
+                        it.toString().replace("_", " ")
+                    }.toTypedArray()
+                    this.resources.getStringArray(R.array.arr_subFashion)
+                }
+                Category.Health_Care -> {
+                    storesVM.arrSubCats = SubHealth.values().map {
+                        it.toString().replace("_", " ")
+                    }.toTypedArray()
+                    this.resources.getStringArray(R.array.arr_subHealthCare)
+                }
+                Category.Phone_and_Tablets -> {
+                    storesVM.arrSubCats = SubPhone.values().map {
+                        it.toString().replace("_", " ")
+                    }.toTypedArray()
+                    this.resources.getStringArray(R.array.arr_subPhoneAndTablet)
+                }
+                Category.Electronics -> {
+                    storesVM.arrSubCats = SubElectronic.values().map {
+                        it.toString().replace("_", " ")
+                    }.toTypedArray()
+                    this.resources.getStringArray(R.array.arr_subElectronic)
+                }
+                Category.Accessories -> {
+                    storesVM.arrSubCats = SubAccessors.values().map {
+                        it.toString().replace("_", " ")
+                    }.toTypedArray()
+                    this.resources.getStringArray(R.array.arr_subAccessories)
+                }
+                Category.Books -> {
+                    storesVM.arrSubCats = SubBook.values().map {
+                        it.toString().replace("_", " ")
+                    }.toTypedArray()
+                    this.resources.getStringArray(R.array.arr_subBook)
+                }
+            }
+
+        return ((listSubCat as Array<*>).map {
+            it.toString().split("_").joinToString(" ")
+        }.toTypedArray())
+//        this.arrSubCategory.value = (listSubCat as Array<*>).map {
+//            it.toString().replace("_", " ")
+//        }.toTypedArray()
+    }
+
+    /*
     private fun getSubCategory(selectedItem: String): Array<String> {
         val listSubCat =
             when (Category.valueOf(selectedItem.replace(" ", "_"))) {
@@ -239,4 +291,5 @@ class FilterActivity : AppCompatActivity() {
             it.toString().split("_").joinToString(" ")
         }.toTypedArray())
     }
+    */
 }

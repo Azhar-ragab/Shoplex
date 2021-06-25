@@ -92,9 +92,9 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         binding.chipGroup.setOnCheckedChangeListener { group, checkedId ->
             selectedCategory = group.findViewById<Chip>(checkedId).text.toString()
             val category =
-                Category.values()[checkedId].name.replace(" ", getString(R.string.underscore))
+                Category.values()[checkedId].name.replace("_", " ")
 
-            productsVM.getAllProducts(Category.valueOf(category), Filter(), null)
+            productsVM.getAllProducts(category, Filter(), null)
         }
 
         binding.chipGroup.findViewById<Chip>(binding.chipGroup.children.first().id).isChecked = true
@@ -182,8 +182,10 @@ class HomeFragment : Fragment(), FavouriteCartListener {
 
         val userFilter: Filter = filter as Filter
         val userSort = sort as? Sort
-        val category =
-            Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
+        val selectedIndex =  requireContext().resources.getStringArray(R.array.categories).indexOf(selectedCategory)
+        val category = Category.values()[selectedIndex].name.replace("_", " ")
+//        val category =
+//            Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
 
         productsVM.getAllProducts(category, userFilter, userSort)
     }
