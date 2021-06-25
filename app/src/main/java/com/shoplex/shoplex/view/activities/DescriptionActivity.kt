@@ -1,6 +1,7 @@
 package com.shoplex.shoplex.view.activities
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -40,13 +41,14 @@ class DescriptionActivity : AppCompatActivity() {
                 Uri.parse(
                     binding.root.context.getString(R.string.android) + packageName + binding.root.context.getString(
                         R.string.splash
-                    ) + R.raw.onlineshopping
+                    ) + R.raw.desc
                 )
             )
         } catch (e: Exception) {
             e.message?.let { Log.e("Error", it) }
         }
         binding.vvVideoView.requestFocus()
+
         binding.vvVideoView.setOnPreparedListener {
             binding.vvVideoView.seekTo(position)
             if (position == 0) {
@@ -54,6 +56,8 @@ class DescriptionActivity : AppCompatActivity() {
             } else {
                 binding.vvVideoView.pause()
             }
+
+
         }
 
     }
@@ -73,5 +77,5 @@ class DescriptionActivity : AppCompatActivity() {
 
         binding.vvVideoView.seekTo(position)
     }
-
+  
 }
