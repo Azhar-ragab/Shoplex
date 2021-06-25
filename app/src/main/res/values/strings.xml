@@ -29,6 +29,7 @@
     <string name="category">Ctegory</string>
     <string name="all_review">All Review</string>
     <string name="Add">Add To Cart</string>
+    <string name="Remove">Remove Cart</string>
     <string name="buy">Buy Now</string>
     <string name="fashion">Fashion</string>
     <string name="HealthCare">Health Care</string>

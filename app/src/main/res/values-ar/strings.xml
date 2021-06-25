@@ -82,7 +82,7 @@
     <string name="Payment">دفع</string>
     <string name="Summary">ملخص</string>
     <string name="DeliveryMethod">طريقة التوصيل</string>
-    <string name="DoorDelivery">تسليم  الباب</string>
+    <string name="DoorDelivery">التسليم الى الباب</string>
     <string name="NearestPostStation">أقرب مكتب بريد</string>
     <string name="SubTotal">المجموع الفرعي :</string>
     <string name="Discount">خصم :</string>
@@ -161,7 +161,7 @@
 
     <string name="mail">البريد الالكترونى</string>
     <string name="favouriteList">قائمة المفضلة</string>
-    <string name="favorite">مفضل</string>
+    <string name="favorite">المفضلة</string>
     <string name="cartList">قائمة العربة</string>
     <string name="twelve">12</string>
     <string name="Space">Space</string>
@@ -204,7 +204,7 @@
     <string name="Loc">الموقع</string>
     <string name="Address">العنوان</string>
     <string name="image">صوره/*</string>
-    <string name="Success">ثم بنجاح</string>
+    <string name="Success">تم بنجاح</string>
     <string name="Authenticationfailed">المصادقه باءت بالفشل.</string>
     <string name="checked">التحقق</string>
     <string name="notchecked">غير مدقق</string>
@@ -254,7 +254,7 @@
     <string name="NoReviews">لا توجد تقييمات بعد!</string>
     <string name="cart">عربة التسوق</string>
     <string name="home">الرئيسية</string>
-    <string name="account">بروفيل</string>
+    <string name="account">الشخصية</string>
     <string name="search">بحث</string>
     <string name="high_price">أعلى سعر</string>
     <string name="low_price">أقل سعر</string>

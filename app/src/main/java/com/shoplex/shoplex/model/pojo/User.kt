@@ -1,6 +1,8 @@
 package com.shoplex.shoplex.model.pojo
 
+import com.google.firebase.firestore.ServerTimestamp
 import com.shoplex.shoplex.model.enumurations.AuthType
+import java.util.*
 
 data class User(
     var userID: String = "",
@@ -10,7 +12,9 @@ data class User(
     var address: String = "",
     var phone: String = "",
     var image: String = "",
-    val authType: AuthType = AuthType.Email
-)
+    val authType: AuthType = AuthType.Email,
+    @ServerTimestamp var date: Date? = null,
+
+    )
 
 

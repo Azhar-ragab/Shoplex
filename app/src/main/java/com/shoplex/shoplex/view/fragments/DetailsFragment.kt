@@ -107,6 +107,7 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                     null
                 )
                 product.isCart = false
+                binding.btnAddToCart.text = getString(R.string.Add)
             } else {
                 binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(
                     null,
@@ -115,6 +116,7 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                     null
                 )
                 product.isCart = true
+                binding.btnAddToCart.text = getString(R.string.Remove)
             }
         })
 
@@ -251,6 +253,7 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                     null
                 )
                 product.isCart = false
+                binding.btnAddToCart.text = getString(R.string.Add)
             } else {
                 onAddToCart(ProductCart(product = product))
                 binding.btnAddToCart.setCompoundDrawablesWithIntrinsicBounds(
@@ -260,6 +263,7 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                     null
                 )
                 product.isCart = true
+                binding.btnAddToCart.text = getString(R.string.Remove)
             }
         }
 
