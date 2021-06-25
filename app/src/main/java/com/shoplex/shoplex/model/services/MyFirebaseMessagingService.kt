@@ -45,7 +45,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 Context.NOTIFICATION_SERVICE
             ) as NotificationManager
             notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.buynow)
+                .setSmallIcon(R.drawable.shoplex_logo)
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -98,7 +98,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             //notificationManager.cancel(NOTIFICATION_ID)
         } else {
             notification = NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.buynow)
+                .setSmallIcon(R.drawable.shoplex_logo)
                 .setAutoCancel(true)
                 .setContentText(message)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
