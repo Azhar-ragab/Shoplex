@@ -22,6 +22,38 @@
           }
         },
         {
+          "client_id": "790941766786-5e40otj9aj8e0eo52alcd2scs3dr5lhh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shoplex.shoplex",
+            "certificate_hash": "a92571a91a6f11223236d73ad242fec159eb8205"
+          }
+        },
+        {
+          "client_id": "790941766786-gduuj9fuq2aipuvc1rcfhl5cj2su87qn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shoplex.shoplex",
+            "certificate_hash": "ac8b912ca2202c65822df62f5ce10be77d1608dd"
+          }
+        },
+        {
+          "client_id": "790941766786-hsd703slsjb4n17shhtd0to9lg3kmqir.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shoplex.shoplex",
+            "certificate_hash": "37211c5c2967ca180d5269664289af7a4443de60"
+          }
+        },
+        {
+          "client_id": "790941766786-pbjl2ahbqanu685gdm0po6mns6nl87v3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shoplex.shoplex",
+            "certificate_hash": "7207d48d1d6407eaebd12ebc821a23745f746b7f"
+          }
+        },
+        {
           "client_id": "790941766786-j3ocfdlhgsd20q7l4q1abcubuuuavcrj.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -35,8 +67,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "790941766786-j3ocfdlhgsd20q7l4q1abcubuuuavcrj.apps.googleusercontent.com",
+              "client_id": "790941766786-c37orabul3lse8ss02igmafkktfgdoma.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "790941766786-kfra38ktg6udp698r8sp5tprtuned28d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.shoplex.ShoplexCustomer"
+              }
             }
           ]
         }
@@ -59,6 +98,22 @@
           }
         },
         {
+          "client_id": "790941766786-becs1olian9aofbm5cltqrtm0vo095hn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trueandtrust.shoplex",
+            "certificate_hash": "f428e2e116c3aee26cdfc9aa53d5542cf3224b49"
+          }
+        },
+        {
+          "client_id": "790941766786-qcco49pjqjo6qm92di8coagrvsbpgt3j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trueandtrust.shoplex",
+            "certificate_hash": "2639707dcca4ac068f7585238094ce379f6513a0"
+          }
+        },
+        {
           "client_id": "790941766786-j3ocfdlhgsd20q7l4q1abcubuuuavcrj.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -72,8 +127,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "790941766786-j3ocfdlhgsd20q7l4q1abcubuuuavcrj.apps.googleusercontent.com",
+              "client_id": "790941766786-c37orabul3lse8ss02igmafkktfgdoma.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "790941766786-kfra38ktg6udp698r8sp5tprtuned28d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.shoplex.ShoplexCustomer"
+              }
             }
           ]
         }

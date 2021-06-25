@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="maps_key">AIzaSyAyj2_BzoXGMR432LsT4dpv6TV6SdNbtDg</string>
+    <string name="maps_key">AIzaSyCvQKn56xMM8GuQh3z-fXJpTPDHA3JQGUY</string>
     <string name="app_name">ShopLex</string>
     <string name="chat">Chat</string>
     <string name="LastOrder">Last Order</string>

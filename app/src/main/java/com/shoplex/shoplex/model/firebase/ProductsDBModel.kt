@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
-import com.shoplex.shoplex.model.enumurations.Category
 import com.shoplex.shoplex.model.extra.FirebaseReferences
 import com.shoplex.shoplex.model.interfaces.ProductsListener
 import com.shoplex.shoplex.model.pojo.*
@@ -13,7 +12,7 @@ class ProductsDBModel(private val notifier: ProductsListener?) {
 
     fun getAllProducts(category: String, filter: Filter, sort: Sort?) {
         var query: Query = FirebaseReferences.productsRef
-            .whereEqualTo("category", category)
+            .whereEqualTo("category", category.replace(" ", "_"))
 
         if(filter.lowPrice != null && filter.highPrice != null)
             query = query.whereGreaterThanOrEqualTo("newPrice", filter.lowPrice)
@@ -56,8 +55,10 @@ class ProductsDBModel(private val notifier: ProductsListener?) {
                     if(filter.discount != null && product.discount < filter.discount)
                         pass = false
 
-                    if(pass)
+                    if(pass) {
+                        product.category = product.category.replace("_", " ")
                         products.add(product)
+                    }
                 }
             }
             this.notifier?.onAllProductsReady(products)
