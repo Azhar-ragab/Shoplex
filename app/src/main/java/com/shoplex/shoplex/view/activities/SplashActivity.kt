@@ -26,8 +26,6 @@ class SplashActivity : AppCompatActivity(), ProductsListener {
     private var currentUser: FirebaseUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (UserInfo.lang != this.resources.configuration.locale.language)
-            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
 
         UserInfo.readUserInfo(applicationContext)

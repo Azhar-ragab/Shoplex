@@ -1,7 +1,7 @@
 package com.shoplex.shoplex.view.activities
 
 import android.content.Intent
-import android.media.MediaPlayer
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -10,23 +10,30 @@ import androidx.appcompat.app.AppCompatActivity
 import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ActivityDescriptionBinding
 import com.shoplex.shoplex.model.extra.UserInfo
+import java.util.*
 
 class DescriptionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDescriptionBinding
     private var position = 0
     private var mediaControls: MediaController? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (UserInfo.lang != this.resources.configuration.locale.language)
-            UserInfo.setLocale(UserInfo.lang, this)
         super.onCreate(savedInstanceState)
         binding = ActivityDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btnEnglish?.setOnClickListener {
+            this.getSharedPreferences("LANG", MODE_PRIVATE).edit().putString("Language", "en")
+                .apply()
+            UserInfo.lang = "en"
+            setLocale("en")
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
         }
         binding.btnArabic?.setOnClickListener {
+            this.getSharedPreferences("LANG", MODE_PRIVATE).edit().putString("Language", "ar")
+                .apply()
+            UserInfo.lang = "ar"
+            setLocale("ar")
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
@@ -77,5 +84,15 @@ class DescriptionActivity : AppCompatActivity() {
 
         binding.vvVideoView.seekTo(position)
     }
-  
+
+    fun setLocale(lang: String) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.setLocale(locale)
+        this.createConfigurationContext(config)
+        this.resources.updateConfiguration(
+            config, this.resources.displayMetrics
+        )
+    }
 }
