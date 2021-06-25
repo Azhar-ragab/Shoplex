@@ -2,19 +2,23 @@
     <!-- Base application theme. -->
     <style name="Theme.Shoplex" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primaryDarker</item>
-        <item name="colorPrimaryVariant">@color/PrimaryShoplex</item>
+        <item name="colorPrimary">@color/orangeShopex</item>
+        <item name="colorPrimaryVariant">@color/orangeDark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/primaryDarker</item>
-        <item name="colorSecondaryVariant">@color/SecondaryShoplex</item>
+        <item name="colorSecondary">@color/orangeButtons</item>
+        <item name="colorSecondaryVariant">@color/secondaryShoplex</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@color/PrimaryShoplex</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="titleTextColor">@color/primaryDarker</item>
+        <item name="titleTextColor">@color/secondaryShoplex</item>
         <item name="bottomSheetStyle">@style/BottomSheetDialogTheme</item>
-        <item name="iconTint">@color/PrimaryShoplex</item>
+        <item name="iconTint">@color/orangeShopex</item>
+    </style>
+
+    <style name="ToolbarTheme">
+        <item name="android:background">@color/orangeLight</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
@@ -31,7 +35,6 @@
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/BottomSheet</item>
     </style>
-
 
     <style name="Theme.Shoplex.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -52,7 +55,7 @@
     </style>
 
     <style name="TitleColor" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/SecondaryShoplex</item>
+        <item name="android:textColor">@color/secondaryShoplex</item>
     </style>
 
     <style name="WhiteColorText" parent="@android:style/TextAppearance">
