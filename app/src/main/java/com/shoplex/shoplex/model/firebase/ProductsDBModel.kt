@@ -12,7 +12,7 @@ class ProductsDBModel(private val notifier: ProductsListener?) {
 
     fun getAllProducts(category: String, filter: Filter, sort: Sort?) {
         var query: Query = FirebaseReferences.productsRef
-            .whereEqualTo("category", category.replace(" ", "_"))
+            .whereEqualTo("category", category)
 
         if(filter.lowPrice != null && filter.highPrice != null)
             query = query.whereGreaterThanOrEqualTo("newPrice", filter.lowPrice)

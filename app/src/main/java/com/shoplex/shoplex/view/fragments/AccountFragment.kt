@@ -97,8 +97,6 @@ class AccountFragment : Fragment() {
             showAddReportDialog()
         }
 
-
-
         return binding.root
     }
 

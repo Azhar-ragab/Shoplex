@@ -72,6 +72,10 @@ class SummaryFragment : Fragment(), PaymentListener {
         })
 
         binding.btnSummary.setOnClickListener {
+            if(checkoutVM.deliveryAddress.value!!.trim().isEmpty() || (checkoutVM.deliveryLocation.value!!.latitude == 0.0 && checkoutVM.deliveryLocation.value!!.longitude == 0.0)){
+                Toast.makeText(requireContext(), getString(R.string.check_address), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             if (checkoutVM.paymentMethod.value == PaymentMethod.Visa_Master) {
                 paymentMethodVM.pay(checkoutVM.totalPrice.value!!)
             } else {

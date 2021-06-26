@@ -114,20 +114,13 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
             .whereEqualTo("authType", authType).get()
             .addOnSuccessListener {
                 val user: User?
-                when {
-                    it.documents.count() > 0 -> {
-                        user = it.documents[0].toObject()!!
-                        listener.onLoginSuccess(context, user)
-                    }
-                    authType != AuthType.Email -> {
-
-                        addSocialUser(authType)
-
-                    }
-
-                    else -> {
-                        listener.onLoginFailed()
-                    }
+                if(it.documents.count() > 0){
+                    user = it.documents[0].toObject()!!
+                    listener.onLoginSuccess(context, user)
+                } else if (it.documents.count() == 0 && authType != AuthType.Email){
+                    addSocialUser(authType)
+                } else {
+                    listener.onLoginFailed()
                 }
             }.addOnFailureListener {
                 listener.onLoginFailed()

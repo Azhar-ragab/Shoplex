@@ -177,6 +177,7 @@
     <string name="Remove">حذف</string>
     <string name="welcomeShoplex">اهلا بك ف شوبلكس</string>
     <string name="language">English</string>
+    <string name="check_address">من فضلك ادخل عنوان توصيل الطلب</string>
 
     <string-array name="categories">
         <item>موضه</item>

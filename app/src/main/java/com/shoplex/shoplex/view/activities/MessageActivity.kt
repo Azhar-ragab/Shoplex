@@ -1,20 +1,20 @@
 package com.shoplex.shoplex.view.activities
 
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import com.droidnet.DroidListener
 import com.droidnet.DroidNet
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.toObject
 import com.shoplex.shoplex.R
@@ -30,6 +30,7 @@ import com.shoplex.shoplex.room.viewmodel.MessageViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.dialog_add_report.view.*
+
 
 class MessageActivity : AppCompatActivity(), DroidListener {
     private lateinit var binding: ActivityMessageBinding
@@ -171,6 +172,8 @@ class MessageActivity : AppCompatActivity(), DroidListener {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.message_menu, menu)
+        val drawable = menu!!.getItem(0).icon
+        drawable.setColorFilter(resources.getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         return true
     }
 

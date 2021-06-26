@@ -127,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/phone"
                         android:inputType="phone"
-                        android:maxLength="100"
+                        android:maxLength="13"
                         android:text="@={userInfo.user.phone}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
