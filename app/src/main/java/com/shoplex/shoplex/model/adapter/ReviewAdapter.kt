@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.shoplex.shoplex.R
 import com.shoplex.shoplex.databinding.ReveiwItemBinding
 import com.shoplex.shoplex.model.pojo.Review
 
@@ -25,7 +26,7 @@ class ReviewAdapter(val reviews: ArrayList<Review>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(review: Review) {
             binding.review = review
-            Glide.with(itemView.context).load(review.image).into(binding.imgHead)
+            Glide.with(itemView.context).load(review.image).error(R.drawable.init_img).into(binding.imgHead)
             binding.ratingBar.rating = review.rate
         }
     }

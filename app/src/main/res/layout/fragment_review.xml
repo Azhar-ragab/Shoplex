@@ -189,8 +189,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/margin_12"
-                        android:layout_marginEnd="@dimen/margin_8"
-                        android:layout_marginRight="@dimen/margin_8"
+                        android:layout_marginEnd="@dimen/margin_16"
                         android:text="@{`` + reviewStat.fiveStars}" />
 
                     <TextView
@@ -199,8 +198,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginTop="12dp"
-                        android:layout_marginEnd="@dimen/margin_8"
-                        android:layout_marginRight="@dimen/margin_8"
+                        android:layout_marginEnd="@dimen/margin_16"
                         android:text="@{`` + reviewStat.fourStars}" />
 
                     <TextView
@@ -209,8 +207,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/margin_12"
-                        android:layout_marginEnd="@dimen/margin_8"
-                        android:layout_marginRight="@dimen/margin_8"
+                        android:layout_marginEnd="@dimen/margin_16"
                         android:text="@{`` + reviewStat.threeStars}" />
 
                     <TextView
@@ -219,8 +216,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/margin_12"
-                        android:layout_marginEnd="@dimen/margin_8"
-                        android:layout_marginRight="@dimen/margin_8"
+                        android:layout_marginEnd="@dimen/margin_16"
                         android:text="@{`` + reviewStat.twoStars}" />
 
                     <TextView
@@ -229,8 +225,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginTop="@dimen/margin_12"
-                        android:layout_marginEnd="@dimen/margin_8"
-                        android:layout_marginRight="@dimen/margin_8"
+                        android:layout_marginEnd="@dimen/margin_16"
                         android:text="@{`` + reviewStat.oneStar}" />
                 </LinearLayout>
             </LinearLayout>

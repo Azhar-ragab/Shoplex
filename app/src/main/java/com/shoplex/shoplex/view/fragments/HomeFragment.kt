@@ -143,24 +143,46 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         })
 
         binding.btnLocation.setOnClickListener {
-            if(ArchLifecycleApp.isInternetConnected) {
+            if (ArchLifecycleApp.isInternetConnected) {
+                val addresses = arrayListOf<String>()
+                val locations = ArrayList<LatLng>()
+
+                homeProductAdapter.productsHome.groupBy {
+                    it.storeLocation
+                }.forEach {
+                    val product = it.value.first()
+                    addresses.add(product.storeName)
+                    locations.add(LatLng(it.key.latitude, it.key.longitude))
+                }
+
+                if(locations.count() == 0) {
+                    Toast.makeText(requireContext(), "No stores for this category!", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
                 startActivity(
                     Intent(requireContext(), MapsActivity::class.java)
                         .apply {
                             putExtra(MapsActivity.LOCATION_ACTION, LocationAction.ShowStores.name)
-                            val locations: ArrayList<LatLng> =
-                                homeProductAdapter.productsHome.groupBy {
-                                    it.storeLocation
-                                }.map {
-                                    LatLng(it.key.latitude, it.key.longitude)
-                                } as ArrayList<LatLng>
+
+
                             putParcelableArrayListExtra(MapsActivity.STORE_LOCATIONS, locations)
+                            putStringArrayListExtra(MapsActivity.STORE_ADDRESSES, addresses)
                         }
                 )
-            } else{
-                val snackbar = Snackbar.make(binding.root, binding.root.context.getString(R.string.NoInternetConnection), Snackbar.LENGTH_LONG)
+            } else {
+                val snackbar = Snackbar.make(
+                    binding.root,
+                    binding.root.context.getString(R.string.NoInternetConnection),
+                    Snackbar.LENGTH_LONG
+                )
                 val sbView: View = snackbar.view
-                sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
+                sbView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.blueshop
+                    )
+                )
                 snackbar.show()
             }
         }
@@ -182,10 +204,9 @@ class HomeFragment : Fragment(), FavouriteCartListener {
 
         val userFilter: Filter = filter as Filter
         val userSort = sort as? Sort
-        val selectedIndex =  requireContext().resources.getStringArray(R.array.categories).indexOf(selectedCategory)
+        val selectedIndex =
+            requireContext().resources.getStringArray(R.array.categories).indexOf(selectedCategory)
         val category = Category.values()[selectedIndex].name.replace("_", " ")
-//        val category =
-//            Category.valueOf(selectedCategory.replace(" ", getString(R.string.underscore)))
 
         productsVM.getAllProducts(category, userFilter, userSort)
     }

@@ -10,7 +10,7 @@
     <string name="NoReviews">No Reviews Yet!</string>
     <string name="property">Select Size</string>
     <string name="todo">TODO</string>
-    <string name="category">Ctegory</string>
+    <string name="category">Sub Category</string>
     <string name="Add">Add To Cart</string>
     <string name="Remove">Remove Cart</string>
     <string name="buy">Buy Now</string>
@@ -96,7 +96,7 @@
     <string name="no">No</string>
     <string name="totalAmount">Total Amount</string>
     <string name="what_is_your_rate">What is your Rate?</string>
-    <string name="please_share_your_oponion_about_the_product">Please Share Your Oponion About The Product</string>
+    <string name="please_share_your_oponion_about_the_product">Please Share Your Opinion About The Product</string>
     <string name="your_review">Your Review</string>
     <string name="send_review">Send Review</string>
     <string name="notification">Notification</string>
@@ -181,6 +181,7 @@
     <string name="language">اللغه العربيه</string>
     <string name="welcomeShoplex">Welcome To Shoplex</string>
     <string name="check_address">Please Select Delivery Address</string>
+    <string name="noStores">No stores for this category!</string>
     <string-array name="categories">
         <item>Fashion</item>
         <item>Health Care</item>

@@ -333,8 +333,9 @@
 
     <Button
         android:id="@+id/btnFilterOK"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:insetBottom="0dp"
         android:text="@string/OK"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

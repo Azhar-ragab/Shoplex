@@ -28,6 +28,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         const val ADDRESS = "ADDRESS"
         const val LOCATION = "LOCATION"
         const val STORE_LOCATIONS = "STORE_LOCATIONS"
+        const val STORE_ADDRESSES = "STORE_ADDRESSES"
     }
 
     private lateinit var mGoogleMap: GoogleMap
@@ -39,6 +40,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var storeName: String
     private lateinit var locationAction: LocationAction
     private lateinit var storeLocations: ArrayList<LatLng>
+    private lateinit var storeAddresses: ArrayList<String>
     private lateinit var location: com.shoplex.shoplex.model.pojo.Location
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,6 +60,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 locationAction = LocationAction.ShowStores
                 storeLocations =
                     intent.getParcelableArrayListExtra<Location>(STORE_LOCATIONS) as ArrayList<LatLng>
+                storeAddresses = intent.getStringArrayListExtra(STORE_ADDRESSES)!!
+                binding.btnOK.text = getString(R.string.OK)
             }
             intent.getStringExtra(LOCATION_ACTION) == LocationAction.Change.toString() -> {
                 locationAction = LocationAction.Change
@@ -96,10 +100,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     fun showStoresLocations() {
-        locationManager.addMarkers(storeLocations)
+        locationManager.addMarkers(storeLocations, storeAddresses)
     }
 
-    fun requestPermission() {
+    private fun requestPermission() {
         if (ActivityCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -135,10 +139,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             currentLocation?.longitude = location.longitude
         }
 
-        locationManager.addMarker(currentLocation, locationAction != LocationAction.ShowStores)
-
-        if (locationAction == LocationAction.ShowStores)
+        if (locationAction == LocationAction.ShowStores) {
             showStoresLocations()
+        }
+        else
+            locationManager.addMarker(currentLocation, locationAction != LocationAction.ShowStores)
     }
 
     override fun onRequestPermissionsResult(

@@ -9,7 +9,7 @@
     <string name="reviews">التعليقات</string>
     <string name="property">أختر الحجم</string>
     <string name="todo">TODO</string>
-    <string name="category">فئة</string>
+    <string name="category">الفئة الفرعية</string>
     <string name="Add">أضف إلى السلة</string>
     <string name="buy">اشتري الآن</string>
     <string name="TV">تلفزيون</string>
@@ -229,5 +229,6 @@
         <item>علوم وتكنولوجيا</item>
         <item>تعليمي</item>
     </string-array>
+    <string name="noStores">لا يوجد متاجر لهذا النوع</string>
 
 </resources>

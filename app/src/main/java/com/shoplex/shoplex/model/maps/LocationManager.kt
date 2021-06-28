@@ -24,6 +24,7 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
 import javax.net.ssl.HttpsURLConnection
+import kotlin.collections.ArrayList
 
 class LocationManager: RoutingListener {
     val alexandria: Alexandria = Alexandria()
@@ -99,10 +100,13 @@ class LocationManager: RoutingListener {
         }
     }
 
-    fun addMarkers(locations: ArrayList<LatLng>) {
-        for (location in locations) {
-            mMap.addMarker(MarkerOptions().position(location).title("Your Location"))
+    fun addMarkers(locations: ArrayList<LatLng>, addresses: ArrayList<String>) {
+        for ((index, location) in locations.withIndex()) {
+            mMap.addMarker(MarkerOptions().position(location).title(addresses[index]))
         }
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(alexandria.capital))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(alexandria.capital, 12F))
     }
 
 
@@ -160,17 +164,6 @@ class LocationManager: RoutingListener {
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         context.startActivity(mapIntent)
-    }
-
-    fun findRoutes(start: LatLng, end: LatLng) {
-        val routing = Routing.Builder()
-            .travelMode(AbstractRouting.TravelMode.DRIVING)
-            .withListener(this)
-            .alternativeRoutes(true)
-            .waypoints(start, end)
-            .key(API_KEY)
-            .build()
-        routing.execute()
     }
 
     fun getAddress(location: com.shoplex.shoplex.model.pojo.Location): String? {
