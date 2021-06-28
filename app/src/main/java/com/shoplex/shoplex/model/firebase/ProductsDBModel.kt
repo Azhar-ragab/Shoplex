@@ -1,6 +1,5 @@
 package com.shoplex.shoplex.model.firebase
 
-import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
@@ -10,7 +9,11 @@ import com.shoplex.shoplex.model.pojo.*
 
 class ProductsDBModel(private val notifier: ProductsListener?) {
 
+    val products = arrayListOf<Product>()
+    val adsProducts = arrayListOf<Product>()
+
     fun getAllProducts(category: String, filter: Filter, sort: Sort?) {
+        products.clear()
         var query: Query = FirebaseReferences.productsRef
             .whereEqualTo("category", category)
 
@@ -35,12 +38,8 @@ class ProductsDBModel(private val notifier: ProductsListener?) {
                 query = query.orderBy("discount", Query.Direction.DESCENDING)
         }
 
-        query.addSnapshotListener { values, error ->
-            if(error != null){
-                Log.i("FIREBASEINDEXES", error.toString())
-            }
-
-            val products = arrayListOf<Product>()
+        //query.addSnapshotListener { values, error ->
+        query.get().addOnSuccessListener { values ->
             for (document: DocumentSnapshot in values?.documents!!) {
                 val product: Product? = document.toObject<Product>()
                 if (product != null) {
@@ -81,17 +80,17 @@ class ProductsDBModel(private val notifier: ProductsListener?) {
     }
 
     fun getAllPremiums() {
-
+        adsProducts.clear()
         FirebaseReferences.productsRef.whereGreaterThan("premium.premiumDays", 0)
-            .addSnapshotListener { values, _ ->
-                val products = arrayListOf<Product>()
+            .get().addOnSuccessListener { values ->
+                //val products = arrayListOf<Product>()
                 for (document: DocumentSnapshot in values?.documents!!) {
                     val product: Product? = document.toObject<Product>()
                     if (product != null) {
-                        products.add(product)
+                        adsProducts.add(product)
                     }
                 }
-                this.notifier?.onAllAdvertisementsReady(products)
+                this.notifier?.onAllAdvertisementsReady(adsProducts)
             }
     }
 
