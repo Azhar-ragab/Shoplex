@@ -46,6 +46,7 @@ object UserInfo {
             .putString("location", Gson().toJson(location))
             .putString("address", address)
             .putString("phone", phone)
+            .putString("authType", authType.name)
             .apply()
     }
 
@@ -65,6 +66,7 @@ object UserInfo {
             Gson().fromJson(sharedPref.getString("location", null), locationType) ?: Location()
         address = sharedPref.getString("address", "")!!
         phone = sharedPref.getString("phone", "")
+        authType = AuthType.valueOf(sharedPref.getString("authType", AuthType.Email.name)!!)
     }
 
     fun clearSharedPref(context: Context) {
@@ -76,6 +78,7 @@ object UserInfo {
             .remove("location")
             .remove("address")
             .remove("phone")
+            .remove("authType")
             .apply()
     }
 
@@ -124,6 +127,7 @@ object UserInfo {
         this.location = Location(0.0, 0.0)
         this.address = ""
         this.phone = null
+        this.authType = AuthType.Email
     }
 
     fun isFirstTime(context: Context): Boolean {

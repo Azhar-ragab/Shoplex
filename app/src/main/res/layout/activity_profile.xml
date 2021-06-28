@@ -26,9 +26,12 @@
 
 
         <ScrollView
+            android:id="@+id/scrollView4"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/width_0"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbarProfile">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -153,25 +156,22 @@
                     app:layout_constraintEnd_toEndOf="@+id/tiPhone"
                     app:layout_constraintTop_toTopOf="@+id/tvLocation" />
 
-                <Button
-                    android:id="@+id/btnSave"
-                    android:layout_width="@dimen/width_150"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:layout_marginBottom="@dimen/margin_32"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="@string/save"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/save"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_24"
+            app:layout_constraintBottom_toBottomOf="@+id/scrollView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

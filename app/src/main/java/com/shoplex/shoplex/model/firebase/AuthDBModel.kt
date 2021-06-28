@@ -48,7 +48,7 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
     fun loginWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credential)
-            .addOnCompleteListener() { task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user: FirebaseUser = Firebase.auth.currentUser
                     getUserByMail(user.email, AuthType.Google)
@@ -111,7 +111,7 @@ class AuthDBModel(val listener: AuthListener, val context: Context) {
 
     private fun getUserByMail(userEmail: String, authType: AuthType) {
         FirebaseReferences.usersRef.whereEqualTo("email", userEmail)
-            .whereEqualTo("authType", authType).get()
+            .whereEqualTo("authType", authType.name).get()
             .addOnSuccessListener {
                 val user: User?
                 if(it.documents.count() > 0){

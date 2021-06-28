@@ -164,7 +164,7 @@
     <string name="deleteMessage">هل أنت متأكد من ازالة هذا العنصر؟</string>
     <string name="deleteSuccess">تم المسح بنجاح</string>
     <string name="errorRegister">لا تستطيع التسجيل الأن</string>
-    <string name="createAccount">تم إنشاء الحساب بنجاح</string>
+    <string name="createAccount">تم تسجيل الدخول بنجاح</string>
     <string name="errorAuth" >فشل في المصادقة</string>
     <string name="failed">فشل</string>
     <string name="cancelOrder">الغاء!</string>

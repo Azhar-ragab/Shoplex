@@ -43,7 +43,8 @@ class ProfileActivity : AppCompatActivity() {
                 UserInfo.location,
                 UserInfo.address,
                 UserInfo.phone ?: "",
-                UserInfo.image ?: ""
+                UserInfo.image ?: "",
+                UserInfo.authType
             )
         }
 

@@ -44,7 +44,7 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
     var userImgUri: Uri? = null
 
     init {
-        this.user.value = User()
+        this.user.value = User(authType = UserInfo.authType)
         this.password.value = ""
         this.userDBModel = AuthDBModel(this, context)
     }
@@ -144,7 +144,7 @@ class AuthVM(val context: Context) : ViewModel(), AuthListener {
         UserInfo.clear()
     }
 
-    fun onUserExists() {
+    private fun onUserExists() {
         Toast.makeText(context, context.getString(R.string.emailExist), Toast.LENGTH_SHORT).show()
     }
 

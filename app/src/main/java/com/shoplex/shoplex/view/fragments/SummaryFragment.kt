@@ -77,6 +77,7 @@ class SummaryFragment : Fragment(), PaymentListener {
                 return@setOnClickListener
             }
             if (checkoutVM.paymentMethod.value == PaymentMethod.Visa_Master) {
+                binding.btnSummary.isEnabled = false
                 paymentMethodVM.pay(checkoutVM.totalPrice.value!!)
             } else {
                 execOrders()
@@ -134,7 +135,11 @@ class SummaryFragment : Fragment(), PaymentListener {
         val sbView: View = snackbar.view
         sbView.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.blueshop))
         snackbar.show()
+        binding.btnSummary.isEnabled = true
+    }
 
+    override fun onPaymentCanceledOrFailed() {
+        binding.btnSummary.isEnabled = true
     }
 
     override fun onMinimumPrice() {

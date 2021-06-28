@@ -142,7 +142,7 @@
     <string name="deleteMessage">Are You Sure You Want To Delete This Item?</string>
     <string name="deleteSuccess">Delete Success</string>
     <string name="errorRegister">couldn"'"t register</string>
-    <string name="createAccount">Success to create your account</string>
+    <string name="createAccount">Login Success</string>
     <string name="errorAuth" >Auth Failed!</string>
     <string name="failed">Failed</string>
     <string name="cancelOrder">Cancel!!</string>
