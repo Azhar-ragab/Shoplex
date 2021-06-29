@@ -1,5 +1,7 @@
 package com.shoplex.shoplex.view.activities
 
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +32,9 @@ class DetailsActivity : AppCompatActivity() {
         productsVM.productID.value = intent.getStringExtra(getString(R.string.productId))
         binding.tabLayout.setupWithViewPager(binding.viewPager)
         binding.viewPager.adapter = PagerAdapter(supportFragmentManager, this)
+
+        if (intent.hasExtra("isNotification"))
+            (this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(100)
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

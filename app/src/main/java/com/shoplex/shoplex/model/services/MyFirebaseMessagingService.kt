@@ -13,6 +13,7 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.shoplex.shoplex.R
+import com.shoplex.shoplex.view.activities.DetailsActivity
 import com.shoplex.shoplex.view.activities.OrderActivity
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -70,23 +71,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                                 ii,
                                 PendingIntent.FLAG_UPDATE_CURRENT
                             )
-                        //this.setContentIntent(pi)
-
-                        /*
-                        this.addAction(
-                            R.drawable.star_24,
-                            context.getString(R.string.Cancel),
-                            PendingIntent.getBroadcast(context,
-                                NOTIFICATION_ID, Intent("com.example.cancel").apply {
-                                                                                    notificationManager.cancel(100)
-                                }, PendingIntent.FLAG_UPDATE_CURRENT)
-                        )
-                        */
-
                         this.addAction(R.drawable.ic_star, context.getString(R.string.Review), pi)
+                    } else if(title?.contains("Discount", true) == true){
+                        val ii = Intent(context, DetailsActivity::class.java)
+                        ii.data =
+                            Uri.parse(context.getString(R.string.custom) + System.currentTimeMillis())
+                        ii.action =
+                            context.getString(R.string.actionstring) + System.currentTimeMillis()
+                        ii.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+                        ii.putExtra("isNotification", true)
+                        ii.putExtra("productID", productID)
+                        val pi =
+                            PendingIntent.getActivity(
+                                context,
+                                0,
+                                ii,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                            )
+                        this.addAction(R.drawable.ic_star, context.getString(R.string.buy), pi)
                     }
                 }.build()
-               // notification.flags = Notification.FLAG_AUTO_CANCEL
 
             val notificationChannel = NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
@@ -95,14 +100,53 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             )
             notificationManager.createNotificationChannel(notificationChannel)
             notificationManager.notify(NOTIFICATION_ID, notification)
-            //notificationManager.cancel(NOTIFICATION_ID)
         } else {
             notification = NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.shoplex_logo)
                 .setAutoCancel(true)
                 .setContentText(message)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setContentTitle(title).build()
+                .setContentTitle(title).apply {
+                    if(title?.contains("Delivered", true) == true) {
+                        val ii = Intent(context, OrderActivity::class.java)
+                        ii.data =
+                            Uri.parse(context.getString(R.string.custom) + System.currentTimeMillis())
+                        ii.action =
+                            context.getString(R.string.actionstring) + System.currentTimeMillis()
+                        ii.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+                        ii.putExtra("isNotification", true)
+                        ii.putExtra("productID", productID)
+                        val pi =
+                            PendingIntent.getActivity(
+                                context,
+                                0,
+                                ii,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                            )
+                        this.addAction(R.drawable.ic_star, context.getString(R.string.Review), pi)
+                    } else if(title?.contains("Discount", true) == true){
+                        val ii = Intent(context, DetailsActivity::class.java)
+                        ii.data =
+                            Uri.parse(context.getString(R.string.custom) + System.currentTimeMillis())
+                        ii.action =
+                            context.getString(R.string.actionstring) + System.currentTimeMillis()
+                        ii.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+                        ii.putExtra("isNotification", true)
+                        ii.putExtra("productID", productID)
+                        val pi =
+                            PendingIntent.getActivity(
+                                context,
+                                0,
+                                ii,
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                            )
+                        this.addAction(R.drawable.ic_star, context.getString(R.string.buy), pi)
+                    }
+                }.build()
+
+
             val notificationManager = context.getSystemService(
                 Context.NOTIFICATION_SERVICE
             ) as NotificationManager
