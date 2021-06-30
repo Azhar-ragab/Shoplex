@@ -54,6 +54,9 @@ class ProductsDBModel(private val notifier: ProductsListener?) {
                     if(filter.discount != null && product.discount < filter.discount)
                         pass = false
 
+//                    if(product.deleted)
+//                        pass = false
+
                     if(pass) {
                         product.category = product.category.replace("_", " ")
                         products.add(product)

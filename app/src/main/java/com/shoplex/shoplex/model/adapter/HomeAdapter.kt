@@ -2,6 +2,7 @@ package com.shoplex.shoplex.model.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,9 +68,19 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
         RecyclerView.ViewHolder(binding.root), FavouriteCartListener {
         fun bind(product: Product) {
 
+            binding.tvNewPrice.paintFlags = binding.tvNewPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             if(product.quantity == 0){
                 binding.btnFavorite.visibility = View.INVISIBLE
                 binding.fabAddProduct.visibility = View.INVISIBLE
+            } else {
+                binding.btnFavorite.visibility = View.VISIBLE
+                binding.fabAddProduct.visibility = View.VISIBLE
+            }
+
+            if(product.price == product.newPrice){
+                binding.tvNewPrice.visibility = View.INVISIBLE
+            } else {
+                binding.tvNewPrice.visibility = View.VISIBLE
             }
 
             repo.searchFavouriteByID.observe(context as AppCompatActivity, {

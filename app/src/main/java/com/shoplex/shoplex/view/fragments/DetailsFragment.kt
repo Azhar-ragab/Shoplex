@@ -1,6 +1,7 @@
 package com.shoplex.shoplex.view.fragments
 
 import android.content.Intent
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -63,6 +64,8 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
         else if (productsVM.products.value!!.isNotEmpty())
             product = productsVM.products.value!!.first()
 
+        binding.tvDetailsNewPrice.paintFlags = binding.tvDetailsNewPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
         productsVM.products.observe(this.viewLifecycleOwner, { products ->
             if (products.isNotEmpty()) {
                 this.product = products.first()
@@ -80,6 +83,16 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
                     binding.linearLayout.isEnabled = false
                     binding.linearLayout.visibility = View.INVISIBLE
                     onDeleteFromCart(product.productID)
+                }
+
+                if(product.quantity - product.sold <= 0){
+                    binding.btnFavourite.visibility = View.INVISIBLE
+                    binding.btnAddToCart.visibility = View.INVISIBLE
+                    binding.btnBuyProduct.visibility = View.INVISIBLE
+                }
+
+                if(product.price == product.newPrice){
+                    binding.tvDetailsNewPrice.visibility = View.INVISIBLE
                 }
                 productsVM.products.removeObservers(this)
             }

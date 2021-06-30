@@ -78,7 +78,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="@{`` + product.price}"
+                    android:text="@{`` + product.newPrice}"
+                    android:textColor="@color/redShopex"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fabAddProduct" />
@@ -88,8 +89,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_32"
-                    android:text="@{`` + product.newPrice}"
-                    android:textColor="@color/redShopex"
+                    android:text="@{`` + product.price}"
+                    android:visibility="invisible"
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/tv_old_price"
                     app:layout_constraintTop_toBottomOf="@id/fabAddProduct" />
@@ -130,8 +131,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="@{(product.quantity != 0? @string/sold(product.sold, product.quantity): @string/outOfStock)}"
-                    android:textColor="@{(product.quantity != 0?@color/orangeShopex: @color/red)}"
+                    android:text="@{(product.quantity - product.sold > 0? @string/sold(product.sold, product.quantity): @string/outOfStock)}"
+                    android:textColor="@{(product.quantity - product.sold > 0?@color/orangeShopex: @color/red)}"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_product_name" />
