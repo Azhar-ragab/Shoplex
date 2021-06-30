@@ -299,7 +299,7 @@ class DetailsFragment : Fragment(), FavouriteCartListener {
         val message = Message(
             toId = UserInfo.userID!!, message = "You started new chat for " + product.name
         )
-        FirebaseReferences.chatRef.document(chatID).collection(getString(R.string.messages))
+        FirebaseReferences.chatRef.document(chatID).collection("messages")
             .document(message.messageID)
             .set(message)
     }

@@ -42,20 +42,21 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
                     repo.cartProducts.observe(context as AppCompatActivity, { cartProducts ->
-                        cartList = cartProducts.groupBy { productFav ->
-                            productFav.productID
-                        }.map { mapEntry ->
-                            mapEntry.key
-                        }.toTypedArray()
+                        if(cartList.isEmpty()) {
+                            cartList = cartProducts.groupBy { productFav ->
+                                productFav.productID
+                            }.map { mapEntry ->
+                                mapEntry.key
+                            }.toTypedArray()
 
-                        for((index, product) in productsHome.withIndex()){
-                            if (cartList.contains(product.productID)){
-                                product.isCart = true
-                                notifyItemChanged(index)
+                            for ((index, product) in productsHome.withIndex()) {
+                                if (cartList.contains(product.productID)) {
+                                    product.isCart = true
+                                    notifyItemChanged(index)
+                                }
                             }
                         }
-
-                        repo.cartProducts.removeObservers(context as AppCompatActivity)
+                        //repo.cartProducts.removeObserver(context as AppCompatActivity)
                     })
                 }
             }
@@ -65,20 +66,22 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
                     repo.favoriteProducts.observe(context as AppCompatActivity, { cartProducts ->
-                        favList = cartProducts.groupBy { productFav ->
-                            productFav.productID
-                        }.map { mapEntry ->
-                            mapEntry.key
-                        }.toTypedArray()
+                        if(favList.isEmpty()) {
+                            favList = cartProducts.groupBy { productFav ->
+                                productFav.productID
+                            }.map { mapEntry ->
+                                mapEntry.key
+                            }.toTypedArray()
 
-                        for((index, product) in productsHome.withIndex()){
-                            if (favList.contains(product.productID)){
-                                product.isFavourite = true
-                                notifyItemChanged(index)
+                            for ((index, product) in productsHome.withIndex()) {
+                                if (favList.contains(product.productID)) {
+                                    product.isFavourite = true
+                                    notifyItemChanged(index)
+                                }
                             }
                         }
 
-                        repo.favoriteProducts.removeObservers(context as AppCompatActivity)
+                        //repo.favoriteProducts.removeObservers(context as AppCompatActivity)
                     })
                 }
             }

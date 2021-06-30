@@ -86,9 +86,6 @@ class FavouriteAdapter :
                 }
 
                 builder?.show()
-
-
-
             }
 
             binding.fabAddProduct.setOnClickListener {
