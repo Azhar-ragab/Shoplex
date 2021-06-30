@@ -182,6 +182,7 @@
     <string name="welcomeShoplex">Welcome To Shoplex</string>
     <string name="check_address">Please Select Delivery Address</string>
     <string name="noStores">No stores for this category!</string>
+    <string name="pleaseAddRate">Please Add Rate</string>
     <string-array name="categories">
         <item>Fashion</item>
         <item>Health Care</item>

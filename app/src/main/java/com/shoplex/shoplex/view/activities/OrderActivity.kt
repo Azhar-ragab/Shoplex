@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.animation.OvershootInterpolator
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -118,6 +119,10 @@ class OrderActivity : AppCompatActivity() {
 
         binding.btnSendReview.setOnClickListener {
             val rate: Float = binding.rbAddReview.rating
+            if(rate < 1){
+                Toast.makeText(this, getString(R.string.pleaseAddRate), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val reviewMsg = binding.edReview.text.toString()
             val review = Review(
                 productId,

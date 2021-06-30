@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -20,10 +21,7 @@ import com.shoplex.shoplex.model.pojo.*
 import com.shoplex.shoplex.room.data.ShopLexDataBase
 import com.shoplex.shoplex.room.repository.FavoriteCartRepo
 import com.shoplex.shoplex.view.activities.DetailsActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class HomeAdapter(var productsHome: ArrayList<Product>) :
     RecyclerView.Adapter<HomeAdapter.ProductViewHolder>() {
@@ -32,11 +30,64 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
 
     private lateinit var repo: FavoriteCartRepo
     private lateinit var lifecycleScope: CoroutineScope
+    private var cartList = arrayOf<String>()
+    private var favList = arrayOf<String>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        context = parent.context
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        context = recyclerView.context
         lifecycleScope = (context as AppCompatActivity).lifecycleScope
         repo = FavoriteCartRepo(ShopLexDataBase.getDatabase(context).shopLexDao())
+        if (cartList.isEmpty()) {
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    repo.cartProducts.observe(context as AppCompatActivity, { cartProducts ->
+                        cartList = cartProducts.groupBy { productFav ->
+                            productFav.productID
+                        }.map { mapEntry ->
+                            mapEntry.key
+                        }.toTypedArray()
+
+                        for((index, product) in productsHome.withIndex()){
+                            if (cartList.contains(product.productID)){
+                                product.isCart = true
+                                notifyItemChanged(index)
+                            }
+                        }
+
+                        repo.cartProducts.removeObservers(context as AppCompatActivity)
+                    })
+                }
+            }
+        }
+
+        if (favList.isEmpty()) {
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    repo.favoriteProducts.observe(context as AppCompatActivity, { cartProducts ->
+                        favList = cartProducts.groupBy { productFav ->
+                            productFav.productID
+                        }.map { mapEntry ->
+                            mapEntry.key
+                        }.toTypedArray()
+
+                        for((index, product) in productsHome.withIndex()){
+                            if (favList.contains(product.productID)){
+                                product.isFavourite = true
+                                notifyItemChanged(index)
+                            }
+                        }
+
+                        repo.favoriteProducts.removeObservers(context as AppCompatActivity)
+                    })
+                }
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
+
+
 
         return ProductViewHolder(
             RvHomeProductCardviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -69,13 +120,15 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
         fun bind(product: Product) {
 
             binding.tvNewPrice.paintFlags = binding.tvNewPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            if(product.quantity == 0){
-                binding.btnFavorite.visibility = View.INVISIBLE
-                binding.fabAddProduct.visibility = View.INVISIBLE
-            } else {
-                binding.btnFavorite.visibility = View.VISIBLE
-                binding.fabAddProduct.visibility = View.VISIBLE
-            }
+            if(product.isCart)
+                binding.fabAddProduct.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_done))
+            else
+                binding.fabAddProduct.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_cart))
+
+            if (product.isFavourite)
+                binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill)
+            else
+                binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite)
 
             if(product.price == product.newPrice){
                 binding.tvNewPrice.visibility = View.INVISIBLE
@@ -83,35 +136,14 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
                 binding.tvNewPrice.visibility = View.VISIBLE
             }
 
-            repo.searchFavouriteByID.observe(context as AppCompatActivity, {
-                if (it == null) {
-                    binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite)
-                    product.isFavourite = false
-                } else {
-                    binding.btnFavorite.setBackgroundResource(R.drawable.ic_favorite_fill)
-                    product.isFavourite = true
-                }
-            })
-
-            repo.searchCartByID.observe(context as AppCompatActivity, {
-                if (it == null) {
-                    binding.fabAddProduct.setImageDrawable(context.getDrawable(R.drawable.ic_cart))
-                    product.isCart = false
-                } else {
-                    binding.fabAddProduct.setImageDrawable(context.getDrawable(R.drawable.ic_done))
-                    product.isCart = true
-                }
-            })
-
             repo.storeLocationInfo.observe(context as AppCompatActivity, {
                 if (it != null) {
                     binding.location = it
                 } else if(!UserInfo.userID.isNullOrEmpty()){
                     findRoute(product.storeID, product.storeName, product.storeLocation)
-                } 
+                }
             })
 
-            onSearchForFavouriteCart(product.productID)
             onFindingRoute(StoreLocationInfo(storeID = product.storeID, location = product.storeLocation))
 
             binding.btnFavorite.setOnClickListener {
@@ -129,11 +161,11 @@ class HomeAdapter(var productsHome: ArrayList<Product>) :
             binding.fabAddProduct.setOnClickListener {
                 if (product.isCart) {
                     onDeleteFromCart(product.productID)
-                    binding.fabAddProduct.setImageDrawable(context.getDrawable(R.drawable.ic_cart))
+                    binding.fabAddProduct.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_cart))
                     product.isCart = false
                 } else {
                     onAddToCart(ProductCart(product = product))
-                    binding.fabAddProduct.setImageDrawable(context.getDrawable(R.drawable.ic_done))
+                    binding.fabAddProduct.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_done))
                     product.isCart = true
                 }
             }

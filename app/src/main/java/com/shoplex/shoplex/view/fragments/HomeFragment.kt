@@ -114,7 +114,7 @@ class HomeFragment : Fragment(), FavouriteCartListener {
         // Products
         cartVM = ViewModelProvider(this).get(CartViewModel::class.java)
         binding.rvHomeproducts.layoutManager =
-            GridLayoutManager(this.context, getGridColumnsCount())
+            GridLayoutManager(requireActivity(), getGridColumnsCount())
 
         productsVM.products.observe(viewLifecycleOwner, { products ->
             homeProductAdapter = HomeAdapter(products)

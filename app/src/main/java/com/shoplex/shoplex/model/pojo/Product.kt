@@ -22,8 +22,8 @@ open class Product : Parcelable {
     var discount: Float = 0F
     var category: String = ""
     var subCategory: String = ""
-//    @Ignore
-//    var deleted: Boolean = false
+    @Ignore
+    var deleted: Boolean = false
 
     @Nullable
     var rate: Float? = null

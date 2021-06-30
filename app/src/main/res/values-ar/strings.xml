@@ -230,5 +230,6 @@
         <item>تعليمي</item>
     </string-array>
     <string name="noStores">لا يوجد متاجر لهذا النوع</string>
+    <string name="pleaseAddRate">من فضلك إختر تقييم للمنتج</string>
 
 </resources>

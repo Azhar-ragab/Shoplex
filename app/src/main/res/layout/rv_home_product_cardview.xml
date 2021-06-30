@@ -65,7 +65,7 @@
                     android:id="@+id/fabAddProduct"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:visibility="@{(product.quantity != 0? View.VISIBLE: View.INVISIBLE)}"
+                    android:visibility="@{(product.quantity - product.sold > 0? View.VISIBLE: View.INVISIBLE)}"
                     app:fabCustomSize="36dp"
                     app:layout_constraintBottom_toBottomOf="@+id/img_product"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -104,6 +104,7 @@
                     android:layout_marginTop="@dimen/margin_8"
                     android:layout_marginEnd="8dp"
                     android:text="@{product.name}"
+                    android:maxLength="18"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_old_price"
@@ -168,7 +169,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="4dp"
                     android:background="@drawable/ic_favorite"
-                    android:visibility="@{(product.quantity != 0? View.VISIBLE: View.INVISIBLE)}"
+                    android:visibility="@{(product.quantity - product.sold > 0? View.VISIBLE: View.INVISIBLE)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
