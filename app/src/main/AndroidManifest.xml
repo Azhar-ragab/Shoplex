@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.shoplex.shoplex">
+    package="com.alpha.shoplex">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS "/>
 
     <application
@@ -17,23 +16,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Shoplex"
-        android:name=".model.extra.ArchLifecycleApp">
+        android:name="com.alpha.shoplex.model.extra.ArchLifecycleApp">
 
-        <activity android:name=".view.activities.FilterActivity"/>
-        <activity android:name=".view.activities.DescriptionActivity"
+        <activity android:name="com.alpha.shoplex.view.activities.FilterActivity"/>
+        <activity android:name="com.alpha.shoplex.view.activities.DescriptionActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".view.activities.MapsActivity"
+            android:name="com.alpha.shoplex.view.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".view.activities.ProfileActivity" />
-        <activity android:name=".view.activities.OrderActivity"/>
-        <activity android:name=".view.activities.MessageActivity" />
-        <activity android:name=".view.activities.HomeActivity"
+        <activity android:name="com.alpha.shoplex.view.activities.ProfileActivity" />
+        <activity android:name="com.alpha.shoplex.view.activities.OrderActivity"/>
+        <activity android:name="com.alpha.shoplex.view.activities.MessageActivity" />
+        <activity android:name="com.alpha.shoplex.view.activities.HomeActivity"
                   android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name=".view.activities.SplashActivity"
+            android:name="com.alpha.shoplex.view.activities.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Shoplex.NoActionBar"
             android:windowSoftInputMode="adjustNothing">
@@ -44,12 +43,12 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".view.activities.CheckOutActivity"/>
-        <activity android:name=".view.activities.DetailsActivity" />
-        <activity android:name=".view.activities.auth.AuthActivity"/>
+        <activity android:name="com.alpha.shoplex.view.activities.CheckOutActivity"/>
+        <activity android:name="com.alpha.shoplex.view.activities.DetailsActivity" />
+        <activity android:name="com.alpha.shoplex.view.activities.auth.AuthActivity"/>
 
         <service
-            android:name=".model.services.MyFirebaseMessagingService"
+            android:name="com.alpha.shoplex.model.services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

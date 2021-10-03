@@ -6,13 +6,13 @@
     <data>
         <variable
             name="reviewStat"
-            type="com.shoplex.shoplex.model.pojo.ReviewStatistics" />
+            type="com.alpha.shoplex.model.pojo.ReviewStatistics" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.shoplex.shoplex.view.fragments.ReviewFragment">
+        tools:context="com.alpha.shoplex.view.fragments.ReviewFragment">
 
         <!-- TODO: Update blank fragment layout -->
         <androidx.constraintlayout.widget.ConstraintLayout

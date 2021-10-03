@@ -5,7 +5,7 @@
     <data>
         <variable
             name="order"
-            type="com.shoplex.shoplex.model.pojo.Order" />
+            type="com.alpha.shoplex.model.pojo.Order" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

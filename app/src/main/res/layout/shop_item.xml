@@ -7,7 +7,7 @@
 
         <variable
             name="locationInfo"
-            type="com.shoplex.shoplex.model.pojo.StoreLocationInfo" />
+            type="com.alpha.shoplex.model.pojo.StoreLocationInfo" />
     </data>
 
     <androidx.cardview.widget.CardView

@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="chatHead"
-            type="com.shoplex.shoplex.model.pojo.ChatHead" />
+            type="com.alpha.shoplex.model.pojo.ChatHead" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.shoplex.shoplex.model.enumurations.DiscountType"/>
+        <import type="com.alpha.shoplex.model.enumurations.DiscountType"/>
         <variable
             name="specialCoupon"
-            type="com.shoplex.shoplex.model.pojo.SpecialCoupon" />
+            type="com.alpha.shoplex.model.pojo.SpecialCoupon" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

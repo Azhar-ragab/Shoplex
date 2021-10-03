@@ -9,11 +9,11 @@
 
         <variable
             name="product"
-            type="com.shoplex.shoplex.model.pojo.Product" />
+            type="com.alpha.shoplex.model.pojo.Product" />
 
         <variable
             name="location"
-            type="com.shoplex.shoplex.model.pojo.StoreLocationInfo" />
+            type="com.alpha.shoplex.model.pojo.StoreLocationInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <import type="com.shoplex.shoplex.model.extra.DateUtils"/>
+        <import type="com.alpha.shoplex.model.extra.DateUtils"/>
         <variable
             name="message"
-            type="com.shoplex.shoplex.model.pojo.Message" />
+            type="com.alpha.shoplex.model.pojo.Message" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="300dp"

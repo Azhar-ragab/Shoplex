@@ -6,7 +6,7 @@
     <data>
         <variable
             name="product"
-            type="com.shoplex.shoplex.model.pojo.Product" />
+            type="com.alpha.shoplex.model.pojo.Product" />
     </data>
 
     <androidx.cardview.widget.CardView

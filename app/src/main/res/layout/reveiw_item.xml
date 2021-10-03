@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.shoplex.shoplex.model.extra.DateUtils"/>
+        <import type="com.alpha.shoplex.model.extra.DateUtils"/>
         <variable
             name="review"
-            type="com.shoplex.shoplex.model.pojo.Review" />
+            type="com.alpha.shoplex.model.pojo.Review" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

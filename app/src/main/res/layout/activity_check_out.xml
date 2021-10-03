@@ -73,7 +73,7 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-    <com.shoplex.shoplex.model.extra.CheckoutViewPager
+    <com.alpha.shoplex.model.extra.CheckoutViewPager
         android:id="@+id/viewPagerCheckout"
         android:layout_width="0dp"
         android:layout_height="0dp"
