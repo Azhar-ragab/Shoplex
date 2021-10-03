@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="maps_key">AIzaSyCvQKn56xMM8GuQh3z-fXJpTPDHA3JQGUY</string>
+    <string name="maps_key">API_KEY</string>
     <string name="app_name">شوبلكس</string>
     <string name="chat">المحادثات</string>
     <string name="LastOrder">الطلبات السابقة</string>
